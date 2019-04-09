@@ -10,4 +10,5 @@
 ## Part 1: Syntax
 
 * [How it flows](syntax/basic_flow.md)
+* [Data Types](syntax/data_types.md)
 
