@@ -11,7 +11,7 @@ dependent on other code. This can be code native to the platform (such as the
 that is not distributed with the standard platform (such as `ggplot2` in R).
 These "non-core" code dependencies need to be managed, especially with a compiled 
 language such as Java. Several tools exist for dependency management in Java. In
- this course we'll use **_Gradle_**. It does much more than dependency managamen, but for 
+ this course we'll use **_Gradle_**. It does much more than dependency management, but for 
  now this is the relevant aspect.
 
 ## A first project

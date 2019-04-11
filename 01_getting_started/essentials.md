@@ -4,16 +4,20 @@ This part deals with the essentials of the Java programming language. Java is a 
 
 ## Cross-platform
 
-Java is cross-platform in the sence that once it is compiled into an executable, it can be run on any operating system that has a Java Runtime installed. This Java installation intantiates a Java Virtual Machine (**JVM**) and passes your compiled code to it, including instructions on which main() method to start on.
+Java is cross-platform in the sense that once it is compiled into an executable, it can be run on any operating system that has a Java Runtime installed. This Java installation instantiates a Java Virtual Machine (**JVM**) and passes your compiled code to it, including instructions on which main() method to start on.
+
+## Multithreaded
+
+Creating multithreaded applications and algorithm is extremely easy because multicore support is build into the language from version 1, and greatly enhanced with the introduction of the Stream API in Java 8.
 
 ## Object-Oriented
 
 In Java, you cannot run a script. Instead, you write a program where everything you create resides in **_classes_**. Classes reside in their own source file. One of these classes must contain a `main()` method. You let the JVM know which class has the main method you want executed.
-Besides the raw -primitive- data types such as integer (`int`) and `double`, all types are reperesented by classes, which define the blueprint to contstruct `objects`. So objects are the representations (**_instances_**) of a single class - more formally called a **_type_**. Java provides many types, and you will routinely define your own types when programming.
+Besides the raw -primitive- data types such as integer (`int`) and `double`, all types are represented by classes, which define the blueprint to construct `objects`. So objects are the representations (**_instances_**) of a single class - more formally called a **_type_**. Java provides many types, and you will routinely define your own types when programming.
 
 **A class is a type blueprint that is used to instantiate objects**
 
-These objects, the number of which can range from one to many millions within a running application, are the fabric of the program. They hold data (called **_instance variables_**) and **_methods_** that define their behaviour and functionality. 
+These objects, the number of which can range from one to many millions within a running application, are the fabric of the program. They hold data (called **_instance variables_**) and **_methods_** that define their behavior and functionality. 
  
 ## Strongly typed and scoped
 
@@ -48,7 +52,7 @@ public class Snp {
      */
     public Snp(long position, char reference, char alternative) {
         if (position < 1) {
-            throw new IllegalArgumentException("postition must be positive");
+            throw new IllegalArgumentException("position must be positive");
         }
         this.position = position;
         this.referenceNucleotide = reference;
@@ -74,7 +78,7 @@ public class Snp {
 
     /**
      * this method tells a client whether ths SNP is a transition or a transversion.
-     * The return type is boolean (true or false).s
+     * The return type is boolean (true or false).
      * @return
      */
     public boolean isTransition() {
@@ -86,4 +90,7 @@ public class Snp {
 ## Compiled
 
 Java is a compiled language, which means you have to compile the source into **_byte code_** before it can be run. Fortunately, you have to compile it only once, for the JVM and not multiple times, for every OS you want to support.
+Whenever you run an application within IntelliJ, it is first compiled: all source files (`.java` files) are compiled into byte code files that have a `.class` extension. You can find these in the `build` folder. To create a distributable application, you need to build it into a "Jar" - with `.jar` extension. You run these on the command line using the 
+command `java -jar <my-app.jar>`. The Gradle toolbox has all kinds of Tasks to automate this for you. 
 
+Related to this: Run-time syntax errors do not occur - they are stopped by the compiler. The compiler will not compile erroneous code.

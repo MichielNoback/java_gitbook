@@ -88,7 +88,7 @@ if(age < 18) {
 }
 ```
 
-The classic elements of the if/else decisiion block.
+The classic elements of the if/else decision block.
 
 Finally, let's bring a dedicated object into play: the message maker. The class looks like this:
 
@@ -140,5 +140,27 @@ public class MostBasicApp {
 ```
 
 So, here we have a two-class application. Both source files are in the same package (namespace). The first is the so-called "main class" which is the entry point of the application: `MostBasicApp` in source file `MostBasicApp.java`. The main method receives the command-line arguments and parses one of them into an integer. Next, it instantiates a `MessageMaker` object and calls its `printMessage()` method.
+
+## Summary
+
+You have seen the basic structure of a Java program. It needs at least one source file with one class. There needs to be a `main()` method of this signature to be executable as program:
+
+```java
+public static void main(String[] args) {
+  //startup code
+}
+```
+
+Two flow control structures were shown: the for-each loop and if/else decisions:
+
+```java
+//foreach
+for(item : collection) {}
+//if/else
+if(conditionIsTrue) {}
+else if(alternativeConditionIsTrue){}
+else {/*default logic*/}
+```
+
 
 That's it. Next up: Data Types.
