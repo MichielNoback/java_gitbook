@@ -15,3 +15,6 @@
 * [Naming and commenting stuff](02_syntax/naming_commenting.md)
 * [Demo case: The power of good names](02_syntax/demo_case_naming.md)
 
+
+## Design
+* [The Single Responsibility Principle SRP](srp.md)

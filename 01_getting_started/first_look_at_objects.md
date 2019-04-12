@@ -172,13 +172,11 @@ The last class of the system. Here is the first version:
 
 ```java
 package snippets.testtube;
-
 /**
  * "Controller" class
  */
 public class CellGrowthSimulator {
     /**
-     *
      * @param args cl-args should be length one, containing initial cell number.
      */
     public static void main(String[] args) {
@@ -208,4 +206,20 @@ So the final model now has this chain of relationships:
 
 ## Object construction (first iteration)
 
+You have seen the `new` keyword used several times now. But what does happen, exactly, when you type
+
+```java
+Cell cell = new Cell();
+```
+
+The new keyword combined with the class name followed by parentheses, calls the constructor method of a class that instantiates and returns the reference to an object of that class. The parentheses `()` enclose the argument list for the constructor method, which is empty in this case.  
+
+The **_three steps of object construction are declaration, creation and assignment_**:
+
+1. `Cell cell` **_declares_** a variable of type Cell.
+2. `new Cell` **_instantiates_** an object of type Cell, stores this in memory (called **_the heap_** in Java) and returns a reference to this stored object.
+3. `=` **_assigns_** the returned reference to the declared variable.
+
+So…where is this constructor method in class Cell and what does it do? It is created automagically by the 
+Java compiler, if you don't specify it yourself. More on constructors in a later post.
 
