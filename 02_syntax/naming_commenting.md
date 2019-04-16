@@ -89,7 +89,7 @@ public class Duck {
 
 Here is a screenshot of part of the the corresponding Javadoc html:
 
-![javadoc_duck_1.png](javadoc_duck_1.png)
+![javadoc_duck_1.png](figures/javadoc_duck_1.png)
 
 I strongly encourage you to try this out for yourself: create a class, put some javadoc 
 comments in it and run "Tasks -> documentation -> javadoc" from the Gradle tool window.

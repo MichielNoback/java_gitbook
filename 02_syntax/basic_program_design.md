@@ -35,11 +35,11 @@ To pass command-line arguments within IntelliJ, you need to create or edit a **_
 If you have run the main before (by clicking on the green triangle - see post [intelliJ](/getting_started/intellij.md)), you 
 click on the toolbar run configurations box and select "Edit configurations"- see screenshot.
 
-![edit_run_configuration_1.png](edit_run_configuration_1.png)
+![edit_run_configuration_1.png](figures/edit_run_configuration_1.png)
 
 The only thing yu need to do now is enter two "Program arguments". Here, I filled out "Henk" and "49", with a space between them.
 
-![edit_run_configuration_2.png](edit_run_configuration_2.png)
+![edit_run_configuration_2.png](figures/edit_run_configuration_2.png)
 
 An array (which is kind of a list) of String elements called `args` will be passed to `main()` as `String[] args`. This array will hold the command line arguments when next running the program, as demonstrated below.
 

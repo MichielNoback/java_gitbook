@@ -61,11 +61,11 @@ that for JUnit5.
 
 Next, you need to create a test class. Place the cursor on the class name and press `alt+enter`. Select "Create Test".
 
-![create_junit_test_class_1.png](create_junit_test_class_1.png) 
+![create_junit_test_class_1.png](figures/create_junit_test_class_1.png) 
 
 Select the method(s) you want to create test(s) for.
 
-![create_junit_test_class_2.png](create_junit_test_class_2.png)
+![create_junit_test_class_2.png](figures/create_junit_test_class_2.png)
 
 The test class opens in the editor and looks something like this:
 
@@ -99,7 +99,7 @@ Let's put some testing code in it to see whether our program logic works as inte
 
 When you click on the little green triangle in the editor margin, the test will be executed and you get output like this:
 
-![create_junit_test_method_1.png](create_junit_test_method_1.png)
+![create_junit_test_method_1.png](figures/create_junit_test_method_1.png)
 
 The green checks indicate the test **_assertions_** passed. Knowing the Cell class is OK, let's proceed to class TestTube.
 

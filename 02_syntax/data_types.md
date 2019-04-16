@@ -9,11 +9,11 @@ In essence, every programming language knows about the same data types: integers
 
 Here are all the primitive types:
 
-![prmitives](primitive_types.png)
+![prmitives](figures/primitive_types.png)
 
 The three steps of primitive type creation are these.
 
-![primitive_creation](create_primitive.png)
+![primitive_creation](figures/create_primitive.png)
 
 First, a variable of a certain type is declared. A memory slot of the appropriate size is reserved. Then the bit-pattern representing the declared value is created and put into the memory slot. Finally the variable is "coupled" to the memory slot.
 
@@ -153,11 +153,11 @@ Java class -also the ones you create- represent reference types.
 With primitive-typed variables, the value of the variable is simply the value, in bits, but with reference variables, 
 the value of the variable is bits representing a way to get to a specific object (like a remote control)
 
-![rc](remote_control.png)
+![rc](figures/remote_control.png)
 
 #### Creating a reference type variable
 
-![ref_type var](create_reference_type.png)
+![ref_type var](figures/create_reference_type.png)
 
 #### Type String
 
@@ -186,8 +186,153 @@ A very common mistake with beginning (and advanced) Java programmers is the way 
 To test **_sameness_**, use `==`. This returns true if the variables are the same primitives or point to the same object on the heap.  
 To test **_logical equality_**, use the `.equals()` method. Strings may be the same in content, but return false when tested for sameness: two distinct string objects on the heap can have the same content.
 
+```java
+String dnaOne = "AGAGGTCTAGCTGA";
+String dnaFive = new String("AGAGGTCTAGCTGA");
+System.out.println("dnaOne equals dnaFive: " + dnaOne.equals(dnaFive));
+System.out.println("dnaOne == dnaFive: " + (dnaOne == dnaFive));
+```
+outputs:
+
+```
+dnaOne equals dnaFive: true
+dnaOne == dnaFive: false
+```
+
+and to make it more confusing:
+
+```java
+String dnaOne = "AGAGGTCTAGCTGA";
+String dnaSix = "AGAGGTCTAGCTGA";
+System.out.println("dnaOne == dnaSix: " + (dnaOne == dnaSix));
+```
+outputs:
+
+```
+dnaOne == dnaSix: true
+```
+And this has to do with String literal caching by the JVM.
+
+#### A special case: _null_
+
+There s a special value for reference type variables: the **_null_** value. It can be assigned to all Java 
+reference type variables. This value is used when you want to declare a variable, but don't know a useful default or starting value for it. However, there is great danger lurking when using null values. They are not backed by an object, so when you try to access values on them, or call methods, you get a big fat `NullPointerException` thrown in your face.
+
+```java
+static void nullValueDemo() {
+    String nullString = null;
+    //prints just fine!
+    System.out.println("nullString = " + nullString);
+    //NullPointerException!
+    nullString.charAt(0);
+}
+```
+
+outputs
+
+```
+nullString = null
+
+java.lang.NullPointerException
+	at snippets.JavaTypesDemo.nullValueDemo(JavaTypesDemo.java:145)
+	at snippets.JavaTypesDemoTest.nullValueDemoTest(JavaTypesDemoTest.java:36)
+    (stack trace continues)
+```
 
 ## What is the difference?
 
+#### To be passed around as primitive
+
+Java is pass-by-copy, so to pass a primitive means to pass a copy of it. Whatever happens with the copy has no impact on the original:
+
+```java
+static void primitivePassingDemo() {
+    int x = 42;
+    System.out.println("x = " + x);
+    changePrimitiveVariable(x);
+    System.out.println("x = " + x);
+}
+
+static void changePrimitiveVariable(int number) {
+    System.out.println("number = " + number);
+    number = 55;
+    System.out.println("number = " + number);
+}
+```
+
+outputs this:
+
+```
+x = 42
+number = 42
+number = 55
+x = 42
+```
+
+#### To be passed around as reference type
+
+Java is pass-by-copy, so to pass a reference type means to pass a copy of **_the reference_**. Now you have two references pointing to the same object on the heap.
+
+```java
+static void referencePassingDemo() {
+    Cell cell = new Cell();
+    System.out.println("cell.diameter = " + cell.diameter);
+    changeReferenceVariable(cell);
+    System.out.println("cell.diameter = " + cell.diameter);
+}
+
+static void changeReferenceVariable(Cell theCell) {
+    System.out.println("theCell.diameter = " + theCell.diameter);
+    theCell.diameter = 12;
+    System.out.println("theCell.diameter = " + theCell.diameter);
+}
+```
+
+outputs this:
+
+```
+cell.diameter = 5
+theCell.diameter = 5
+theCell.diameter = 12
+cell.diameter = 12
+```
+
+So, switching back to String, which is a reference type. Can you explain this behavior?
+
+```java
+static void stringPassingDemo() {
+    String hello = "Hello World";
+    System.out.println("hello = " + hello);
+    changeStringVariable(hello);
+    System.out.println("hello = " + hello);
+}
+
+static void changeStringVariable(String message) {
+    System.out.println("message = " + message);
+    message = "Bye now!";
+    System.out.println("message = " + message);
+}
+```
+
+```
+hello = Hello World
+message = Hello World
+message = Bye now!
+hello = Hello World
+```
+
+It looks as if String behaves as a primitive!
+That is NOT true! Strings are **_immutable_**. This means the you cannot change a String object; 
+you can only make a changed copy of it. In the above example, a new String object was created 
+within method `changeStringVariable()`. The existing one was not changed but discarded.
 
 ## Summary
+
+You have seen an overview of the Java primitives, and what you can do with them. 
+The concept of casting has been introduced. This casting can be implicit (from low 
+to high information content), but when you try to go from high to low information 
+content, with a possible loss of information, you must always cast or your code won't compile.  
+This post has also outlined what reference types are, and what the difference between 
+these and primitives are.
+
+Next: arrays, the simplest form of collections.
