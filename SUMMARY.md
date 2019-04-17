@@ -20,6 +20,12 @@
 * [Methods](02_syntax/methods.md)
 * [Demo case: The power of good names](02_syntax/demo_case_naming.md)
 
+## Part 3: Core APIs
+* [Collections](03_apis/collections.md)
+* [Sorting](03_apis/sorting.md)
+* [File IO](03_apis/io.md)
+* [Regular Expressions](03_apis/regex.md)
+
 ## Object-oriented programming
 * [Access Modifiers](oop/access_modifiers.md)
 
