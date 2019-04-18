@@ -32,7 +32,7 @@ value of 5 when Cell objects are instantiated. Every call of the `grow()` method
 ```java
 package snippets.testtube;
 
-public class Cell {
+class Cell {
     /**
      * Instance variable "size"; 5 micrometer is the default diameter when Cell objects are instantiated
      */
@@ -40,7 +40,7 @@ public class Cell {
     /**
      * Lets this cell grow in a single increment
      */
-    public void grow() {
+    void grow() {
         //grow by 1 micrometer
         this.diameter += 1;
         System.out.println("I am a Cell. My size is " + this.diameter);
@@ -112,7 +112,7 @@ provide an initial number of cells. Also, you see the use of the `new` keyword f
 ```java
 package snippets.testtube;
 
-public class TestTube {
+class TestTube {
     Cell[] cells;
 
     /**
@@ -122,7 +122,7 @@ public class TestTube {
      * @param initialCellCount the initial cell count
      * @throws IllegalArgumentException ex
      */
-    public TestTube(int initialCellCount) {
+    TestTube(int initialCellCount) {
         if (initialCellCount == 0 || initialCellCount > 10e4) {
             throw new IllegalArgumentException("initial cell count should be above 1 and below 10e4: " + initialCellCount);
         }
@@ -136,7 +136,7 @@ public class TestTube {
     /**
      * Grows the cells, in one single iteration.
      */
-    public void growCells() {
+    void growCells() {
         for (Cell cell : cells) {
             cell.grow();
         }
@@ -175,11 +175,11 @@ package snippets.testtube;
 /**
  * "Controller" class
  */
-public class CellGrowthSimulator {
+class CellGrowthSimulator {
     /**
      * @param args cl-args should be length one, containing initial cell number.
      */
-    public static void main(String[] args) {
+    static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("You must provide an initial cell count. Aborting.");
         }
@@ -188,7 +188,7 @@ public class CellGrowthSimulator {
         startSimulation(initialCellNumber);
     }
 
-    private static void startSimulation(int initialCellNumber) {
+    static void startSimulation(int initialCellNumber) {
         TestTube testTube = new TestTube(initialCellNumber);
         //do one iteration of growing
         testTube.growCells();
@@ -223,3 +223,58 @@ The **_three steps of object construction are declaration, creation and assignme
 So…where is this constructor method in class Cell and what does it do? It is created automagically by the 
 Java compiler, if you don't specify it yourself. More on constructors in a later post.
 
+## Inheritance
+
+Inheritance is one of the key features of object-oriented programming.
+
+Since subclasses inherit all properties and methods of their superclass, this is a very 
+powerful mechanism to introduce new or adjusted behavior in a software 
+system. The `CancerCell` class below `extends` Cell and thus declares itself
+to be a **_subclass_** of `Cell`. It not only extends itself with new functionality (`move()`), but also modifies the behavior of the `grow()` method by changing the `growthIncrement` property of its _supertype part_.
+
+```java
+class Cell {
+    int diameter = 5;
+    int growthIncrement = 1;
+
+    /**
+     * Lets this cell grow in a single increment
+     */
+    void grow() {
+        //grow by 1 micrometer
+        this.diameter += growthIncrement;
+        System.out.println("I am a Cell. My size is " + this.diameter);
+    }
+}
+
+public class CancerCell extends Cell {
+    CancerCell() {
+        growthIncrement = 3;
+    }
+
+    void move() {
+        System.out.println("Moving through the body");
+    }
+}
+
+//usage
+Cell cell = new Cell();
+cell.grow();
+cell.grow();
+System.out.println("-----------");
+CancerCell cCell = new CancerCell();
+cCell.grow();
+cCell.grow();
+cCell.move();
+```
+
+output:
+
+```
+I am a Cell. My size is 6
+I am a Cell. My size is 7
+-----------
+I am a Cell. My size is 8
+I am a Cell. My size is 11
+Moving through the body
+```
