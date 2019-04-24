@@ -180,3 +180,50 @@ Study this carefully! Why is each statement inserted?
 
 The `hashCode()` method is kind of the mysterious sister of `equals()`. You implement them together, but only equals() is easily understood. 
 
+The `hashCode()` method is used for **_bucketing_** in Hash implementations like HashMap, HashTable, HashSet, etc.
+The value received from `hashCode()` is used as the bucket number for storing elements of the set/map. 
+This bucket number is the address of the element inside the set/map.
+When you do `contains()` it will take the hash code of the element, then look for the bucket where hash code points to. 
+If more than 1 element is found in the same bucket (multiple objects can have the same hash code), 
+then it uses the `equals()` method to evaluate if the objects are equal, and then decide 
+if `contains()` is true or false, or decide if element could be added in the set or not.
+(_This paragraph is copied from a post on [Stackoverflow](https://stackoverflow.com/questions/3563847/what-is-the-use-of-hashcode-in-java)_)
+
+The general contract of hashCode() states:  
+
+- Whenever it is invoked on the same object more than once, `hashCode()` must consistently return the same value, provided no information used in equals comparisons on the object is modified. This value needs not remain consistent from one execution of an application to another execution of the same application
+
+- If two objects are equal according to the `equals(Object)` method, then calling the `hashCode()` method on each of the two objects must produce the same value
+
+- It is not required that if two objects are unequal according to the `equals(java.lang.Object)` method, then calling the hashCode method on each of the two objects must produce distinct integer results. However, developers should be aware that producing distinct integer results for unequal objects improves the performance of hash tables
+
+Of course, we let IntelliJ do the hard work (`ctrl + N`):
+
+```java
+@Override
+public int hashCode() {
+    //uses a utility method from class Objects
+    return Objects.hash(id, name);
+}
+```
+
+### `getClass()` gives meta-information the objects class
+
+Example code is best here:
+
+```java
+System.out.println("user1.getClass().getSimpleName() = " + user1.getClass().getSimpleName());
+System.out.println("user1.getClass().getName() = " + user1.getClass().getName());
+System.out.println("user1.getClass().getPackageName() = " + user1.getClass().getPackageName());
+```
+
+outputs
+
+```
+user1.getClass().getSimpleName() = User
+user1.getClass().getName() = snippets.apis.User
+user1.getClass().getPackageName() = snippets.apis
+```
+
+There are a lot more methods in class `java.lang.Class`, but they serve difficult stuff, like introspection.
+
