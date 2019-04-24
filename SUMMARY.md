@@ -23,6 +23,7 @@
 ## Part 3: Core APIs
 * [Interfaces](03_apis/interfaces.md)
 * [Collections](03_apis/collections.md)
+* [toString(), equals() and hashCode()](03_apis/class_object_methods.md)
 * [Sorting](03_apis/sorting.md)
 * [File IO](03_apis/io.md)
 * [Regular Expressions](03_apis/regex.md)

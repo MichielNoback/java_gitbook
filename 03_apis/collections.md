@@ -171,7 +171,8 @@ element presence often, List types are not a good choice. Also, if you are going
 //interface (List)
 ArrayList<String> words = new ArrayList<>();
 
-//Better, declare the interface (abstraction) type
+//Better, declare the interface (abstraction) type and 
+//use this type in the rest of your code
 List<String> words = new ArrayList<>();
 
 //Best: LinkedList is very good at insertions and deletions
@@ -180,9 +181,113 @@ List<String> words = new LinkedList<>();
 
 This is an example of the rule **_code against interfaces (abstractions), not implementations_**.
 
+_When you code against interfaces, i.e. declare variables of an interface type, it is really easy to change the implementation class that you use._
 
+In the example above, 
+it took only one changes word to use a LinkedList instead of an ArrayList.
 
 
 ## The collection interfaces: Map, List, Set
 
---> Different implementations of the List interface to serve different needs.
+There four base collection types, each with several dedicated implementations.
+You have already seen the `List` type, with two implementations: `ArrayList` and `LinkedList`. 
+
+Here is a -very incomplete- listing of some collection type implementations, 
+followed by a demonstration of only the HashMap and HashSet types - you have already seen the `List` type. 
+
+- `List` interface  
+    - `ArrayList` simplest and general purpose list type
+    - `LinkedList` coupled elements
+    - `Stack` last in first out (LIFO)
+- `Map` interface  
+    - `HashMap` the Python dict equivalent
+    - `TreeMap` a sorted hashmap
+- `Set` interface  
+    - `HashSet` the basic Set implementation
+    - `TreeSet` a sorted Set
+- `Queue` interface
+    - `PriorityQueue` priority queue when first in first out (FIFO) is not enough
+    - `ArrayDeque` double-ended queue
+
+## Map: HashMap
+
+HashMap is the main Map implementation in Java. It is a dictionary type mapping keys to values. Like all collection types, it uses generics to declare the type of the keys and values. Here is an example of an ID to User mapping:
+
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+Map<span style="color:darkred;">&lt;Integer, User&gt; </span>users = new HashMap<span style="color:darkred;">&lt;&gt;</span>();
+</pre>
+
+Note the use of `Integer` instead of `int`. 
+
+### Primitives as objects
+
+Each primitive type in the Java language has an object counterpart. The reason for this is that collection types, amongst others, can not hold primitives but only objects.
+
+These are the primitives and their **_wrapper classes_**:
+
+- boolean, byte, short, char, int, long, float, double.
+- Boolean, Byte, Short, Character, Integer, Long, Float, Double.
+
+So only Character and Integer have a different name (longer) the others are simply the primitive name capitalized.
+
+#### Autoboxing
+
+The wrapper classes can be converted to and from pretty easy:
+
+```java
+int count = 33;
+
+//deprecated though legal
+Integer counter1 = new Integer(count);
+//Explicit; uses caching
+Integer counter2 = Integer.valueOf(count);
+//explicit unwrapping
+counter2.intValue();
+
+//autoboxing!
+Integer counter3 = count;
+//auto-unboxing
+int counter4 = counter3;
+```
+
+The last two examples show the mechanism of **_autoboxing_** primitives. 
+This means the compiler deals with wrapping and unwrapping for you. This is how you typically use primitives in collections. See use cases below.
+
+### Map operations
+
+See listing below.
+
+```java
+Map<Integer, User> users = new HashMap<>();
+User u1 = new User(15, "Henk");
+//add to Map; note autoboxing of int value (id)
+users.put(u1.id, u1);
+User u2 = new User(21, "Dirk");
+users.put(u2.id, u2);
+User u3 = new User(9, "Mike");
+users.put(u3.id, u3);
+
+//read size
+System.out.println(users.size());
+//check for presence of key
+System.out.println("users.containsKey(15) = " + users.containsKey(15));
+//check for presence of value
+System.out.println("users.containsValue() = " + users.containsValue(u1));
+//is not in map
+System.out.println("users.containsValue() = " + users.containsValue(new User(6, "Nick")));
+
+//iterate values
+for (User user : users.values()) { }
+
+//iterate keys
+for (int id : users.keySet()) { }
+
+//iterate entries
+for (Map.Entry<Integer, User> entry : users.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+
+//empties map
+users.clear();
+```
+
