@@ -36,3 +36,63 @@ You can specify groups of characters that are all equally valid to match a posit
 | \w \W           | A word character, short for [a-zA-Z_0-9];  same but negated                                                        |
 | \b              | Word boundary                                                                                                      |
 
+## Regex quantifiers
+
+Quantifiers let you modify how often a group or character is allowed.
+
+| Quantifier | Description                                                                                              |
+|------------|----------------------------------------------------------------------------------------------------------|
+| {x}        | Occurs exactly x times                                                                                   |
+| {x, }      | Occurs at least x times                                                                                  |
+| {, x}      | Occurs at the most x times                                                                               |
+| *          | Occurs zero or more times; same as {0, }                                                                 |
+| +          | Occurs one or more times; same as {1, }                                                                  |
+| ?          | Occurs zero or one time; same as {0, 1}                                                                  |
+| *?         | Non-greedy: "?" after a quantifier makes it a reluctant quantifier, it tries to find the smallest match |
+
+
+## Grouping
+
+Using parentheses, you can group parts of your regex. 
+They can be used to
+- Retrieve or substitute parts of a regex
+- Apply quantifiers to groups
+
+Via the `$` you can refer to a group. `$1` is the first group, `$2` the second, etc (see examples).
+
+## String, Pattern & Matcher
+For Java regex, these classes are related to regular expression matching (and replacement):  
+
+- `java.lang.String` has several useful methods working with regexes
+    - d
+- java.util.regex.Pattern
+- java.util.regex.Matcher
+
+Many of the common tasks can be performed using the String class only. Here are some examples.
+
+```java
+String input = "Dogs rule this doggin' world";
+//replace() works with literal string!
+System.out.println(input.replace("[Dd]og", "Cat"));
+System.out.println(input.replace("Dog", "Cat"));
+//replaceAll() works with regex!
+System.out.println(input.replaceAll("[Dd]og", "Cat"));
+System.out.println(Arrays.toString(input.split("[Dd]")));
+//matches() looks at whole target string.
+System.out.println(input.matches("[Dd]ogs"));
+System.out.println(input.matches("^[Dd]ogs.+"));
+```
+
+outputs 
+
+
+<pre style="color:white;background-color:black;font-weight:bold;font: 1.3rem Inconsolata, monospace;">
+Dogs rule this doggin' world
+Cats rule this doggin' world
+Cats rule this Catgin' world
+[, ogs rule this , oggin' worl]
+false
+true
+</pre>
+
+## Volgende
