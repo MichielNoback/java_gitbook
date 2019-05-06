@@ -176,6 +176,13 @@ public boolean equals(Object o) {
 
 Study this carefully! Why is each statement inserted?
 
+The `equals()` method must exhibit the following properties:  
+- **_Symmetry_**: For two references, a and b, a.equals(b) if and only if b.equals(a) as well
+- **_Reflexivity_**: For all non-null references, a.equals(a)
+- **_Transitivity_**: If a.equals(b) and b.equals(c), then a.equals(c)
+- **_Consistency with hashCode()_**: Two equal objects must have the same hashCode() value
+
+
 ### `hashCode()`: required when `equals()` is implemented
 
 The `hashCode()` method is kind of the mysterious sister of `equals()`. You implement them together, but only equals() is easily understood. 

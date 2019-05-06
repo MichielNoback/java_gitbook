@@ -1,0 +1,11 @@
+﻿Character class;Description;
+.;Any character;
+[];"Set definition, eg [a-z] matches all lowercase characters;  [aAbB1234] matches an a, A, b, B or numbers 1, 2 ,3, 4"; [aAbB1234] matches an a, A, b, B or numbers 1, 2 ,3, 4
+[^];Negated set definition, eg [^a-z] matches anything BUT lowercase characters;
+X|Z;Matches X or Z (either one will suffice);
+^regex;Anchors regex at beginning of line;
+regex$;Anchors regex at end of line;
+\d \D;"Any digit, [0-9];  any non-digit, [^0-9]"; any non-digit, [^0-9]
+\s \S;"Any whitespace character;  any non-whitespace character"; any non-whitespace character
+\w \W;"A word character, short for [a-zA-Z_0-9];  same but negated";
+\b;Word boundary;

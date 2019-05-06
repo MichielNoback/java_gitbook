@@ -1,7 +1,6 @@
 # Summary
 
 * [Introduction](README.md)
-* [IntelliJ keyboard shortcuts](shortcuts.md)
 
 ## Part 1: Getting started
 
@@ -25,12 +24,17 @@
 * [Collections](03_apis/collections.md)
 * [toString(), equals() and hashCode()](03_apis/class_object_methods.md)
 * [Sorting](03_apis/sorting.md)
+* [Exceptions](03_apis/exceptions.md)
 * [File IO](03_apis/io.md)
 * [Regular Expressions](03_apis/regex.md)
 
-## Object-oriented programming
+## Part 4: Object-oriented programming
 * [Access Modifiers](04_oop/access_modifiers.md)
 
-## Object-oriented design
+## Part 5: Object-oriented design
 * [The Single Responsibility Principle SRP](05_design/srp.md)
 * [Code against interfaces](05_design/interfaces_not_implementations.md)
+
+## Summaries
+* [IntelliJ keyboard shortcuts](shortcuts.md)
+* [Design Rules summary](design_rules.md)

@@ -63,7 +63,9 @@ ArrayList<String> readSequences(String fileName) {
 }
 ```
 
-There is an element here that you haven't seen before, it is the **_generic type declaration_**:
+At the top is a line `import java.util.ArrayList;` which is an **_import declaration_**, You need to import classes that are not part of the Java core API (i.e. reside in package `java.lang`). Since most of the collection classes are in package `java.util` they need to be imported. More on imports and namespaces later.
+
+There is another element here that you haven't seen before: it is the **_generic type declaration_**:
 
 <pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
 ArrayList<span style="color:darkred;">&lt;String&gt; </span>sequences = new ArrayList<span style="color:darkred;">&lt;&gt;</span>();
@@ -158,6 +160,20 @@ boolean empty = words.size() == 0;
 words.remove("of"); //deletes word
 words.remove(1); //second element
 words.clear(); //empty list
+```
+
+One operation needs special attention: converting an array to a List. This is done with `Arrays.asList()` but be aware that this generates an **_immutable view_** of your array:
+
+```java
+String[] wordsArr = {"Lord", "of", "the", "Rings"};
+//create immutable List from Array
+List<String> immutableStrings = Arrays.asList(wordsArr);
+//immutable: UnsupportedOperationException!
+immutableStrings.add("!");
+//make mutable copy
+List<String> mutableString = new ArrayList<>();
+//no problem
+mutableString.add("!");
 ```
 
 ## Code against interfaces, not implementations
@@ -290,4 +306,61 @@ for (Map.Entry<Integer, User> entry : users.entrySet()) {
 //empties map
 users.clear();
 ```
+
+## Set: HashSet
+
+Typical set operations are **_intersection_**, **_union_** and **_relative complement_**. 
+
+![Set_Theory_Operations.png](figures/Set_Theory_Operations.png)
+
+This is how its done in Java.
+
+First a small utility method, which generically creates a Set of any type from a varargs input:
+
+```java
+private static <T> Set<T> setOf(T... values) {
+    return new HashSet<T>(Arrays.asList(values));
+}
+```
+
+Here are three of the fundamental set operations.
+
+```java
+Set<Integer> setA = setOf(1, 2, 3, 4);
+Set<Integer> setB = setOf(2, 4, 6, 8, 9);
+
+//Intersection
+Set<Integer> intersectSet = new HashSet<>(setA);
+intersectSet.retainAll(setB);
+System.out.println("intersectSet = " + intersectSet);
+
+//Union
+Set<Integer> unionSet = new HashSet<>(setA);
+unionSet.addAll(setB);
+System.out.println("unionSet = " + unionSet);
+
+//Relative complement
+Set<Integer> differenceSet = new HashSet<>(setA);
+differenceSet.removeAll(setB);
+System.out.println("differenceSet = " + differenceSet);
+```
+
+with output
+
+```
+intersectSet = [2, 4]
+unionSet = [1, 2, 3, 4, 6, 8, 9]
+differenceSet = [1, 3]
+```
+
+## Collections utility methods
+
+The Collections class has many useful utility functions. Their name are pretty self-explanatory:
+
+- singletonList()
+- unmodifiableList()
+- min(), max()
+- shuffle()
+- frequency()
+- sort() - see next post
 
