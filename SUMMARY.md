@@ -29,7 +29,11 @@
 * [Regular Expressions](03_apis/regex.md)
 
 ## Part 4: Object-oriented programming
+
+* [Encapsulation through access modifiers](04_oop/class_design.md)
 * [Access Modifiers](04_oop/access_modifiers.md)
+* [Access Modifiers](04_oop/access_modifiers.md)
+
 
 ## Part 5: Object-oriented design
 * [The Single Responsibility Principle SRP](05_design/srp.md)

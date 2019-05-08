@@ -51,6 +51,12 @@ class Cell {
 To test the logic and correctness of this class, we will have to wait until other components are 
 developed, such as TestTube and CellGrowthSimulator, **_unless you use (J)Unit testing_**. 
 
+#### The keyword `this`
+
+To indicate you want to access properties or methods of the current active object, you use `this` together with the dot operator.
+It is not required (the compiler will fill it in) to use `this`, but it makes for much more readable code if you consistently use it when referring to object members (methods and variables).
+
+
 #### JUnit testing
 
 JUnit is a unit test platform for Java. Its main purpose is to have a suite of test code guaranteeing 
@@ -270,11 +276,11 @@ cCell.move();
 
 output:
 
-```
+<pre class="console_out">
 I am a Cell. My size is 6
 I am a Cell. My size is 7
 -----------
 I am a Cell. My size is 8
 I am a Cell. My size is 11
 Moving through the body
-```
+</pre>

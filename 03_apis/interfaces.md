@@ -222,11 +222,11 @@ public class Sequencer {
 
 outputs
 
-```
+<pre class="console_out">
 not interested in sequence harmless anymore
 not interested in sequence probably harmless anymore
 not interested in sequence really deadly anymore
-```
+</pre>
 
 while this
 

@@ -123,7 +123,7 @@ birds.stream().forEach(bird -> System.out.println("\t" + bird));
 
 outputs
 
-```
+<pre class="console_out">
 Before:
 	Buzzard', ws=1.3, max.age=29
 	Griffon vulture', ws=2.5, max.age=25
@@ -138,7 +138,7 @@ After sort on wingspan:
 	Steppe eagle', ws=2.1, max.age=41
 	Griffon vulture', ws=2.5, max.age=25
 	White-tailed eagle', ws=2.5, max.age=25
-```
+</pre>
 
 Note the ascending order of wingspan. What if the natural order is descending in your opinion? Simply reverse the sort logic:
 
@@ -156,14 +156,14 @@ public int compareTo(Bird other) {
 
 outputs
 
-```
+<pre class="console_out">
 After:
 	Griffon vulture', ws=2.6, max.age=25
 	Steppe eagle', ws=2.1, max.age=41
 	Red kite', ws=1.8, max.age=23
 	Buzzard', ws=1.3, max.age=29
 	Kestrel', ws=0.35, max.age=15
-```
+</pre>
 
 Although this sort logic is just fine, it is often better to use classes that are dedicated to dealing with the datatype and **_delegate_** to their implemented and tested methods:
 

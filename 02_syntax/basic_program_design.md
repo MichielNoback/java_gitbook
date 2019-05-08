@@ -53,10 +53,10 @@ public static void main(String[] args) {
 
 This will output 
 
-```
+<pre class="console_out">
 arg = Henk
 arg = 49
-```
+</pre>
 
 Here you hae seen the first program flow construct in action: the **_foreach loop_**. It is equivalent to for-loops in any programming language: it iterates a collection of some sort. Here the collection is an array. Note it does not have a counter; there is a different variant of the for loop for that.
 

@@ -30,12 +30,12 @@ public class ExceptionsDemo {
 
 Running `main()` will generate an error resulting in a **_stacktrace_**:
 
-```
+<pre class="console_out">
 Exception in thread "main" java.lang.ArithmeticException: / by zero
 	at snippets.apis.ExceptionsDemo.doSecond(ExceptionsDemo.java:13)
 	at snippets.apis.ExceptionsDemo.doFirst(ExceptionsDemo.java:9)
 	at snippets.apis.ExceptionsDemo.main(ExceptionsDemo.java:5)
-```
+</pre>
 
 The error - the fact that a number cannot be divided by zero - occurs in method `doSecond()` and this will cause the JVM to generate an Exception. In this case, an `ArithmeticException`. The stack trace starts with the method where the error originated, and works its way down to `main()` from where the application "crashes" because the exception was not caught/resolved by program logic.  
 

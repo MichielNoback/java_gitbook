@@ -139,13 +139,13 @@ String[] elements = line.split(" ")
 
 In this example, this is the employee data we are going to process. 
 
-```
+<pre class="console_out">
 Name	Age	Function	Salary*1000
 JohnDoe	27	Programmer	23.67
 JaneSmith	31	Manager	42.00
 JoanDonnely	38	CEO	89.87
 RoseBanner	18	secretary	11.78
-```
+</pre>
 
 File `empl_data.csv` is a tab-separated file. Note the first line is a header and not real data.
 

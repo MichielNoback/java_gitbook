@@ -117,13 +117,13 @@ System.out.println("chihuahua instanceof Chihuahua = " + (chihuahua instanceof C
 
 outputs
 
-```
+<pre class="console_out">
 dog instanceof Animal = true
 dog instanceof Object = true
 chihuahua instanceof Dog = true
 chihuahua instanceof Animal = true
 chihuahua instanceof Chihuahua = true
-```
+</pre>
 
 #### bitwise operators
 

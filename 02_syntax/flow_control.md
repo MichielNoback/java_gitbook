@@ -166,9 +166,9 @@ demo.switchCase("Netherlands");
 
 we get this output
 
-```
+<pre class="console_out">
 Some weather, huh?
-```
+</pre>
 
 and when called with an unknown country the `default` will be printed.
 
@@ -195,11 +195,11 @@ void switchCase(String country) {
 
 we get this output
 
-```
+<pre class="console_out">
 Some weather, huh?
 It is Belgian fries!
 Have a beer?
-```
+</pre>
 
 Although this seems rather illogical, there are uses for this behavior. For example, consider this error
 handler for a web application:
@@ -238,9 +238,10 @@ void errorMessageTest() {
 ```
 
 We get these messages: 
-```
+
+<pre class="console_out">
 You are trying to do something that is not allowed
 Some exotic error occurred. Try again later
-```
+</pre>
 
 

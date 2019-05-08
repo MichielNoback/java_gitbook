@@ -131,14 +131,14 @@ System.out.println("user3.equals(user4) -- " + user3.equals(user4)); //should be
 
 but in actuality this is what we get
 
-```
+<pre class="console_out">
 user1 == user1 -- true
 user1.equals(user1) -- true
 user1 == user2 -- true
 user1.equals(user2) -- true
 user1.equals(user3) -- false
 user3.equals(user4) -- false
-```
+</pre>
 
 Up to the last test, everything works out fine. Why does the last test return false? Because Java doesn't not know about logical similarity between User objects! We have to tell it. Therefore, by default this is what the `Object.equals()` method does:
 
@@ -226,11 +226,11 @@ System.out.println("user1.getClass().getPackageName() = " + user1.getClass().get
 
 outputs
 
-```
+<pre class="console_out">
 user1.getClass().getSimpleName() = User
 user1.getClass().getName() = snippets.apis.User
 user1.getClass().getPackageName() = snippets.apis
-```
+</pre>
 
 There are a lot more methods in class `java.lang.Class`, but they serve difficult stuff, like introspection.
 

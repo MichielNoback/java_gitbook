@@ -347,11 +347,11 @@ System.out.println("differenceSet = " + differenceSet);
 
 with output
 
-```
+<pre class="console_out">
 intersectSet = [2, 4]
 unionSet = [1, 2, 3, 4, 6, 8, 9]
 differenceSet = [1, 3]
-```
+</pre>
 
 ## Collections utility methods
 

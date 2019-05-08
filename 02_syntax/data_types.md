@@ -194,10 +194,10 @@ System.out.println("dnaOne == dnaFive: " + (dnaOne == dnaFive));
 ```
 outputs:
 
-```
+<pre class="console_out">
 dnaOne equals dnaFive: true
 dnaOne == dnaFive: false
-```
+<pre>
 
 and to make it more confusing:
 
@@ -208,9 +208,10 @@ System.out.println("dnaOne == dnaSix: " + (dnaOne == dnaSix));
 ```
 outputs:
 
-```
+<pre class="console_out">
 dnaOne == dnaSix: true
-```
+</pre>
+
 And this has to do with String literal caching by the JVM.
 
 #### A special case: _null_
@@ -230,14 +231,14 @@ static void nullValueDemo() {
 
 outputs
 
-```
+<pre class="console_out">
 nullString = null
 
 java.lang.NullPointerException
 	at snippets.JavaTypesDemo.nullValueDemo(JavaTypesDemo.java:145)
 	at snippets.JavaTypesDemoTest.nullValueDemoTest(JavaTypesDemoTest.java:36)
     (stack trace continues)
-```
+</pre>
 
 ## What is the difference?
 
@@ -262,12 +263,12 @@ static void changePrimitiveVariable(int number) {
 
 outputs this:
 
-```
+<pre class="console_out">
 x = 42
 number = 42
 number = 55
 x = 42
-```
+</pre>
 
 #### To be passed around as reference type
 
@@ -290,12 +291,12 @@ static void changeReferenceVariable(Cell theCell) {
 
 outputs this:
 
-```
+<pre class="console_out">
 cell.diameter = 5
 theCell.diameter = 5
 theCell.diameter = 12
 cell.diameter = 12
-```
+</pre>
 
 So, switching back to String, which is a reference type. Can you explain this behavior?
 
@@ -314,12 +315,12 @@ static void changeStringVariable(String message) {
 }
 ```
 
-```
+<pre class="console_out">
 hello = Hello World
 message = Hello World
 message = Bye now!
 hello = Hello World
-```
+</pre>
 
 It looks as if String behaves as a primitive!
 That is NOT true! Strings are **_immutable_**. This means the you cannot change a String object; 

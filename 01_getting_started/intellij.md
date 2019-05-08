@@ -96,7 +96,7 @@ Click the green triangle within the editor border and select "run 'HelloWorld.ma
 
 In the console output on the lower pane, you will see this output, including the "Hello, World" message:
 
-```
+<pre class="console_out">
 20:38:51: Executing task 'HelloWorld.main()'...
 
 > Task :compileJava
@@ -109,7 +109,7 @@ Hello, World
 BUILD SUCCESSFUL in 0s
 2 actionable tasks: 2 executed
 20:38:52: Task execution finished 'HelloWorld.main()'.
-```
+</pre>
 
 The "Tasks" are gradle stuff. It says, amongst others, that the source is compiled (Java is a compiled language!) and main() is run. You may notice that a new folder has appeared at the root of your project: `build`. Have a look at what's inside.
 

@@ -286,10 +286,10 @@ System.out.println("4 ^ 3 = " + powerUpper.powerUp(4));
 
 outputs:
 
-```
+<pre class="console_out">
 4 ^ 2 = 16
 4 ^ 3 = 64
-```
+</pre>
 
 ## Method overloading
 
@@ -352,7 +352,7 @@ System.out.println("4.7 ^ 3.9 = " + powerUpper.powerUp(4.7, 3.9));
 
 Outputs:
 
-```
+<pre class="console_out">
 method A
 method B
 method C
@@ -364,4 +364,4 @@ method C
 4.0 ^ 3.0 = 64
 method C
 4.7 ^ 3.9 = 418
-```
+</pre>
