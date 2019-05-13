@@ -84,11 +84,12 @@ public class Cell {
 
     /**
      * Construct with diameter and growth increment, in micrometers.
-     * 
-     * @param diameterInMicrometers diameter between 1 and 40
-     * @param growthIncrementInMicrometers growth increment between 1 and 5 
+     *
+     * @param diameterInMicrometers diameter between 1 and 40 micrometers
+     * @param growthIncrementInMicrometers growth increment between 1 and 5 micrometers
+     * @throws IllegalArgumentException ex if one of the arguments is out of range
      */
-    public Cell(int diameterInMicrometers, int growthIncrementInMicrometers) {
+     public Cell(int diameterInMicrometers, int growthIncrementInMicrometers) {
         if (diameterInMicrometers < 1
             || diameterInMicrometers > 41
             || growthIncrementInMicrometers < 1
@@ -124,19 +125,136 @@ public class Cell {
 
 Quite a lot has changed:
 1. All instance variables have been marked `private` which means only code inside class Cell can access them. 
-2. Variables have been renamed to be more precise.
-3. A Constructor was added to provide a single point of access to both variables at construction time. 
+2. Variables have been renamed to be more reflective of what they represent.
+3. A Constructor was added to provide a single point of assignment to both variables, at construction time. 
 4. The constructor performs a check on its parameters so that illegal arguments are caught early.
 5. Javadoc was added to explain the public API.
 6. A single **_getter_** was introduced for property diameter, making it a **_read-only property_**. 
-7. No getter was created for property increment because it was decided by the developer (me) that it should only be set once during the life cycle of a Cell object. For that reason, property `growthIncrementInMicrometers` was **_marked final_**.
+7. No getter was created for property `growthIncrementInMicrometers` because it was decided by the developer (me) that it should only be set once during the life cycle of a Cell object. For that reason, instance variable `growthIncrementInMicrometers` was **_marked final_**.
 
-
-
-
-
-Therefore, `TestTube` will not compile because it attempts to access these `private` members of class Cell:
+One setback of this whole procedure: class `TestTube` will not compile anymore because (a) it attempts to access the `private` members of class Cell and (b) because there is no **_no-arg constructor_** anymore:
 
 ![compile_errors.png](figures/compile_errors.png)
 
-So the problem here is that TestTube tries to access properties of class Cell while they are private. Several solutions exist
+Since Javadoc was added to class Cell, we can get additional information in IntelliJ by pressing `ctrl + Q` (Linux), `ctrl + J` (Mac), or `F1`when the cursor is on the Constructor:
+
+![show_javadoc.png](figures/show_javadoc.png)
+
+Let's solve the compilation problems, make `TestTube` safe, add multi-cell support, and move the `main()` function to the Simulator class.
+
+```java
+package snippets.testtube2;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TestTube {
+    private final int numberOfLifeCyclesToRun;
+    private final int initialCellCount;
+    private List<Cell> cells = new ArrayList<>();
+    private int defaultCellDiameter = 20;
+    private int defaultSizeIncrement = 2;
+
+    /**
+     * Constructs with the two essential parameters
+     * @param numberOfLifeCyclesToRun a number between 1 and 100
+     * @param initialCellCount a number between 1 and 1000
+     * @return testtube a TestTube instance
+     */
+    public TestTube (int numberOfLifeCyclesToRun, int initialCellCount) {
+        if (numberOfLifeCyclesToRun < 1
+                || numberOfLifeCyclesToRun > 100
+                || initialCellCount < 1
+                || initialCellCount > 1000) {
+            throw new IllegalArgumentException("Number of life cycles should be between 1 and 100 and initial cell " +
+                    "count between 1 and 1000");
+        }
+        this.numberOfLifeCyclesToRun = numberOfLifeCyclesToRun;
+        this.initialCellCount = initialCellCount;
+    }
+
+    /**
+     * sets the initial diameter of instantiated cells.
+     * @param defaultCellDiameter
+     */
+    public void setDefaultCellDiameter(int defaultCellDiameter) {
+        this.defaultCellDiameter = defaultCellDiameter;
+    }
+
+    /**
+     * Sets the size increment for cell growth
+     * @param defaultSizeIncrement
+     */
+    public void setDefaultSizeIncrement(int defaultSizeIncrement) {
+        this.defaultSizeIncrement = defaultSizeIncrement;
+    }
+
+    /**
+     * starts the growth process
+     */
+    public void start() {
+        initializeCells();
+        runLifeCycles();
+    }
+
+    private void runLifeCycles() {
+        for (int i = 0; i < this.numberOfLifeCyclesToRun; i++) {
+            growCells();
+        }
+    }
+
+    private void initializeCells() {
+        for (int i = 0; i < this.initialCellCount; i++) {
+            cells.add(new Cell(this.defaultCellDiameter, this.defaultSizeIncrement));
+        }
+    }
+
+    private void growCells() {
+        for (Cell cell : this.cells) {
+            cell.grow();
+        }
+        //since Java 8, this is also possible:
+        //this.cells.forEach(c -> c.grow());
+        //or
+        //this.cells.forEach(Cell::grow);
+    }
+}
+
+```
+
+Yes, the class file became substantially larger - one of the setbacks of safe design.
+
+There are several noteworthy changes here:
+
+1. All instance variables are `private`. Note a pattern here?
+2. Two public setters were provided (making `defaultCellDiameter` and  `defaultSizeIncrement` **_write-only_**), a public constructor and one public **_API method_** that will start the testtube: `start()`
+3. All functionality is divided into very small methods with a very clear (and testable) responsibility. This is the **_Single responsibility Principle_** at work. See post [SRP](srp.md) for more details.
+
+Finally, here is the **_controller_** class `CellGrowthSimulator`. Its sole purpose is now to start the simulation process.
+
+```java
+package snippets.testtube2;
+
+/**
+ * "Controller" class
+ */
+public class CellGrowthSimulator {
+    public static void main(String[] args) {
+        startSimulation();
+    }
+
+    private static void startSimulation() {
+        TestTube testTube = new TestTube(10, 5);
+        testTube.setDefaultCellDiameter(10);
+        testTube.start();
+    }
+}
+```
+
+## Summary
+
+This post has introduced a fundamental concept of Object-Oriented Programming and design: **_encapsulation_**; hiding the inner workings of a class, mostly through the use of the private keyword and usage of getters and setters. It has also shown a first view of **_abstraction_** in class TestTube: this class has a single simple public API method (`start()`) and has hidden all the complexities of its simulation algorithm. 
+
+You have seen two access modifiers; there are two more that are dealt with in the next post.
+
+Also, there is another post covering some more sophisticated aspects of encapsulation.

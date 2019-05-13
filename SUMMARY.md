@@ -31,13 +31,12 @@
 ## Part 4: Object-oriented programming
 
 * [Encapsulation through access modifiers](04_oop/class_design.md)
-* [Access Modifiers](04_oop/access_modifiers.md)
-* [Access Modifiers](04_oop/access_modifiers.md)
-
-
-## Part 5: Object-oriented design
-* [The Single Responsibility Principle SRP](05_design/srp.md)
-* [Code against interfaces](05_design/interfaces_not_implementations.md)
+* [Access modifiers & other keywords](04_oop/access_modifiers.md)
+* [Inheritance and UML](04_oop/inheritance.md)
+* [Enums](04_oop/enums.md)
+* [Encapsulation revisited](04_oop/encapsulation.md)
+* [The Single Responsibility Principle SRP](04_oop/srp.md)
+* [Code against interfaces](04_oop/interfaces_not_implementations.md)
 
 ## Summaries
 * [IntelliJ keyboard shortcuts](shortcuts.md)
