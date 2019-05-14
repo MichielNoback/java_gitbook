@@ -38,3 +38,7 @@ Changing public API methods is almost impossible since it will create backward i
 
 Alternative description: every module, class, or function should have responsibility over a single part of the functionality, and that responsibility should be entirely encapsulated by the class
 
+## Various
+
+- Prefer enums to define a static set of possible values for a given property above `public static final` constants
+- Always put Java classes in well-defined packages with a correct name structure

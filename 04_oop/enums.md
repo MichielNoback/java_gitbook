@@ -18,15 +18,14 @@ file.
 
 But this post is not about simple constants. This post is about sets of constants 
 that all refer to a given property with your application. This is where enums come 
-in. I just love them and hope that, after reading this post, you will too. I will 
+in. I love them and hope that, after reading this post, you will too. I will 
 show you that Java enums are so much more than simple constants. In fact, enums 
 are regular Java classes, but only special in the fact that only the instances 
 defined in the enum class file will ever see the day of light!  
 
-For instance, the roles of visitors in your web application: GUEST, LOGGED_IN_USER, 
-ADMIN. Or pizza sizes in your online ordering form: SMALL, MEDIUM, LARGE, 
-LUNATIC. Or the four letters of the DNA alphabet: G, A, T and C. Let’s look at an 
-example using the nucleotides.  
+For instance, the roles of visitors in your web application: `GUEST`, `LOGGED_IN_USER`, 
+`ADMIN`, or pizza sizes in your online ordering form: `SMALL`, `MEDIUM`, `LARGE`, 
+`LUNATIC`. Or the four letters of the DNA alphabet: `G`, `A`, `T` and `C`. Let’s look at an example using the nucleotides.  
 
 ```java
 public enum Nucleotide {
@@ -37,14 +36,13 @@ public enum Nucleotide {
 }
 ```
 
-Here, I have defined an enum with four values: G, A, T, and C. You can do some nice things with it already.  
+Here, I have defined an enum with four values: G, A, T, and C. As a convention, enum value names must always be all-caps.  
+You can do some nice things with it already.  
 
 ```java
-
 package enums;
 
 public final class EnumDemo {
-
     public static void main(final String[] args) {
         EnumDemo enumDemo = new EnumDemo();
         enumDemo.start();
@@ -56,7 +54,7 @@ public final class EnumDemo {
         System.out.println("nucA = " + nucA);
         //test its nature
         if (nucA == Nucleotide.A) {
-            System.out.println("It is an A!");
+            System.out.println("We've got an A!");
         }
         //switch on it!
         switchOnNucleotide(Nucleotide.G);
@@ -83,17 +81,16 @@ public final class EnumDemo {
 
 When printed, an enum will simply be displayed as the name of its value:  
 
-```
+<pre class="console_out">
 nucA = A
-it is an A!
+We've got an A!
 It is an G
-```
+</pre>
 
 If you want something else printed by default besides the name of the constant, 
 you can provide this value through a constructor:  
 
 ```java
-
 package enums;
 
 public enum Nucleotide {
@@ -104,10 +101,6 @@ public enum Nucleotide {
 
     private String name;
 
-    /**
-     * constructs with the full name.
-     * @param fullName the full name
-     */
     private Nucleotide(final String fullName) {
         this.name = fullName;
     }
@@ -119,50 +112,54 @@ public enum Nucleotide {
 }
 ```
 
-Now, when you print an enum you will gets its string value given via the constructor 
-argument. Yes, this `A("Adenine")` constructs a Nucleotide enum constant of type A 
-with "name" property "Adenine". The reverse is also a much-used aspect: you have 
-some string value and want to create an enum from it. This is really simple:  
+Now, when you print an enum you will get its string value given via the constructor 
+argument. Yes, this `A("Adenine")` constructs a Nucleotide enum constant of type `Nucleotide.A` with "name" property "Adenine". 
+The reverse is also a much-used aspect: you have some string value and want to create an enum from it.  
+This is how it's done:  
 
 ```java
-//create from String
-String letter = "C";
+String letter = "G";
 Nucleotide nuc = Nucleotide.valueOf(letter);
-System.out.println("nuc = " + nuc);
-//create from illegal String
-letter = "P";
-nuc = Nucleotide.valueOf(letter);
 System.out.println("nuc = " + nuc);
 ```
 
 This will output  
 
-```
+<pre class="console_out">
 nuc = Guanine
+</pre>
+
+This `valueOf()` call returned the `Nucleotide.G` constant. Note it will not be created, since only one instance will exist during your app life cycle.
+
+When you use a non-existing value you get an `IllegalArgumentException`:
+
+```java
+letter = "P";
+nuc = Nucleotide.valueOf(letter);
+```
+
+This will output  
+
+<pre class="console_out">
 Exception in thread "main" java.lang.IllegalArgumentException: No enum constant enums.Nucleotide.P
 	at java.lang.Enum.valueOf(Enum.java:238)
 	at enums.Nucleotide.valueOf(Nucleotide.java:11)
 	at enums.EnumDemo.start(EnumDemo.java:41)
 	at enums.EnumDemo.main(EnumDemo.java:19)
-```
+</pre>
 
-The first `valueOf()` call created the `C` constant but the second call passed an 
-unknown nucleotide and yielded an *IllegalArgumentException*.  
+This is already pretty neat, yes? And we're only just getting started!  
 
-This is already pretty neat, yes? And I am only just getting started!  
-
-Now for some functionality. First something simple: provide access to the 
+Let's add some functionality. First something simple: provide access to the 
 nucleotides’ molecular weight. I’ll use a HashMap to store these values and 
 define a simple method that serves them.
 
 ```java
     //rest of class omitted
-    /**
-     * map to hold the molecular weights.
-     */
+
     private static final HashMap<Nucleotide, Double> MOLECULAR_WEIGHTS;
     /**
-     * static initializer to populate the enum.
+     * static initializer to populate the map.
      */
     static {
         MOLECULAR_WEIGHTS = new HashMap<>();
@@ -172,7 +169,7 @@ define a simple method that serves them.
         MOLECULAR_WEIGHTS.put(T, 304.2);
     }
     /**
-     * returns the molecular weight of this nucleotide in single-stranded DNA.
+     * returns the molecular weight of this nucleotide in single-stranded DNA, in Daltons.
      * @return molecularWeight
      */
     public double getMolecularWeight() {
@@ -181,7 +178,7 @@ define a simple method that serves them.
     //rest of class omitted
 ```
 
-See how you can use the reference to “this” to fetch the molecular weight? 
+See how you can use the reference to `this` to fetch the molecular weight? 
 Here are two lines using this functionality:
 
 ```java
@@ -195,15 +192,14 @@ strand of DNA in the double helix, the one it pairs with)? “A” has as comple
 given its original value. Exactly the same as the molecular weights, but the 
 value is another nucleotide.  
 
-Still this is not the whole story. The piece de resistance has yet to come. As 
+Still this is not the whole story. The _piece de resistance_ has yet to come. As 
 you may know, there is another nucleotide that does not occur in DNA but solely 
 in RNA: U (Uracil). DNA has A, C, G and T while RNA has A, C, G, and U. Thus, U 
 replaces T in RNA. I want to add that one to my Nucleotide enum, and also provide 
 a method that will tell me whether a nucleotide only occurs in RNA. I could 
 simply provide a map for that, but this is not as efficient (or cool) as 
 another solution. In fact, ONLY the U is exclusive for RNA. Therefore, I could 
-provide some default functionality and override that behavior for Uracil. I 
-guess an example maybe helps:
+provide some default functionality and override that behavior for Uracil. 
 
 
 ```java
@@ -233,8 +229,8 @@ guess an example maybe helps:
     //rest of enum omitted
 ```
 
-This is an example of a constant-specific class body, something only certified 
-Java programmers seem to know about. And now you do too. Its purpose is to 
+This is an example of a **_constant-specific class body_**, something only certified 
+Java programmers seem to know about. And now you do, too. Its purpose is to 
 provide an override for some generic functionality that applies to most of the 
 other constants of the enum.
 
@@ -242,15 +238,12 @@ Below follows the complete code of the enum. Of course, there is at least one
 major flaw in the model with respect to adherence to molecular biology – there 
 awaits eternal fame for you if you find it.
 
-That’s all folks!
-
 ```java
 package enums;
 
 import java.util.HashMap;
 
 public enum Nucleotide {
-
     A("Adenine"),
     C("Guanine"),
     G("Cytosine"),
@@ -259,7 +252,6 @@ public enum Nucleotide {
         /*yes! a CONSTANT-SPECIFIC CLASS BODY!*/
         @Override
         public boolean isExclusiveRNA() {
-            //override for single RNA nucleotide
             return true;
         }
     };
@@ -292,7 +284,6 @@ public enum Nucleotide {
     }
 
     public boolean isExclusiveRNA() {
-        //the default value
         return false;
     }
 

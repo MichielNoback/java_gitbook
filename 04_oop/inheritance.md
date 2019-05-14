@@ -360,3 +360,53 @@ This also shows that actual cell types are hidden behind the abstract Cell class
 This is the power of polymorphism implemented with inheritance!
 
 **_Polymorphism_** allows one type to express some sort of contract, and for other types to implement that contract (often through class inheritance) in different ways. Code using that contract should not have to care about which implementation is involved, only that the contract is obeyed.
+
+## Use a type cast when you need the specific type
+
+You have seen it is often best to code against generic types, like in this block:
+
+```java
+    private void growCells() {
+        for (int i = 0; i < cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Cell child = cell.grow();
+            if (child != null) cells.add(child);
+        }
+    }
+```
+
+But what if you have the need for specific functionality? For instance, you have a `WhiteBloodCell` which can also `eatOtherCell(Cell cell)`:
+
+```java
+package snippets.testtube3;
+
+public class WhiteBloodCell extends Eukaryote {
+    public WhiteBloodCell() {
+        super();
+    }
+
+    public void eatOtherCell(Cell cell) {
+        System.out.println("White blood cell, eating other cell");
+        //cell eating logic
+    }
+}
+```
+
+Note that this class extends `Eukaryote` and thereby inherits the `grow()` method. Now if you want to do something specifically white-blood-cellish, perform a type-test-and-cast:
+
+```java
+    private void growCells() {
+        for (int i = 0; i < cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Cell child = cell.grow();
+            if (child != null) cells.add(child);
+            //test and cast
+            if (cell instanceof WhiteBloodCell) {
+                WhiteBloodCell wbc = (WhiteBloodCell)cell;
+                wbc.eatOtherCell(child);
+            }
+        }
+    }
+```
+
+The lesson here: **Objects never ever change type, only the reference to them changes.**

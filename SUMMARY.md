@@ -17,6 +17,7 @@
 * [Operators](02_syntax/operators.md)
 * [Flow control](02_syntax/flow_control.md)
 * [Methods](02_syntax/methods.md)
+* [Packages &amp; Imports](02_syntax/packages_imports.md)
 * [Demo case: The power of good names](02_syntax/demo_case_naming.md)
 
 ## Part 3: Core APIs
@@ -36,7 +37,7 @@
 * [Enums](04_oop/enums.md)
 * [Encapsulation revisited](04_oop/encapsulation.md)
 * [The Single Responsibility Principle SRP](04_oop/srp.md)
-* [Code against interfaces](04_oop/interfaces_not_implementations.md)
+* [Inner classes](04_oop/inner_classes.md)
 
 ## Summaries
 * [IntelliJ keyboard shortcuts](shortcuts.md)
