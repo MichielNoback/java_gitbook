@@ -1,6 +1,7 @@
 # Summary
 
 * [Introduction](README.md)
+* [IntelliJ keyboard shortcuts](shortcuts.md)
 
 ## Part 1: Getting started
 
@@ -36,9 +37,13 @@
 * [Inheritance and UML](04_oop/inheritance.md)
 * [Enums](04_oop/enums.md)
 * [Encapsulation revisited](04_oop/encapsulation.md)
-* [The Single Responsibility Principle SRP](04_oop/srp.md)
 * [Inner classes](04_oop/inner_classes.md)
 
-## Summaries
-* [IntelliJ keyboard shortcuts](shortcuts.md)
+
+## Summaries Part 1-4
+
 * [Design Rules summary](design_rules.md)
+
+## Part 5: OO Design & SOLID
+
+* [The Single Responsibility Principle SRP](04_oop/srp.md)

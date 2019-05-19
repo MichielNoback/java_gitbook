@@ -17,12 +17,13 @@ public class Outer {
             System.out.println("doing it this way");
         }
     };
+    //idem, same interface
     private Usable usableTwo = new Usable() {
         public void use() {
             System.out.println("doing it that way");
         }
     };
-    //inner non-anonymous class instance
+    //non-anonymous inner class instance
     private Usable usable3 = new UsableUsable();
 
     public static void main(String[] args) {
@@ -74,3 +75,8 @@ doing it the other way
 doing it inner
 doing it that way
 </pre>
+
+Some general rules on the use of inner classes:  
+- Use an inner class when it is tightly bound to the Outer class, and there is no reason for existence outside the outer class. 
+- Use an anonymous inner class when there is no scenario of reusability
+- only use a non-static inner class when it should be bound to an instance of the outer class, else use a static inner class (a nested class)

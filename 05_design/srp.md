@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 /**
  * my bogus but excellent Foo app.
- * @author michiel
+ * @author Michiel
  */
 public class MyFooApp {
     /**
