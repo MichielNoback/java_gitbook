@@ -1,0 +1,807 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>File IO · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="regex.html" />
+    
+    
+    <link rel="prev" href="exceptions.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../01_getting_started/intellij.html">
+            
+                <a href="../01_getting_started/intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_getting_started/essentials.html">
+            
+                <a href="../01_getting_started/essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../01_getting_started/first_look_at_objects.html">
+            
+                <a href="../01_getting_started/first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting stuff
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="interfaces.html">
+            
+                <a href="interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="collections.html">
+            
+                <a href="collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="class_object_methods.html">
+            
+                <a href="class_object_methods.html">
+            
+                    
+                    toString(), equals() and hashCode()
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="sorting.html">
+            
+                <a href="sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="exceptions.html">
+            
+                <a href="exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.6" data-path="io.html">
+            
+                <a href="io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="regex.html">
+            
+                <a href="regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../04_oop/class_design.html">
+            
+                <a href="../04_oop/class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../04_oop/access_modifiers.html">
+            
+                <a href="../04_oop/access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../04_oop/inheritance.html">
+            
+                <a href="../04_oop/inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../04_oop/enums.html">
+            
+                <a href="../04_oop/enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../04_oop/encapsulation.html">
+            
+                <a href="../04_oop/encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="../04_oop/inner_classes.html">
+            
+                <a href="../04_oop/inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: OO Design & SOLID</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../04_oop/srp.md">
+            
+                <span>
+            
+                    
+                    The Single Responsibility Principle SRP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >File IO</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="file-io">File IO</h1>
+<p>Almost all applications work on external data &#x2013; files, databases and internet resources.<br>Here we will only have a look at files. </p>
+<h2 id="path--paths">Path &amp; Paths</h2>
+<p>These classes represent storage locations, not the files themselves. They are useful for quite a number of things. Here are a few.</p>
+<pre><code class="lang-java">String fileName = <span class="hljs-string">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa&quot;</span>;
+
+Path path = Paths.get(fileName);
+
+System.out.println(<span class="hljs-string">&quot;path = &quot;</span> + path);
+System.out.println(<span class="hljs-string">&quot;path.getParent() = &quot;</span> + path.getParent());
+System.out.println(<span class="hljs-string">&quot;path.getRoot() = &quot;</span> + path.getRoot());
+System.out.println(<span class="hljs-string">&quot;path.subpath(0,3) = &quot;</span> + path.subpath(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>));
+System.out.println(<span class="hljs-string">&quot;path.getFileName() = &quot;</span> + path.getFileName());
+<span class="hljs-comment">//convert to File object</span>
+File file = path.toFile();
+</code></pre>
+<p>will output</p>
+<pre><code>path = /Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa
+path.getParent() = /Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data
+path.getRoot() = /
+path.subpath(0,3) = Users/michiel/IdeaProjects
+path.getFileName() = proteins.fa
+</code></pre><h2 id="file-and-files">File and Files</h2>
+<p>Class <code>Files</code> has typical utility methods:</p>
+<pre><code class="lang-java">String fileName = <span class="hljs-string">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa&quot;</span>;
+
+Path path = Paths.get(fileName);
+System.out.println(<span class="hljs-string">&quot;Files.isReadable(path) = &quot;</span> + Files.isReadable(path));
+System.out.println(<span class="hljs-string">&quot;Files.isDirectory(path) = &quot;</span> + Files.isDirectory(path));
+<span class="hljs-keyword">try</span> {
+    Path copy = Paths.get(<span class="hljs-string">&quot;/Users/michiel/Desktop/test.fa&quot;</span>);
+    <span class="hljs-comment">//delete if it already exists</span>
+    Files.deleteIfExists(copy);
+    Files.copy(path, copy);
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    e.printStackTrace();
+}
+</code></pre>
+<p>outputs this, and copies the file to my Desktop.</p>
+<pre><code>Files.isReadable(path) = true
+Files.isDirectory(path) = false
+Files.copy() = /Users/michiel/Desktop/test.fa
+</code></pre><p>Class <code>File</code> represents the actual file on the storage system. Here is a standard workflow with reading and writing.</p>
+<h3 id="create">Create</h3>
+<p><strong><em>Create</em></strong> a file.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">if</span>(! Files.exists(dataPath)) {
+    <span class="hljs-keyword">try</span> {
+        Files.createFile(dataPath);
+    } <span class="hljs-keyword">catch</span> (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre>
+<h3 id="write">Write</h3>
+<p><strong><em>Write</em></strong> to file. Note the <strong><em>try-with-resources</em></strong> construct that was introduced in Java7.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">try</span> (BufferedWriter writer = Files.newBufferedWriter(dataPath, StandardOpenOption.APPEND)) {
+    writer.write(<span class="hljs-string">&quot;Hi there&quot;</span>);
+    writer.newLine();
+    writer.write(<span class="hljs-string">&quot;Bye now&quot;</span>);
+    writer.newLine();
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    e.printStackTrace();
+}
+</code></pre>
+<p>Note the <code>StandardOpenOption</code> argument. Besides <code>APPEND</code> you have these choices:</p>
+<ul>
+<li><strong><code>APPEND</code></strong> If the file is opened for WRITE access then bytes will be written to the end of the file rather than the beginning.</li>
+<li><strong><code>CREATE</code></strong> Create a new file if it does not exist.</li>
+<li><strong><code>CREATE_NEW</code></strong> Create a new file, failing if the file already exists.</li>
+<li><strong><code>READ</code></strong> Open for read access.</li>
+<li><strong><code>WRITE</code></strong> Open for write access.</li>
+</ul>
+<p>Running this code twice will generate this file contents:</p>
+<p><img src="figures/write_to_file.png" alt="write_to_file.png"></p>
+<p>For convenience, you can wrap the BufferedWriter into a <code>PrintWriter</code> instance. This gives you easier line writing and the possibility for string formatting:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">try</span> (PrintWriter writer = <span class="hljs-keyword">new</span> PrintWriter(Files.newBufferedWriter(dataPath, StandardOpenOption.APPEND))) {
+    writer.println(<span class="hljs-string">&quot;I&apos;m back!&quot;</span>);
+    writer.format(<span class="hljs-string">&quot;%s is mijn voornaam en %s mijn achternaam&quot;</span>, <span class="hljs-string">&quot;Michiel&quot;</span>, <span class="hljs-string">&quot;Noback&quot;</span>);
+    <span class="hljs-comment">//Also nice:  class MessageFormat</span>
+    writer.println(MessageFormat.format(<span class="hljs-string">&quot;{0} is mijn voornaam en {1} mijn achternaam&quot;</span>, <span class="hljs-string">&quot;Jan&quot;</span>, <span class="hljs-string">&quot;Jansen&quot;</span>));
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    e.printStackTrace();
+}
+</code></pre>
+<h3 id="read">Read</h3>
+<p><strong><em>Reading</em></strong> data from file is a similar process:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">try</span>(BufferedReader reader = Files.newBufferedReader(dataPath)) {
+    String line;
+    <span class="hljs-keyword">while</span> ((line = reader.readLine()) != <span class="hljs-keyword">null</span>) {
+        System.out.println(<span class="hljs-string">&quot;line = &quot;</span> + line);
+    }
+} <span class="hljs-keyword">catch</span> (IOException e) {
+    e.printStackTrace();
+}
+</code></pre>
+<h2 id="parsing-file-content-the-easy-way">Parsing file content the easy way</h2>
+<p>A thing that typically happens when reading data is to split the line into elements on some separator:</p>
+<pre><code class="lang-java"><span class="hljs-comment">//splits on spaces</span>
+String[] elements = line.split(<span class="hljs-string">&quot; &quot;</span>)
+</code></pre>
+<p>In this example, this is the employee data we are going to process. </p>
+<pre class="console_out">
+Name    Age    Function    Salary*1000
+JohnDoe    27    Programmer    23.67
+JaneSmith    31    Manager    42.00
+JoanDonnely    38    CEO    89.87
+RoseBanner    18    secretary    11.78
+</pre>
+
+<p>File <code>empl_data.csv</code> is a tab-separated file. Note the first line is a header and not real data.</p>
+<p>Here is a typical use case for working with structured data. First, class <code>Employee</code>:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.apis;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Employee</span> </span>{
+    <span class="hljs-keyword">private</span> String name;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> age;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">double</span> salary;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Employee</span><span class="hljs-params">(String name, <span class="hljs-keyword">int</span> age, <span class="hljs-keyword">double</span> salary)</span> </span>{
+        <span class="hljs-keyword">this</span>.name = name;
+        <span class="hljs-keyword">this</span>.age = age;
+        <span class="hljs-keyword">this</span>.salary = salary;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Employee{&quot;</span> +
+                <span class="hljs-string">&quot;name=&apos;&quot;</span> + name + <span class="hljs-string">&apos;\&apos;&apos;</span> +
+                <span class="hljs-string">&quot;, age=&quot;</span> + age +
+                <span class="hljs-string">&quot;, salary=&quot;</span> + salary +
+                <span class="hljs-string">&apos;}&apos;</span>;
+    }
+}
+</code></pre>
+<p>Next, parse Employee instances:</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> List&lt;Employee&gt; <span class="hljs-title">parseEmployees</span><span class="hljs-params">()</span> </span>{
+    String fileName = <span class="hljs-string">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/empl_data.csv&quot;</span>;
+    Path path = Paths.get(fileName);
+    List&lt;Employee&gt; employees = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+    <span class="hljs-keyword">try</span> (BufferedReader br = Files.newBufferedReader(path)) {
+        String line;
+        <span class="hljs-keyword">int</span> lineNumber = <span class="hljs-number">0</span>;
+
+        <span class="hljs-keyword">while</span> ((line = br.readLine()) != <span class="hljs-keyword">null</span>) {
+            lineNumber++;
+            <span class="hljs-comment">//skips first header line</span>
+            <span class="hljs-keyword">if</span> (lineNumber == <span class="hljs-number">1</span>) <span class="hljs-keyword">continue</span>;
+            <span class="hljs-comment">//split on tabs</span>
+            String[] elements = line.split(<span class="hljs-string">&quot;\t&quot;</span>);
+            String name = elements[<span class="hljs-number">0</span>];
+            <span class="hljs-comment">//convert to int</span>
+            <span class="hljs-keyword">int</span> age = Integer.parseInt(elements[<span class="hljs-number">1</span>]);
+            String function = elements[<span class="hljs-number">2</span>];
+            <span class="hljs-comment">//convert to double</span>
+            <span class="hljs-keyword">double</span> salary = Double.parseDouble(elements[<span class="hljs-number">3</span>]) * <span class="hljs-number">1000</span>;
+
+            Employee emp = <span class="hljs-keyword">new</span> Employee(name, age, salary);
+            employees.add(emp);
+            System.out.println(emp);
+        }
+    } <span class="hljs-keyword">catch</span> (IOException e) {
+        e.printStackTrace();
+    }
+    <span class="hljs-keyword">return</span> employees;
+}
+</code></pre>
+<p>As stated before: this is very typical for the start of any data processing pipeline.</p>
+<p>More advanced splitting is discussed in a next topic: regular expressions.</p>
+<h2 id="note-on-character-sets">Note on character sets</h2>
+<p>All these examples worked with the default characterset of Java, <strong><em>UTF-8</em></strong>. When other sets are required, these can be specified in the <code>Files.newBufferedReader()</code> and <code>Files.newBufferedWriter()</code> factory methods. See docs for details.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="exceptions.html" class="navigation navigation-prev " aria-label="Previous page: Exceptions">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="regex.html" class="navigation navigation-next " aria-label="Next page: Regular Expressions">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"File IO","level":"4.6","depth":1,"next":{"title":"Regular Expressions","level":"4.7","depth":1,"path":"03_apis/regex.md","ref":"03_apis/regex.md","articles":[]},"previous":{"title":"Exceptions","level":"4.5","depth":1,"path":"03_apis/exceptions.md","ref":"03_apis/exceptions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"03_apis/io.md","mtime":"2019-05-07T11:45:39.025Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-19T19:03:35.896Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

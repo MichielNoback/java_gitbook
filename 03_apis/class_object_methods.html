@@ -1,0 +1,809 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>toString(), equals() and hashCode() · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="sorting.html" />
+    
+    
+    <link rel="prev" href="collections.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../01_getting_started/intellij.html">
+            
+                <a href="../01_getting_started/intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_getting_started/essentials.html">
+            
+                <a href="../01_getting_started/essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../01_getting_started/first_look_at_objects.html">
+            
+                <a href="../01_getting_started/first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting stuff
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="interfaces.html">
+            
+                <a href="interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="collections.html">
+            
+                <a href="collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.3" data-path="class_object_methods.html">
+            
+                <a href="class_object_methods.html">
+            
+                    
+                    toString(), equals() and hashCode()
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="sorting.html">
+            
+                <a href="sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="exceptions.html">
+            
+                <a href="exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="io.html">
+            
+                <a href="io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="regex.html">
+            
+                <a href="regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../04_oop/class_design.html">
+            
+                <a href="../04_oop/class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../04_oop/access_modifiers.html">
+            
+                <a href="../04_oop/access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../04_oop/inheritance.html">
+            
+                <a href="../04_oop/inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../04_oop/enums.html">
+            
+                <a href="../04_oop/enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../04_oop/encapsulation.html">
+            
+                <a href="../04_oop/encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="../04_oop/inner_classes.html">
+            
+                <a href="../04_oop/inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: OO Design & SOLID</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../04_oop/srp.md">
+            
+                <span>
+            
+                    
+                    The Single Responsibility Principle SRP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >toString(), equals() and hashCode()</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="methods-of-class-object">Methods of class Object</h1>
+<h2 id="tostring-equals-hashcode-getclass">toString(), equals(), hashCode(), getClass()</h2>
+<p>Previously you have seen some collection types: List, Map, Set. 
+One of the methods that is universal to all collection types is <code>contains()</code>. 
+How does the JVM determine that two objects are equal?
+This is through the <code>equals()</code> method.</p>
+<p><strong><em>When you use the statement <code>myCollection.contains(myObject)</code>, you get <code>true</code> returned if one of the elements in myCollection returns <code>true</code> for <code>element.equals(myObject)</code>.</em></strong></p>
+<p>The method <code>equals()</code> is there, even though you did not implement it. This is because they are declared and implemented in class <code>Object</code>, and <strong><em>every class in Java extends from Object implicitly</em></strong>. Whenever you create a class, such as this:</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>{
+
+}
+</code></pre>
+<p>you get this implicitly:</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Object</span> </span>{
+
+}
+</code></pre>
+<p>Since User extends Object, it inherits all Object properties and methods. If you create an object (of any type), type the variable name followed by a dot, IntelliJ will show you the methods of class Object:</p>
+<p><img src="figures/methods_of_Object.png" alt="methods_of_Object.png"></p>
+<p>The <code>notify..()</code> and <code>wait..()</code> methods have to do with multithreading and are not dealt with here. 
+The ones of interest are</p>
+<ul>
+<li><code>toString()</code> returns a String representation of the current object. Implemented in class Object as the objects&apos; memory hash.</li>
+<li><code>equals()</code> returns a boolean indicating whether the argument 
+is logically the same as the current object. Implemented in class Object as: <code>true</code> if both refer to the same object.</li>
+<li><code>hashCode()</code> returns the hashCode (an int) of the current object. Implemented in class Object to return an integer representing the objects memory address.</li>
+<li><code>getClass()</code> returns the class of the current object</li>
+</ul>
+<h3 id="tostring-a-string-representation-of-the-object"><code>toString()</code>: a string representation of the object</h3>
+<p>If you want to see a nice textual representation of an object during software development, you use toString(). 
+In IntelliJ, type <code>ctrl + O</code> if you want to override a super class method.</p>
+<p><img src="figures/override_methods.png" alt="override_methods.png"></p>
+<p>If you choose toString(), you&apos;ll get something like this:</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.toString();
+}
+</code></pre>
+<p>Note the <code>@Override</code> <strong><em>annotation</em></strong>. 
+Annotations are syntactic sugar in Java, and this one says to the compiler: 
+please check whether this override is correct, else fail compilation.
+Correct with respect to toString() means: take no arguments and return a String.
+The statement <code>return super.toString();</code> simply states: call the super class toString (of Object in this case) and return its result. Which means you get the uninformative:</p>
+<p><code>snippets.apis.User@78b1cc93</code></p>
+<p>To make toString useful, you&apos;ll need te redefine its logic, for instance:</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;A user with name &quot;</span> + name;
+}
+</code></pre>
+<p>which outputs <code>A user with name Henk</code></p>
+<p>Although this is logically correct, and will compile just fine, there are some conventions used in Java to be informative. To get a toString() which follows this rule, use another IntelliJ shortcut: <code>ctrl + N</code> (for generate code), and select toString().</p>
+<p><img src="figures/generate_code_toString.png" alt="generate_code_toString.png"></p>
+<p>Then, select the instance variables you want included in the string representation, click OK and you have something like this</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;User{&quot;</span> +
+            <span class="hljs-string">&quot;id=&quot;</span> + id +
+            <span class="hljs-string">&quot;, name=&apos;&quot;</span> + name + <span class="hljs-string">&apos;\&apos;&apos;</span> +
+            <span class="hljs-string">&apos;}&apos;</span>;
+}
+</code></pre>
+<p>outputting <code>User{id=15, name=&apos;Henk&apos;}</code>, which is a good textual representation of the underlying object.</p>
+<h3 id="equals-determining-logical-similarity-between-objects"><code>equals()</code> determining logical similarity between objects</h3>
+<p>Consider these three User objects, where the first constructor argument is the user ID and the second the username.</p>
+<pre><code class="lang-java">User user1 = <span class="hljs-keyword">new</span> User(<span class="hljs-number">15</span>, <span class="hljs-string">&quot;Henk&quot;</span>);
+<span class="hljs-comment">//same, equal?</span>
+User user2 = user1;
+
+User user3 = <span class="hljs-keyword">new</span> User(<span class="hljs-number">21</span>, <span class="hljs-string">&quot;Dirk&quot;</span>);
+<span class="hljs-comment">//same, or equal User as user3?</span>
+User user4 = <span class="hljs-keyword">new</span> User(<span class="hljs-number">21</span>, <span class="hljs-string">&quot;Dirk&quot;</span>);
+</code></pre>
+<p>Is <code>user1</code> equal to <code>user2</code>? Is <code>user1</code> equal to itself, <code>user1</code>? Is <code>user3</code> equal to <code>user4</code>?<br>There is an important distinction to be made: <strong><em>equality versus sameness</em></strong>. 
+Two references are considered the same if they both <em>point to a single object on the heap</em>. 
+On the other hand, equality is a more fuzzy concept. In general, we consider 
+two references equal if they point either to one single object,
+or to two distinct objects that are logically similar.</p>
+<p>So, in the above code snippet, <code>user1</code> is definitely the same as <code>user</code> two since they refer to the same object. 
+But since they are the same, they must therefore also be equal.<br>On the other hand, <code>user3</code> and <code>user4</code> are two distinct objects (the constructor has run twice!), 
+but <strong><em>logically similar</em></strong> because they have exactly the same internal data.</p>
+<p>In Java, <code>==</code> tests for sameness and <code>equals()</code> for logical similarity.</p>
+<p>Therefore, we would like our User class to behave like this.</p>
+<pre><code class="lang-java">System.out.println(<span class="hljs-string">&quot;user1 == user1 -- &quot;</span> + (user1 == user1)); <span class="hljs-comment">//should be true</span>
+System.out.println(<span class="hljs-string">&quot;user1.equals(user1) -- &quot;</span> + user1.equals(user1)); <span class="hljs-comment">//should be true</span>
+System.out.println(<span class="hljs-string">&quot;user1 == user2 -- &quot;</span> + (user1 == user2)); <span class="hljs-comment">//should be true</span>
+System.out.println(<span class="hljs-string">&quot;user1.equals(user2) -- &quot;</span> + user1.equals(user2)); <span class="hljs-comment">//should be true</span>
+System.out.println(<span class="hljs-string">&quot;user1.equals(user3) -- &quot;</span> + user1.equals(user3)); <span class="hljs-comment">//should be false</span>
+System.out.println(<span class="hljs-string">&quot;user3.equals(user4) -- &quot;</span> + user3.equals(user4)); <span class="hljs-comment">//should be true!</span>
+</code></pre>
+<p>but in actuality this is what we get</p>
+<pre class="console_out">
+user1 == user1 -- true
+user1.equals(user1) -- true
+user1 == user2 -- true
+user1.equals(user2) -- true
+user1.equals(user3) -- false
+user3.equals(user4) -- false
+</pre>
+
+<p>Up to the last test, everything works out fine. Why does the last test return false? Because Java doesn&apos;t not know about logical similarity between User objects! We have to tell it. Therefore, by default this is what the <code>Object.equals()</code> method does:</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object other)</span> </span>{
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span> == other);
+}
+</code></pre>
+<p>Let&apos;s change the <code>equals()</code> method to reflect (my opinion of) similarity:</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object other)</span> </span>{
+    User otherUser = (User) other;
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">this</span>.id == otherUser.id &amp;&amp; <span class="hljs-keyword">this</span>.name == otherUser.name);
+}
+</code></pre>
+<p>There is a lot to say about this implementation. Can you spot the flaws?</p>
+<p>There are several, so maybe it is better to let IntelliJ handle this for us, via <code>ctrl + N</code> (generate) -&gt; <code>equals() and hashCode()</code> -&gt; choose template (Java 7+), choose name and ID --&gt; next, next next, Finish:</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object o)</span> </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == o) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span> || getClass() != o.getClass()) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    User user = (User) o;
+    <span class="hljs-keyword">return</span> id == user.id &amp;&amp;
+            Objects.equals(name, user.name);
+}
+</code></pre>
+<p>Study this carefully! Why is each statement inserted?</p>
+<p>The <code>equals()</code> method must exhibit the following properties:  </p>
+<ul>
+<li><strong><em>Symmetry</em></strong>: For two references, a and b, a.equals(b) if and only if b.equals(a) as well</li>
+<li><strong><em>Reflexivity</em></strong>: For all non-null references, a.equals(a)</li>
+<li><strong><em>Transitivity</em></strong>: If a.equals(b) and b.equals(c), then a.equals(c)</li>
+<li><strong><em>Consistency with hashCode()</em></strong>: Two equal objects must have the same hashCode() value</li>
+</ul>
+<h3 id="hashcode-required-when-equals-is-implemented"><code>hashCode()</code>: required when <code>equals()</code> is implemented</h3>
+<p>The <code>hashCode()</code> method is kind of the mysterious sister of <code>equals()</code>. You implement them together, but only equals() is easily understood. </p>
+<p>The <code>hashCode()</code> method is used for <strong><em>bucketing</em></strong> in Hash implementations like HashMap, HashTable, HashSet, etc.
+The value received from <code>hashCode()</code> is used as the bucket number for storing elements of the set/map. 
+This bucket number is the address of the element inside the set/map.
+When you do <code>contains()</code> it will take the hash code of the element, then look for the bucket where hash code points to. 
+If more than 1 element is found in the same bucket (multiple objects can have the same hash code), 
+then it uses the <code>equals()</code> method to evaluate if the objects are equal, and then decide 
+if <code>contains()</code> is true or false, or decide if element could be added in the set or not.
+(<em>This paragraph is copied from a post on <a href="https://stackoverflow.com/questions/3563847/what-is-the-use-of-hashcode-in-java" target="_blank">Stackoverflow</a></em>)</p>
+<p>The general contract of hashCode() states:  </p>
+<ul>
+<li><p>Whenever it is invoked on the same object more than once, <code>hashCode()</code> must consistently return the same value, provided no information used in equals comparisons on the object is modified. This value needs not remain consistent from one execution of an application to another execution of the same application</p>
+</li>
+<li><p>If two objects are equal according to the <code>equals(Object)</code> method, then calling the <code>hashCode()</code> method on each of the two objects must produce the same value</p>
+</li>
+<li><p>It is not required that if two objects are unequal according to the <code>equals(java.lang.Object)</code> method, then calling the hashCode method on each of the two objects must produce distinct integer results. However, developers should be aware that producing distinct integer results for unequal objects improves the performance of hash tables</p>
+</li>
+</ul>
+<p>Of course, we let IntelliJ do the hard work (<code>ctrl + N</code>):</p>
+<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-comment">//uses a utility method from class Objects</span>
+    <span class="hljs-keyword">return</span> Objects.hash(id, name);
+}
+</code></pre>
+<h3 id="getclass-gives-meta-information-the-objects-class"><code>getClass()</code> gives meta-information the objects class</h3>
+<p>Example code is best here:</p>
+<pre><code class="lang-java">System.out.println(<span class="hljs-string">&quot;user1.getClass().getSimpleName() = &quot;</span> + user1.getClass().getSimpleName());
+System.out.println(<span class="hljs-string">&quot;user1.getClass().getName() = &quot;</span> + user1.getClass().getName());
+System.out.println(<span class="hljs-string">&quot;user1.getClass().getPackageName() = &quot;</span> + user1.getClass().getPackageName());
+</code></pre>
+<p>outputs</p>
+<pre class="console_out">
+user1.getClass().getSimpleName() = User
+user1.getClass().getName() = snippets.apis.User
+user1.getClass().getPackageName() = snippets.apis
+</pre>
+
+<p>There are a lot more methods in class <code>java.lang.Class</code>, but they serve difficult stuff, like introspection.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="collections.html" class="navigation navigation-prev " aria-label="Previous page: Collections">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="sorting.html" class="navigation navigation-next " aria-label="Next page: Sorting">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"toString(), equals() and hashCode()","level":"4.3","depth":1,"next":{"title":"Sorting","level":"4.4","depth":1,"path":"03_apis/sorting.md","ref":"03_apis/sorting.md","articles":[]},"previous":{"title":"Collections","level":"4.2","depth":1,"path":"03_apis/collections.md","ref":"03_apis/collections.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"03_apis/class_object_methods.md","mtime":"2019-05-07T11:41:36.510Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-19T19:03:35.896Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

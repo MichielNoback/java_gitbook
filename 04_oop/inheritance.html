@@ -1,0 +1,978 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Inheritance and UML · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="enums.html" />
+    
+    
+    <link rel="prev" href="access_modifiers.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../01_getting_started/intellij.html">
+            
+                <a href="../01_getting_started/intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_getting_started/essentials.html">
+            
+                <a href="../01_getting_started/essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../01_getting_started/first_look_at_objects.html">
+            
+                <a href="../01_getting_started/first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting stuff
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../03_apis/interfaces.html">
+            
+                <a href="../03_apis/interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../03_apis/collections.html">
+            
+                <a href="../03_apis/collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../03_apis/class_object_methods.html">
+            
+                <a href="../03_apis/class_object_methods.html">
+            
+                    
+                    toString(), equals() and hashCode()
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../03_apis/sorting.html">
+            
+                <a href="../03_apis/sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../03_apis/exceptions.html">
+            
+                <a href="../03_apis/exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../03_apis/io.html">
+            
+                <a href="../03_apis/io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../03_apis/regex.html">
+            
+                <a href="../03_apis/regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="class_design.html">
+            
+                <a href="class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="access_modifiers.html">
+            
+                <a href="access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="5.3" data-path="inheritance.html">
+            
+                <a href="inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="enums.html">
+            
+                <a href="enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="encapsulation.html">
+            
+                <a href="encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="inner_classes.html">
+            
+                <a href="inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: OO Design & SOLID</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="srp.md">
+            
+                <span>
+            
+                    
+                    The Single Responsibility Principle SRP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Inheritance and UML</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="inheritance-and-uml">Inheritance and UML</h1>
+<p>In this post, the concept of inheritance will be revisited and expanded. Since this is a good place for it, a visualization standard called UML (Unified Modelling Language) is also introduced.</p>
+<h2 id="the-testtube-with-cells">The TestTube with cells</h2>
+<p>Here is the TestTube at the end of the post <a href="class_design.html">Encapsulation through access modifiers</a>. Instead of showing code, a UML diagram is displayed.</p>
+<p><img src="figures/testtube2_all_s.png" alt="Testtube2_all"></p>
+<p>You can generate such a thing yourself in IntelliJ by selecting the source files you want to visualize -&gt; right-click -&gt; Diagrams -&gt; Show Diagram.</p>
+<p>The diagram above shows everything: fields, methods, constructors, with any access level. Using the Diagrams menu (and general settings - see the <a href="https://www.jetbrains.com/help/idea/class-diagram.html" target="_blank">doc</a>) you can filter what you want to show. Here are the same classes with only the public fields shown, and no constructors:</p>
+<p><img src="figures/testtube2_public_s.png" alt="Testtube2 publc"></p>
+<p>So, what does this tell us? Class <code>CellGrowthSimulator</code> has a singular field of type <code>TestTube</code> and creates the instance itself. Class <code>TestTube</code> has 1 to many instances of <code>Cell</code> (held in a <code>List&lt;Cell&gt;</code>), and instantiates them itself. These <strong><em>HAS_A</em></strong> relations (class A has an instance of class B) are depicted with the arrow-with-diamond connector.</p>
+<h2 id="new-specs-different-types-of-cells">New specs: different types of cells</h2>
+<p>So here comes your boss and tells you  </p>
+<p><em>&quot;...but how about het difference between bacteria and eukaryotic cells??
+They are of way different size and grow at different speeds.<br>I WANT TO GROW MANY TYPES OF CELLS IN MY TEST TUBE!!<br>And didn&apos;t I tell you? They should be able to divide as well.&quot;</em></p>
+<p>You start thinking about the new specs. </p>
+<ul>
+<li>When to divide? </li>
+<li>Who controls division: <ul>
+<li>TestTube or the cell itself? </li>
+</ul>
+</li>
+<li>How does this relate to growing?</li>
+<li>The different cell types is easy! Just give every type its own class</li>
+</ul>
+<p>As an expert on the subject, you decide that the cells and not the test tube should know when to divide; in fact, they should be solely responsible for their size and increment (not the testtube). Division is depending on the cell size: when a certain size is reached, it is time to divide.</p>
+<p>Here is the new design. Note that I simplified the names again and removed comments for conciseness&apos; sake.</p>
+<h3 id="class-bacterium">class <code>Bacterium</code></h3>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bacterium</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> diameter = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> growthIncrement = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> maximumDiameter = <span class="hljs-number">30</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getDiameter</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> diameter;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Bacterium <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.diameter += growthIncrement;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.diameter &gt; maximumDiameter) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Bacterium();
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        }
+    }
+}
+</code></pre>
+<h3 id="class-eukaryote">class <code>Eukaryote</code></h3>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Eukaryote</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> diameter = <span class="hljs-number">20</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> growthIncrement = <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> maximumDiameter = <span class="hljs-number">80</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getDiameter</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> diameter;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Eukaryote <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.diameter += growthIncrement;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.diameter &gt; maximumDiameter) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Eukaryote();
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        }
+    }
+}
+</code></pre>
+<p>See how similar it is to class <code>Bacterium</code>?</p>
+<h3 id="class-testtube">class <code>TestTube</code></h3>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestTube</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> numberOfLifeCyclesToRun;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> initialCellCount;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String cellType;
+    <span class="hljs-keyword">private</span> List&lt;Bacterium&gt; bacteria = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+    <span class="hljs-keyword">private</span> List&lt;Eukaryote&gt; eukaryotes = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TestTube</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> numberOfLifeCyclesToRun, <span class="hljs-keyword">int</span> initialCellCount, String cellType)</span> </span>{
+        <span class="hljs-comment">//check code omitted</span>
+        <span class="hljs-keyword">this</span>.numberOfLifeCyclesToRun = numberOfLifeCyclesToRun;
+        <span class="hljs-keyword">this</span>.initialCellCount = initialCellCount;
+        <span class="hljs-keyword">this</span>.cellType = cellType;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>{
+        initializeCells();
+        runLifeCycles();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runLifeCycles</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.numberOfLifeCyclesToRun; i++) {
+            growCells();
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initializeCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.initialCellCount; i++) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Bacteria&quot;</span>)) {
+                bacteria.add(<span class="hljs-keyword">new</span> Bacterium());
+            }
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Eukarya&quot;</span>)) {
+                eukaryotes.add(<span class="hljs-keyword">new</span> Eukaryote());
+            }
+            <span class="hljs-comment">//room for more cell types</span>
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Bacteria&quot;</span>)) {
+            <span class="hljs-keyword">for</span> (Bacterium bacterium : <span class="hljs-keyword">this</span>.bacteria) {
+                bacterium.grow();
+            }
+        }
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Eukarya&quot;</span>)) {
+            <span class="hljs-keyword">for</span> (Eukaryote eukaryote : <span class="hljs-keyword">this</span>.eukaryotes) {
+                eukaryote.grow();
+            }
+        }
+        <span class="hljs-comment">//room for more cell types</span>
+    }
+}
+</code></pre>
+<p>See how much duplicated code there is in class <code>TestTube</code>, and repeated use of same <code>if/else</code> blocks? </p>
+<p>Here is the UML of this situation (private fields included). It shows the duplication clearly as well.</p>
+<p><img src="figures/testtube3_first_s.png" alt="testtube3_first.png"></p>
+<p>Repeated code and similar <code>if/else</code> algorithm logic are typical signs of <strong><em>smelly code</em></strong> that can be solved using some Object Oriented design techniques, in this case inheritance.</p>
+<h2 id="apply-inheritance-to-model-what-is-common">Apply inheritance to model what is common</h2>
+<p>Inheritance can be used when there is a <strong><em>IS-A</em></strong> relationship: when it can be said that class A IS-A class B. For example, Apple IS-A Fruit and Pear IS-A Fruit (but not Pear IS-A Apple!). In this case, the IS-A relation ship can be defined as &quot;Bacterium IS-A Cell&quot; and &quot;Eukaryote IS-A Cell&quot;.</p>
+<p>Once this prerequisite for inheritance is established, the common superclass should be created and all common code from the subclasses moved to it.</p>
+<p>Class Cell can clearly hold the <code>diameter</code>, the <code>growthIncrement</code> and the <code>maximumDiameter</code> fields, even though they will be different between the subclasses. Class Cell can also publish the <code>growCells()</code> method, even though they will be implemented differently in the subclasses. Key here is that <em>all subclasses will be able to grow</em>. When you know the functionality should be there, but don&apos;t know how, your should make it <strong><em>abstract</em></strong>. As a consequence, your class needs to be abstract as well. Let&apos;s review this with class <code>Cell</code>.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cell</span> </span>{
+    <span class="hljs-comment">//no decent defaults possible at level of class Cell,</span>
+    <span class="hljs-comment">//but we know this field is relevant</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> diameter;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Cell</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialDiameter)</span> </span>{
+        <span class="hljs-keyword">this</span>.diameter = initialDiameter;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getDiameter</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">return</span> diameter;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDiameter</span><span class="hljs-params">(<span class="hljs-keyword">int</span> newDiameter)</span> </span>{
+        <span class="hljs-keyword">this</span>.diameter = newDiameter;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> Cell <span class="hljs-title">grow</span><span class="hljs-params">()</span></span>;
+}
+</code></pre>
+<p>Note that both the class declaration and the method <code>grow()</code> have been marked <code>abstract</code>. <strong><em>An abstract method has no method body, only a signature</em></strong> - the same as with interfaces. <strong><em>An abstract class cannot be instantiated.</em></strong>. This snippet <code>Cell cell = new Cell(12)</code> will not compile.</p>
+<p>The next step is declaring your subclasses to <code>extend</code> the superclass (only Bacterium shown here):</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bacterium</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Cell</span></span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> bacterialInitialDiameter = <span class="hljs-number">10</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> growthIncrement = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> maximumDiameter = <span class="hljs-number">30</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Bacterium</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">super</span>(bacterialInitialDiameter);
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Cell <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        setDiameter(getDiameter() + growthIncrement);
+        <span class="hljs-keyword">if</span> (getDiameter() &gt; maximumDiameter) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Bacterium();
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        }
+    }
+}
+</code></pre>
+<p>Class <code>Bacterium</code> is required to implement a constructor serving an initial size to the class Cell constructor. It has no diameter property anymore, and no getter for it. It has implemented the <code>grow()</code> method, and because of that is is not abstract and can be instantiated. Note that, although the  method signature is <code>public Cell grow()</code>, it returns a <code>Bacterium</code> instance. This is a typical example of <strong><em>polymorphism</em></strong>.</p>
+<p>You may notice that the <em>static</em> variables <code>growthIncrement</code> and <code>maximumDiameter</code> will be specified in all subclasses and could be specified once (in class Cell). This is true, and several solutions exist for static fields, but focus here lies on different aspects.</p>
+<p>You may also notice there is not much won with respect to amount of code. That is correct, but in this case the improvement lies in class <code>TestTube</code>:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestTube</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> numberOfLifeCyclesToRun;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> initialCellCount;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String cellType;
+    <span class="hljs-keyword">private</span> List&lt;Cell&gt; cells = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-comment">/**
+     * Constructs with the two essential parameters
+     * <span class="hljs-doctag">@param</span> numberOfLifeCyclesToRun a number between 1 and 100
+     * <span class="hljs-doctag">@param</span> initialCellCount a number between 1 and 1000
+     * <span class="hljs-doctag">@param</span> cellType the cell type [&quot;
+     * <span class="hljs-doctag">@return</span> testtube a TestTube instance
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">TestTube</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> numberOfLifeCyclesToRun, <span class="hljs-keyword">int</span> initialCellCount, String cellType)</span> </span>{
+        <span class="hljs-comment">//check code omitted</span>
+        <span class="hljs-keyword">this</span>.numberOfLifeCyclesToRun = numberOfLifeCyclesToRun;
+        <span class="hljs-keyword">this</span>.initialCellCount = initialCellCount;
+        <span class="hljs-keyword">this</span>.cellType = cellType;
+    }
+
+    <span class="hljs-comment">/**
+     * starts the growth process
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">start</span><span class="hljs-params">()</span> </span>{
+        initializeCells();
+        runLifeCycles();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runLifeCycles</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= <span class="hljs-keyword">this</span>.numberOfLifeCyclesToRun; i++) {
+            growCells();
+            <span class="hljs-keyword">if</span> (i % <span class="hljs-number">10</span> == <span class="hljs-number">0</span>) System.out.println(<span class="hljs-string">&quot;Grow cycle &quot;</span> + i + <span class="hljs-string">&quot; finished; &quot;</span> + cells.size() + <span class="hljs-string">&quot; cells present&quot;</span>);
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initializeCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.initialCellCount; i++) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Bacteria&quot;</span>)) {
+                cells.add(<span class="hljs-keyword">new</span> Bacterium());
+            }
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cellType.equals(<span class="hljs-string">&quot;Eukarya&quot;</span>)) {
+                cells.add(<span class="hljs-keyword">new</span> Eukaryote());
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;Unknown cell type: &quot;</span> + cellType);
+            }
+            <span class="hljs-comment">//room for more cell types - yes this can be improved as well</span>
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//I have no clue what is growing here and don&apos;t care</span>
+        <span class="hljs-comment">//enhanced for loop will cause a ConcurrentModificationException</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Cell child = cell.grow();
+            <span class="hljs-keyword">if</span> (child != <span class="hljs-keyword">null</span>) cells.add(child);
+        }
+    }
+}
+</code></pre>
+<p>You can see the cell growing logic has been completely decoupled from the actual cells that are being grown. Both <code>grow()</code> methods in the subclasses have specific signatures with respect to the return type (<code>Bacterium</code>, <code>Eukaryote</code>), but still adhere to the superclass contract (otherwise <code>@Override</code> would have instigated a compiler error).</p>
+<p>For completeness, here is the simulator class, and some output:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CellGrowthSimulator</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> TestTube testTube;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        startSimulation();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">startSimulation</span><span class="hljs-params">()</span> </span>{
+        testTube = <span class="hljs-keyword">new</span> TestTube(<span class="hljs-number">100</span>,<span class="hljs-number">5</span>, <span class="hljs-string">&quot;Bacteria&quot;</span>);
+        testTube.start();
+    }
+}
+</code></pre>
+<p>outputs</p>
+<pre class="console_output">
+Grow cycle 10 finished; 5 cells present
+Grow cycle 20 finished; 5 cells present
+Grow cycle 30 finished; 55 cells present
+Grow cycle 40 finished; 105 cells present
+Grow cycle 50 finished; 430 cells present
+Grow cycle 60 finished; 1255 cells present
+Grow cycle 70 finished; 3680 cells present
+Grow cycle 80 finished; 12105 cells present
+Grow cycle 90 finished; 35105 cells present
+Grow cycle 100 finished; 111230 cells present
+</pre>
+
+<p>Finally, there is some logic that should be moved for good design. The Cell creation logic should be put in a  <strong><em>static factory method</em></strong> inside class <code>Cell</code> to abstract away the cell creation logic and put it in one place for the entire application:</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Cell <span class="hljs-title">of</span><span class="hljs-params">(String type)</span> </span>{
+    <span class="hljs-keyword">switch</span> (type) {
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;Bacteria&quot;</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Bacterium();
+        <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;Eukarya&quot;</span>: <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Eukaryote();
+        <span class="hljs-keyword">default</span>: <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;Unknown cell type: &quot;</span> + type);
+    }
+}
+</code></pre>
+<p>and class `TestTube becomes even less aware of whet is being grown:</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initializeCells</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.initialCellCount; i++) {
+        cells.add(Cell.of(cellType));
+    }
+}
+</code></pre>
+<p>Here is the final UML. </p>
+<p><img src="figures/testtube3_final_s.png" alt="testtube3_final.png"></p>
+<p>This also shows that actual cell types are hidden behind the abstract Cell class. The subtype constructors could even have been marked <code>protected</code> or <code>&lt;default&gt;</code> to emphasize this.</p>
+<p>This is the power of polymorphism implemented with inheritance!</p>
+<p><strong><em>Polymorphism</em></strong> allows one type to express some sort of contract, and for other types to implement that contract (often through class inheritance) in different ways. Code using that contract should not have to care about which implementation is involved, only that the contract is obeyed.</p>
+<h2 id="use-a-type-cast-when-you-need-the-specific-type">Use a type cast when you need the specific type</h2>
+<p>You have seen it is often best to code against generic types, like in this block:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Cell child = cell.grow();
+            <span class="hljs-keyword">if</span> (child != <span class="hljs-keyword">null</span>) cells.add(child);
+        }
+    }
+</code></pre>
+<p>But what if you have the need for specific functionality? For instance, you have a <code>WhiteBloodCell</code> which can also <code>eatOtherCell(Cell cell)</code>:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube3;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WhiteBloodCell</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Eukaryote</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">WhiteBloodCell</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">super</span>();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">eatOtherCell</span><span class="hljs-params">(Cell cell)</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;White blood cell, eating other cell&quot;</span>);
+        <span class="hljs-comment">//cell eating logic</span>
+    }
+}
+</code></pre>
+<p>Note that this class extends <code>Eukaryote</code> and thereby inherits the <code>grow()</code> method. Now if you want to do something specifically white-blood-cellish, perform a type-test-and-cast:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; cells.size(); i++) {
+            Cell cell = cells.get(i);
+            Cell child = cell.grow();
+            <span class="hljs-keyword">if</span> (child != <span class="hljs-keyword">null</span>) cells.add(child);
+            <span class="hljs-comment">//test and cast</span>
+            <span class="hljs-keyword">if</span> (cell <span class="hljs-keyword">instanceof</span> WhiteBloodCell) {
+                WhiteBloodCell wbc = (WhiteBloodCell)cell;
+                wbc.eatOtherCell(child);
+            }
+        }
+    }
+</code></pre>
+<p>The lesson here: <strong>Objects never ever change type, only the reference to them changes.</strong></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="access_modifiers.html" class="navigation navigation-prev " aria-label="Previous page: Access modifiers & other keywords">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="enums.html" class="navigation navigation-next " aria-label="Next page: Enums">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Inheritance and UML","level":"5.3","depth":1,"next":{"title":"Enums","level":"5.4","depth":1,"path":"04_oop/enums.md","ref":"04_oop/enums.md","articles":[]},"previous":{"title":"Access modifiers & other keywords","level":"5.2","depth":1,"path":"04_oop/access_modifiers.md","ref":"04_oop/access_modifiers.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"04_oop/inheritance.md","mtime":"2019-05-14T11:55:51.546Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-19T19:03:35.896Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

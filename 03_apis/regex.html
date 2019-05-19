@@ -1,0 +1,866 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Regular Expressions · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../04_oop/class_design.html" />
+    
+    
+    <link rel="prev" href="io.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../01_getting_started/intellij.html">
+            
+                <a href="../01_getting_started/intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_getting_started/essentials.html">
+            
+                <a href="../01_getting_started/essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../01_getting_started/first_look_at_objects.html">
+            
+                <a href="../01_getting_started/first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting stuff
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="interfaces.html">
+            
+                <a href="interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="collections.html">
+            
+                <a href="collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="class_object_methods.html">
+            
+                <a href="class_object_methods.html">
+            
+                    
+                    toString(), equals() and hashCode()
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="sorting.html">
+            
+                <a href="sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="exceptions.html">
+            
+                <a href="exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="io.html">
+            
+                <a href="io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="4.7" data-path="regex.html">
+            
+                <a href="regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../04_oop/class_design.html">
+            
+                <a href="../04_oop/class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../04_oop/access_modifiers.html">
+            
+                <a href="../04_oop/access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../04_oop/inheritance.html">
+            
+                <a href="../04_oop/inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../04_oop/enums.html">
+            
+                <a href="../04_oop/enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../04_oop/encapsulation.html">
+            
+                <a href="../04_oop/encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="../04_oop/inner_classes.html">
+            
+                <a href="../04_oop/inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: OO Design & SOLID</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../04_oop/srp.md">
+            
+                <span>
+            
+                    
+                    The Single Responsibility Principle SRP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Regular Expressions</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="regular-expressions">Regular Expressions</h1>
+<p>Often, when your data is well-structured, a <code>String.split()</code> with a simple separator is all you need to process your data,maybe with some conversion methods for creating ints and doubles and such from strings. However, there are cases when you need more: finding restriction enzyme sites, parsing zip codes in addresses for instance.</p>
+<p>This part only introduces the Java regex API
+It is NOT a tutorial on regex!
+(PS, I borrowed some examples from <a href="http://www.vogella.com" target="_blank">http://www.vogella.com</a>)</p>
+<p>Regular expressions are used to search for patterns in text
+For instance, if you want to find occurrences of Dutch zip codes, you could use this: <code>[a-zA-Z]{4} ?[0-9]{2}</code></p>
+<p>For Java regex, these classes are related to regular expression matching (and replacement):  </p>
+<ul>
+<li><code>java.lang.String</code> has several useful methods working with regexes</li>
+<li><code>java.util.regex.Pattern</code> works together with <code>java.util.regex.Matcher</code> for advanced regex operations</li>
+</ul>
+<h2 id="what-is-a-regex">What is a regex?</h2>
+<p>A regular expression is used to describe a pattern that is not literal - different distinct character strings could match the pattern. </p>
+<h2 id="backslashes">Backslashes</h2>
+<p>Backslashes have meanings both in String literals and in regex. They denote special characters, but also negate the special meaning
+Thus, to match a literal backslash, your regex will be <code>\\\\</code> !! </p>
+<h2 id="character-classes">Character classes</h2>
+<p>You can specify groups of characters that are all equally valid to match a position using character classes. They can be specified in many ways.</p>
+<table>
+<thead>
+<tr>
+<th>Character class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.</td>
+<td>Any character</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>Set definition, eg [a-z] matches all lowercase characters;  [aAbB1234] matches an a, A, b, B or numbers 1, 2 ,3, 4</td>
+</tr>
+<tr>
+<td>[^]</td>
+<td>Negated set definition, eg [^a-z] matches anything BUT lowercase characters</td>
+</tr>
+<tr>
+<td>X|Z</td>
+<td>Matches X or Z (either one will suffice)</td>
+</tr>
+<tr>
+<td>^regex</td>
+<td>Anchors regex at beginning of line</td>
+</tr>
+<tr>
+<td>regex$</td>
+<td>Anchors regex at end of line</td>
+</tr>
+<tr>
+<td>\d \D</td>
+<td>Any digit, [0-9];  any non-digit, [^0-9]</td>
+</tr>
+<tr>
+<td>\s \S</td>
+<td>Any whitespace character;  any non-whitespace character</td>
+</tr>
+<tr>
+<td>\w \W</td>
+<td>A word character, short for [a-zA-Z_0-9];  same but negated</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>Word boundary</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regex-quantifiers">Regex quantifiers</h2>
+<p>Quantifiers let you modify how often a group or character is allowed.</p>
+<table>
+<thead>
+<tr>
+<th>Quantifier</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{x}</td>
+<td>Occurs exactly x times</td>
+</tr>
+<tr>
+<td>{x, }</td>
+<td>Occurs at least x times</td>
+</tr>
+<tr>
+<td>{, x}</td>
+<td>Occurs at the most x times</td>
+</tr>
+<tr>
+<td>*</td>
+<td>Occurs zero or more times; same as {0, }</td>
+</tr>
+<tr>
+<td>+</td>
+<td>Occurs one or more times; same as {1, }</td>
+</tr>
+<tr>
+<td>?</td>
+<td>Occurs zero or one time; same as {0, 1}</td>
+</tr>
+<tr>
+<td>*?</td>
+<td>Non-greedy: &quot;?&quot; after a quantifier makes it a reluctant quantifier, it tries to find the smallest match</td>
+</tr>
+</tbody>
+</table>
+<h2 id="grouping-and-backreferencing">Grouping and backreferencing</h2>
+<p>Using parentheses, you can group parts of your regex. 
+They can be used to</p>
+<ul>
+<li>Retrieve or substitute parts of a regex</li>
+<li>Apply quantifiers to groups</li>
+<li>use back referencing</li>
+</ul>
+<p>Via the <code>$</code> you can refer to a group. <code>$1</code> is the first group, <code>$2</code> the second, etc (see examples).</p>
+<p>Similarly, back referencing is used to repeat pattern matches; this will replace all repeating character patterns:</p>
+<pre><code class="lang-java"><span class="hljs-string">&quot;ABCDEEEFGGHIJJJKL&quot;</span>.replaceAll(<span class="hljs-string">&quot;(\\w)\\1+&quot;</span>, <span class="hljs-string">&quot;_rep_&quot;</span>)
+</code></pre>
+<p>resulting in <code>ABCD_rep_F_rep_HI_rep_KL</code>.</p>
+<h2 id="methods-of-class-string">Methods of class String</h2>
+<p>Many of the common tasks can be performed using the String class only. </p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>s.matches(regex)</td>
+<td>Tells whether or not this string matches the given regular expression.</td>
+</tr>
+<tr>
+<td>s.split(regex)</td>
+<td>Splits this string around matches of the given regular expression</td>
+</tr>
+<tr>
+<td>s.split(regex, limit)</td>
+<td>Idem, but the <code>limit</code> parameter controls the number of times the pattern is applied</td>
+</tr>
+<tr>
+<td>s.replaceAll(regex, replacement)</td>
+<td>Replaces each substring of this string that matches the given regular expression with the given replacement</td>
+</tr>
+<tr>
+<td>s.replaceFirst(regex, replacement)</td>
+<td>Replaces the first substring of this string that matches the given regular expression with the given replacement.</td>
+</tr>
+</tbody>
+</table>
+<p>Here are some examples.</p>
+<pre><code class="lang-java">String input = <span class="hljs-string">&quot;Dogs rule this doggin&apos; world&quot;</span>;
+<span class="hljs-comment">//replace() works with literal string!</span>
+System.out.println(input.replace(<span class="hljs-string">&quot;[Dd]og&quot;</span>, <span class="hljs-string">&quot;Cat&quot;</span>));
+System.out.println(input.replace(<span class="hljs-string">&quot;Dog&quot;</span>, <span class="hljs-string">&quot;Cat&quot;</span>));
+<span class="hljs-comment">//replaceAll() works with regex!</span>
+System.out.println(input.replaceAll(<span class="hljs-string">&quot;[Dd]og&quot;</span>, <span class="hljs-string">&quot;Cat&quot;</span>));
+System.out.println(Arrays.toString(input.split(<span class="hljs-string">&quot;[Dd]&quot;</span>)));
+<span class="hljs-comment">//matches() looks at whole target string.</span>
+System.out.println(input.matches(<span class="hljs-string">&quot;[Dd]ogs&quot;</span>));
+System.out.println(input.matches(<span class="hljs-string">&quot;^[Dd]ogs.+&quot;</span>));
+</code></pre>
+<p>outputs </p>
+<pre class="console_out">
+Dogs rule this doggin&apos; world
+Cats rule this doggin&apos; world
+Cats rule this Catgin&apos; world
+[, ogs rule this , oggin&apos; worl]
+false
+true
+</pre>
+
+<p>Some more advanced examples:</p>
+<pre><code class="lang-java">String INPUT = <span class="hljs-string">&quot;This is the &lt;title&gt;example&lt;/title&gt; &quot;</span> 
+    + <span class="hljs-string">&quot;string which , I&apos;m going to use for pattern matching.&quot;</span>;
+
+<span class="hljs-comment">// Split on whitespace stretches</span>
+String[] splitString = (INPUT.split(<span class="hljs-string">&quot;\\s+&quot;</span>));
+
+<span class="hljs-comment">// Removes whitespace between a word character and . or ,</span>
+String pattern = <span class="hljs-string">&quot;(\\w)(\\s+)([\\.,])&quot;</span>;
+System.out.println(INPUT.replaceAll(pattern, <span class="hljs-string">&quot;$1$3&quot;</span>)); 
+
+<span class="hljs-comment">// Extract the text between the two title elements of</span>
+pattern = <span class="hljs-string">&quot;(?i)(&lt;title.*?&gt;)(.+?)(&lt;/title&gt;)&quot;</span>;
+String updated = INPUT.replaceAll(pattern, <span class="hljs-string">&quot;$2&quot;</span>); 
+
+<span class="hljs-comment">// prints true if the string contains a number less then 300</span>
+System.out.println(s.matches(<span class="hljs-string">&quot;[^0-9]*[12]?[0-9]{1,2}[^0-9]*&quot;</span>));
+</code></pre>
+<p>Note that adjusting the regex mode with <code>(?i)&lt;regex&gt;</code> makes the regex case insensitive. </p>
+<h2 id="pattern--matcher">Pattern &amp; Matcher</h2>
+<p>For more complex tasks, use class <code>Pattern</code> to specify it and class <code>Matcher</code> to find, replace or extract it.</p>
+<p>Here is a typical use case:</p>
+<pre><code class="lang-java">        <span class="hljs-comment">//with case insensitive matching</span>
+        Pattern hinc2 = Pattern.compile(<span class="hljs-string">&quot;(?i)(GT([CT][AG])AC)&quot;</span>);
+        Matcher matcher = hinc2.matcher(<span class="hljs-string">&quot;GTCAACtgttgaccc&quot;</span>);
+
+        <span class="hljs-keyword">while</span> (matcher.find()) {
+            System.out.println(<span class="hljs-string">&quot;matcher.group() = &quot;</span> + matcher.group());
+            <span class="hljs-comment">//whole pattern - same as group()</span>
+            System.out.println(<span class="hljs-string">&quot;matcher.group(0) = &quot;</span> + matcher.group(<span class="hljs-number">0</span>));
+            System.out.println(<span class="hljs-string">&quot;matcher.group(2) = &quot;</span> + matcher.group(<span class="hljs-number">2</span>));
+            System.out.println(<span class="hljs-string">&quot;matcher.start() = &quot;</span> + matcher.start());
+        }
+
+        <span class="hljs-comment">//with chained method calls - replace with group capture</span>
+        <span class="hljs-keyword">final</span> String replaced = hinc2.matcher(<span class="hljs-string">&quot;GTCAACtgttgaccc&quot;</span>).replaceAll(<span class="hljs-string">&quot;[[$1]]&quot;</span>);
+        System.out.println(<span class="hljs-string">&quot;replaced = &quot;</span> + replaced);
+</code></pre>
+<p>outputs</p>
+<pre class="console_out">
+matcher.group() = GTCAAC
+matcher.group(0) = GTCAAC
+matcher.group(2) = CA
+matcher.start() = 0
+matcher.group() = gttgac
+matcher.group(0) = gttgac
+matcher.group(2) = tg
+matcher.start() = 7
+replaced = [[GTCAAC]]t[[gttgac]]cc
+</pre>
+
+<p>Note: <strong>when a <code>Pattern</code> object is used more than once, a compiled version should be cashed!</strong> Usually this is done in an instance or class variable.</p>
+<p>There is much more to regex of course; GIYF for more detailed use cases.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="io.html" class="navigation navigation-prev " aria-label="Previous page: File IO">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../04_oop/class_design.html" class="navigation navigation-next " aria-label="Next page: Encapsulation through access modifiers">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Regular Expressions","level":"4.7","depth":1,"next":{"title":"Encapsulation through access modifiers","level":"5.1","depth":1,"path":"04_oop/class_design.md","ref":"04_oop/class_design.md","articles":[]},"previous":{"title":"File IO","level":"4.6","depth":1,"path":"03_apis/io.md","ref":"03_apis/io.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"03_apis/regex.md","mtime":"2019-05-07T14:01:34.830Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-19T19:03:35.896Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

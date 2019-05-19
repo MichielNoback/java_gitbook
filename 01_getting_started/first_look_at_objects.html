@@ -1,0 +1,862 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Demo case: A first look at objects · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../02_syntax/basic_program_design.html" />
+    
+    
+    <link rel="prev" href="essentials.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="intellij.html">
+            
+                <a href="intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="essentials.html">
+            
+                <a href="essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="2.3" data-path="first_look_at_objects.html">
+            
+                <a href="first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting stuff
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.8" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../03_apis/interfaces.html">
+            
+                <a href="../03_apis/interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../03_apis/collections.html">
+            
+                <a href="../03_apis/collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../03_apis/class_object_methods.html">
+            
+                <a href="../03_apis/class_object_methods.html">
+            
+                    
+                    toString(), equals() and hashCode()
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../03_apis/sorting.html">
+            
+                <a href="../03_apis/sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../03_apis/exceptions.html">
+            
+                <a href="../03_apis/exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../03_apis/io.html">
+            
+                <a href="../03_apis/io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../03_apis/regex.html">
+            
+                <a href="../03_apis/regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../04_oop/class_design.html">
+            
+                <a href="../04_oop/class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../04_oop/access_modifiers.html">
+            
+                <a href="../04_oop/access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../04_oop/inheritance.html">
+            
+                <a href="../04_oop/inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../04_oop/enums.html">
+            
+                <a href="../04_oop/enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../04_oop/encapsulation.html">
+            
+                <a href="../04_oop/encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="../04_oop/inner_classes.html">
+            
+                <a href="../04_oop/inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: OO Design & SOLID</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../04_oop/srp.md">
+            
+                <span>
+            
+                    
+                    The Single Responsibility Principle SRP
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Demo case: A first look at objects</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="a-first-look-at-objects-growing-cells">A first look at objects: growing cells</h1>
+<h2 id="the-entities">The entities</h2>
+<p>Suppose you want to build a cell growth simulation application. After careful analysis of
+the domain, I decided that this involves three entities I want to model: a simulator that
+controls the simulation process, a test tube that will hold the cells that are growing, and 
+cells.</p>
+<h2 id="the-relationships">The relationships</h2>
+<p>The next step in a modeling process is to determine the relationships between the different 
+entities. In this case, this is quite simple. The simulator will receive configuration arguments 
+(e.g. how many cells to grow) from the command-line, start the simulation process and 
+instantiate a test tube. The test tube will be responsible for instantiating the (initial) cell
+population. Finally, there will be cells growing &quot;within&quot; the test tube.</p>
+<h2 id="the-code">The code</h2>
+<p>Three separate source files are created (within a single package), each holding one class - a 
+blueprint for the entities to be instantiated:</p>
+<ul>
+<li><code>CellGrowthSimulator.java</code></li>
+<li><code>TestTube.java</code></li>
+<li><code>Cell.java</code></li>
+</ul>
+<h4 id="celljava">Cell.java</h4>
+<p>We&apos;ll start with the simplest one: Cell. It has an instance variable called &quot;size&quot; which has a default 
+value of 5 when Cell objects are instantiated. Every call of the <code>grow()</code> method makes it increase its size by one.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cell</span> </span>{
+    <span class="hljs-comment">/**
+     * Instance variable &quot;size&quot;; 5 micrometer is the default diameter when Cell objects are instantiated
+     */</span>
+    <span class="hljs-keyword">int</span> diameter = <span class="hljs-number">5</span>;
+    <span class="hljs-comment">/**
+     * Lets this cell grow in a single increment
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//grow by 1 micrometer</span>
+        <span class="hljs-keyword">this</span>.diameter += <span class="hljs-number">1</span>;
+        System.out.println(<span class="hljs-string">&quot;I am a Cell. My size is &quot;</span> + <span class="hljs-keyword">this</span>.diameter);
+    }
+}
+</code></pre>
+<p>To test the logic and correctness of this class, we will have to wait until other components are 
+developed, such as TestTube and CellGrowthSimulator, <strong><em>unless you use (J)Unit testing</em></strong>. </p>
+<h4 id="the-keyword-this">The keyword <code>this</code></h4>
+<p>To indicate you want to access properties or methods of the current active object, you use <code>this</code> together with the dot operator.
+It is not required (the compiler will fill it in) to use <code>this</code>, but it makes for much more readable code if you consistently use it when referring to object members (methods and variables).</p>
+<h4 id="junit-testing">JUnit testing</h4>
+<p>JUnit is a unit test platform for Java. Its main purpose is to have a suite of test code guaranteeing 
+the correctness of your <strong><em>production code</em></strong>. To create JUnit test code, you need to have the 
+JUnit libraries defined as dependencies on your <strong><em>class path</em></strong>. 
+See the post <a href="intellij.html">&quot;A first IntelliJ project&quot;</a> for instructions how to 
+that for JUnit5.</p>
+<p>Next, you need to create a test class. Place the cursor on the class name and press <code>alt+enter</code>. Select &quot;Create Test&quot;.</p>
+<p><img src="figures/create_junit_test_class_1.png" alt="create_junit_test_class_1.png"> </p>
+<p>Select the method(s) you want to create test(s) for.</p>
+<p><img src="figures/create_junit_test_class_2.png" alt="create_junit_test_class_2.png"></p>
+<p>The test class opens in the editor and looks something like this:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube;
+
+<span class="hljs-keyword">import</span> org.junit.jupiter.api.Test;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.junit.jupiter.api.Assertions.*;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CellTest</span> </span>{
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+    }
+}
+</code></pre>
+<p>Let&apos;s put some testing code in it to see whether our program logic works as intended:</p>
+<pre><code class="lang-java">    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        Cell cell = <span class="hljs-keyword">new</span> Cell();
+        <span class="hljs-comment">//the initial diameter is supposed to be 5</span>
+        assertTrue(cell.diameter == <span class="hljs-number">5</span>);
+        cell.grow();
+        <span class="hljs-comment">//the diameter should have increased by one</span>
+        assertTrue(cell.diameter == <span class="hljs-number">6</span>);
+    }
+</code></pre>
+<p>When you click on the little green triangle in the editor margin, the test will be executed and you get output like this:</p>
+<p><img src="figures/create_junit_test_method_1.png" alt="create_junit_test_method_1.png"></p>
+<p>The green checks indicate the test <strong><em>assertions</em></strong> passed. Knowing the Cell class is OK, let&apos;s proceed to class TestTube.</p>
+<h4 id="testtubejava">TestTube.java</h4>
+<p>TestTube is slightly more complex. It defines a <strong><em>constructor</em></strong> that makes it mandatory to
+provide an initial number of cells. Also, you see the use of the <code>new</code> keyword for instantiating objects.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestTube</span> </span>{
+    Cell[] cells;
+
+    <span class="hljs-comment">/**
+     * Constructs with an initial cell count.
+     * An exception is thrown when the initial cell count is below 1 or above 10e4.
+     *
+     * <span class="hljs-doctag">@param</span> initialCellCount the initial cell count
+     * <span class="hljs-doctag">@throws</span> IllegalArgumentException ex
+     */</span>
+    TestTube(<span class="hljs-keyword">int</span> initialCellCount) {
+        <span class="hljs-keyword">if</span> (initialCellCount == <span class="hljs-number">0</span> || initialCellCount &gt; <span class="hljs-number">10e4</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">&quot;initial cell count should be above 1 and below 10e4: &quot;</span> + initialCellCount);
+        }
+        <span class="hljs-comment">//initialize the array with new Cells</span>
+        cells = <span class="hljs-keyword">new</span> Cell[initialCellCount];
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; initialCellCount; i++) {
+            cells[i] = <span class="hljs-keyword">new</span> Cell();
+        }
+    }
+
+    <span class="hljs-comment">/**
+     * Grows the cells, in one single iteration.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">for</span> (Cell cell : cells) {
+            cell.grow();
+        }
+    }
+}
+</code></pre>
+<p>Note the for-loop in the constructor of this class:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; initialCellCount; i++) {
+    cells[i] = <span class="hljs-keyword">new</span> Cell();
+}
+</code></pre>
+<p>The for-loop itself will be dealt with in the post <a href="../02_syntax/flow_control_structures.md">&quot;Flow control structures&quot;</a> This is the first place we see the <code>new</code> keyword. Whenever you see the <code>new</code> keyword, it means a new object is instantiated. See the section below for more detail on object construction. </p>
+<p>Here is a simple JUnit test to verify the construction of the TestTube:</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestTubeTest</span> </span>{
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">growCells</span><span class="hljs-params">()</span> </span>{
+        TestTube testTube = <span class="hljs-keyword">new</span> TestTube(<span class="hljs-number">10</span>);
+        assertTrue(testTube.cells.length == <span class="hljs-number">10</span>);
+    }
+}
+</code></pre>
+<h4 id="cellgrowthsimulatorjava">CellGrowthSimulator.java</h4>
+<p>The last class of the system. Here is the first version:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.testtube;
+<span class="hljs-comment">/**
+ * &quot;Controller&quot; class
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CellGrowthSimulator</span> </span>{
+    <span class="hljs-comment">/**
+     * <span class="hljs-doctag">@param</span> args cl-args should be length one, containing initial cell number.
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">if</span> (args.length != <span class="hljs-number">1</span>) {
+            System.err.println(<span class="hljs-string">&quot;You must provide an initial cell count. Aborting.&quot;</span>);
+        }
+
+        <span class="hljs-keyword">int</span> initialCellNumber = Integer.parseInt(args[<span class="hljs-number">0</span>]);
+        startSimulation(initialCellNumber);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">startSimulation</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialCellNumber)</span> </span>{
+        TestTube testTube = <span class="hljs-keyword">new</span> TestTube(initialCellNumber);
+        <span class="hljs-comment">//do one iteration of growing</span>
+        testTube.growCells();
+    }
+}
+</code></pre>
+<p>Note that directly processing command-line arguments is discouraged in general; you should implement
+and support a standards-adhering command-line syntax (e.g. <code>java -jar GrowthSimulator --initial_count 5</code>).</p>
+<p>So the final model now has this chain of relationships:</p>
+<p><strong><em>CellGrowthSimulator has a TestTube and TestTube has one or more Cells</em></strong>.</p>
+<h2 id="object-construction-first-iteration">Object construction (first iteration)</h2>
+<p>You have seen the <code>new</code> keyword used several times now. But what does happen, exactly, when you type</p>
+<pre><code class="lang-java">Cell cell = <span class="hljs-keyword">new</span> Cell();
+</code></pre>
+<p>The new keyword combined with the class name followed by parentheses, calls the constructor method of a class that instantiates and returns the reference to an object of that class. The parentheses <code>()</code> enclose the argument list for the constructor method, which is empty in this case.  </p>
+<p>The <strong><em>three steps of object construction are declaration, creation and assignment</em></strong>:</p>
+<ol>
+<li><code>Cell cell</code> <strong><em>declares</em></strong> a variable of type Cell.</li>
+<li><code>new Cell</code> <strong><em>instantiates</em></strong> an object of type Cell, stores this in memory (called <strong><em>the heap</em></strong> in Java) and returns a reference to this stored object.</li>
+<li><code>=</code> <strong><em>assigns</em></strong> the returned reference to the declared variable.</li>
+</ol>
+<p>So&#x2026;where is this constructor method in class Cell and what does it do? It is created automagically by the 
+Java compiler, if you don&apos;t specify it yourself. More on constructors in a later post.</p>
+<h2 id="inheritance">Inheritance</h2>
+<p>Inheritance is one of the key features of object-oriented programming.</p>
+<p>Since subclasses inherit all properties and methods of their superclass, this is a very 
+powerful mechanism to introduce new or adjusted behavior in a software 
+system. The <code>CancerCell</code> class below <code>extends</code> Cell and thus declares itself
+to be a <strong><em>subclass</em></strong> of <code>Cell</code>. It not only extends itself with new functionality (<code>move()</code>), but also modifies the behavior of the <code>grow()</code> method by changing the <code>growthIncrement</code> property of its <em>supertype part</em>.</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cell</span> </span>{
+    <span class="hljs-keyword">int</span> diameter = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">int</span> growthIncrement = <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">/**
+     * Lets this cell grow in a single increment
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//grow by 1 micrometer</span>
+        <span class="hljs-keyword">this</span>.diameter += growthIncrement;
+        System.out.println(<span class="hljs-string">&quot;I am a Cell. My size is &quot;</span> + <span class="hljs-keyword">this</span>.diameter);
+    }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CancerCell</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Cell</span> </span>{
+    CancerCell() {
+        growthIncrement = <span class="hljs-number">3</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">move</span><span class="hljs-params">()</span> </span>{
+        System.out.println(<span class="hljs-string">&quot;Moving through the body&quot;</span>);
+    }
+}
+
+<span class="hljs-comment">//usage</span>
+Cell cell = <span class="hljs-keyword">new</span> Cell();
+cell.grow();
+cell.grow();
+System.out.println(<span class="hljs-string">&quot;-----------&quot;</span>);
+CancerCell cCell = <span class="hljs-keyword">new</span> CancerCell();
+cCell.grow();
+cCell.grow();
+cCell.move();
+</code></pre>
+<p>output:</p>
+<pre class="console_out">
+I am a Cell. My size is 6
+I am a Cell. My size is 7
+-----------
+I am a Cell. My size is 8
+I am a Cell. My size is 11
+Moving through the body
+</pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="essentials.html" class="navigation navigation-prev " aria-label="Previous page: The essentials">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../02_syntax/basic_program_design.html" class="navigation navigation-next " aria-label="Next page: Basic program design">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Demo case: A first look at objects","level":"2.3","depth":1,"next":{"title":"Basic program design","level":"2.4","depth":1,"path":"02_syntax/basic_program_design.md","ref":"02_syntax/basic_program_design.md","articles":[]},"previous":{"title":"The essentials","level":"2.2","depth":1,"path":"01_getting_started/essentials.md","ref":"01_getting_started/essentials.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_getting_started/first_look_at_objects.md","mtime":"2019-05-07T14:12:33.108Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-05-19T19:03:35.896Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
