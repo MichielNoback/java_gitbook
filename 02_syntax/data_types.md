@@ -197,7 +197,7 @@ outputs:
 <pre class="console_out">
 dnaOne equals dnaFive: true
 dnaOne == dnaFive: false
-<pre>
+</pre>
 
 and to make it more confusing:
 
