@@ -24,7 +24,7 @@
 ## Part 3: Core APIs
 * [Interfaces](03_apis/interfaces.md)
 * [Collections](03_apis/collections.md)
-* [toString(), equals() and hashCode()](03_apis/class_object_methods.md)
+* [Methods of class Object](03_apis/class_object_methods.md)
 * [Sorting](03_apis/sorting.md)
 * [Exceptions](03_apis/exceptions.md)
 * [File IO](03_apis/io.md)
@@ -44,6 +44,10 @@
 
 * [Design Rules summary](design_rules.md)
 
-## Part 5: OO Design & SOLID
+## Part 5: Web-based Java & Thymeleaf
 
-* [The Single Responsibility Principle SRP](04_oop/srp.md)
+* [Refresher](05_web/refresher.md)
+* [Toolbox](05_web/toolbox.md)
+* [A first project](05_web/first_project.md)
+* [Implementing MVC](05_web/mvc.md)
+ 
