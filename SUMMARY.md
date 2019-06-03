@@ -50,4 +50,5 @@
 * [Toolbox](05_web/toolbox.md)
 * [A first project](05_web/first_project.md)
 * [Implementing MVC](05_web/mvc.md)
- 
+*  [Thymeleaf expression types & objects](05_web/thymeleaf_expressions.md)
+*  [Thymeleaf flow control & fragments](05_web/thymeleaf_flow_control.md)
