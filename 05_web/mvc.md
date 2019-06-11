@@ -101,7 +101,7 @@ public class PhraseFactory {
 
 ## A controller
 
-Create a new Servlet (you should know how) and put the following code in there.
+Create a new Servlet and put the following code in there. 
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.servlets;
@@ -114,7 +114,7 @@ public class PhraseServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        this.templateEngine = ThymeleafUtil.getTemplateEngine();
+        this.templateEngine = WebConfig.getTemplateEngine();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -139,12 +139,13 @@ public class PhraseServlet extends HttpServlet {
 }
 ```
 
+The controller receives request parameters from the submitted form using `String requestParameter = request.getParameter("<parameter_name>");`. On the output side, it passed data to the Thymeleaf template using `ctx.setVariable("<variable_name>", <variable>);`. It is not responsible for any application logic; for that it calls on the model class `PhraseFactory`. The controller does not involve itself with the view either; it simply passes the data it received from the model to the View component, the Thymeleaf template `phrase_of_the_day.html`.
+
 ## Test!
 
 Create a new run configuration called "phrase" and point it to give.phrase.
 
 Test the result; try the form submit; change your language; refresh
-
 
 ![phrase_request_form2.png](figures/phrase_request_form2_en.png)
 

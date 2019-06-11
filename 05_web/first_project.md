@@ -138,7 +138,7 @@ Now you have internationalized your view.
 
 Thymeleaf needs some configuration to get going. Here is some boilerplate code you can simply copy-and-paste.
 
-Under `main/java`, create a base package, e.g. `<your_._domain>.<your_name>.<your_project>`. Within it, create two additional packages: `config` and `servlets`. Under `config`, create a new Java class file `ThymeleafUtil.java`. Put this code in there:  
+Under `main/java`, create a base package, e.g. `<your_._domain>.<your_name>.<your_project>`. Within it, create two additional packages: `config` and `servlets`. Under `config`, create a new Java class file `WebConfig.java`. Put this code in there:  
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.config;
@@ -146,7 +146,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
-public class ThymeleafUtil {
+public class WebConfig {
     public static TemplateEngine createTemplateEngine(ServletContext servletContext) {
         ServletContextTemplateResolver templateResolver =
                 new ServletContextTemplateResolver(servletContext);
@@ -183,7 +183,7 @@ Finally, everything is going to fall into place. Under package `....servlets`, c
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.servlets;
-import nl.bioinf.wis_on_thymeleaf.config.ThymeleafUtil;
+import nl.bioinf.wis_on_thymeleaf.config.WebConfig;
 import org.thymeleaf.context.WebContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -199,7 +199,7 @@ public class WelcomeServlet extends HttpServlet {
     public void init() throws ServletException {
         System.out.println("Initializing Thymeleaf template engine");
         final ServletContext servletContext = this.getServletContext();
-        ThymeleafUtil.createTemplateEngine(servletContext);
+        WebConfig.createTemplateEngine(servletContext);
     }
     private static final long serialVersionUID = 1L;
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -211,14 +211,14 @@ public class WelcomeServlet extends HttpServlet {
     public void process(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         //this step is optional; standard settings also suffice
-        ThymeleafUtil.configureResponse(response);
+        WebConfig.configureResponse(response);
         WebContext ctx = new WebContext(
                 request,
                 response,
                 request.getServletContext(),
                 request.getLocale());
         ctx.setVariable("currentDate", new Date());
-        ThymeleafUtil.getTemplateEngine().process("welcome", ctx, response.getWriter());
+        WebConfig.getTemplateEngine().process("welcome", ctx, response.getWriter());
     }
 }
 ```

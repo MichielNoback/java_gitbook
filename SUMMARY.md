@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [Intro](README.md)
 * [IntelliJ keyboard shortcuts](shortcuts.md)
 
 ## Part 1: Getting started
@@ -50,5 +50,8 @@
 * [Toolbox](05_web/toolbox.md)
 * [A first project](05_web/first_project.md)
 * [Implementing MVC](05_web/mvc.md)
-*  [Thymeleaf expression types & objects](05_web/thymeleaf_expressions.md)
-*  [Thymeleaf flow control & fragments](05_web/thymeleaf_flow_control.md)
+* [Thymeleaf expression types & objects](05_web/thymeleaf_expressions.md)
+* [Thymeleaf flow control & fragments](05_web/thymeleaf_flow_control.md)
+* [Sessions & Scopes](05_web/sessions.md)
+* [Servlet details & Lifecycle hooks](05_web/servlet_details.md)
+* [Database interaction](05_web/databases.md)
