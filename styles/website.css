@@ -4,3 +4,14 @@ pre.console_out {
     font-weight: bold;
     font: 1.5rem Inconsolata, monospace;
 } 
+
+.even {
+    background-color: aliceblue !important;
+}
+.odd {
+    background-color: lightcyan !important;
+}
+
+.first {
+    background-color: coral !important;
+}
