@@ -1,6 +1,6 @@
 # Summary
 
-* [Intro](README.md)
+* [Java](README.md)
 * [IntelliJ keyboard shortcuts](shortcuts.md)
 
 ## Part 1: Getting started
@@ -55,3 +55,6 @@
 * [Sessions & Scopes](05_web/sessions.md)
 * [Servlet details & Lifecycle hooks](05_web/servlet_details.md)
 * [Database interaction](05_web/databases.md)
+* [Ajax communication](05_web/ajax.md)
+* [Web filters and file uploads](05_web/filters_upload.md)
+

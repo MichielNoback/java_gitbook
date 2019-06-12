@@ -660,3 +660,4 @@ and the thymeleaf view:
 This constitutes the final layer in the app: the data layer:
 
 ![mvc](figures/mvc_with_data_layer.png)
+
