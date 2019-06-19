@@ -58,3 +58,5 @@
 * [Ajax communication](05_web/ajax.md)
 * [Web filters and file uploads](05_web/filters_upload.md)
 
+## Exercises Web-based Java
+* [Exercises Web-based Information Systems 1](05_web/webbased_exercises1.md)
