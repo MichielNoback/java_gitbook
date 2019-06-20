@@ -261,7 +261,7 @@ We continue working on the "SpeciesBrowser" web app.
 
 #### Background
 
-In this exercise, you will create a Filter that intercepts requests for the species editing form.
+In this exercise, you will finish the app by creating a Filter that intercepts requests for the species editing form.
 
 #### The exercise
 
@@ -269,4 +269,4 @@ In this exercise, you will create a Filter that intercepts requests for the spec
 
 2. Remove the redundant code from the servlet.
 
-6. **_Tag_** the final version of the repo as 1.0.0. with name "Release Candidate" and commit this to your remote.
+3. **_Tag_** the final version of the repo as 1.0.0. with name "Release Candidate" and commit this to your remote.
