@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Toolbox · GitBook</title>
+        <title>Exercises Web-based Information Systems 1 · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -63,10 +63,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="first_project.html" />
     
-    
-    <link rel="prev" href="refresher.html" />
+    <link rel="prev" href="filters_upload.html" />
     
 
     </head>
@@ -514,7 +512,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="7.2" data-path="toolbox.html">
+        <li class="chapter " data-level="7.2" data-path="toolbox.html">
             
                 <a href="toolbox.html">
             
@@ -651,7 +649,7 @@
         
         
     
-        <li class="chapter " data-level="8.1" data-path="webbased_exercises1.html">
+        <li class="chapter active" data-level="8.1" data-path="webbased_exercises1.html">
             
                 <a href="webbased_exercises1.html">
             
@@ -694,7 +692,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Toolbox</a>
+        <a href=".." >Exercises Web-based Information Systems 1</a>
     </h1>
 </div>
 
@@ -709,45 +707,227 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="the-toolbox">The toolbox</h1>
-<h2 id="intro">Intro</h2>
-<p>These are the tools we are going to use to build our dynamic web applications:
-<strong>Java</strong>: plain old Java to build the logic
-<strong>Java EE</strong>: The enterprise edition - an extension that has web apis, including <strong>Servlets</strong>.
-<strong>Thymeleaf</strong>: A very nice templating technology for Java web pages
-<strong>Tomcat</strong>: a container where the Java web apps live</p>
-<p>Of course, you will also need (knowledge of)</p>
-<p><strong>Javascript</strong>: client-side scripting language to manipulate the view, and in particular <strong>jQuery</strong>: a Javascript library/platform for performing many tasks that are pretty hard to implement using raw Javascript
-<strong>css</strong> (cascading style sheets): to style the view</p>
-<p>but these will not be dealt with in this course. </p>
-<h3 id="java-development-kit">Java development kit</h3>
-<p>Download and install from Oracle.</p>
-<h3 id="the-tomcat-application-server">The Tomcat application server</h3>
-<p>To start working with Java web technology, you have to get a <strong><em>server runtime</em></strong>. We&apos;ll use Tomcat. 
-To install it:</p>
+                                <h1 id="exercises-intro">Exercises intro</h1>
+<p>These exercises accompany the course Web-based Information Systems. After the first exercise, we will work on a single project that we will improve and extend iteratively as new information becomes available.</p>
+<hr>
+<h1 id="implementing-mvc">Implementing MVC</h1>
+<p><strong>Goal:</strong> Create a web application that gives the heart rate zones based on the maximum heart rate.</p>
+<h4 id="background">Background</h4>
+<p>The maximum heart rate can be determined by running (preferably on a treadmill but outside will do) as fast as you can for 3 minutes straight, followed by a three-minute gentle run and again 3 minutes full force. Optionally, add another cycle.
+The maximum reading is the maximum heart rate.</p>
+<p>The heart rate zones can be calculated by this rule set, giving zone boundaries and descriptions as % of maximum heart rate: </p>
 <ul>
-<li>go to <a href="http://tomcat.apache.org/" target="_blank">apache tomcat</a> and download the latest version</li>
-<li>extract it in a suitable location</li>
-<li>make the <code>bin/*.sh</code> file executable</li>
-<li>To test, start up Tomcat using <ul>
-<li><code>./tomcat.../bin/startup.sh</code></li>
+<li>zone 1: 50-60% Low heart rate with hardly any training effect</li>
+<li>zone 2: 60-70% Heart rate with positive effect on breathing and stress reduction</li>
+<li>zone 3: 70-80% Heart rate with optimal training effect with respect to fat burning, general condition and brain functioning</li>
+<li>zone 4: 80-90% Zone for improving (long-distance) running speed</li>
+<li>zone 5: 90-100% Above anaerobic threshold; only during interval training to increase speed (also for shorter distances).</li>
+</ul>
+<h4 id="the-exercise">The exercise</h4>
+<p>All texts in this app should be located in the resource bundle(s), not in the html and neither in the Java classes.</p>
+<p>Create appropriate packages for your Java classes.</p>
+<ol>
+<li><p>Start by creating a new Gradle-managed web project.  </p>
+</li>
+<li><p>Create the servlet dealing with the url <code>/heart-rate-zones</code>. Its <code>doGet()</code> method should forward to a Thymeleaf html page.</p>
+</li>
+<li><p>In this Thymeleaf page, create a form asking the user for her maximum heart rate (and giving usage instructions). It should support both Dutch and English. The form should direct back to the servlet serving url <code>/heart-rate-zones</code>, but this time to the <code>doPost()</code> method. </p>
+</li>
+<li><p>In the <code>doPost()</code> method, the servlet should invoke a model class responsible for calculating the correct heart rate zones.</p>
+</li>
+<li><p>These zones should be displayed in another html Thymeleaf view, again supporting the languages Dutch and English.</p>
+</li>
+</ol>
+<p>Note: yes this could have been done more efficiently using Javascript, but we are working with Java for now.</p>
+<hr>
+<h1 id="thymeleaf">Thymeleaf</h1>
+<p><strong>Goal:</strong> Create a &quot;SpeciesBrowser&quot; web application that publishes information on some species from your favorite animal or plant group.</p>
+<h4 id="background">Background</h4>
+<p>This assignment will encourage you to use as many Thymeleaf expressions as possible, as well as resource bundles.  </p>
+<p>As preparation, you should choose an animal or plant group that you think is interesting. From this group of organisms, 
+choose at least 5 representatives and gather some relevant information, as well as one picture for each species.
+The information should include at least:</p>
+<ul>
+<li>Scientific name</li>
+<li>English name</li>
+<li>Dutch name</li>
+</ul>
+<p>Here is an example of one of my favorite birds, the steppe eagle (copied from Wikipedia):</p>
+<p><strong>Steppe eagle (<em>Aquila nipalensis</em>)</strong><br><strong>Dutch name</strong>: Steppearend</p>
+<p><img src="figures/steppe_eagle.jpg" alt="Steppe eagle">
+(By T. R. Shankar Raman - <span class="int-own-work" lang="en">Own work</span>, <a href="https://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0" target="_blank">CC BY-SA 3.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=60338791" target="_blank">Link</a>)</p>
+<p><strong>Description</strong><br>The steppe eagle (<em>Aquila nipalensis</em>) is a bird of prey. Like all eagles, it belongs to the family <em>Accipitridae</em>. It was once considered to be closely related to the non-migratory tawny eagle (Aquila rapax) and the two forms have previously been treated as conspecific. They were split based on pronounced differences in morphology and anatomy.
+Wing span: 1.65&#x2013;2.15 meters<br><strong>Occurrence</strong><br>It is a migratory bird breeding in eastern Europe, the Middle East and Asia and wintering in Africa and South Asia.<br><strong>Conservation status</strong><br>Threatened (declining populations)</p>
+<p>Note, you are also allowed to gather &quot;famous biologists&quot;.</p>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Start by creating a new Gradle-managed web project. Add git versioning support and create a remote (Bitbucket or Github). </p>
+</li>
+<li><p>Create a simple &quot;csv&quot; file in a data folder that holds, for each species, all non-textual data. Here is my Steppe Eagle example:</p>
+<pre><code> scientific_name;english_name;dutch_name;wing_span_avg;picture_loc
+ Aquila nipalensis;Steppe Eagle;steppearend;1.9;figures/steppe_eagle.jpg
+</code></pre></li>
+<li><p>Collect all other (textual) data in a resource bundle, supporting both English and Dutch.</p>
+</li>
+<li><p>Design and implement Java classes that model your information.</p>
+</li>
+<li><p>Create a class that can parse your csv file into a &quot;CollectionClass&quot;, holding a collection of instances representing your species.</p>
+</li>
+<li><p>Create a servlet serving url <code>/home</code> that redirects to a Thymeleaf page called <code>listing.html</code>. 
+This page should list all available species in a table, providing for each species a link to a species-detail page.
+This page is internationalized of course.</p>
+</li>
+<li><p>Create a servlet serving url <code>/species.detail</code> that directs to a Thymeleaf page showing the detailed information of a selected species (linked via the table created before).
+This page is also internationalized.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.1.0. and commit this to your remote.</p>
+</li>
+<li><p><strong><em>[Challenge]</em></strong> Use Bootstrap to make the two pages look nice as well, or apply your own styling.</p>
+</li>
+</ol>
+<p>You are of course free to extend the information with whatever you think is nice.  </p>
+<hr>
+<h1 id="sessions">Sessions</h1>
+<p><strong>Goal:</strong> Modify a web application to support browsing history.</p>
+<h4 id="background">Background</h4>
+<p>The web app that was developed in the previous exercise is very static and impersonal. We&apos;ll add some functionality to fix that.</p>
+<p>What we&apos;ll do:</p>
+<ul>
+<li>add browsing history support</li>
+<li>put this history in an include that is shown on both pages</li>
+</ul>
+<h4 id="the-exercise">The exercise</h4>
+<p>First open the &quot;SpeciesBrowser&quot; web app project of the previous exercise.</p>
+<ol>
+<li><p>I don&apos;t know where you put your datafile location in your code, but it is time to move this to <code>web.xml</code>.</p>
+</li>
+<li><p>Modify the servlet serving <code>/home</code> so that it will create a session object when first requested by a user.</p>
+</li>
+<li><p>Create an appropriate data structure to hold browsing history and attach this to the user&apos;s session object.</p>
+</li>
+<li><p>Whenever the user views the details page of a species, add this species to the history.</p>
+</li>
+<li><p>Create an include <code>div</code> in a file called <code>template.html</code> that will display a history listing of only the last 5 page views.</p>
+</li>
+<li><p>Show the history listing by including the div as a separate panel in both your Thymeleaf templates. </p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.2.0. and commit this to your remote.</p>
+</li>
+</ol>
+<hr>
+<h1 id="authentication">Authentication</h1>
+<h4 id="background">Background</h4>
+<p>We continue working on the &quot;SpeciesBrowser&quot; web app.</p>
+<p>What we&apos;ll do:</p>
+<ul>
+<li>add login functionality</li>
+<li>provide a web form to edit species data for registered users</li>
+</ul>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Create a <code>User</code> class that will model your web app users.</p>
+</li>
+<li><p>Create a &quot;mock&quot; database containing 3 users.</p>
+</li>
+<li><p>Create a login page that directs to a servlet with url mapping <code>/login</code>.</p>
+</li>
+<li><p>Create the login servlet. Verify the user credentials. If correct, redirect to <code>/home</code> (the species listing). Else, redirect back to <code>login.html</code>, giving the user a warning that the provided credentials were incorrect.</p>
+</li>
+<li><p>In the species detail page, add a button -only when there is an authorized user- that will open a page in which the species information can be edited.</p>
+</li>
+<li><p>Create the editing form.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.3.0. and commit this to your remote.</p>
+</li>
+<li><p><strong><em>[Challenge 1]</em></strong> Process the edited data coming from the above form and add support for writing species data to file.</p>
+</li>
+<li><p><strong><em>[Challenge 2]</em></strong> Add registration functionality.</p>
+</li>
+</ol>
+<hr>
+<h1 id="servlet-details-and-hooks">Servlet details and hooks</h1>
+<p>We continue working on the &quot;SpeciesBrowser&quot; web app.</p>
+<p><strong>Goal:</strong> Further refactoring to improve performance and maintainability.</p>
+<h4 id="background">Background</h4>
+<p>We&apos;ll work at optimizing the app. So far, you probably have loaded the entire data file at each request. This is of course highly inefficient. Let&apos;s move this to a <code>@WebListener</code> method.</p>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Modify your &quot;CollectionClass&quot; so that it will serve your species collection in a static manner. This means the method should be class level. </p>
+</li>
+<li><p>Implement the <code>ServletContextListener</code> interface and add the <code>@WebListener</code> annotation. In the <code>contextInitialized()</code> method, have the &quot;CollectionClass&quot; load the species data collection.</p>
+</li>
+<li><p>Refactor the rest of the app to only use this static method.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.4.0. and commit this to your remote.</p>
+</li>
+</ol>
+<hr>
+<h1 id="database-interaction">Database interaction</h1>
+<p>We continue working on the &quot;SpeciesBrowser&quot; web app.</p>
+<p><strong>Goal:</strong> Add a replaceable MySQL data layer.</p>
+<h4 id="background">Background</h4>
+<p>We&apos;ll work at extending the app. The species information located in the csv file will be migrated to a MySQL data layer and abstracted away behind an interface.</p>
+<p>As a prerequisite, it is assumed you have a MySQL database server and -account.</p>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Add support for MySQL/JDBC in your project.</p>
+</li>
+<li><p>Design the database table(s) and create them.</p>
+</li>
+<li><p>Design an interface declaring the public contract for your species information datasource, whatever the nature of that datasource.</p>
+</li>
+<li><p>Have your original &quot;CollectionClass&quot; implement this interface.</p>
+</li>
+<li><p>Make a MySQL implementer of the same interface. Implement it using the Singleton Pattern.<br>(<strong><em>[Challenge]</em></strong> make it thread-safe)</p>
+</li>
+<li><p>Create a factory class that serves the correct implementer based on a setting in the <code>web.xml</code> file.</p>
+</li>
+<li><p>Refactor your code base to only &quot;talk to&quot; the interface served by the factory class.</p>
+</li>
+<li><p><strong><em>[Challenge]</em></strong> Also migrate the user data (and species detail information) to this database.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.5.0. and commit this to your remote.</p>
+</li>
+</ol>
+<hr>
+<h1 id="ajax">Ajax</h1>
+<p>We continue working on the &quot;SpeciesBrowser&quot; web app.</p>
+<p><strong>Goal:</strong> Add an Ajax data service.</p>
+<h4 id="background">Background</h4>
+<p>In this exercise, you will create a &quot;microservice&quot; that will serve species details to be used as a remote API in other apps.</p>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Add support for Googles&apos; Gson library to your Gradle file.</p>
+</li>
+<li><p>Create a servlet that maps to <code>/species_info</code>. The servlet should only support <code>GET</code> requests. As request parameters, accept <code>species=&lt;name_or_substring&gt;</code> and <code>info=&lt;short|long&gt;</code>, where <code>short</code> will only return the species names and &quot;short&quot; data fields that are present in the database of those species where (one of) the name(s) match the given string.<br><strong><em>[Challenge]</em></strong> The <code>long</code> option will return the species description. You should figure out how to read this from the resource bundle.</p>
+</li>
+<li><p>Design an appropriate response if  </p>
+<ul>
+<li>the data layer is unresponsive, </li>
+<li>there were unsupported parameters provided or  </li>
+<li>there is no species that matches. </li>
 </ul>
 </li>
-<li>direct your browser to <code>http://localhost:8080/</code> and you should see the Tomcat management page.</li>
-</ul>
-<h3 id="intellij-ultimate">IntelliJ Ultimate</h3>
-<p>This course uses IntelliJ, but for your own endeavors you are of course free to use another IDE.</p>
-<h3 id="a-mysql-server">A MySQL server</h3>
-<p>A MySQL server and account. Installing and administering this is not in the scope of this course. Also, MySQL as query language is assumed to be known. </p>
-<h3 id="debugging-web-sites">Debugging web sites</h3>
-<p>All modern browsers have extensive debugging support.
-Do not use the JavaScript function <code>alert(&quot;my debug message&quot;)</code> but intead use <code>console.log(&quot;my debug message&quot;)</code>!
-Use the context menu option &#x201C;Inspect element&#x201D; in the browser:</p>
-<p><img src="figures/browser_inspector.png" alt="browser_inspector.png"></p>
-<p>Use the inspector to investigate, change and track DOM structure, bugs, network traffic, styling information, print info from JavaScript, change JavaScript variables.</p>
-<h3 id="codepen">Codepen</h3>
-<p>Use Codepen for testing snippets:</p>
-<p><img src="figures/codepen.png" alt="codepen.png"></p>
+<li><p>Test it out using <code>curl</code> and your web browser.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 0.6.0. and commit this to your remote.</p>
+</li>
+</ol>
+<hr>
+<h1 id="filters">Filters</h1>
+<p>We continue working on the &quot;SpeciesBrowser&quot; web app.</p>
+<p><strong>Goal:</strong> Add extra security using filters.</p>
+<h4 id="background">Background</h4>
+<p>In this exercise, you will finish the app by creating a Filter that intercepts requests for the species editing form.</p>
+<h4 id="the-exercise">The exercise</h4>
+<ol>
+<li><p>Create a <code>@WebFilter</code> implementing the <code>Filter</code> interface so that requests for the species editing form are intercepted and only pass for logged-in users. When the request does not come from a logged-in user, redirect back to <code>/login</code>. </p>
+</li>
+<li><p>Remove the redundant code from the servlet.</p>
+</li>
+<li><p><strong><em>Tag</em></strong> the final version of the repo as 1.0.0. with name &quot;Release Candidate&quot; and commit this to your remote.</p>
+</li>
+</ol>
 
                                 
                                 </section>
@@ -775,14 +955,10 @@ Use the context menu option &#x201C;Inspect element&#x201D; in the browser:</p>
 
             
                 
-                <a href="refresher.html" class="navigation navigation-prev " aria-label="Previous page: Refresher">
+                <a href="filters_upload.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Web filters and file uploads">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="first_project.html" class="navigation navigation-next " aria-label="Next page: A first project">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -791,7 +967,7 @@ Use the context menu option &#x201C;Inspect element&#x201D; in the browser:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Toolbox","level":"7.2","depth":1,"next":{"title":"A first project","level":"7.3","depth":1,"path":"05_web/first_project.md","ref":"05_web/first_project.md","articles":[]},"previous":{"title":"Refresher","level":"7.1","depth":1,"path":"05_web/refresher.md","ref":"05_web/refresher.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/toolbox.md","mtime":"2019-06-12T09:13:02.629Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-20T14:40:14.313Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Exercises Web-based Information Systems 1","level":"8.1","depth":1,"previous":{"title":"Web filters and file uploads","level":"7.11","depth":1,"path":"05_web/filters_upload.md","ref":"05_web/filters_upload.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/webbased_exercises1.md","mtime":"2019-06-20T14:38:08.893Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-20T14:40:14.313Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
