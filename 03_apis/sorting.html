@@ -711,9 +711,14 @@
                                 
                                 <h1 id="sorting">Sorting</h1>
 <p>Sorting is one of the fundamental operations on data. You want the best student, the closest cafe, all players with a top 10% ranking...this all involves sorting.</p>
-<p>Sorting in &quot;classic&quot; Java (not using the Streams API) is done using the the <code>Collections.sort()</code> methods. These methods require either (a) that the objects you want to sort implement the <code>Comparable</code> interface or (b) that you provide a sorter object implementing the <code>Comparator</code> interface.</p>
-<h2 id="natural-sorting-implement-the-comparable-interface">&quot;Natural&quot; sorting: implement the <code>Comparable</code> interface</h2>
-<p>This is the first <code>sort()</code> method. Its signature is rather complex, but fortunately using it is not.</p>
+<p>Sorting in &quot;classic&quot; Java (not using the Streams API) is done using the the <code>Collections.sort()</code> methods and, since Java 8, some methods in class List. These methods require either (a) that the objects you want to sort implement the <code>Comparable</code> interface or (b) that you provide a sorter object implementing the <code>Comparator</code> interface.</p>
+<h2 id="natural-sorting-with-the-comparable-interface">&quot;Natural&quot; sorting with the <code>Comparable</code> interface</h2>
+<p>This is the first and main sorting strategy. Whenever the type in your collection implements the Comparable interface, it is said to have &quot;natural ordering&quot;. This interface is described in detail later. Java classes such as String, Integer, and Double all implement the Comparable interface. In IntelliJ you can see this when you select a String variable declaration and press F1 (or ^Q):</p>
+<p><img src="figures/String_Javadoc.png" alt="figures/String_Javadoc.png"></p>
+<p>You can see <code>Comparable&lt;String&gt;</code> in the <code>implements</code> declaration.  </p>
+<p>For Strings, natural order means alphabetic order and for numbers numeric order (from low to high). Using natural ordering can be achieved in two places (since Java 8): In the Collections class and in the List interface.</p>
+<p>We&apos;ll start with the &quot;classic&quot; method of <code>Collections</code>.</p>
+<p>Its signature is rather complex, but fortunately using it is not.</p>
 <pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
 public static <span style="color:darkorange;">&lt;T extends Comparable&lt;? super T&gt;&gt;</span> void sort(<span style="color:darkgreen;">List&lt;T&gt; list</span>)
 </pre>
@@ -737,7 +742,48 @@ public static <span style="color:darkorange;">&lt;T extends Comparable&lt;? supe
 <li>zero if <code>this</code> equals <code>that</code></li>
 <li>a positive value if <code>this</code> &gt; <code>other</code></li>
 </ul>
-<p>Let&apos;s create a first implementation and demonstrate its use.</p>
+<p>Since String and other Java classes already implement this interface, you can sort them without any further work:</p>
+<pre><code class="lang-java">List&lt;String&gt; names = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+names.addAll(List.of(<span class="hljs-string">&quot;Jordan&quot;</span>, <span class="hljs-string">&quot;Wanda&quot;</span>, <span class="hljs-string">&quot;James&quot;</span>, <span class="hljs-string">&quot;rose&quot;</span>, <span class="hljs-string">&quot;Aaron&quot;</span>));
+System.out.println(<span class="hljs-string">&quot;names before sort: &quot;</span> + names);
+Collections.sort(names);
+System.out.println(<span class="hljs-string">&quot;names after natural sort: &quot;</span> + names);
+</code></pre>
+<p>This will output</p>
+<pre class="console_out">
+names before sort: [Jordan, Wanda, James, rose, Aaron]
+names after natural sort: [Aaron, James, Jordan, Wanda, rose]
+</pre>
+
+<p>As you can see, capitals come before lower case letters.</p>
+<p>The exact same thing could have been achieved using the <code>sort()</code> method of class <code>List</code>, added in Java 8:</p>
+<pre><code class="lang-java">names.sort(Comparator.naturalOrder());
+System.out.println(<span class="hljs-string">&quot;names after sort on List &quot;</span> + names);
+</code></pre>
+<p>The signature of this sort method is:</p>
+<pre><code class="lang-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(@Nullable java.util.Comparator&lt;? <span class="hljs-keyword">super</span> E&gt; c)</span>
+</span></code></pre>
+<p>It takes a <code>Comparator</code> instance; this interface is described in the next section. Some common default Comparators have already been implemented, for natural (<code>Comparator.naturalOrder()</code>) and reverse (<code>Comparator.reverseOrder()</code>) order for use with classes that implement Comparable. Note that the <code>@Nullable</code> in the above signature means that if <code>null</code> is passed, it defaults to <code>Comparator.naturalOrder()</code> An overloaded method would have been better design in my opinion, because this <code>names.sort(null);</code> is really ugly.</p>
+<p>Here is the reverse ordering:</p>
+<pre><code class="lang-java">names.sort(Comparator.reverseOrder());
+System.out.println(<span class="hljs-string">&quot;names after reverse sort &quot;</span> + names);
+</code></pre>
+<p>outputs</p>
+<pre class="console_out">
+names after reverse sort [rose, Wanda, Jordan, James, Aaron]
+</pre>
+
+<p>Another interesting Comparator is the CASE_INSENSITIVE_ORDER comparator defined in the String class:</p>
+<pre><code class="lang-java">names.sort(String.CASE_INSENSITIVE_ORDER);
+System.out.println(<span class="hljs-string">&quot;names case insensitive sort &quot;</span> + names);
+</code></pre>
+<p>outputs</p>
+<pre class="console_out">
+names case insensitive sort [Aaron, James, Jordan, rose, Wanda]
+</pre>
+
+<h3 id="custom-comparable-implementations">Custom comparable implementations</h3>
+<p>Let&apos;s create our own implementation of the Comparable interface in a custom class and demonstrate its use.</p>
 <p>Here is a simple Bird class. </p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.apis;
 
@@ -854,13 +900,17 @@ After:
     <span class="hljs-keyword">return</span> Double.compare(<span class="hljs-keyword">this</span>.wingSpan, other.wingSpan);
 }
 </code></pre>
-<h2 id="sorting-objects-using-a-custom-comparator">Sorting objects using a custom <code>Comparator</code></h2>
-<p>What if you want to sort in other ways as well, or if you do not want to settle on a natural sort order? Then there is the second form of the <code>Collections.sort()</code> method:</p>
+<h2 id="sorting-using-a-custom-comparator">Sorting using a custom <code>Comparator</code></h2>
+<p>What if you want to sort in other ways as well, or if you do not want to settle on a natural sort order? Then there is the second form of the <code>Collections.sort()</code> method, also supported by the <code>List.sort()</code> method since Java 8:</p>
 <pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
 public static <span style="color:darkred;">&lt;T&gt;</span> void sort(<span style="color:darkgreen;">List&lt;T&gt; list</span>, <span style="color:darkorange;">Comparator&lt;? super T&gt; c</span>)
 </pre>
 
-<p>The big difference is that you provide a <code>Comparator</code> object, instead of having the <code>sort()</code> method compare your objects directly.</p>
+<p>or </p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+public void sort(<span style="font-style: italic;">@Nullable</span> <span style="color:darkorange;">Comparator&lt;? super E&gt; comparator</span>)
+</pre>
+
 <p>The <code>Comparator</code> interface has a single abstract method:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> java.util
 
@@ -868,7 +918,7 @@ public static <span style="color:darkred;">&lt;T&gt;</span> void sort(<span styl
     <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(T one, T two)</span></span>;
 }
 </code></pre>
-<p>There are many ways to implement interfaces. Let&apos;s start with the most straightforward one.</p>
+<p>Let&apos;s start with the most straightforward implementation.</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> snippets.apis;
 <span class="hljs-keyword">import</span> java.util.Comparator;
 
@@ -881,6 +931,8 @@ public static <span style="color:darkred;">&lt;T&gt;</span> void sort(<span styl
 </code></pre>
 <p>This one sorts on name, and again delegates to the type of the instance variable - class String. This is its usage.</p>
 <pre><code class="lang-java">Collections.sort(birds, <span class="hljs-keyword">new</span> BirdNameComparator());
+<span class="hljs-comment">//or, the Java8+ way</span>
+birds.sort(<span class="hljs-keyword">new</span> BirdNameComparator())
 </code></pre>
 <p>Implementations of the Comparator interface are often created on-the-fly. For instance, look at this <strong><em>anonymous inner class</em></strong>.</p>
 <pre><code class="lang-java">Collections.sort(birds, <span class="hljs-keyword">new</span> Comparator&lt;Bird&gt;(){
@@ -896,6 +948,7 @@ Collections.sort(birds, (birdOne, birdTwo) -&gt; Integer.compare(birdOne.maximum
 <span class="hljs-comment">//Java8+ alternative: best</span>
 Collections.sort(birds, Comparator.comparingInt(bird -&gt; bird.maximumAge));
 </code></pre>
+<p>Lambdas are out of scope for this course, unfortunately.</p>
 <h2 id="multilevel-sorting">Multilevel sorting</h2>
 <p>The final part of this post does not deal with the API but with the logic to implement it. You have seen how to code simple comparison logic. But what if you want to sort on multiple properties? Suppose, in the case of the birds example, we wanted to sort on wingspan first and then on name.
 No matter how many properties, the pattern is always the same: check the primary property, return this if they are not equal. If they are equal, check on the secondary property:</p>
@@ -953,7 +1006,7 @@ No matter how many properties, the pattern is always the same: check the primary
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Sorting","level":"4.4","depth":1,"next":{"title":"Exceptions","level":"4.5","depth":1,"path":"03_apis/exceptions.md","ref":"03_apis/exceptions.md","articles":[]},"previous":{"title":"Methods of class Object","level":"4.3","depth":1,"path":"03_apis/class_object_methods.md","ref":"03_apis/class_object_methods.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"03_apis/sorting.md","mtime":"2019-05-07T11:42:12.291Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-06-20T14:40:14.313Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Sorting","level":"4.4","depth":1,"next":{"title":"Exceptions","level":"4.5","depth":1,"path":"03_apis/exceptions.md","ref":"03_apis/exceptions.md","articles":[]},"previous":{"title":"Methods of class Object","level":"4.3","depth":1,"path":"03_apis/class_object_methods.md","ref":"03_apis/class_object_methods.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"03_apis/sorting.md","mtime":"2019-09-18T10:57:44.547Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-18T11:15:14.842Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
