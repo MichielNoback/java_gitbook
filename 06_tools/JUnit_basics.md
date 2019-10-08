@@ -377,31 +377,107 @@ Please refer to the docs for more detail: [https://junit.org/junit5/docs/current
 
 ### Testing for Exceptions
 
-
-
-
-
-## JUnit 5 annotations
-
-You probably have seen annotations in your Java code by now, for example `@Override`
- or `@SuppressWarnings("unused")`. 
-Annotations are a form of syntactic metadata that can be added to Java source code (classes, methods, variables). The attach "properties" to classes, methods or variables.
-
-Unit has a whole suite of annotations that you can use to publish a test case to the test runtime, or to modify when it is run, or its scope, for instance.
-
-Here are a few. for a complete listing, please refer to the official docs.
-
-### @Test
-
-This is the most important one. It marks a method as a JUnit test method, so that it can be discovered by the test runtime. Nothing else is required. 
+The method `assertThrows(Class<? extends Throwable> expectedType, Executable executable)`
+in JUnit5 is used to assert that the supplied **_executable_** will throw an exception of the expected type. 
+It relies on lambdas, which of course were not discussed yet. However, looking at the example below you can probably figure out how to do it for your method to be tested.
 
 ```java
 @Test
-public void testImportant() {
-    String first = "Michiel";
-    String second = "Michiel";
-    //What do you think - will this pass?
-    assertSame(first, second);
+void shouldThrowException() {
+    Throwable exception = assertThrows(
+        IllegalArgumentException.class, /*expects an IllegalArgumentException.class instance*/
+        () -> TextUtils.getLongestWord(null)); /*will call getLongestWord as tested method*/
+    /*this uses a regular assertTrue test to check for the exception message*/
+    assertEquals(exception.getMessage(), "text cannot be null");
 }
 ```
 
+If you don't like (or understand) lambdas you can also use the strategy below with basic Java to achieve the same test functionality.
+
+```java
+@Test
+public void shouldThrowExceptionOldSchool() {
+    try {
+        TextUtils.getLongestWord(null);
+        fail("Expected an IllegalArgumentException");
+    } catch (IllegalArgumentException e) {
+        assertEquals("text cannot be null", e.getMessage());
+    }
+}
+```
+
+### Grouping assertions using `assertAll()
+
+When multiple assertions are concern a single object, it may be a good idea to treat them as a single assertion. That is where `assertAll()` comes in. This method takes a varargs "list" of Executables.
+
+Here is a self-contained example (borrowed and adapted from the official docs).
+
+```java
+@DisplayName("Testing the name elements of Person")
+@Test
+void groupedAssertions() {
+    class Person {
+        String firstName;
+        String LastName;
+        public Person(String firstName, String lastName) {
+            this.firstName = firstName;
+            LastName = lastName;
+        }
+        public String getFirstName() {
+            return firstName;
+        }
+        public String getLastName() {
+            return LastName;
+        }
+    }
+
+    Person person = new Person("Jane", "Goodall");
+    // In a grouped assertion all assertions are executed, and all
+    // failures will be reported together.
+    assertAll("person",
+            () -> assertEquals("Jane", person.getFirstName()),
+            () -> assertEquals("Doe", person.getLastName())
+    );
+}
+```
+
+This results in 
+
+![grouped_assertions_output.png](figures/grouped_assertions_output.png)
+
+You can even nest them within code blocks:
+
+```java
+    @Test
+    void dependentAssertions() {
+        Person person = new Person("Jane", "Goodall");
+
+        // Within a code block, if an assertion fails the
+        // subsequent code in the same block will be skipped.
+        assertAll("properties",
+                () -> {
+                    String firstName = person.getFirstName();
+                    assertNotNull(firstName);
+
+                    // Executed only if the previous assertion is valid.
+                    assertAll("first name",
+                            () -> assertTrue(firstName.startsWith("J")),
+                            () -> assertTrue(firstName.endsWith("e"))
+                    );
+                },
+                () -> {
+                    // Grouped assertion, so processed independently
+                    // of results of first name assertions.
+                    String lastName = person.getLastName();
+                    assertNotNull(lastName);
+
+                    // Executed only if the previous assertion is valid.
+                    assertAll("last name",
+                            () -> assertTrue(lastName.startsWith("G")),
+                            () -> assertTrue(lastName.endsWith("l"))
+                    );
+                }
+        );
+    }
+
+```
