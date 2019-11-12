@@ -44,7 +44,7 @@ In IntelliJ, type `ctrl + O` if you want to override a super class method.
 
 ![override_methods.png](figures/override_methods.png)
 
-If you choose toString(), you'll get something like this:
+If you choose toString(), you will get something like this:
 
 ```java
 @Override

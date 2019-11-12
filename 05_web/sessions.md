@@ -9,9 +9,11 @@ The topics are:
 - sessions
 - overview of the different scopes and when to use which
 
+<img style="float: left; margin: 10px;" src="../figures/warning_64.png">
+
 **DISCLAIMER  
-Everything in this presentation related to authentication is purely for the purpose of showing principles.
-For real-world applications you will need to do much work on security**
+_Everything in this presentation related to authentication is purely for the purpose of showing principles.
+For real-world applications you will need to do much work on security_**
 
 ## Application scope: web.xml
 
@@ -41,7 +43,7 @@ You’ll get something like this
 </web-app>
 ```
 
-### add an application-scoped variable to web.xml
+### Add an application-scoped variable
 
 In `web.xml`, put the following snippet:
 
@@ -52,7 +54,7 @@ In `web.xml`, put the following snippet:
     </context-param>
 ```
 
-### using the application-scoped variable
+### Using the application-scoped variable
 
 In your servlets, use the web app variable like this:
 
@@ -121,7 +123,7 @@ Here is the first element, a login form. Take notice of the form field names eg 
     <label for="password_field"> User password: </label>
     <input id="password_field" type="password" name="password" required/><br/>
     <label class="login_field"> </label>
-    <input type="submit" value="OK"/>
+    <input type="submit" value="OK"/>
 </form>
 
 <h5>If you have any problems, please contact <span th:text="${#servletContext.getInitParameter('admin_email')}"></span></h5>
@@ -131,7 +133,9 @@ Here is the first element, a login form. Take notice of the form field names eg 
 
 and it looks like this in the browser:
 
-![login_form1.png](figures/login_form1.png)
+![login_form1.png](figures/login_form1s.png)
+
+<img style="float: left; margin: 10px;" src="../figures/warning_64.png">
 
 **Actually, when you see a `http://` protocol instead of an `https://` protocol, you do NOT have safety on you connection, even though you cannot see the password in the form!**
 But that issue is not within scope of this course.

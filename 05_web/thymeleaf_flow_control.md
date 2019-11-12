@@ -1,14 +1,14 @@
-# Thymeleaf: flow control and fragments
+# Thymeleaf flow control and fragments
 
 ## Introduction
 
-This post is the second of a series on Thymeleaf. It deals with some of the essential templating techniques that Thymeleaf offers:
+This post is the second on Thymeleaf. It deals with these templating techniques that Thymeleaf offers:
 
 - conditionals 
 - loops
 - using fragments as building blocks
 
-For a complete overview you should refer to [the official docs](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html).
+For a complete overview you should refer to [the official docs](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html "Thymeleaf documentation").
 
 These examples all make use of the `Movie` class:
 
@@ -103,6 +103,9 @@ The list of movies is attached to the WebContxt object using
 ```java
 ctx.setVariable("movies", Movie.getAllMovies());
 ```
+
+so for all examples the `$movies` variable is available.
+
 
 ### Iteration
 
@@ -199,7 +202,7 @@ Of course, sorting is something you usually leave to your Javascript front-end (
 //java 8+ type Comparator
 ctx.setVariable("movies_year_sorter", (Comparator<Movie>) (o1, o2) -> Integer.compare(o1.getYear(), o2.getYear()));
 
-//pre java 8 Comparator
+//or, a pre-java 8 Comparator
 ctx.setVariable("movies_year_sorter", new Comparator<Movie>() {
     @Override
     public int compare(Movie m1, Movie m2) {
@@ -216,12 +219,12 @@ then in Thymeleaf, use the Comparator object:
 
 Thymeleaf also provides a mechanism that stores the state of the iteration process. It has several useful properties:
 
-`index`: the current iteration index, starting with 0 (zero)
-`count`: the number of elements processed so far
-`size`: the total number of elements in the list
-`even/odd`: boolean - true if the current iteration index is even or odd
-`first`: boolean - true if the current iteration is the first one
-`last`: boolean - true if the current iteration is the last one
+- `index`: the current iteration index, starting with 0 (zero)  
+- `count`: the number of elements processed so far  
+- `size`: the total number of elements in the list  
+- `even/odd`: boolean - true if the current iteration index is even or odd  
+- `first`: boolean - true if the current iteration is the first one  
+- `last`: boolean - true if the current iteration is the last one  
 
 The next piece of code demonstrates the use of this iteration statistics object, as well as another technique: the if/else ternary operator for Thymeleaf. This example shows you can even nest these.
 
@@ -236,7 +239,8 @@ The next piece of code demonstrates the use of this iteration statistics object,
     </tr>
     </thead>
     <tbody>
-    <tr th:each="movie, it_stat:${movies}" th:class="${it_stat.first} ? 'first' : (${it_stat.even} ? 'even' : 'odd')">
+    <tr th:each="movie, it_stat:${movies}" 
+        th:class="${it_stat.first} ? 'first' : (${it_stat.even} ? 'even' : 'odd')">
         <td th:text="${it_stat.count} + ' / ' + ${it_stat.size}"></td>
         <td th:text="${movie.title}">_title_</td>
         <td th:text="${movie.year}">_year_</td>
@@ -260,7 +264,7 @@ when this css is applied:
 }
 ```
 
-resulting in this
+this is the result:
 
 <table>
     <thead>
@@ -323,7 +327,10 @@ resulting in this
     </tbody>
 </table>
 
-There is a lot going on in this statement: `<tr th:each="movie, it_stat:${movies}" th:class="${it_stat.first} ? 'first' : (${it_stat.even} ? 'even' : 'odd')">`. Let's dissect.  
+There is a lot going on in this statement:  
+`<tr th:each="movie, it_stat:${movies}"`  
+`th:class="${it_stat.first} ? 'first' : (${it_stat.even} ? 'even' : 'odd')">`.
+Let's dissect.  
 
 First there is the iteration initialization where an `it_stat` object is requested as well: `th:each="movie, it_stat:${movies}"`. In the second part, a nested ternary statement sets the `class` attribute of the current row. The first level determines the first row: `th:class="${it_stat.first} ? 'first' : (<nested ternary>)"`. The nested ternary determines the class of all rows except the first: `${it_stat.even} ? 'even' : 'odd'`.
 
@@ -333,7 +340,9 @@ Besides the ternary operator structure shown in the previous section, regular "i
 
 ```html
 <ul>
-    <li th:each="movie:${movies}" th:text="${movie.title} + ' (' + ${movie.year} + ') - ' + ${movie.rating}" th:if="${movie.rating >= 9}">_movie_</li>
+    <li th:each="movie:${movies}" 
+        th:text="${movie.title} + ' (' + ${movie.year} + ') - ' + ${movie.rating}" 
+        th:if="${movie.rating >= 9}">_movie_</li>
 </ul>
 ```
 
@@ -355,10 +364,14 @@ Here you see a combination of iteration and switch/case to build an ordered list
 ```html
 <ol>
     <li th:each="user:${users}" th:switch="${user.role.toString()}">
-        <span th:case="${'ADMIN'}" th:text="${user.name} + ' (' + ${user.role} + ') manages all accounts'">_admin_</span>
-        <span th:case="${'USER'}" th:text="${user.name} + ' (' + ${user.role} + ') can browse and share all site content'">_user_</span>
-        <span th:case="${'GUEST'}" th:text="${user.name} + ' (' + ${user.role} + ') can only see our front page'">_guest_</span>
-        <span th:case="*" th:text="${user.name} + '(' + ${user.role} + ') we do not know this role'">_unknown_</span>
+        <span th:case="${'ADMIN'}" 
+            th:text="${user.name} + ' (' + ${user.role} + ') manages all accounts'">_admin_</span>
+        <span th:case="${'USER'}" 
+            th:text="${user.name} + ' (' + ${user.role} + ') can browse and share all site content'">_user_</span>
+        <span th:case="${'GUEST'}" 
+            th:text="${user.name} + ' (' + ${user.role} + ') can only see our front page'">_guest_</span>
+        <span th:case="*" 
+            th:text="${user.name} + '(' + ${user.role} + ') we do not know this role'">_unknown_</span>
     </li>
 </ol>
 ```

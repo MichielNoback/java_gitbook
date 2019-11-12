@@ -1,4 +1,4 @@
-# Thymeleaf: expression types & implicit objects
+# Thymeleaf expressions &amp; implicit objects
 
 ## Introduction
 
@@ -234,10 +234,10 @@ Similarly, this expression `${#numbers.formatInteger(my_number, 10, 'POINT')}` w
 #### The session object
 
 The session object is simply available as `session`.
-The expression `${session.user.email}` will display the 'email' property of the User object registered as attribute on the 'session' object: `session.setAttribute("logged_in_user", new User("Henk", "henk@example.com", Role.USER));` will give
+The expression `${session.user.email}` will display the 'email' property of the User object registered as attribute on the 'session' object: `session.setAttribute("user", new User("Henk", "henk@example.com", Role.USER));` will give
 "henk@example.com" 
 
-the details of sessions are the topic of a separate post.
+The details of sessions are the topic of a separate post, however.
 
 ### Locally scoped variables with `*{}`
 

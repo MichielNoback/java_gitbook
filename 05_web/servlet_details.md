@@ -196,7 +196,7 @@ public class WebConfig implements ServletContextListener {
 When a first request is received for a servlet after application startup, the servlet container (Tomcat) will call 
 the `init()` methods, if present. Method `init()` is guaranteed to be called before the first call to `service()`.
 
-![servlet_lifecycle.png](figures/servlet_lifecycle.png)
+![servlet_lifecycle.png](figures/servlet_lifecycle_s.png)
 
 - `init(ServletConfig config)` is called by the servlet container to indicate to a servlet that the servlet is being placed into service.
 - `init()` is a convenience method which can be overridden so that there's no need to call super.init(config).

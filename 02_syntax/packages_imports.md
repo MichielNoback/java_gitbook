@@ -50,7 +50,7 @@ public class Sequence{
 ```
 Class Sequence is declared to be included in package `nl.bioinf.nomi.sequences`. Package declarations are placed on the first line of the source file, outside the class body. The actual folder/file structure inside your source folder will be like this:
 
-![package_structure.png](figures/package_structure.png)
+![package_structure.png](figures/package_structure_s.png)
 
 If you don't use import statements, you will have to refer to classes using their fully qualified name, like this:
 

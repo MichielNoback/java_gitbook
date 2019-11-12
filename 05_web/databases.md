@@ -649,11 +649,15 @@ and the thymeleaf view:
 </html>
 ```
 
-**db-type=mysql**
+Below you see the results with the two different values for the same `web.xml` context-param entry. The code does not know which implementation is running.
+
+**db-type=mysql**  
+Here, the MySQL database is queried:
 
 ![mysql-Henk](figures/datasource_mysql.png)
 
-**db-type=dummy**
+**db-type=dummy**  
+And this queries the internal dummy database:
 
 ![mysql-Henk](figures/datasource_dummy.png)
 

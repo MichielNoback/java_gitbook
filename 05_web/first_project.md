@@ -1,4 +1,4 @@
-# Create an internationalized Java web project with servlets and Thymeleaf
+# An internationalized Java web project with Thymeleaf
 
 ## Introduction  
 
@@ -24,14 +24,14 @@ In this post, I'll show you how to get started with a basic project that support
 
 ## The steps
 
-### Configure IntelliJ with Tomcat as server
+### Configure Tomcat as webserver
 
 After installation (extraction) of Tomcat, you’ll have to let IntelliJ know where it is. 
 You do this via Preferences &rarr; Build, Execution, Deployment &rarr; Application Servers &rarr; click '+' (Add)
 
 ![Configure-Tomcat.png](figures/Configure-Tomcat.png "Configure with Tomcat")
 
-### Create a basic Gradle-managed web project
+### Create a Gradle-managed web project
 
 Creating a Gradle-managed web project in IntelliJ:
 
@@ -81,7 +81,7 @@ dependencies {
 }
 ```
 
-### Create a WEB-INF folder with contents  
+### The WEB-INF folder  
 
 Under web-app, create a folder called `WEB-INF` and within that one a folder called `templates`. Within `templates`, create the html file called `welcome.html`.
 
@@ -224,7 +224,7 @@ public class WelcomeServlet extends HttpServlet {
 ```
 Of course, tha package declarations will be different, as well as the first `import` statement.
 The alert reader may notice that this will create a `TemplateEngine` for each single servlet. This is probably not the very best strategy, but for simplicity, we'll stick to it for now. 
-Have a look at the ![repo](https://bitbucket.org/minoba/java_web_thymeleaf_demo) for a final solution with the template resolver.
+Have a look at the [Demo repo](https://bitbucket.org/minoba/java_web_thymeleaf_demo "Demonstration repository") for a final solution with the template resolver.
 
 ### Finally: run it
 
