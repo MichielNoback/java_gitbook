@@ -137,19 +137,20 @@ and it looks like this in the browser:
 
 <img style="float: left; margin: 10px;" src="../figures/warning_64.png">
 
-**Actually, when you see a `http://` protocol instead of an `https://` protocol, you do NOT have safety on you connection, even though you cannot see the password in the form!**
-But that issue is not within scope of this course.
+**Actually, when you see a `http://` protocol instead of an `https://` protocol in the location bar of your browser, you do NOT have safety on you connection, even though you cannot see the password in the form!**
+
+But that issue is not within the scope of this course.
 
 #### Login servlet
 
-This is the servlet dealing with the login form.
+This is the servlet dealing with the login form. 
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.servlets;
 
 //many imports
 
-@WebServlet(name = "LoginServlet", urlPatterns = "/login")
+@WebServlet(urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private TemplateEngine templateEngine;
 
@@ -208,8 +209,10 @@ public class LoginServlet extends HttpServlet {
 }
 ```
 
-The `doPost()` method creates a session object. Next, it checks the session status and proceeds: if new (or empty), check user credentials. Else, go directly to the main page - why check credentials if the user already is logged in?
-The `authenticate()` method is a dummy of course. We'll visit that part in the post of authentication on database interaction because -obviously- user data are stored in a database and are never hard-coded. If successful, the user is forwarded to the sites' main page:
+Above the class declaration you see the `@WebServlet(urlPatterns = "/login")` annotation which tells the application server to route all requests to the URL `/login` to this servlet class.
+
+The `doPost()` method -which has several code smells (do you know which)- creates a session object. Next, it checks the session status and proceeds. If it is new (or empty): check user credentials. Else: go directly to the main page - why check credentials if the user already is logged in?
+The `authenticate()` method is a dummy of course. We'll visit that part of authentication in the post on database interaction because -obviously- user data are stored in a database and are never hard-coded. If authentication is successful, the user is forwarded to the sites' main page:
 
 ```html
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
@@ -228,6 +231,12 @@ The `authenticate()` method is a dummy of course. We'll visit that part in the p
 ```
 
 The `[[${session.user.name}]]!` expression is an inline text expression - it does not need to be embedded in a html tag.
+
+Alternatively, we could have used this:
+
+```html
+    <h3>Welcome to our main page, <span th:text="${session.user.name}">__offline__</span>! Feel free to browse our content</h3>
+```
 
 #### Test
 
