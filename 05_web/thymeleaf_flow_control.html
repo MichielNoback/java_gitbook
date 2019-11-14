@@ -644,19 +644,45 @@
             
         </li>
     
-
-    
-        
-        <li class="header">Exercises Web-based Java</li>
-        
-        
-    
-        <li class="chapter " data-level="8.1" data-path="webbased_exercises1.html">
+        <li class="chapter " data-level="7.12" data-path="webbased_exercises1.html">
             
                 <a href="webbased_exercises1.html">
             
                     
                     Exercises Web-based Information Systems 1
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 6: Developer tools</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../06_tools/JUnit_basics.html">
+            
+                <a href="../06_tools/JUnit_basics.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../06_tools/JUnit_advanced.html">
+            
+                <a href="../06_tools/JUnit_advanced.html">
+            
+                    
+                    JUnit 5 Advanced
             
                 </a>
             
@@ -709,15 +735,15 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="thymeleaf-flow-control-and-fragments">Thymeleaf: flow control and fragments</h1>
+                                <h1 id="thymeleaf-flow-control-and-fragments">Thymeleaf flow control and fragments</h1>
 <h2 id="introduction">Introduction</h2>
-<p>This post is the second of a series on Thymeleaf. It deals with some of the essential templating techniques that Thymeleaf offers:</p>
+<p>This post is the second on Thymeleaf. It deals with these templating techniques that Thymeleaf offers:</p>
 <ul>
 <li>conditionals </li>
 <li>loops</li>
 <li>using fragments as building blocks</li>
 </ul>
-<p>For a complete overview you should refer to <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html" target="_blank">the official docs</a>.</p>
+<p>For a complete overview you should refer to <a href="https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html" title="Thymeleaf documentation" target="_blank">the official docs</a>.</p>
 <p>These examples all make use of the <code>Movie</code> class:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Movie</span> </span>{
     <span class="hljs-keyword">private</span> String title;
@@ -806,6 +832,7 @@
 <p>The list of movies is attached to the WebContxt object using</p>
 <pre><code class="lang-java">ctx.setVariable(<span class="hljs-string">&quot;movies&quot;</span>, Movie.getAllMovies());
 </code></pre>
+<p>so for all examples the <code>$movies</code> variable is available.</p>
 <h3 id="iteration">Iteration</h3>
 <p>Iteration with Thymeleaf is as simple as in Java code; simply use <code>th:each</code>.
 This is an example with the movies list: </p>
@@ -890,7 +917,7 @@ This is an example with the movies list: </p>
 <pre><code class="lang-java"><span class="hljs-comment">//java 8+ type Comparator</span>
 ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>, (Comparator&lt;Movie&gt;) (o1, o2) -&gt; Integer.compare(o1.getYear(), o2.getYear()));
 
-<span class="hljs-comment">//pre java 8 Comparator</span>
+<span class="hljs-comment">//or, a pre-java 8 Comparator</span>
 ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>, <span class="hljs-keyword">new</span> Comparator&lt;Movie&gt;() {
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Movie m1, Movie m2)</span> </span>{
@@ -902,12 +929,14 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">tr</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie:${#lists.sort(movies, movies_year_sorter)}&quot;</span>&gt;</span>
 </code></pre>
 <p>Thymeleaf also provides a mechanism that stores the state of the iteration process. It has several useful properties:</p>
-<p><code>index</code>: the current iteration index, starting with 0 (zero)
-<code>count</code>: the number of elements processed so far
-<code>size</code>: the total number of elements in the list
-<code>even/odd</code>: boolean - true if the current iteration index is even or odd
-<code>first</code>: boolean - true if the current iteration is the first one
-<code>last</code>: boolean - true if the current iteration is the last one</p>
+<ul>
+<li><code>index</code>: the current iteration index, starting with 0 (zero)  </li>
+<li><code>count</code>: the number of elements processed so far  </li>
+<li><code>size</code>: the total number of elements in the list  </li>
+<li><code>even/odd</code>: boolean - true if the current iteration index is even or odd  </li>
+<li><code>first</code>: boolean - true if the current iteration is the first one  </li>
+<li><code>last</code>: boolean - true if the current iteration is the last one  </li>
+</ul>
 <p>The next piece of code demonstrates the use of this iteration statistics object, as well as another technique: the if/else ternary operator for Thymeleaf. This example shows you can even nest these.</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">thead</span>&gt;</span>
@@ -919,7 +948,8 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
     <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">thead</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tbody</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie, it_stat:${movies}&quot;</span> <span class="hljs-attr">th:class</span>=<span class="hljs-string">&quot;${it_stat.first} ? &apos;first&apos; : (${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;)&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie, it_stat:${movies}&quot;</span> 
+        <span class="hljs-attr">th:class</span>=<span class="hljs-string">&quot;${it_stat.first} ? &apos;first&apos; : (${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;)&quot;</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${it_stat.count} + &apos; / &apos; + ${it_stat.size}&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.title}&quot;</span>&gt;</span>_title_<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">td</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.year}&quot;</span>&gt;</span>_year_<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span>
@@ -939,7 +969,7 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
     <span class="hljs-attribute">background-color</span>: coral <span class="hljs-meta">!important</span>;
 }
 </code></pre>
-<p>resulting in this</p>
+<p>this is the result:</p>
 <table>
     <thead>
     <tr>
@@ -1001,12 +1031,15 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
     </tbody>
 </table>
 
-<p>There is a lot going on in this statement: <code>&lt;tr th:each=&quot;movie, it_stat:${movies}&quot; th:class=&quot;${it_stat.first} ? &apos;first&apos; : (${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;)&quot;&gt;</code>. Let&apos;s dissect.  </p>
+<p>There is a lot going on in this statement:<br><code>&lt;tr th:each=&quot;movie, it_stat:${movies}&quot;</code><br><code>th:class=&quot;${it_stat.first} ? &apos;first&apos; : (${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;)&quot;&gt;</code>.
+Let&apos;s dissect.  </p>
 <p>First there is the iteration initialization where an <code>it_stat</code> object is requested as well: <code>th:each=&quot;movie, it_stat:${movies}&quot;</code>. In the second part, a nested ternary statement sets the <code>class</code> attribute of the current row. The first level determines the first row: <code>th:class=&quot;${it_stat.first} ? &apos;first&apos; : (&lt;nested ternary&gt;)&quot;</code>. The nested ternary determines the class of all rows except the first: <code>${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;</code>.</p>
 <h3 id="conditionals-if">Conditionals: if</h3>
 <p>Besides the ternary operator structure shown in the previous section, regular &quot;if&quot; tests can be applied. Here is a test for the rating of the movie; only movies with a rating higher than 9 are displayed:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie:${movies}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.title} + &apos; (&apos; + ${movie.year} + &apos;) - &apos; + ${movie.rating}&quot;</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;${movie.rating &gt;= 9}&quot;</span>&gt;</span>_movie_<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie:${movies}&quot;</span> 
+        <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.title} + &apos; (&apos; + ${movie.year} + &apos;) - &apos; + ${movie.rating}&quot;</span> 
+        <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;${movie.rating &gt;= 9}&quot;</span>&gt;</span>_movie_<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
 </code></pre>
 <p>The specified expression evaluates to a boolean following these rules:</p>
@@ -1022,10 +1055,14 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
 <p>Here you see a combination of iteration and switch/case to build an ordered list. </p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;user:${users}&quot;</span> <span class="hljs-attr">th:switch</span>=<span class="hljs-string">&quot;${user.role.toString()}&quot;</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;ADMIN&apos;}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) manages all accounts&apos;&quot;</span>&gt;</span>_admin_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;USER&apos;}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) can browse and share all site content&apos;&quot;</span>&gt;</span>_user_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;GUEST&apos;}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) can only see our front page&apos;&quot;</span>&gt;</span>_guest_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;*&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos;(&apos; + ${user.role} + &apos;) we do not know this role&apos;&quot;</span>&gt;</span>_unknown_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;ADMIN&apos;}&quot;</span> 
+            <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) manages all accounts&apos;&quot;</span>&gt;</span>_admin_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;USER&apos;}&quot;</span> 
+            <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) can browse and share all site content&apos;&quot;</span>&gt;</span>_user_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;${&apos;GUEST&apos;}&quot;</span> 
+            <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos; (&apos; + ${user.role} + &apos;) can only see our front page&apos;&quot;</span>&gt;</span>_guest_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:case</span>=<span class="hljs-string">&quot;*&quot;</span> 
+            <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${user.name} + &apos;(&apos; + ${user.role} + &apos;) we do not know this role&apos;&quot;</span>&gt;</span>_unknown_<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
 </code></pre>
@@ -1178,7 +1215,7 @@ Consider this html file called <code>template.html</code>:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"next":{"title":"Sessions & Scopes","level":"7.7","depth":1,"path":"05_web/sessions.md","ref":"05_web/sessions.md","articles":[]},"previous":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"path":"05_web/thymeleaf_expressions.md","ref":"05_web/thymeleaf_expressions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_flow_control.md","mtime":"2019-06-20T14:41:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-18T11:15:14.842Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"next":{"title":"Sessions & Scopes","level":"7.7","depth":1,"path":"05_web/sessions.md","ref":"05_web/sessions.md","articles":[]},"previous":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"path":"05_web/thymeleaf_expressions.md","ref":"05_web/thymeleaf_expressions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_flow_control.md","mtime":"2019-11-12T15:37:29.401Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-14T15:30:03.587Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

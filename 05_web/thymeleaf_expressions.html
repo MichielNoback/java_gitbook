@@ -644,19 +644,45 @@
             
         </li>
     
-
-    
-        
-        <li class="header">Exercises Web-based Java</li>
-        
-        
-    
-        <li class="chapter " data-level="8.1" data-path="webbased_exercises1.html">
+        <li class="chapter " data-level="7.12" data-path="webbased_exercises1.html">
             
                 <a href="webbased_exercises1.html">
             
                     
                     Exercises Web-based Information Systems 1
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 6: Developer tools</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../06_tools/JUnit_basics.html">
+            
+                <a href="../06_tools/JUnit_basics.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../06_tools/JUnit_advanced.html">
+            
+                <a href="../06_tools/JUnit_advanced.html">
+            
+                    
+                    JUnit 5 Advanced
             
                 </a>
             
@@ -709,7 +735,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="thymeleaf-expression-types--implicit-objects">Thymeleaf: expression types &amp; implicit objects</h1>
+                                <h1 id="thymeleaf-expressions--implicit-objects">Thymeleaf expressions &amp; implicit objects</h1>
 <h2 id="introduction">Introduction</h2>
 <p>This post is one of a series on Thymeleaf. It deals with some of the essential templating techniques that Thymeleaf offers:</p>
 <ul>
@@ -902,9 +928,9 @@ Given &apos;my_date&apos; set on the web context model: <code>ctx.setVariable(&q
 <p>Similarly, this expression <code>${#numbers.formatInteger(my_number, 10, &apos;POINT&apos;)}</code> will produce &quot;0.000.031.416&quot;.</p>
 <h4 id="the-session-object">The session object</h4>
 <p>The session object is simply available as <code>session</code>.
-The expression <code>${session.user.email}</code> will display the &apos;email&apos; property of the User object registered as attribute on the &apos;session&apos; object: <code>session.setAttribute(&quot;logged_in_user&quot;, new User(&quot;Henk&quot;, &quot;henk@example.com&quot;, Role.USER));</code> will give
+The expression <code>${session.user.email}</code> will display the &apos;email&apos; property of the User object registered as attribute on the &apos;session&apos; object: <code>session.setAttribute(&quot;user&quot;, new User(&quot;Henk&quot;, &quot;henk@example.com&quot;, Role.USER));</code> will give
 &quot;henk@example.com&quot; </p>
-<p>the details of sessions are the topic of a separate post.</p>
+<p>The details of sessions are the topic of a separate post, however.</p>
 <h3 id="locally-scoped-variables-with-">Locally scoped variables with <code>*{}</code></h3>
 <p>You can access the properties of a locally scoped object through the <code>*{}</code> syntax. This obviates the need for retyping the variable name over and over again.  </p>
 <p>Given the User object of the session example, you can list its properties as follows:</p>
@@ -1055,7 +1081,7 @@ ctx.setVariable(<span class="hljs-string">&quot;bird_groups&quot;</span>, List.o
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"next":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"path":"05_web/thymeleaf_flow_control.md","ref":"05_web/thymeleaf_flow_control.md","articles":[]},"previous":{"title":"Implementing MVC","level":"7.4","depth":1,"path":"05_web/mvc.md","ref":"05_web/mvc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_expressions.md","mtime":"2019-06-20T14:41:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-18T11:15:14.842Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"next":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"path":"05_web/thymeleaf_flow_control.md","ref":"05_web/thymeleaf_flow_control.md","articles":[]},"previous":{"title":"Implementing MVC","level":"7.4","depth":1,"path":"05_web/mvc.md","ref":"05_web/mvc.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_expressions.md","mtime":"2019-11-12T15:37:29.401Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-14T15:30:03.587Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

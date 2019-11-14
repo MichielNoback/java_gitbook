@@ -644,19 +644,45 @@
             
         </li>
     
-
-    
-        
-        <li class="header">Exercises Web-based Java</li>
-        
-        
-    
-        <li class="chapter " data-level="8.1" data-path="webbased_exercises1.html">
+        <li class="chapter " data-level="7.12" data-path="webbased_exercises1.html">
             
                 <a href="webbased_exercises1.html">
             
                     
                     Exercises Web-based Information Systems 1
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 6: Developer tools</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../06_tools/JUnit_basics.html">
+            
+                <a href="../06_tools/JUnit_basics.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../06_tools/JUnit_advanced.html">
+            
+                <a href="../06_tools/JUnit_advanced.html">
+            
+                    
+                    JUnit 5 Advanced
             
                 </a>
             
@@ -719,8 +745,9 @@
 <li>sessions</li>
 <li>overview of the different scopes and when to use which</li>
 </ul>
-<p><strong>DISCLAIMER<br>Everything in this presentation related to authentication is purely for the purpose of showing principles.
-For real-world applications you will need to do much work on security</strong></p>
+<p><img style="float: left; margin: 10px;" src="../figures/warning_64.png"></p>
+<p><strong>DISCLAIMER<br><em>Everything in this presentation related to authentication is purely for the purpose of showing principles.
+For real-world applications you will need to do much work on security</em></strong></p>
 <h2 id="application-scope-webxml">Application scope: web.xml</h2>
 <p>You use application-scoped variables for everything that 
 relates to the entire application: admin email, database type and url, servlet configuration, etc.
@@ -743,14 +770,14 @@ relates to the entire application: admin email, database type and url, servlet c
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span>
 </code></pre>
-<h3 id="add-an-application-scoped-variable-to-webxml">add an application-scoped variable to web.xml</h3>
+<h3 id="add-an-application-scoped-variable">Add an application-scoped variable</h3>
 <p>In <code>web.xml</code>, put the following snippet:</p>
 <pre><code class="lang-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>admin_email<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>admin@example.com<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span>
 </code></pre>
-<h3 id="using-the-application-scoped-variable">using the application-scoped variable</h3>
+<h3 id="using-the-application-scoped-variable">Using the application-scoped variable</h3>
 <p>In your servlets, use the web app variable like this:</p>
 <pre><code class="lang-java">getServletContext().getInitParameter(<span class="hljs-string">&quot;admin_email&quot;</span>)
 </code></pre>
@@ -798,7 +825,7 @@ You will probably never create a cookie directly. You simply use this statement:
     <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;password_field&quot;</span>&gt;</span> User password: <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;password_field&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;password&quot;</span> <span class="hljs-attr">required</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">label</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;login_field&quot;</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;OK&quot;</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;submit&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;OK&quot;</span>/&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">h5</span>&gt;</span>If you have any problems, please contact <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${#servletContext.getInitParameter(&apos;admin_email&apos;)}&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span>
@@ -806,16 +833,17 @@ You will probably never create a cookie directly. You simply use this statement:
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <p>and it looks like this in the browser:</p>
-<p><img src="figures/login_form1.png" alt="login_form1.png"></p>
-<p><strong>Actually, when you see a <code>http://</code> protocol instead of an <code>https://</code> protocol, you do NOT have safety on you connection, even though you cannot see the password in the form!</strong>
-But that issue is not within scope of this course.</p>
+<p><img src="figures/login_form1s.png" alt="login_form1.png"></p>
+<p><img style="float: left; margin: 10px;" src="../figures/warning_64.png"></p>
+<p><strong>Actually, when you see a <code>http://</code> protocol instead of an <code>https://</code> protocol in the location bar of your browser, you do NOT have safety on you connection, even though you cannot see the password in the form!</strong></p>
+<p>But that issue is not within the scope of this course.</p>
 <h4 id="login-servlet">Login servlet</h4>
-<p>This is the servlet dealing with the login form.</p>
+<p>This is the servlet dealing with the login form. </p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.servlets;
 
 <span class="hljs-comment">//many imports</span>
 
-<span class="hljs-meta">@WebServlet</span>(name = <span class="hljs-string">&quot;LoginServlet&quot;</span>, urlPatterns = <span class="hljs-string">&quot;/login&quot;</span>)
+<span class="hljs-meta">@WebServlet</span>(urlPatterns = <span class="hljs-string">&quot;/login&quot;</span>)
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>{
     <span class="hljs-keyword">private</span> TemplateEngine templateEngine;
 
@@ -873,8 +901,9 @@ But that issue is not within scope of this course.</p>
     }
 }
 </code></pre>
-<p>The <code>doPost()</code> method creates a session object. Next, it checks the session status and proceeds: if new (or empty), check user credentials. Else, go directly to the main page - why check credentials if the user already is logged in?
-The <code>authenticate()</code> method is a dummy of course. We&apos;ll visit that part in the post of authentication on database interaction because -obviously- user data are stored in a database and are never hard-coded. If successful, the user is forwarded to the sites&apos; main page:</p>
+<p>Above the class declaration you see the <code>@WebServlet(urlPatterns = &quot;/login&quot;)</code> annotation which tells the application server to route all requests to the URL <code>/login</code> to this servlet class.</p>
+<p>The <code>doPost()</code> method -which has several code smells (do you know which)- creates a session object. Next, it checks the session status and proceeds. If it is new (or empty): check user credentials. Else: go directly to the main page - why check credentials if the user already is logged in?
+The <code>authenticate()</code> method is a dummy of course. We&apos;ll visit that part of authentication in the post on database interaction because -obviously- user data are stored in a database and are never hard-coded. If authentication is successful, the user is forwarded to the sites&apos; main page:</p>
 <pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.w3.org/1999/xhtml&quot;</span>
@@ -890,6 +919,9 @@ The <code>authenticate()</code> method is a dummy of course. We&apos;ll visit th
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <p>The <code>[[${session.user.name}]]!</code> expression is an inline text expression - it does not need to be embedded in a html tag.</p>
+<p>Alternatively, we could have used this:</p>
+<pre><code class="lang-html">    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>Welcome to our main page, <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${session.user.name}&quot;</span>&gt;</span>__offline__<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>! Feel free to browse our content<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+</code></pre>
 <h4 id="test">Test</h4>
 <p>Start the server and run</p>
 <ul>
@@ -957,7 +989,7 @@ The <code>WebContext</code> object is of course used much more in Thymeleaf, and
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Sessions & Scopes","level":"7.7","depth":1,"next":{"title":"Servlet details & Lifecycle hooks","level":"7.8","depth":1,"path":"05_web/servlet_details.md","ref":"05_web/servlet_details.md","articles":[]},"previous":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"path":"05_web/thymeleaf_flow_control.md","ref":"05_web/thymeleaf_flow_control.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/sessions.md","mtime":"2019-06-20T14:41:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-18T11:15:14.842Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Sessions & Scopes","level":"7.7","depth":1,"next":{"title":"Servlet details & Lifecycle hooks","level":"7.8","depth":1,"path":"05_web/servlet_details.md","ref":"05_web/servlet_details.md","articles":[]},"previous":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"path":"05_web/thymeleaf_flow_control.md","ref":"05_web/thymeleaf_flow_control.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/sessions.md","mtime":"2019-11-14T08:51:27.643Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-14T15:30:03.587Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

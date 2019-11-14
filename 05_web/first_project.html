@@ -644,19 +644,45 @@
             
         </li>
     
-
-    
-        
-        <li class="header">Exercises Web-based Java</li>
-        
-        
-    
-        <li class="chapter " data-level="8.1" data-path="webbased_exercises1.html">
+        <li class="chapter " data-level="7.12" data-path="webbased_exercises1.html">
             
                 <a href="webbased_exercises1.html">
             
                     
                     Exercises Web-based Information Systems 1
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 6: Developer tools</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../06_tools/JUnit_basics.html">
+            
+                <a href="../06_tools/JUnit_basics.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../06_tools/JUnit_advanced.html">
+            
+                <a href="../06_tools/JUnit_advanced.html">
+            
+                    
+                    JUnit 5 Advanced
             
                 </a>
             
@@ -709,7 +735,7 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="create-an-internationalized-java-web-project-with-servlets-and-thymeleaf">Create an internationalized Java web project with servlets and Thymeleaf</h1>
+                                <h1 id="an-internationalized-java-web-project-with-thymeleaf">An internationalized Java web project with Thymeleaf</h1>
 <h2 id="introduction">Introduction</h2>
 <p>The topic of this presentation is getting started with a Java web application using a Thymeleaf View that serves an internationalized welcome message.</p>
 <p>Since JSP and not Thymeleaf is the default for basic Java web applications, this involves quite a few steps:</p>
@@ -730,11 +756,11 @@ scripts in the bin folder executable!</li>
 <li><strong>IntelliJ Idea</strong>. This blog uses the 2018.3 Ultimate version. Please refer to Jetbrains for educational licences.</li>
 </ul>
 <h2 id="the-steps">The steps</h2>
-<h3 id="configure-intellij-with-tomcat-as-server">Configure IntelliJ with Tomcat as server</h3>
+<h3 id="configure-tomcat-as-webserver">Configure Tomcat as webserver</h3>
 <p>After installation (extraction) of Tomcat, you&#x2019;ll have to let IntelliJ know where it is. 
 You do this via Preferences &#x2192; Build, Execution, Deployment &#x2192; Application Servers &#x2192; click &apos;+&apos; (Add)</p>
 <p><img src="figures/Configure-Tomcat.png" alt="Configure-Tomcat.png" title="Configure with Tomcat"></p>
-<h3 id="create-a-basic-gradle-managed-web-project">Create a basic Gradle-managed web project</h3>
+<h3 id="create-a-gradle-managed-web-project">Create a Gradle-managed web project</h3>
 <p>Creating a Gradle-managed web project in IntelliJ:</p>
 <ul>
 <li>Choose File &#x2192; New &#x2192; Project</li>
@@ -772,7 +798,7 @@ version <span class="hljs-string">&apos;0.0.1&apos;</span>
     testRuntimeOnly <span class="hljs-string">&apos;org.junit.jupiter:junit-jupiter-engine:5.1.0&apos;</span>  
 }
 </code></pre>
-<h3 id="create-a-web-inf-folder-with-contents">Create a WEB-INF folder with contents</h3>
+<h3 id="the-web-inf-folder">The WEB-INF folder</h3>
 <p>Under web-app, create a folder called <code>WEB-INF</code> and within that one a folder called <code>templates</code>. &#x97;Within <code>templates</code>, create the html file called <code>welcome.html</code>.</p>
 <p><img src="figures/create-WEB-INF.png" alt="Create WEB-INF" title="Create WEB-INF"></p>
 <p>Your file <code>welcome.html</code> should have this contents:</p>
@@ -887,7 +913,7 @@ version <span class="hljs-string">&apos;0.0.1&apos;</span>
 </code></pre>
 <p>Of course, tha package declarations will be different, as well as the first <code>import</code> statement.
 The alert reader may notice that this will create a <code>TemplateEngine</code> for each single servlet. This is probably not the very best strategy, but for simplicity, we&apos;ll stick to it for now. 
-Have a look at the <img src="https://bitbucket.org/minoba/java_web_thymeleaf_demo" alt="repo"> for a final solution with the template resolver.</p>
+Have a look at the <a href="https://bitbucket.org/minoba/java_web_thymeleaf_demo" title="Demonstration repository" target="_blank">Demo repo</a> for a final solution with the template resolver.</p>
 <h3 id="finally-run-it">Finally: run it</h3>
 <p>Create a new run configuration (it&apos;s in the top bar) and point it to <code>http://localhost:8080/welcome</code>.</p>
 <p><img src="figures/Run-the-Application-1.png" alt="Run-the-Application-1.png" title="Run-the-Application-1.png"></p>
@@ -939,7 +965,7 @@ Have a look at the <img src="https://bitbucket.org/minoba/java_web_thymeleaf_dem
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"A first project","level":"7.3","depth":1,"next":{"title":"Implementing MVC","level":"7.4","depth":1,"path":"05_web/mvc.md","ref":"05_web/mvc.md","articles":[]},"previous":{"title":"Toolbox","level":"7.2","depth":1,"path":"05_web/toolbox.md","ref":"05_web/toolbox.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/first_project.md","mtime":"2019-06-20T14:41:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-18T11:15:14.842Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"A first project","level":"7.3","depth":1,"next":{"title":"Implementing MVC","level":"7.4","depth":1,"path":"05_web/mvc.md","ref":"05_web/mvc.md","articles":[]},"previous":{"title":"Toolbox","level":"7.2","depth":1,"path":"05_web/toolbox.md","ref":"05_web/toolbox.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/first_project.md","mtime":"2019-11-12T15:37:29.399Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-14T15:30:03.587Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
