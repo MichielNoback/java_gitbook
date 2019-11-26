@@ -334,7 +334,7 @@ Let's dissect.
 
 First there is the iteration initialization where an `it_stat` object is requested as well: `th:each="movie, it_stat:${movies}"`. In the second part, a nested ternary statement sets the `class` attribute of the current row. The first level determines the first row: `th:class="${it_stat.first} ? 'first' : (<nested ternary>)"`. The nested ternary determines the class of all rows except the first: `${it_stat.even} ? 'even' : 'odd'`.
 
-### Conditionals: if
+### Conditionals: if (and th:block)
 
 Besides the ternary operator structure shown in the previous section, regular "if" tests can be applied. Here is a test for the rating of the movie; only movies with a rating higher than 9 are displayed:
 
@@ -355,7 +355,19 @@ The specified expression evaluates to a boolean following these rules:
 - a character and is non-zero
 - a String and is not “false”, “off” or “no”
 - not a boolean, a number, a character or a String
-    
+
+The Thymeleaf `th:if` attribute has an inverse attribute, `th:unless`.
+This makes an if/else-like structure possible. Here, you see it in combination with `th:block` which is a handy Thymeleaf element which does not generate a html DOM element. Using th:block prevents excessive use of nested div and span elements.
+
+```html
+<ul>
+    <th:block th:each="movie : ${movies}">
+        <li th:if="${movie.rating >= 9}" th:text="${movie.title} + ' - ' + ${movie.rating} + ' - WOW!'" ></li>
+        <li th:unless="${movie.rating >= 9}" th:text="${movie.title} + ' - ' + ${movie.rating} + ' - JUST OK'" ></li>
+    </th:block>
+</ul>
+```
+
 
 ### Conditionals: switch
 

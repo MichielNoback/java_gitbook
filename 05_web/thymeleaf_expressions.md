@@ -336,3 +336,4 @@ Sometimes, it is not desirable to have your variables expressed within tag attri
 </script>
 ```
 
+Although this is a typical use case, you can also use `[[${expr}]]` whenever you want some value inserted in a textual context, without using `<span th:text="${...}">`.
