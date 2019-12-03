@@ -657,6 +657,19 @@
             
         </li>
     
+        <li class="chapter " data-level="7.13" data-path="html_cheatsheet.html">
+            
+                <a href="html_cheatsheet.html">
+            
+                    
+                    html cheat sheet
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
         
@@ -1034,7 +1047,7 @@ ctx.setVariable(<span class="hljs-string">&quot;movies_year_sorter&quot;</span>,
 <p>There is a lot going on in this statement:<br><code>&lt;tr th:each=&quot;movie, it_stat:${movies}&quot;</code><br><code>th:class=&quot;${it_stat.first} ? &apos;first&apos; : (${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;)&quot;&gt;</code>.
 Let&apos;s dissect.  </p>
 <p>First there is the iteration initialization where an <code>it_stat</code> object is requested as well: <code>th:each=&quot;movie, it_stat:${movies}&quot;</code>. In the second part, a nested ternary statement sets the <code>class</code> attribute of the current row. The first level determines the first row: <code>th:class=&quot;${it_stat.first} ? &apos;first&apos; : (&lt;nested ternary&gt;)&quot;</code>. The nested ternary determines the class of all rows except the first: <code>${it_stat.even} ? &apos;even&apos; : &apos;odd&apos;</code>.</p>
-<h3 id="conditionals-if">Conditionals: if</h3>
+<h3 id="conditionals-if-and-thblock">Conditionals: if (and th:block)</h3>
 <p>Besides the ternary operator structure shown in the previous section, regular &quot;if&quot; tests can be applied. Here is a test for the rating of the movie; only movies with a rating higher than 9 are displayed:</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie:${movies}&quot;</span> 
@@ -1051,6 +1064,15 @@ Let&apos;s dissect.  </p>
 <li>a String and is not &#x201C;false&#x201D;, &#x201C;off&#x201D; or &#x201C;no&#x201D;</li>
 <li>not a boolean, a number, a character or a String</li>
 </ul>
+<p>The Thymeleaf <code>th:if</code> attribute has an inverse attribute, <code>th:unless</code>.
+This makes an if/else-like structure possible. Here, you see it in combination with <code>th:block</code> which is a handy Thymeleaf element which does not generate a html DOM element. Using th:block prevents excessive use of nested div and span elements.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">th:block</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">&quot;movie : ${movies}&quot;</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:if</span>=<span class="hljs-string">&quot;${movie.rating &gt;= 9}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.title} + &apos; - &apos; + ${movie.rating} + &apos; - WOW!&apos;&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:unless</span>=<span class="hljs-string">&quot;${movie.rating &gt;= 9}&quot;</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">&quot;${movie.title} + &apos; - &apos; + ${movie.rating} + &apos; - JUST OK&apos;&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">th:block</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+</code></pre>
 <h3 id="conditionals-switch">Conditionals: switch</h3>
 <p>Here you see a combination of iteration and switch/case to build an ordered list. </p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span>
@@ -1215,7 +1237,7 @@ Consider this html file called <code>template.html</code>:</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"next":{"title":"Sessions & Scopes","level":"7.7","depth":1,"path":"05_web/sessions.md","ref":"05_web/sessions.md","articles":[]},"previous":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"path":"05_web/thymeleaf_expressions.md","ref":"05_web/thymeleaf_expressions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_flow_control.md","mtime":"2019-11-12T15:37:29.401Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-11-14T15:30:03.587Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Thymeleaf flow control & fragments","level":"7.6","depth":1,"next":{"title":"Sessions & Scopes","level":"7.7","depth":1,"path":"05_web/sessions.md","ref":"05_web/sessions.md","articles":[]},"previous":{"title":"Thymeleaf expression types & objects","level":"7.5","depth":1,"path":"05_web/thymeleaf_expressions.md","ref":"05_web/thymeleaf_expressions.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/thymeleaf_flow_control.md","mtime":"2019-11-26T12:13:09.795Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-03T10:18:24.894Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
