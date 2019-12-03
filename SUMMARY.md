@@ -58,6 +58,8 @@
 * [Ajax communication](05_web/ajax.md)
 * [Web filters and file uploads](05_web/filters_upload.md)
 * [Exercises Web-based Information Systems 1](05_web/webbased_exercises1.md)
+* [html cheat sheet](05_web/html_cheatsheet.md)
+
 
 ## Part 6: Developer tools
 * [JUnit 5 Basics](06_tools/JUnit_basics.md)
