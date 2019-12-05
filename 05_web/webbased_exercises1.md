@@ -78,24 +78,28 @@ Note, you are also allowed to gather "famous biologists".
 
 1. Start by creating a new Gradle-managed web project. Add git versioning support and create a remote (Bitbucket or Github). 
 
-2. Create a simple "csv" file in a data folder that holds, for each species, all non-textual data. Here is my Steppe Eagle example:
+2. Create a simple "csv" file in a data folder that holds, for each species, all non-internationalized textual data. Here is my Steppe Eagle example:
 
     ```
     scientific_name;english_name;dutch_name;wing_span_avg;picture_loc
     Aquila nipalensis;Steppe Eagle;steppearend;1.9;figures/steppe_eagle.jpg
     ```
 
-3. Collect all other (textual) data in a resource bundle, supporting both English and Dutch.
+3. Collect all other (textual) data in a resource bundle, supporting both English and Dutch. This concerns primarily text labels and page content, but also species descriptions.
 
-4. Design and implement Java classes that model your information.
+4. Design and implement Java classes that model your information. In this case, class `Raptor` or `Bird` would be nice. Also, think about the way your objects are going to be managed. Should they be retrievable by name or something? Create a "CollectionClass" that supports this usage.
 
 5. Create a class that can parse your csv file into a "CollectionClass", holding a collection of instances representing your species.
 
-6. Create a servlet serving url `/home` that redirects to a Thymeleaf page called `listing.html`. 
-This page should list all available species in a table, providing for each species a link to a species-detail page.
-This page is internationalized of course.
+6. Create a servlet serving url `/home` that redirects to a Thymeleaf page called `species-listing.html`. 
+This page should list all available species in a table, providing for each species a hyperlink to a species-detail page (look at the html cheat sheet how to do this). The link should point to url `/species.detail`. This is a Thymeleaf example:
 
-7. Create a servlet serving url `/species.detail` that directs to a Thymeleaf page showing the detailed information of a selected species (linked via the table created before).
+    ```html
+    <a th:href="@{'/species.detail?species=' + ${species.name}}" th:text="${species.name}"></a>
+    ```
+    This page should be internationalized for Dutch and English of course.
+
+7. Create a servlet serving url `/species.detail` that directs to a Thymeleaf page showing the detailed information of a selected species (linked via the table created before), as well as a nice picture of course.
 This page is also internationalized.
 
 8. **_Tag_** the final version of the repo as 0.1.0. and commit this to your remote.
@@ -121,17 +125,17 @@ What we'll do:
 
 First open the "SpeciesBrowser" web app project of the previous exercise.
 
-0. I don't know where you put your datafile location in your code, but it is time to move this to `web.xml`.
+0. I don't know where you put your data file location in your code, but it is time to move this to `web.xml`.
 
 1. Modify the servlet serving `/home` so that it will create a session object when first requested by a user.
 
-2. Create an appropriate data structure to hold browsing history and attach this to the user's session object.
+2. Create an appropriate data structure (read: class) to hold browsing history of only the last 5 page views, and attach this to the user's session object.
 
 3. Whenever the user views the details page of a species, add this species to the history.
 
-4. Create an include `div` in a file called `template.html` that will display a history listing of only the last 5 page views.
+4. Create an included `div` fragment in a file called `template.html` that will display the history listing.
 
-5. Show the history listing by including the div as a separate panel in both your Thymeleaf templates. 
+5. Show the history listing by including the div as a separate panel in both your Thymeleaf templates (the listing and the details page). 
 
 6. **_Tag_** the final version of the repo as 0.2.0. and commit this to your remote.
 
@@ -156,7 +160,7 @@ What we'll do:
 
 4. Create the login servlet. Verify the user credentials. If correct, redirect to `/home` (the species listing). Else, redirect back to `login.html`, giving the user a warning that the provided credentials were incorrect.
 
-5. In the species detail page, add a button -only when there is an authorized user- that will open a page in which the species information can be edited.
+5. In the species detail page, add a button -only when there is an authorized user- that will open a page in which the species information can be edited. Note: editing information that is contained within resource bundles is not possible! Choose other information fields.
 
 6. Create the editing form.
 
