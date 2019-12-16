@@ -763,7 +763,7 @@
 </ul>
 <p>Just remember: <strong><em>the only constant in programming is change</em></strong>.</p>
 <p>&#x21D2; Have a look at the <a href="https://bitbucket.org/minoba/java_web_thymeleaf_demo" target="_blank">repo</a> to see the full code of these examples.</p>
-<h2 id="jdbc">JDBC</h2>
+<h3 id="jdbc">JDBC</h3>
 <p>Having Java applications talk with MySQL databases require that you have the required Driver in your project class path. Let&apos;s start with that. Put this line in te dependencies section of your <code>build.gradle</code> file:</p>
 <pre><code class="lang-gradle"><span class="hljs-comment">// https://mvnrepository.com/artifact/mysql/mysql-connector-java  </span>
 <span class="hljs-keyword">compile</span> <span class="hljs-keyword">group</span>: <span class="hljs-string">&apos;mysql&apos;</span>, name: <span class="hljs-string">&apos;mysql-connector-java&apos;</span>, version: <span class="hljs-string">&apos;5.1.6&apos;</span>
@@ -804,8 +804,8 @@
 </tbody>
 </table>
 <h3 id="the-model-classes">The model classes</h3>
-<p>These are the model classes that play a role in the database interaction.
-Class <code>User</code>:</p>
+<p>These are the model classes that play a role in this chapter on database interaction.
+Class <code>User</code>, a class that models visitors/users of a website:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.model;
 
 <span class="hljs-keyword">import</span> java.util.ArrayList;
@@ -860,7 +860,7 @@ Class <code>User</code>:</p>
     <span class="hljs-comment">//toString(), equals(), hashCode() and getSome() omitted</span>
 }
 </code></pre>
-<p>The enum <code>Role</code>:</p>
+<p>The enum <code>Role</code>, modelling the role that website users can have:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.model;
 
 <span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> Role {
@@ -869,7 +869,7 @@ Class <code>User</code>:</p>
     ADMIN;
 }
 </code></pre>
-<p>and my custom Exception type:</p>
+<p>and my custom Exception type that encapsulates all exceptions that can occur during database interaction:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DatabaseException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Exception</span> </span>{
@@ -903,21 +903,22 @@ Class <code>User</code>:</p>
 </ul>
 <p><img src="figures/add_datasource1.png" alt="add_datasource1.png"></p>
 <ul>
-<li>Fill in the blanks</li>
+<li>Fill in the blanks (note: you may <strong>not</strong> have a localhost MySQL server. Instead, it may run on some specific URL such as <code>mysql.bin</code>)</li>
 </ul>
 <p><img src="figures/add_datasource2.png" alt="add_datasource2.png"></p>
 <ul>
 <li>Click &quot;download missing driver files&quot;</li>
 <li>Click &quot;test connection&quot;</li>
 </ul>
-<p>Note the URL it creates. Check that the data provided corresponds with your situation.</p>
+<p>Note the URL it creates. Check that the data provided corresponds with your situation (Host, Database, User and Password).</p>
 <ul>
-<li>Open the console, </li>
+<li>Open the MySQL console (double-click the data source in the Databases panel), </li>
 <li>Enter a command </li>
 <li>Press <code>Ctrl + enter</code></li>
 </ul>
 <p><img src="figures/add_datasource3.png" alt="add_datasource3.png"></p>
-<h3 id="add-data-to-the-db">Add data to the DB</h3>
+<h4 id="add-data-to-the-db">Add data to the DB</h4>
+<p>First, a simple table is defined and created, and some preliminary dummy data is entered.</p>
 <pre><code class="lang-mysql">DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     user_id INT NOT NULL auto_increment,
@@ -930,136 +931,313 @@ CREATE TABLE Users (
 INSERT INTO Users (user_name, user_password, user_email, user_role)
 VALUES (&apos;Henk&apos;, &apos;Henkie&apos;, &apos;Henk@example.com&apos;, &apos;ADMIN&apos;);
 </code></pre>
-<p>Of course, <strong><em>storing a password unencrypted is a very bad idea</em></strong>. We will address this aspect later.</p>
+<p>Of course, <strong><em>storing a user password unencrypted is a very bad idea</em></strong>. We will address this aspect later.</p>
 <p>Next, have a look at the DB tool window:</p>
 <p><img src="figures/add_datasource4.png" alt="add_datasource4.png"></p>
-<h2 id="code-against-interfaces-not-implementations">Code against interfaces, not implementations</h2>
-<p>What we could do next is create a class responsible for all database interaction (<code>MyMySqlDbConnector</code>), and use this class all over our code base. Something like this:</p>
-<pre><code class="lang-java">MyMySqlDbConnector dbConnector = <span class="hljs-keyword">new</span> MyMySqlDbConnector(url, user, pass);
-</code></pre>
-<p>Next year, after our application has grown, we decide a <strong><em>key-value store</em></strong> is better suited for our growing customer base. We create a new class, <code>MyCouchbaseConnector</code>. Unfortunately, everywhere we used the MySQL connector, we need to change our code to the new implementation.</p>
-<pre><code class="lang-java">MyCouchbaseConnector dbConnector = <span class="hljs-keyword">new</span> MyCouchbaseConnector();
-</code></pre>
-<p>And if we are unlucky, the <code>MyCouchbaseConnector</code> has differing method signatures as well, making the refactoring process a hellish job.</p>
-<p>That is such an unnecessary waste of time if we would have adhered to one of the prime directives of OO programming: <strong>Code against interfaces not implementations</strong> (where interface may mean interface as type, but also abstract class).</p>
-<p>The key to this principle is following this series of steps:</p>
-<ol>
-<li><p>Think deeply about the contract: which methods do you need, disregarding the technology behind the scenes? This will be your interface definition.
-Here is the interface specifying my user database interactions:</p>
-<pre><code class="lang-java"> <span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
+<h2 id="the-naive-implementation">The naive implementation</h2>
+<p>Here follow some classes demonstrating the general usage of database interaction components. 
+You should not implement your logic like this - it is inefficient, not OO, and very ugly. 
+A better solution follows later in this chapter.
+Study this class carefully so you understand how everything works at the syntax level.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
 
- <span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.Role;
- <span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.User;
+<span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.Role;
+<span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.User;
 
- <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyAppDao</span></span>{
+<span class="hljs-keyword">import</span> java.sql.*;
 
-     <span class="hljs-comment">/**
-     * connection logic should be put here
-     * <span class="hljs-doctag">@throws</span> DatabaseException
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">VerySimpleDbConnector</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String url;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String dbUser;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String dbPassword;
+    <span class="hljs-keyword">private</span> Connection connection;
+
+    <span class="hljs-comment">/**
+     * a main for demonstration purposes
+     * <span class="hljs-doctag">@param</span> args
      */</span>
-     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-comment">//connect</span>
+            VerySimpleDbConnector connector = <span class="hljs-keyword">new</span> VerySimpleDbConnector(<span class="hljs-string">&quot;&lt;host&gt;&quot;</span>, <span class="hljs-string">&quot;&lt;db-user&gt;&quot;</span>, <span class="hljs-string">&quot;db-password&quot;</span>);
 
-     <span class="hljs-comment">/**
-     * shutdown logic should be put here
-     * <span class="hljs-doctag">@throws</span> DatabaseException
-     */</span>
-     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">disconnect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
-     <span class="hljs-comment">/**
-     * fetches a user by username and password.
-     * <span class="hljs-doctag">@param</span> userName
-     * <span class="hljs-doctag">@param</span> userPass
-     * <span class="hljs-doctag">@return</span>
-     * <span class="hljs-doctag">@throws</span> DatabaseException
-     */</span>
-     <span class="hljs-function">User <span class="hljs-title">getUser</span><span class="hljs-params">(String userName, String userPass)</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+            <span class="hljs-comment">//insert a user</span>
+            connector.insertUser(<span class="hljs-string">&quot;Piet&quot;</span>, <span class="hljs-string">&quot;Pietissafe&quot;</span>, <span class="hljs-string">&quot;piet@example.com&quot;</span>, Role.ADMIN);
 
-     <span class="hljs-comment">/**
-     * inserts a new User.
-     * <span class="hljs-doctag">@param</span> userName
-     * <span class="hljs-doctag">@param</span> userPass
-     * <span class="hljs-doctag">@param</span> email
-     * <span class="hljs-doctag">@param</span> role
-     * <span class="hljs-doctag">@throws</span> DatabaseException
-     */</span>
-     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(String userName, String userPass, String email, Role role)</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
- }
-</code></pre>
-</li>
-<li><p>Create a specific implementer:</p>
-<pre><code class="lang-java"> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDbConnector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MyAppDao</span> </span>{ <span class="hljs-comment">/*details will follow*/</span> }
-</code></pre>
-</li>
-<li><p>Create a factory class that will create and serve the right type of implementer, preferably based on some external configuration setting (do you know where to put that?).</p>
-<pre><code class="lang-java"> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">someAppInitMethod</span><span class="hljs-params">()</span> </span>{
-     MyDbConnector.createInstance(<span class="hljs-string">&quot;the_type&quot;</span>);
- }
-</code></pre>
-</li>
-<li><p>Use the interface type in all the rest of you code base:</p>
-<pre><code class="lang-java"> MyAppDao dao = MyDbConnector.getInstance();
-</code></pre>
-</li>
-</ol>
-<h2 id="create-a-mysql-implementer">Create a MySQL implementer</h2>
-<h3 id="step-1-jdbc-class-loading">Step 1: JDBC class loading</h3>
-<p>This mechanism is called <strong><em>dynamic class loading</em></strong>:</p>
-<pre><code class="lang-java"><span class="hljs-keyword">import</span> java.sql.*;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDbConnector</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MyAppDao</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span></span>{
-        Class.forName(<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);
+            <span class="hljs-comment">//fetch a user</span>
+            connector.getUser(<span class="hljs-string">&quot;Piet&quot;</span>, <span class="hljs-string">&quot;Pietissafe&quot;</span>);
+
+            <span class="hljs-comment">//a catch-all for database interaction exceptions</span>
+        } <span class="hljs-keyword">catch</span> (DatabaseException e) {
+            e.printStackTrace();
+        }
     }
-}
-</code></pre>
-<h3 id="step-2-create-a-connection">Step 2: create a Connection</h3>
-<p>After loading the driver class(es), you will need to establish a connection:</p>
-<pre><code class="lang-java"><span class="hljs-meta">@Override</span>
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
-    <span class="hljs-keyword">try</span> {
-        Class.forName(<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);
-        String dbUrl = <span class="hljs-string">&quot;jdbc:mysql://MyHost/MyDbName&quot;</span>;
-        String dbUser = <span class="hljs-string">&quot;Fred&quot;</span>;
-        String dbPass = <span class="hljs-string">&quot;FredIsSafe&quot;</span>;
-        <span class="hljs-keyword">this</span>.connection = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-    } <span class="hljs-keyword">catch</span> (Exception e) {
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">VerySimpleDbConnector</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
+        <span class="hljs-keyword">this</span>.url = url;
+        <span class="hljs-keyword">this</span>.dbUser = dbUser;
+        <span class="hljs-keyword">this</span>.dbPassword = dbPassword;
+
+        <span class="hljs-comment">//make the connection</span>
+        connect();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-comment">//load driver class</span>
+            Class.forName(<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);
+            <span class="hljs-comment">//create connection</span>
+            connection = DriverManager.getConnection(url, dbUser, dbPassword);
+            <span class="hljs-comment">//..which is risky</span>
+        } <span class="hljs-keyword">catch</span> (Exception e) {
             e.printStackTrace();
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
                     e.getCause());
         }
     }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">getUser</span><span class="hljs-params">(String userName, String userPass)</span> <span class="hljs-keyword">throws</span> DatabaseException  </span>{
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-comment">//Prepare the SQL statement. The question marks are placeholders for repeated use with different data</span>
+            <span class="hljs-comment">//!! Doing this within this method is extremely inefficient !!</span>
+            String fetchQuery = <span class="hljs-string">&quot;SELECT * FROM Users WHERE user_name = ? AND user_password = ?&quot;</span>;
+            PreparedStatement ps = connection.prepareStatement(fetchQuery);
+
+            <span class="hljs-comment">//set data on the &quot;?&quot; placeholders of the prepared statement</span>
+            ps.setString(<span class="hljs-number">1</span>, userName);
+            ps.setString(<span class="hljs-number">2</span>, userPass);
+
+            <span class="hljs-comment">//execute</span>
+            ResultSet rs = ps.executeQuery();
+
+            <span class="hljs-comment">//if there is data, process it</span>
+            <span class="hljs-keyword">while</span> (rs.next()) {
+                String userMail = rs.getString(<span class="hljs-string">&quot;user_email&quot;</span>);
+                String userIdStr = rs.getString(<span class="hljs-string">&quot;user_id&quot;</span>);
+                String userRoleStr = rs.getString(<span class="hljs-string">&quot;user_role&quot;</span>);
+                Role role = Role.valueOf(userRoleStr);
+                User user = <span class="hljs-keyword">new</span> User(userName, userMail, userPass, role);
+                <span class="hljs-keyword">return</span> user;
+            }
+
+            <span class="hljs-comment">//close resources</span>
+            rs.close();
+        } <span class="hljs-keyword">catch</span> (SQLException e) {
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
+                    e.getCause());
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(String userName, String userPass, String email, Role role)</span> <span class="hljs-keyword">throws</span> DatabaseException  </span>{
+        <span class="hljs-keyword">try</span>{
+            <span class="hljs-comment">//Prepare statement</span>
+            <span class="hljs-comment">//!! Doing this within this method is extremely inefficient !!</span>
+            String insertQuery = <span class="hljs-string">&quot;INSERT INTO Users (user_name, user_password, user_email, user_role) &quot;</span>
+                    + <span class="hljs-string">&quot; VALUES (?, ?, ?, ?)&quot;</span>;
+            PreparedStatement ps = connection.prepareStatement(insertQuery);
+
+            <span class="hljs-comment">//set data on the &quot;?&quot; placeholders of the prepared statement</span>
+            ps.setString(<span class="hljs-number">1</span>, userName);
+            ps.setString(<span class="hljs-number">2</span>, userPass);
+            ps.setString(<span class="hljs-number">3</span>, email);
+            ps.setString(<span class="hljs-number">4</span>, role.toString());
+
+            <span class="hljs-comment">//do the actual insert</span>
+            ps.executeUpdate();
+
+            <span class="hljs-comment">//close resources</span>
+            ps.close();
+        } <span class="hljs-keyword">catch</span> (Exception ex) {
+            ex.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
+                    ex.getCause());
+        }
+    }
+
+    <span class="hljs-comment">/**
+     * close the connection!
+     * <span class="hljs-doctag">@throws</span> DatabaseException
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">disconnect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
+        <span class="hljs-keyword">try</span> {
+            connection.close();
+        } <span class="hljs-keyword">catch</span> (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 </code></pre>
-<p>Note that hardcoding your passwords in a repo that you are going to put online is not such a good idea.<br>Once you establish the connection, you have a live <code>java.sql.Connection</code> object. Talking to a database -an external resource- is risky business, so you have to put it in a try/catch block. In a real app, you should do something else with the exception than print it of course, but this post is not about exception handling. </p>
-<p>That&apos;s it. The connection is ready for reading and writing.</p>
-<h4 id="use-dbutils-to-read-your-credentials">Use DButils to read your credentials</h4>
-<p>I have created a small helper app that you can use to prevent storing passowrds in your code. It reads your credentials from the <code>.my.cnf</code> file stored in your home folder.</p>
+<h4 id="jdbc-class-loading">JDBC class loading</h4>
+<pre><code class="lang-java">    Class.forName(<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);
+</code></pre>
+<p>This mechanism is called <strong><em>dynamic class loading</em></strong>. It loads the driver classes required for the MySQL interaction:</p>
+<h4 id="create-a-connection">Create a Connection</h4>
+<p>After loading the driver class(es), you need to establish a connection:</p>
+<pre><code class="lang-java">    String dbUrl = <span class="hljs-string">&quot;jdbc:mysql://MyHost/MyDbName&quot;</span>;
+    String dbUser = <span class="hljs-string">&quot;Fred&quot;</span>;
+    String dbPass = <span class="hljs-string">&quot;FredIsSafe&quot;</span>;
+    <span class="hljs-keyword">this</span>.connection = DriverManager.getConnection(dbUrl, dbUser, dbPass);
+</code></pre>
+<p>Note that hardcoding your passwords in a repo that you are going to put online is a very bad idea; see the next section ofr a solution.  </p>
+<h3 id="externalize-your-credentials">Externalize your credentials</h3>
+<p>I have created a small helper app that you can use to prevent storing passwords in your code. It reads your credentials from the <code>.my.cnf</code> file stored in your home folder.</p>
 <p>You can clone and build the <a href="https://bitbucket.org/michiel_noback/dbutils" target="_blank">repo</a>
 or download the jar <a href="../downloads/DButils-1.0.2.jar">here</a> and put it in your build path by adding the following line to the <code>build/gradle</code> file:</p>
 <pre><code class="lang-gradle"><span class="hljs-keyword">compile</span> files(<span class="hljs-string">&apos;path/to/library/folder/DButils-1.0.2.jar&apos;</span>)
 </code></pre>
-<p>When you have it on the build path, simply use as follows:</p>
-<pre><code class="lang-java"><span class="hljs-keyword">import</span> nl.bioinf.noback.db_utils.DbCredentials;
-<span class="hljs-keyword">import</span> nl.bioinf.noback.db_utils.DbUser;
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DBCredDemo</span></span>{
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">useCredentials</span><span class="hljs-params">()</span> </span>{
-        DbUser dbUser = DbCredentials.getMySQLuser();
-        String user = dbUser.getUserName();
-        String passWrd = dbUser.getDatabasePassword();
-        String host = dbUser.getHost();
-        String dbName = dbUser.getDatabaseName();
-    }
-}
+<p>When you have it on the build path, simply use it as follows:</p>
+<pre><code class="lang-java">DbUser dbUser = DbCredentials.getMySQLuser();
+String user = dbUser.getUserName();
+String passWrd = dbUser.getDatabasePassword();
+String host = dbUser.getHost();
+String dbName = dbUser.getDatabaseName();
 </code></pre>
-<p>assuming your <code>my.cnf</code> file has the correct entries:</p>
+<p>assuming you have a <code>.my.cnf</code> file in your home folder and it has the correct entries:</p>
 <pre><code class="lang-conf">[client]
 user=&lt;db user name&gt;
 password=&lt;db password&gt;
 host=localhost
 database=&lt;default database&gt;
 </code></pre>
-<h3 id="step-3-prepare-the-sql-statements">Step 3: prepare the SQL statements</h3>
-<p>Using PreparedStatement instances makes it easier and far more efficient to repeat a query. Here are the two queries that are required for implementing the interface methods.</p>
+<p>Once you establish the connection, you have a live <code>java.sql.Connection</code> object. 
+Talking to a database -an external resource- is &quot;risky&quot; business, so you have to put it in a try/catch block. 
+In a real app, you should do something else with the exception than print it of course, but this post is not about exception handling. </p>
+<h3 id="use-preparedstatements">Use PreparedStatements</h3>
+<p>Use PreparedStatements for interacting with the database.
+Using <code>PreparedStatement</code> instances makes it easier and far more efficient to repeat a query. Here is one of the two queries that are required for implementing the interface methods.</p>
 <pre><code class="lang-java">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GET_USER = <span class="hljs-string">&quot;get_user&quot;</span>;
+
+    <span class="hljs-comment">/**
+     * prepares prepared statements for reuse
+     * <span class="hljs-doctag">@throws</span> SQLException
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepareStatements</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> SQLException </span>{
+        String fetchQuery = <span class="hljs-string">&quot;SELECT * FROM Users WHERE user_name = ? AND user_password = ?&quot;</span>;
+        PreparedStatement ps = connection.prepareStatement(fetchQuery);
+        <span class="hljs-keyword">this</span>.preparedStatements.put(GET_USER, ps);
+    }
+</code></pre>
+<p>The prepared statements are stored as entries of a Map, which is an instance variable of the class <code>MyAppDaoMySQL.
+The</code>?` characters serve as placeholders, to be replaced with actual values before executing the statement. See next section.</p>
+<h3 id="traversing-results">Traversing results</h3>
+<p>Results can be traversed through the <code>ResultSet</code> object that you get back from <code>ResultSet rs = ps.executeQuery();</code>.</p>
+<pre><code class="lang-java">    ResultSet rs = ps.executeQuery();
+    <span class="hljs-keyword">while</span> (rs.next()) {
+        <span class="hljs-comment">//process results</span>
+    }
+</code></pre>
+<p>Here, you see the use of <code>while (rs.next()) {}</code> which is not entirely logical if you expect a single result, as in this case (checking for a registered user). Maybe it is better to add some checks, such as:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">if</span> (rs.getFetchSize() &gt; <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;something wrong&quot;</span>);
+}
+</code></pre>
+<p>Now the low level code details are ready and known, let&apos;s implement this in a better way.</p>
+<h2 id="code-against-interfaces">Code against interfaces</h2>
+<p>Code against interfaces, not implementations.  </p>
+<p>Suppose you start working on a website with a MySQL database as backend data layer. You think &quot;encapsulation&quot;, and create a class responsible for all database interaction (<code>MyMySqlDbConnector</code>), and use this class all over our code base. Something like this:</p>
+<pre><code class="lang-java">MyMySqlDbConnector dbConnector = <span class="hljs-keyword">new</span> MyMySqlDbConnector(url, user, pass);
+</code></pre>
+<p>Next year, after our application has grown, we decide a <strong><em>key-value store</em></strong> such as Couchbase is better suited for our growing customer base. We create a new class, <code>MyCouchbaseConnector</code>. Unfortunately, everywhere we used the MySQL connector, we need to change our code to the new implementation.</p>
+<pre><code class="lang-java">MyCouchbaseConnector dbConnector = <span class="hljs-keyword">new</span> MyCouchbaseConnector();
+</code></pre>
+<p>And if we are unlucky, the <code>MyCouchbaseConnector</code> has differing method signatures as well, making the refactoring process a hellish job.</p>
+<p>That is such an unnecessary waste of time if we would have adhered to one of the prime directives of OO programming: <strong>Code against interfaces not implementations</strong> (where interface may mean interface as type, but also abstract class).</p>
+<h2 id="refactoring-to-oo-principles">Refactoring to OO principles</h2>
+<p>This principle is outlined in the following series of steps.</p>
+<h3 id="1-an-interface-definition">1: An interface definition</h3>
+<p>Think long and hard about the contract: which methods do you need, disregarding the technology behind the scenes? 
+This will be your interface definition.
+Here is the interface specifying my user database interactions:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
+
+<span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.Role;
+<span class="hljs-keyword">import</span> nl.bioinf.wis_on_thymeleaf.model.User;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyAppDao</span></span>{
+
+    <span class="hljs-comment">/**
+    * connection logic should be put here.
+    * <span class="hljs-doctag">@throws</span> DatabaseException
+    */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+
+    <span class="hljs-comment">/**
+    * shutdown logic should be put here
+    * <span class="hljs-doctag">@throws</span> DatabaseException
+    */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">disconnect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+
+    <span class="hljs-comment">/**
+    * fetches a user by username and password.
+    * <span class="hljs-doctag">@param</span> userName
+    * <span class="hljs-doctag">@param</span> userPass
+    * <span class="hljs-doctag">@return</span>
+    * <span class="hljs-doctag">@throws</span> DatabaseException
+    */</span>
+    <span class="hljs-function">User <span class="hljs-title">getUser</span><span class="hljs-params">(String userName, String userPass)</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+
+    <span class="hljs-comment">/**
+    * inserts a new User.
+    * <span class="hljs-doctag">@param</span> userName
+    * <span class="hljs-doctag">@param</span> userPass
+    * <span class="hljs-doctag">@param</span> email
+    * <span class="hljs-doctag">@param</span> role
+    * <span class="hljs-doctag">@throws</span> DatabaseException
+    */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(String userName, String userPass, String email, Role role)</span> <span class="hljs-keyword">throws</span> DatabaseException</span>;
+}
+</code></pre>
+<h3 id="2-create-an-interface-implementer">2: Create an interface implementer</h3>
+<p>Here is the complete class. It of course implements all interface methods. 
+The Singleton pattern will be explained below.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
+<span class="hljs-comment">//imports omitted</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAppDaoMySQL</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MyAppDao</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String GET_USER = <span class="hljs-string">&quot;get_user&quot;</span>;
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String INSERT_USER = <span class="hljs-string">&quot;insert_user&quot;</span>;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String url;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String dbUser;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String dbPassword;
+    <span class="hljs-keyword">private</span> Connection connection;
+    <span class="hljs-keyword">private</span> Map&lt;String, PreparedStatement&gt; preparedStatements = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+    <span class="hljs-comment">/*singleton pattern*/</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL uniqueInstance;
+
+    <span class="hljs-comment">/**
+     * singleton pattern
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyAppDaoMySQL</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
+        <span class="hljs-keyword">this</span>.url = url;
+        <span class="hljs-keyword">this</span>.dbUser = dbUser;
+        <span class="hljs-keyword">this</span>.dbPassword = dbPassword;
+    }
+
+    <span class="hljs-comment">/**
+     * singleton pattern
+     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL <span class="hljs-title">getInstance</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
+        <span class="hljs-comment">//lazy</span>
+        <span class="hljs-keyword">if</span> (uniqueInstance == <span class="hljs-keyword">null</span>) {
+            uniqueInstance = <span class="hljs-keyword">new</span> MyAppDaoMySQL(url, dbUser, dbPassword);
+        }
+        <span class="hljs-keyword">return</span> uniqueInstance;
+    }
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">connect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
+        <span class="hljs-keyword">try</span> {
+            Class.forName(<span class="hljs-string">&quot;com.mysql.jdbc.Driver&quot;</span>);
+            connection = DriverManager.getConnection(url, dbUser, dbPassword);
+            prepareStatements();
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
+                    e.getCause());
+        }
+    }
 
     <span class="hljs-comment">/**
      * prepares prepared statements for reuse
@@ -1075,13 +1253,32 @@ database=&lt;default database&gt;
         ps = connection.prepareStatement(insertQuery);
         <span class="hljs-keyword">this</span>.preparedStatements.put(INSERT_USER, ps);
     }
-</code></pre>
-<p>The prepared statements are stored as entries of a Map which is an instance variable of the class.
-The <code>?</code> characters serve as placeholders, to be replaced with actual values before executing the statement. See next section.</p>
-<h3 id="step-4-implement-the-interface-methods">Step 4: Implement the interface methods</h3>
-<h4 id="inserting-data">Inserting data</h4>
-<p>Now you are ready to put some data in the database</p>
-<pre><code class="lang-java">    <span class="hljs-meta">@Override</span>
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">getUser</span><span class="hljs-params">(String userName, String userPass)</span> <span class="hljs-keyword">throws</span> DatabaseException  </span>{
+        <span class="hljs-keyword">try</span> {
+            PreparedStatement ps = <span class="hljs-keyword">this</span>.preparedStatements.get(GET_USER);
+            ps.setString(<span class="hljs-number">1</span>, userName);
+            ps.setString(<span class="hljs-number">2</span>, userPass);
+            ResultSet rs = ps.executeQuery();
+            <span class="hljs-keyword">while</span> (rs.next()) {
+                String userMail = rs.getString(<span class="hljs-string">&quot;user_email&quot;</span>);
+                String userIdStr = rs.getString(<span class="hljs-string">&quot;user_id&quot;</span>);
+                String userRoleStr = rs.getString(<span class="hljs-string">&quot;user_role&quot;</span>);
+                Role role = Role.valueOf(userRoleStr);
+                User user = <span class="hljs-keyword">new</span> User(userName, userMail, userPass, role);
+                <span class="hljs-keyword">return</span> user;
+            }
+            rs.close();
+        } <span class="hljs-keyword">catch</span> (SQLException e) {
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
+                    e.getCause());
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    }
+
+    <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">insertUser</span><span class="hljs-params">(String userName, String userPass, String email, Role role)</span> <span class="hljs-keyword">throws</span> DatabaseException  </span>{
         <span class="hljs-keyword">try</span>{
             PreparedStatement ps = <span class="hljs-keyword">this</span>.preparedStatements.get(INSERT_USER);
@@ -1097,44 +1294,15 @@ The <code>?</code> characters serve as placeholders, to be replaced with actual 
                     ex.getCause());
         }
     }
-</code></pre>
-<h4 id="fetching-data">Fetching data</h4>
-<p>Fetching data is not unlike inserting data. The difference is that you get results of course. Results can be traversed throught the <code>ResultSet</code> object that you get back from <code>ResultSet rs = ps.executeQuery();</code>.</p>
-<pre><code class="lang-java">    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">getUser</span><span class="hljs-params">(String userName, String userPass)</span> <span class="hljs-keyword">throws</span> DatabaseException  </span>{
-        <span class="hljs-keyword">try</span> {
-            PreparedStatement ps = <span class="hljs-keyword">this</span>.preparedStatements.get(GET_USER);
-            ps.setString(<span class="hljs-number">1</span>, userName);
-            ps.setString(<span class="hljs-number">2</span>, userPass);
-            ResultSet rs = ps.executeQuery();
-            <span class="hljs-keyword">while</span> (rs.next()) {
-                String userMail = rs.getString(<span class="hljs-string">&quot;user_email&quot;</span>);
-                String userIdStr = rs.getString(<span class="hljs-string">&quot;user_id&quot;</span>);
-                String userRoleStr = rs.getString(<span class="hljs-string">&quot;user_role&quot;</span>);
-                Role role = Role.valueOf(userRoleStr);
-                User user = <span class="hljs-keyword">new</span> User(userName, userPass, userMail, role);
-                <span class="hljs-keyword">return</span> user;
-            }
-            rs.close();
-        } <span class="hljs-keyword">catch</span> (SQLException e) {
-            e.printStackTrace();
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;Something is wrong with the database, see cause Exception&quot;</span>,
-                    e.getCause());
 
-        }
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
-    }
-</code></pre>
-<p>Here, you see the use of <code>while (rs.next()) {}</code> which is not entirely logical if you expect a single result, as in this case. Maybe it is better to add some checks, such as:</p>
-<pre><code class="lang-java"><span class="hljs-keyword">if</span> (rs.getFetchSize() &gt; <span class="hljs-number">1</span>) {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> DatabaseException(<span class="hljs-string">&quot;something wrong&quot;</span>);
-}
-</code></pre>
-<h3 id="step-5-cleanup-code">Step 5: cleanup code</h3>
-<p>After you are done, you must <strong>carefully</strong> clean up your database resources.</p>
-<p>Here is my <code>disconnect()</code> implementation:</p>
-<pre><code class="lang-java">    <span class="hljs-meta">@Override</span>
+    <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">disconnect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
+        <span class="hljs-comment">/*After you are done, you must carefully clean up your database resources!*/</span>
+        <span class="hljs-comment">/*These objects need to be closed explicitly:
+         *  `ResultSet` (here: done in method itself)
+         *  `PreparedStatemenent`
+         *  `Connection` (always last)
+         */</span>
         <span class="hljs-keyword">try</span>{
             <span class="hljs-keyword">for</span>( String key : <span class="hljs-keyword">this</span>.preparedStatements.keySet() ){
                 <span class="hljs-keyword">this</span>.preparedStatements.get(key).close();
@@ -1150,55 +1318,21 @@ The <code>?</code> characters serve as placeholders, to be replaced with actual 
             }
         }
     }
+}
 </code></pre>
-<p>So, which objects need to be close explicitly:</p>
-<ul>
-<li><code>ResultSet</code> (here: done in method itself)</li>
-<li><code>PreparedStatemenent</code></li>
-<li><code>Connection</code> (always last)</li>
-</ul>
-<h3 id="clean-up-the-code-and-implement-singleton">Clean up the code and implement Singleton</h3>
-<p>Now we know it works, it is time to move the use of <code>DbCredentials</code> somewhere else, out of the <code>MyAppDaoMySQL</code> class. Reason: it is not according to the SRP. In this implementation, it is moved to the <code>MyAppDaoFactory</code> class (see below). </p>
-<p>Also, I want class <code>DbCredentials</code> to be instantiated only once - we do not want to create resource-heavy classes twice if we can prevent it. To guarantee this, the <strong><em>singleton pattern</em></strong> is implemented.  It has three components:</p>
-<ul>
-<li>a private static instance</li>
-<li>a private constructor (only this class can instantiate itself)</li>
-<li>a public static method serving the single instance</li>
-</ul>
-<pre><code class="lang-java">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL uniqueInstance;
-
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyAppDaoMySQL</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
-        <span class="hljs-keyword">this</span>.url = url;
-        <span class="hljs-keyword">this</span>.dbUser = dbUser;
-        <span class="hljs-keyword">this</span>.dbPassword = dbPassword;
-    }
-
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL <span class="hljs-title">getInstance</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
-        <span class="hljs-comment">//lazy instantiation</span>
-        <span class="hljs-keyword">if</span> (uniqueInstance == <span class="hljs-keyword">null</span>) {
-            uniqueInstance = <span class="hljs-keyword">new</span> MyAppDaoMySQL(url, dbUser, dbPassword);
-        }
-        <span class="hljs-keyword">return</span> uniqueInstance;
-    }
-</code></pre>
-<p>Key here is the private constructor which guarantees ony code within class <code>MyAppDaoMySQL</code> can instantiate its objects, and it does so only once.
-This solution is simple, but <strong>not thread safe!</strong>. In a later course, we&apos;ll revisit this.</p>
-<h2 id="create-a-factory-class">Create a factory class</h2>
-<p>Now we have an implementer of the interface, it is time to make the API available to the application. We do this via a <strong><em>factory class</em></strong>, which is a class whose task it is to create and serve objects implementing a specific interface, based on some parameter.</p>
-<p>This is the factory class:</p>
+<h3 id="3-create-a-factory-class">3: Create a <strong><em>factory class</em></strong></h3>
+<p>Here, class <code>MyAppDaoFactory</code> was created that will instantiate and serve the right type of implementer.
+This should preferably be done based on some external configuration setting (such as <code>web.xml</code>).
+Also note that the Database credentials are read from the external <code>.my.cnf</code> file here, using the 
+helper app discussed earlier.</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.wis_on_thymeleaf.dao;
-
-<span class="hljs-keyword">import</span> nl.bioinf.noback.db_utils.DbCredentials;
-<span class="hljs-keyword">import</span> nl.bioinf.noback.db_utils.DbUser;
-
-<span class="hljs-keyword">import</span> java.io.IOException;
-
+<span class="hljs-comment">//imports deleted</span>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyAppDaoFactory</span> </span>{
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyAppDao daoInstance;
 
     <span class="hljs-comment">/**
-     * Code should be called at application startup
-     */</span>
+    * Code should be called at application startup
+    */</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initializeDataSource</span><span class="hljs-params">(String type)</span> <span class="hljs-keyword">throws</span> DatabaseException </span>{
         <span class="hljs-keyword">if</span> (daoInstance != <span class="hljs-keyword">null</span>) {
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">&quot;DAO can be initialized only once&quot;</span>);
@@ -1217,9 +1351,9 @@ This solution is simple, but <strong>not thread safe!</strong>. In a later cours
     }
 
     <span class="hljs-comment">/**
-     * serves the dao instance
-     * <span class="hljs-doctag">@return</span>
-     */</span>
+    * serves the dao instance
+    * <span class="hljs-doctag">@return</span>
+    */</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyAppDao <span class="hljs-title">getDataSource</span><span class="hljs-params">()</span> </span>{
         <span class="hljs-keyword">if</span> (daoInstance == <span class="hljs-keyword">null</span>) {
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">&quot;DAO is not initialized; call initializeDataSource() first&quot;</span>);
@@ -1246,15 +1380,15 @@ This solution is simple, but <strong>not thread safe!</strong>. In a later cours
     }
 }
 </code></pre>
-<p>When the MySQL type is requested for initialization, the url, name and password need to be provided. It is read from the <code>.my.cnf</code> file as shown before.</p>
-<h2 id="get-hold-of-the-dao-implementation-whatever-that-may-be">Get hold of the dao implementation, whatever that may be</h2>
+<h3 id="4-have-the-correct-type-instantiated">4: Have the correct type instantiated</h3>
+<p>Have the correct type instantiated at application startup.</p>
 <p>The <code>web.xml</code> deployment descriptor is an excellent place to specify which implementation of the <code>MyAppDao</code> interface to use:</p>
 <pre><code class="lang-xml">    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>db_type<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>db-type<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span>
 </code></pre>
-<p>Finally, the datasource need to be initialized at application startup, requested from the class <code>MyAppDaoFactory</code>. 
+<p>The datasource needs to be initialized at application startup, requested from the class <code>MyAppDaoFactory</code>. 
 You have seen the application startup hook in a previous post (see <a href="servlet_details.html">servlet details and lifecycle hooks</a>); 
 it was implemented in class <code>WebConfig</code>.
 Here, the DAO initialization is done within that method, <code>contextInitialized()</code>.</p>
@@ -1277,7 +1411,36 @@ Here, the DAO initialization is done within that method, <code>contextInitialize
     <span class="hljs-comment">//other code</span>
 }
 </code></pre>
-<p>Finally, test!</p>
+<h3 id="5-use-the-interface-type-in-your-code-base">5: Use the interface type in your code base</h3>
+<p>It is now easy to get hold of the connector anywhere in our application because we can call the static method <code>getInstance()</code>.</p>
+<pre><code class="lang-java">MyAppDao dao = MyDbConnector.getInstance();
+</code></pre>
+<h2 id="singleton">Singleton</h2>
+<p>I want class <code>DbCredentials</code> to be instantiated only once - we do not want to create resource-heavy classes twice if we can prevent it. To guarantee this, the <strong><em>singleton pattern</em></strong> is implemented.  It has three components:</p>
+<ul>
+<li>a private static instance</li>
+<li>a private constructor (only this class can instantiate itself)</li>
+<li>a public static method serving the single instance</li>
+</ul>
+<pre><code class="lang-java">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL uniqueInstance;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">MyAppDaoMySQL</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
+        <span class="hljs-keyword">this</span>.url = url;
+        <span class="hljs-keyword">this</span>.dbUser = dbUser;
+        <span class="hljs-keyword">this</span>.dbPassword = dbPassword;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> MyAppDaoMySQL <span class="hljs-title">getInstance</span><span class="hljs-params">(String url, String dbUser, String dbPassword)</span> </span>{
+        <span class="hljs-comment">//lazy instantiation</span>
+        <span class="hljs-keyword">if</span> (uniqueInstance == <span class="hljs-keyword">null</span>) {
+            uniqueInstance = <span class="hljs-keyword">new</span> MyAppDaoMySQL(url, dbUser, dbPassword);
+        }
+        <span class="hljs-keyword">return</span> uniqueInstance;
+    }
+</code></pre>
+<p>Key here is the private constructor which guarantees ony code within class <code>MyAppDaoMySQL</code> can instantiate its objects, and it does so only once.
+This solution is simple, but <strong>not thread safe!</strong>. In a later course, we&apos;ll revisit this.</p>
+<h2 id="use-in-a-servlet-environment">Use in a servlet environment</h2>
 <p>Here is the relevant servlet code:</p>
 <pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>{
         <span class="hljs-keyword">final</span> MyAppDao dataSource = MyAppDaoFactory.getDataSource();
@@ -1357,7 +1520,7 @@ Here, the DAO initialization is done within that method, <code>contextInitialize
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Database interaction","level":"7.9","depth":1,"next":{"title":"Ajax communication","level":"7.10","depth":1,"path":"05_web/ajax.md","ref":"05_web/ajax.md","articles":[]},"previous":{"title":"Servlet details & Lifecycle hooks","level":"7.8","depth":1,"path":"05_web/servlet_details.md","ref":"05_web/servlet_details.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/databases.md","mtime":"2019-11-14T15:33:04.954Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-03T10:18:24.894Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Database interaction","level":"7.9","depth":1,"next":{"title":"Ajax communication","level":"7.10","depth":1,"path":"05_web/ajax.md","ref":"05_web/ajax.md","articles":[]},"previous":{"title":"Servlet details & Lifecycle hooks","level":"7.8","depth":1,"path":"05_web/servlet_details.md","ref":"05_web/servlet_details.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"05_web/databases.md","mtime":"2019-12-16T15:12:52.731Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-12-16T15:13:33.596Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
