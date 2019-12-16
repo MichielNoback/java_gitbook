@@ -735,7 +735,7 @@ The `web.xml` deployment descriptor is an excellent place to specify which imple
 
 ```xml
     <context-param>
-        <param-name>db_type</param-name>
+        <param-name>db-type</param-name>
         <param-value>mysql</param-value>
     </context-param>
 ```
