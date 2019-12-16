@@ -13,7 +13,7 @@ Just remember: **_the only constant in programming is change_**.
 
 &rArr; Have a look at the [repo](https://bitbucket.org/minoba/java_web_thymeleaf_demo) to see the full code of these examples.
 
-## JDBC
+### JDBC
 
 Having Java applications talk with MySQL databases require that you have the required Driver in your project class path. Let's start with that. Put this line in te dependencies section of your `build.gradle` file:
 
@@ -167,7 +167,7 @@ Note the URL it creates. Check that the data provided corresponds with your situ
 
 ![add_datasource3.png](figures/add_datasource3.png)
 
-### Add data to the DB
+#### Add data to the DB
 
 First, a simple table is defined and created, and some preliminary dummy data is entered.
 
@@ -191,12 +191,12 @@ Next, have a look at the DB tool window:
 
 ![add_datasource4.png](figures/add_datasource4.png)
 
-## The most simple implementation
+## The naive implementation
 
-Here follows soma class demonstrating the general usage of database interaction components. 
+Here follow some classes demonstrating the general usage of database interaction components. 
 You should not implement your logic like this - it is inefficient, not OO, and very ugly. 
 A better solution follows later in this chapter.
-Study this class carefully so you understand how everything works at te syntax level.
+Study this class carefully so you understand how everything works at the syntax level.
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.dao;
@@ -212,6 +212,10 @@ public class VerySimpleDbConnector {
     private final String dbPassword;
     private Connection connection;
     
+    /**
+     * a main for demonstration purposes
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             //connect
@@ -229,13 +233,6 @@ public class VerySimpleDbConnector {
         }
     }
 
-    /**
-     *
-     * @param url
-     * @param dbUser
-     * @param dbPassword
-     * @throws DatabaseException
-     */
     public VerySimpleDbConnector(String url, String dbUser, String dbPassword) throws DatabaseException {
         this.url = url;
         this.dbUser = dbUser;
@@ -245,10 +242,6 @@ public class VerySimpleDbConnector {
         connect();
     }
 
-    /**
-     * connects to the database
-     * @throws DatabaseException
-     */
     private void connect() throws DatabaseException {
         try {
             //load driver class
@@ -263,13 +256,6 @@ public class VerySimpleDbConnector {
         }
     }
 
-    /**
-     * fetches a user
-     * @param userName
-     * @param userPass
-     * @return
-     * @throws DatabaseException
-     */
     public User getUser(String userName, String userPass) throws DatabaseException  {
         try {
             //Prepare the SQL statement. The question marks are placeholders for repeated use with different data
@@ -304,14 +290,6 @@ public class VerySimpleDbConnector {
         return null;
     }
 
-    /**
-     * inserts a user
-     * @param userName
-     * @param userPass
-     * @param email
-     * @param role
-     * @throws DatabaseException
-     */
     public void insertUser(String userName, String userPass, String email, Role role) throws DatabaseException  {
         try{
             //Prepare statement
@@ -356,10 +334,9 @@ public class VerySimpleDbConnector {
 
 ```java
     Class.forName("com.mysql.jdbc.Driver");
-}
 ```
 
-This mechanism is called **_dynamic class loading_**:
+This mechanism is called **_dynamic class loading_**. It loads the driver classes required for the MySQL interaction:
 
 #### Create a Connection
 
@@ -370,12 +347,11 @@ After loading the driver class(es), you need to establish a connection:
     String dbUser = "Fred";
     String dbPass = "FredIsSafe";
     this.connection = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-}
 ```
 
-Note that hardcoding your passwords in a repo that you are going to put online is a very bad idea.  
+Note that hardcoding your passwords in a repo that you are going to put online is a very bad idea; see the next section ofr a solution.  
 
-#### Read your credentials from elsewhere
+### Externalize your credentials
 
 I have created a small helper app that you can use to prevent storing passwords in your code. It reads your credentials from the `.my.cnf` file stored in your home folder.
 
@@ -386,23 +362,17 @@ or download the jar [here](../downloads/DButils-1.0.2.jar) and put it in your bu
 compile files('path/to/library/folder/DButils-1.0.2.jar')
 ```
 
-When you have it on the build path, simply use as follows:
+When you have it on the build path, simply use it as follows:
 
 ```java
-import nl.bioinf.noback.db_utils.DbCredentials;
-import nl.bioinf.noback.db_utils.DbUser;
-class DBCredDemo{
-    void useCredentials() {
-        DbUser dbUser = DbCredentials.getMySQLuser();
-        String user = dbUser.getUserName();
-        String passWrd = dbUser.getDatabasePassword();
-        String host = dbUser.getHost();
-        String dbName = dbUser.getDatabaseName();
-    }
-}
+DbUser dbUser = DbCredentials.getMySQLuser();
+String user = dbUser.getUserName();
+String passWrd = dbUser.getDatabasePassword();
+String host = dbUser.getHost();
+String dbName = dbUser.getDatabaseName();
 ```
 
-assuming your `my.cnf` file has the correct entries:
+assuming you have a `.my.cnf` file in your home folder and it has the correct entries:
 
 ```conf
 [client]
@@ -413,11 +383,11 @@ database=<default database>
 ```
 
 Once you establish the connection, you have a live `java.sql.Connection` object. 
-Talking to a database -an external resource- is risky business, so you have to put it in a try/catch block. 
+Talking to a database -an external resource- is "risky" business, so you have to put it in a try/catch block. 
 In a real app, you should do something else with the exception than print it of course, but this post is not about exception handling. 
 
-#### Use PreparedStatements for interacting with the DB
-
+### Use PreparedStatements
+Use PreparedStatements for interacting with the database.
 Using `PreparedStatement` instances makes it easier and far more efficient to repeat a query. Here is one of the two queries that are required for implementing the interface methods.
 
 ```java
@@ -437,7 +407,7 @@ Using `PreparedStatement` instances makes it easier and far more efficient to re
 The prepared statements are stored as entries of a Map, which is an instance variable of the class `MyAppDaoMySQL.
 The `?` characters serve as placeholders, to be replaced with actual values before executing the statement. See next section.
 
-#### Traversing results
+### Traversing results
 
 Results can be traversed through the `ResultSet` object that you get back from `ResultSet rs = ps.executeQuery();`.
 
@@ -448,7 +418,7 @@ Results can be traversed through the `ResultSet` object that you get back from `
     }
 ```
 
-Here, you see the use of `while (rs.next()) {}` which is not entirely logical if you expect a single result, as in this case. Maybe it is better to add some checks, such as:
+Here, you see the use of `while (rs.next()) {}` which is not entirely logical if you expect a single result, as in this case (checking for a registered user). Maybe it is better to add some checks, such as:
 
 ```java
 if (rs.getFetchSize() > 1) {
@@ -456,11 +426,12 @@ if (rs.getFetchSize() > 1) {
 }
 ```
 
-
 Now the low level code details are ready and known, let's implement this in a better way.
 
 
-## Code against interfaces, not implementations
+## Code against interfaces
+
+Code against interfaces, not implementations.  
 
 Suppose you start working on a website with a MySQL database as backend data layer. You think "encapsulation", and create a class responsible for all database interaction (`MyMySqlDbConnector`), and use this class all over our code base. Something like this:
 
@@ -478,7 +449,9 @@ And if we are unlucky, the `MyCouchbaseConnector` has differing method signature
 
 That is such an unnecessary waste of time if we would have adhered to one of the prime directives of OO programming: **Code against interfaces not implementations** (where interface may mean interface as type, but also abstract class).
 
-This principle is outlined in following this series of steps:
+## Using OO principles 
+
+This principle is outlined in the following this series of steps:
 
 ### 1: An interface definition
 
@@ -527,7 +500,7 @@ public interface MyAppDao{
 }
 ```
 
-### 2: Create a specific implementer and implement the interface methods.
+### 2: Create an interface implementer
 
 Here is the complete class. It of course implements all interface methods. 
 The singleton pattern will be explained below.
@@ -729,7 +702,9 @@ public class MyAppDaoFactory {
 }
 ```
 
-### 4: Have the correct type instantiated at application startup. 
+### 4: Have the correct type instantiated
+
+Have the correct type instantiated at application startup.
 
 The `web.xml` deployment descriptor is an excellent place to specify which implementation of the `MyAppDao` interface to use:
 
@@ -766,7 +741,7 @@ public class WebConfig implements ServletContextListener {
 }
 ```
 
-### 5: Use the interface type in all the rest of you code base:
+### 5: Use the interface type in your code base
 
 It is now easy to get hold of the connector anywhere in our application because we can call the static method `getInstance()`.
 
@@ -775,7 +750,7 @@ MyAppDao dao = MyDbConnector.getInstance();
 ```
 
 
-### Singleton
+## Singleton
 
 I want class `DbCredentials` to be instantiated only once - we do not want to create resource-heavy classes twice if we can prevent it. To guarantee this, the **_singleton pattern_** is implemented.  It has three components:
 
