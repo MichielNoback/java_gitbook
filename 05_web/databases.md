@@ -449,9 +449,9 @@ And if we are unlucky, the `MyCouchbaseConnector` has differing method signature
 
 That is such an unnecessary waste of time if we would have adhered to one of the prime directives of OO programming: **Code against interfaces not implementations** (where interface may mean interface as type, but also abstract class).
 
-## Using OO principles 
+## Refactoring to OO principles 
 
-This principle is outlined in the following this series of steps:
+This principle is outlined in the following series of steps.
 
 ### 1: An interface definition
 
@@ -503,7 +503,7 @@ public interface MyAppDao{
 ### 2: Create an interface implementer
 
 Here is the complete class. It of course implements all interface methods. 
-The singleton pattern will be explained below.
+The Singleton pattern will be explained below.
 
 ```java
 package nl.bioinf.wis_on_thymeleaf.dao;
@@ -522,9 +522,6 @@ public final class MyAppDaoMySQL implements MyAppDao {
 
     /**
      * singleton pattern
-     * @param url
-     * @param dbUser
-     * @param dbPassword
      */
     private MyAppDaoMySQL(String url, String dbUser, String dbPassword) {
         this.url = url;
@@ -591,7 +588,6 @@ public final class MyAppDaoMySQL implements MyAppDao {
             e.printStackTrace();
             throw new DatabaseException("Something is wrong with the database, see cause Exception",
                     e.getCause());
-
         }
         return null;
     }
