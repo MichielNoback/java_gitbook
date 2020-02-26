@@ -1,0 +1,1610 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>JUnit 5 Basics · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-page-toc/page-toc.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+        <link rel="stylesheet" href="../styles/website.css">
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="../06_tools/JUnit_advanced.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Java
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../shortcuts.html">
+            
+                <a href="../shortcuts.html">
+            
+                    
+                    IntelliJ keyboard shortcuts
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 1: Getting started</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../01_getting_started/intellij.html">
+            
+                <a href="../01_getting_started/intellij.html">
+            
+                    
+                    A first IntelliJ project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../01_getting_started/essentials.html">
+            
+                <a href="../01_getting_started/essentials.html">
+            
+                    
+                    The essentials
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.3" data-path="../01_getting_started/first_look_at_objects.html">
+            
+                <a href="../01_getting_started/first_look_at_objects.html">
+            
+                    
+                    Demo case: A first look at objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.4" data-path="../02_syntax/basic_program_design.html">
+            
+                <a href="../02_syntax/basic_program_design.html">
+            
+                    
+                    Basic program design
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.5" data-path="../02_syntax/naming_commenting.html">
+            
+                <a href="../02_syntax/naming_commenting.html">
+            
+                    
+                    Naming and commenting
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 2: Syntax</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../02_syntax/data_types.html">
+            
+                <a href="../02_syntax/data_types.html">
+            
+                    
+                    Data types
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../02_syntax/arrays.html">
+            
+                <a href="../02_syntax/arrays.html">
+            
+                    
+                    Arrays
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../02_syntax/operators.html">
+            
+                <a href="../02_syntax/operators.html">
+            
+                    
+                    Operators
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../02_syntax/flow_control.html">
+            
+                <a href="../02_syntax/flow_control.html">
+            
+                    
+                    Flow control
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../02_syntax/methods.html">
+            
+                <a href="../02_syntax/methods.html">
+            
+                    
+                    Methods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../02_syntax/packages_imports.html">
+            
+                <a href="../02_syntax/packages_imports.html">
+            
+                    
+                    Packages & Imports
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../02_syntax/demo_case_naming.html">
+            
+                <a href="../02_syntax/demo_case_naming.html">
+            
+                    
+                    Demo case: The power of good names
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 3: Core APIs</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../03_apis/interfaces.html">
+            
+                <a href="../03_apis/interfaces.html">
+            
+                    
+                    Interfaces
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.2" data-path="../03_apis/collections.html">
+            
+                <a href="../03_apis/collections.html">
+            
+                    
+                    Collections
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.3" data-path="../03_apis/class_object_methods.html">
+            
+                <a href="../03_apis/class_object_methods.html">
+            
+                    
+                    Methods of class Object
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.4" data-path="../03_apis/sorting.html">
+            
+                <a href="../03_apis/sorting.html">
+            
+                    
+                    Sorting
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.5" data-path="../03_apis/exceptions.html">
+            
+                <a href="../03_apis/exceptions.html">
+            
+                    
+                    Exceptions
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.6" data-path="../03_apis/io.html">
+            
+                <a href="../03_apis/io.html">
+            
+                    
+                    File IO
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="4.7" data-path="../03_apis/regex.html">
+            
+                <a href="../03_apis/regex.html">
+            
+                    
+                    Regular Expressions
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 4: Object-oriented programming</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../04_oop/class_design.html">
+            
+                <a href="../04_oop/class_design.html">
+            
+                    
+                    Encapsulation through access modifiers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../04_oop/access_modifiers.html">
+            
+                <a href="../04_oop/access_modifiers.html">
+            
+                    
+                    Access modifiers & other keywords
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../04_oop/inheritance.html">
+            
+                <a href="../04_oop/inheritance.html">
+            
+                    
+                    Inheritance and UML
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.4" data-path="../04_oop/enums.html">
+            
+                <a href="../04_oop/enums.html">
+            
+                    
+                    Enums
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.5" data-path="../04_oop/encapsulation.html">
+            
+                <a href="../04_oop/encapsulation.html">
+            
+                    
+                    Encapsulation revisited
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.6" data-path="../04_oop/inner_classes.html">
+            
+                <a href="../04_oop/inner_classes.html">
+            
+                    
+                    Inner classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Summaries Part 1-4</li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../design_rules.html">
+            
+                <a href="../design_rules.html">
+            
+                    
+                    Design Rules summary
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 5: Web-based Java & Thymeleaf</li>
+        
+        
+    
+        <li class="chapter " data-level="7.1" data-path="../05_web/refresher.html">
+            
+                <a href="../05_web/refresher.html">
+            
+                    
+                    Refresher
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.2" data-path="../05_web/toolbox.html">
+            
+                <a href="../05_web/toolbox.html">
+            
+                    
+                    Toolbox
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.3" data-path="../05_web/first_project.html">
+            
+                <a href="../05_web/first_project.html">
+            
+                    
+                    A first project
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.4" data-path="../05_web/mvc.html">
+            
+                <a href="../05_web/mvc.html">
+            
+                    
+                    Implementing MVC
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.5" data-path="../05_web/thymeleaf_expressions.html">
+            
+                <a href="../05_web/thymeleaf_expressions.html">
+            
+                    
+                    Thymeleaf expression types & objects
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.6" data-path="../05_web/thymeleaf_flow_control.html">
+            
+                <a href="../05_web/thymeleaf_flow_control.html">
+            
+                    
+                    Thymeleaf flow control & fragments
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.7" data-path="../05_web/sessions.html">
+            
+                <a href="../05_web/sessions.html">
+            
+                    
+                    Sessions & Scopes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.8" data-path="../05_web/servlet_details.html">
+            
+                <a href="../05_web/servlet_details.html">
+            
+                    
+                    Servlet details & Lifecycle hooks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.9" data-path="../05_web/databases.html">
+            
+                <a href="../05_web/databases.html">
+            
+                    
+                    Database interaction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.10" data-path="../05_web/ajax.html">
+            
+                <a href="../05_web/ajax.html">
+            
+                    
+                    Ajax communication
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.11" data-path="../05_web/filters_upload.html">
+            
+                <a href="../05_web/filters_upload.html">
+            
+                    
+                    Web filters and file uploads
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.12" data-path="../05_web/webbased_exercises1.html">
+            
+                <a href="../05_web/webbased_exercises1.html">
+            
+                    
+                    Exercises Web-based Information Systems 1
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="7.13" data-path="../05_web/html_cheatsheet.html">
+            
+                <a href="../05_web/html_cheatsheet.html">
+            
+                    
+                    html cheat sheet
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 6: Developer tools</li>
+        
+        
+    
+        <li class="chapter " data-level="8.1" data-path="../06_tools/JUnit_basics.html">
+            
+                <a href="../06_tools/JUnit_basics.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="8.2" data-path="../06_tools/JUnit_advanced.html">
+            
+                <a href="../06_tools/JUnit_advanced.html">
+            
+                    
+                    JUnit 5 Advanced
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Part 7: Design</li>
+        
+        
+    
+        <li class="chapter active" data-level="9.1" data-path="demo_case_refactoring.html">
+            
+                <a href="demo_case_refactoring.html">
+            
+                    
+                    JUnit 5 Basics
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >JUnit 5 Basics</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h2 id="introduction">Introduction</h2>
+<p>This will be quite a long post. One I hope you will finish! If you want to follow along in the code base, 
+you should clone the repo. It is available at <a href="https://michiel_noback@bitbucket.org/minoba/refactoringtrainingproject.git" target="_blank">bitbucket</a>.
+Check out commit <code>eaf007f</code> to have a look at the original project. It was created by a student of mine, a third year bioinformatics student who will remain anonymous. As final assignment of the course Introduction to Java programming, he wrote a 
+tool that can be used to read, summarize and filter files of the <code>gff3</code> format (see<a href="https://www.ensembl.org/info/website/upload/gff3.html" target="_blank">https://www.ensembl.org/info/website/upload/gff3.html</a>). 
+This flat-file format is used to describe (annotate) elements (features), such as genes and introns, on DNA molecules, 
+also supporting hierarchical or tree-like relationships. Here is a small example, copied (and slimmed down) from a much
+ larger file describing some piece of Potato DNA:</p>
+<pre><code>PGSC0003DMB000000010    BGI    gene    1242814    1245448    .    .    .    ID=PGSC0003DMG400000001;
+PGSC0003DMB000000010    Cufflinks    mRNA    1242814    1245444    .    +    .    ID=PGSC0003DMT400000001;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.0;Mapping_depth=48.922289;Class=1;
+PGSC0003DMB000000010    Cufflinks    mRNA    1242814    1245444    .    +    .    ID=PGSC0003DMT400000002;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.1;Mapping_depth=349.773769;Class=1;
+PGSC0003DMB000000010    Cufflinks    mRNA    1243971    1245448    .    +    .    ID=PGSC0003DMT400000003;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.2;Mapping_depth=52.447281;Class=1;
+PGSC0003DMB000000010    Cufflinks    exon    1242814    1243429    .    +    .    ID=PGSC0003DME400000001;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks    exon    1243532    1243736    .    +    .    ID=PGSC0003DME400000002;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks    intron    1243430    1243531    .    +    .    ID=PGSC0003DMI400000001;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks    intron    1244851    1244983    .    +    .    ID=PGSC0003DMI400000005;Parent=PGSC0003DMT400000002;
+PGSC0003DMB000000010    BestORF    CDS    1243614    1243736    .    +    0    ID=PGSC0003DMC400000001;Parent=PGSC0003DMT400000001;
+PGSC0003DMB000000010    BestORF    CDS    1244206    1244487    .    +    0    ID=PGSC0003DMC400000001;Parent=PGSC0003DMT400000001;
+PGSC0003DMB000000155    BGI    gene    1093109    1102125    .    .    .    ID=PGSC0003DMG400000278;
+</code></pre><p>It is a tab-separated file with this -abbreviated- specification:</p>
+<p>Fields must be tab-separated. Also, all but the final field in each feature line must contain a value; &quot;empty&quot; columns should be denoted with a &apos;.&apos;  </p>
+<ol>
+<li><strong>seqid</strong> - name/ID of the chromosome or segment</li>
+<li><strong>source</strong> - name of the program that generated this feature</li>
+<li><strong>type</strong> - type of feature. </li>
+<li><strong>start</strong> - Start position of the feature, starting at 1.</li>
+<li><strong>end</strong> - End position of the feature, starting at 1.</li>
+<li><strong>score</strong> - A floating point value.</li>
+<li><strong>strand</strong> - defined as + (forward) or - (reverse).</li>
+<li><strong>phase</strong> - One of &apos;0&apos;, &apos;1&apos; or &apos;2&apos;. &apos;0&apos; indicates that the first base of the feature is the first base of a codon, &apos;1&apos; that the second 
+base is the first base of a codon, and so on.</li>
+<li><strong>attributes</strong> - A semicolon-separated list of tag=value pairs, providing additional information about each feature. Some of these tags 
+are predefined, e.g. ID, Name, Alias, Parent.  </li>
+</ol>
+<p>I chose this particular project because (a) it is simple enough to be understood (b) complex enough to be a serious challenge (c) it had 
+so many inline comments that the unintelligible code could be understood and (d) the functionality was (as far as I tested) not perfect, 
+but OK. The student had implemented all the required use cases. But the code itself was written like a big old script, with many (naming) 
+convention violations, OO violations, Encapsulation and Abstraction not applied. You&apos;ll see many examples as we plod along. </p>
+<p>I do not plan to finish the whole project here; there should be some challenge for you left.</p>
+<h2 id="note-on-junit-tests">Note on JUnit tests</h2>
+<p>When taking over a code base like this, without any (J)Unit tests, it is a very good idea to develop JUnit tests in concert with your refactoring efforts.
+Take a look at the (too) few JUnit tests that I added to this project as well.</p>
+<h2 id="get-to-know-what-is-there">Get to know what is there</h2>
+<p>First, of course, you need to run the tool in different modes and study the existing code base to what exactly is going on.  </p>
+<p>Running it in this mode <code>-i data/gff3_sample.gff3 -s</code> will give a summary:</p>
+<pre><code>file    gff3_sample.gff3
+total number of features    22
+molecules with features:
+human15.1
+    number of features    22
+        CDS                10
+        gene                1
+        three_prime_UT                4
+        mRNA                4
+        five_prime_UTR                3
+</code></pre><p>That&apos;s not really lined out but it&apos;ll do for now.</p>
+<p>Another use case, looking for features of a specific type <code>-i data/gff3_sample.gff3 -ft mRNA</code>:</p>
+<pre><code>human15.1 . mRNA            214360  215771 . +   . Comments=fixed+one+splice+junction;Parent=HsG8283;Evidence=7000000069743825;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant+%28partial%29;ID=HsT20206
+human15.1 . mRNA            214590  215772 . +   . Comments=fixed+one+splice+site%0A;Parent=HsG8283;Evidence=7000000069600840;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant+%28partial%29;ID=HsT20207
+human15.1 . mRNA            214301  215769 . +   . Parent=HsG8283;Evidence=7000000069974357;Transcript_type=Candidates+for+Deletion;Name=Novel+Transcript+%28partial%29;ID=HsT16028
+human15.1 . mRNA            215218  215772 . +   . Parent=HsG8283;Evidence=7000000069512231;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant;ID=HsT16029
+</code></pre><p>Some more use cases were carried out. There do not seem to major bugs.</p>
+<p>This is the simple class and package layout of the project:</p>
+<pre><code>gff_query/control
+            GffLine
+         /io
+            CLIParser
+            FileReader
+         /model
+            GffFile
+         GffQuery (main)
+</code></pre><p>This puzzles me a bit. I would expect something like GffLine to be in the <code>model</code> and <code>CLIParser</code> somewhere not in the <code>io</code> package. We&apos;ll get to that.</p>
+<p>A first inspection of the classes is a bit of a scare. Here is class <code>FileReader</code>. </p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.gff_query.io;
+<span class="hljs-comment">//imports omitted</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileReader</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ArrayList&lt;String&gt; <span class="hljs-title">readFile</span><span class="hljs-params">(String raw_path)</span> </span>{
+        ArrayList&lt;String&gt; fileArrayList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        Path path = Paths.get(raw_path);
+        <span class="hljs-keyword">try</span> (BufferedReader reader = Files.newBufferedReader(
+                path,
+                Charset.defaultCharset())) {
+            String lineFromFile;
+            <span class="hljs-keyword">while</span> ((lineFromFile = reader.readLine()) != <span class="hljs-keyword">null</span>) {
+                fileArrayList.add(lineFromFile);
+            }
+        } <span class="hljs-keyword">catch</span> (IOException exception) {
+            System.out.println(<span class="hljs-string">&quot;Error while reading file, \&quot;IOExceptio\&quot;, Did you give the correct location / does the &quot;</span> +
+                <span class="hljs-string">&quot;file exist?&quot;</span>);
+        }
+        <span class="hljs-keyword">return</span> fileArrayList;
+    }
+}
+</code></pre>
+<p>OK...  </p>
+<p>This class does nothing more than processing the input file into a list of lines. Hello! Streaming processing? These files can get in the Gigabytes size.
+Moreover, it catches an exception only to generate a <code>System.out.println</code> message. Some work to be done here for sure. Note the name <code>raw_path</code>. This is somebody coming from Python, it seems.</p>
+<p>Next class, main: <code>GffQuery</code>. Take a minute to study its source before reading on. Note at least 5 points of improvement elegible for refactoring.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.gff_query;
+<span class="hljs-comment">//imports omitted</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GffQuery</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-comment">// grab stuff from command line, try to parse.</span>
+        CLIParser my_cli_parser = <span class="hljs-keyword">new</span> CLIParser();
+        <span class="hljs-comment">// try to parse</span>
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-comment">// before anything else, try for printing the help</span>
+            <span class="hljs-keyword">boolean</span> help_present = my_cli_parser.cliHelpParse(args);
+            <span class="hljs-keyword">if</span> (help_present) {my_cli_parser.printHelp();}
+            <span class="hljs-keyword">else</span>{
+                <span class="hljs-comment">// parse the command line arguments</span>
+                my_cli_parser.cliParse(args);
+                <span class="hljs-comment">// if this worked, go on and grab all the arguments.</span>
+                <span class="hljs-comment">// but first check if the inputs are correct.</span>
+                <span class="hljs-keyword">boolean</span> correct_inputs = my_cli_parser.checkInputs();
+                <span class="hljs-keyword">if</span> (!correct_inputs) {
+                    System.out.println(<span class="hljs-string">&quot;Something went wrong when checking inputs, some may be incorrect, please &quot;</span> +
+                            <span class="hljs-string">&quot;refer to the help page or check if your input file is correct.&quot;</span>);
+                }
+                <span class="hljs-keyword">else</span> {
+                    String[] parsed_arguments = my_cli_parser.returnArguments();
+                    <span class="hljs-comment">// handle stuff based on the case.</span>
+                    <span class="hljs-keyword">int</span> mycase;
+                    <span class="hljs-keyword">if</span> (parsed_arguments[<span class="hljs-number">1</span>].equals(<span class="hljs-string">&quot;true&quot;</span>)) {
+                        <span class="hljs-comment">// case 1, print summary.</span>
+                        mycase = <span class="hljs-number">1</span>;
+                    }
+                    <span class="hljs-keyword">else</span> {
+                        <span class="hljs-comment">// case 2, actually apply filters and stuff.</span>
+                        mycase = <span class="hljs-number">2</span>;
+                    }
+                    <span class="hljs-comment">// before running the switch, read in file and make a GffFile object</span>
+                    String path = parsed_arguments[<span class="hljs-number">0</span>];
+                    FileReader filereader = <span class="hljs-keyword">new</span> FileReader();
+                    <span class="hljs-comment">// read in the raw file and catch the resulting ArrayList</span>
+                    ArrayList fileArrayList = filereader.readFile(path);
+                    <span class="hljs-keyword">if</span> (fileArrayList.isEmpty()) {
+                        mycase = <span class="hljs-number">3</span>;
+                    }
+                    <span class="hljs-comment">// parse it to a GffFile object.</span>
+                    GffFile myGffFile = <span class="hljs-keyword">new</span> GffFile(fileArrayList, path);
+                    <span class="hljs-keyword">switch</span> (mycase) {
+                        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+                            <span class="hljs-comment">// do summary, not implemented as of yet.</span>
+                            myGffFile.printSummary();
+                            <span class="hljs-keyword">break</span>;
+                        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+                            <span class="hljs-comment">// apply all filters.</span>
+                            <span class="hljs-comment">// create filters array</span>
+                            String[] filters = <span class="hljs-keyword">new</span> String[<span class="hljs-number">5</span>];
+                            <span class="hljs-comment">// filters has all filters like so;</span>
+                            <span class="hljs-comment">// fetch_type, fetch_region, filter, fetch_children, find_wildcard</span>
+                            <span class="hljs-comment">// parsed_arguments had this;</span>
+                            <span class="hljs-comment">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span>
+                            filters[<span class="hljs-number">0</span>] = parsed_arguments[<span class="hljs-number">2</span>];
+                            filters[<span class="hljs-number">1</span>] = parsed_arguments[<span class="hljs-number">3</span>];
+                            filters[<span class="hljs-number">2</span>] = parsed_arguments[<span class="hljs-number">6</span>];
+                            filters[<span class="hljs-number">3</span>] = parsed_arguments[<span class="hljs-number">4</span>];
+                            filters[<span class="hljs-number">4</span>] = parsed_arguments[<span class="hljs-number">5</span>];
+                            <span class="hljs-comment">// put in filters and print results</span>
+                            myGffFile.applyFilters(filters);
+                            <span class="hljs-keyword">if</span> (myGffFile.toString().isEmpty()) {
+                                System.out.println(<span class="hljs-string">&quot;Oops, no lines found! Try to apply different filters. or double &quot;</span> +
+                                        <span class="hljs-string">&quot;check them. It might also be possible that the file did not contain any&quot;</span> +
+                                        <span class="hljs-string">&quot; valid gff3 formatted lines.&quot;</span>);
+                            }
+                            System.out.print(myGffFile.toString());
+                            <span class="hljs-keyword">break</span>;
+                        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+                            System.out.println(<span class="hljs-string">&quot;empty or corrupt file.&quot;</span>);
+                            <span class="hljs-keyword">break</span>;
+                    }
+
+                }
+            }
+        }
+        <span class="hljs-keyword">catch</span>( ParseException exp ) {
+            <span class="hljs-comment">// oops, something went wrong</span>
+            System.err.println( <span class="hljs-string">&quot;command line input parsing failed. please refer to the manual using the \&quot;--help\&quot; &quot;</span> +
+                    <span class="hljs-string">&quot;argument&quot;</span> );
+        }
+    }
+}
+</code></pre>
+<p>OK...again...</p>
+<p>So here are a few aspects that need to be addressed:  </p>
+<ol>
+<li>Every line of code is in one big main</li>
+<li>This is a Many Responsibilities class</li>
+<li>Naming convention violations all over</li>
+<li>Too complex flow control</li>
+<li>Not OO at all</li>
+<li>and more</li>
+</ol>
+<p>We&apos;ll get to this class later.</p>
+<p>The <code>GffLine</code>, <code>GffFile</code> and <code>CLIParser</code> classes are similar in nature. I won&apos;t show them all here. In this part, I would like to focus on class <code>CLIParser</code>. To get it right, I will need to refactor in other places as well, but this will be my starting point. Why start here? This is a class that should have an obvious Single Responsibility: taking care of command-line arguments. Have a look at the code yourself first and think where you would start.  </p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.gff_query.io;
+
+<span class="hljs-keyword">import</span> org.apache.commons.cli.*;
+<span class="hljs-keyword">import</span> java.io.File;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CLIParser</span> </span>{
+    <span class="hljs-keyword">private</span> Options options;
+    <span class="hljs-keyword">private</span> Options help_options;
+    <span class="hljs-keyword">private</span> CommandLine cmd;
+    <span class="hljs-keyword">private</span> CommandLine help_cmd;
+    <span class="hljs-keyword">private</span> DefaultParser parser;
+    <span class="hljs-keyword">private</span> HelpFormatter formatter;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CLIParser</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// Create parser object</span>
+        <span class="hljs-keyword">this</span>.parser = <span class="hljs-keyword">new</span> DefaultParser();
+        <span class="hljs-comment">// create Options object</span>
+        <span class="hljs-keyword">this</span>.options = <span class="hljs-keyword">new</span> Options();
+        <span class="hljs-keyword">this</span>.help_options = <span class="hljs-keyword">new</span> Options();
+        <span class="hljs-comment">// add cli options</span>
+
+        Option helpOption = Option.builder(<span class="hljs-string">&quot;h&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;help&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">false</span>)
+                .desc(<span class="hljs-string">&quot;Gives program help.&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.help_options.addOption(helpOption);
+        <span class="hljs-keyword">this</span>.options.addOption(helpOption);
+        Option infileOption = Option.builder(<span class="hljs-string">&quot;i&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;infile&quot;</span>)
+                .required(<span class="hljs-keyword">true</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;input gff3 file, e.g. \&quot;gff3_sample.gff3\&quot;&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(infileOption);
+        Option summaryOption = Option.builder(<span class="hljs-string">&quot;s&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;summary&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">false</span>)
+                .desc(<span class="hljs-string">&quot;makes a summary of the gff3 file.&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(summaryOption);
+        Option fetchtypeOption = Option.builder(<span class="hljs-string">&quot;ft&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;fetch_type&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;fetches type, e.g. \&quot;CDS\&quot;&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(fetchtypeOption);
+        Option fetchregionOption = Option.builder(<span class="hljs-string">&quot;fr&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;fetch_region&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;fetches region in between start..end, e.g. \&quot;250000..260000\&quot;&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(fetchregionOption);
+        Option fetchchildrenOption = Option.builder(<span class="hljs-string">&quot;fc&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;fetch_children&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;input which Parent group attributes to sort on, e.g. \&quot;PGSC0003DMT400039136\&quot;.&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(fetchchildrenOption);
+        Option findwildcardOption = Option.builder(<span class="hljs-string">&quot;fw&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;find_wildcard&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;input which wildcard, e.g. \&quot;[dD]efesin\&quot; to match on. (gff3 name attribute)&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(findwildcardOption);
+        Option filterOption = Option.builder(<span class="hljs-string">&quot;f&quot;</span>)
+                .longOpt(<span class="hljs-string">&quot;filter&quot;</span>)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;miscellaneous filters, defined like&quot;</span> +
+                        <span class="hljs-string">&quot; so: \&quot;source|score|orientation|maximum_length|minimum_length\&quot;&quot;</span>)
+                .build();
+        <span class="hljs-keyword">this</span>.options.addOption(filterOption);
+        <span class="hljs-comment">// create help</span>
+        <span class="hljs-keyword">this</span>.formatter = <span class="hljs-keyword">new</span> HelpFormatter();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">cliParse</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ParseException </span>{
+        <span class="hljs-keyword">this</span>.cmd = <span class="hljs-keyword">this</span>.parser.parse(<span class="hljs-keyword">this</span>.options, args);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkInputs</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// check which inputs exist and check them (if neccesary)</span>
+        <span class="hljs-comment">// check infile</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;infile&quot;</span>)) {
+            File f = <span class="hljs-keyword">new</span> File(<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;infile&quot;</span>));
+            <span class="hljs-keyword">if</span>(!(f.exists() &amp;&amp; !f.isDirectory())) {
+                <span class="hljs-comment">// raise error that file does not exist.</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-comment">// check filter</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;filter&quot;</span>)) {
+            <span class="hljs-comment">// check if filter has correct formatting. If it does not, return false</span>
+            <span class="hljs-comment">// &lt;SOURCE, SCORE, ORIENTATION MAXIMUM AND/OR MINIMUM LENGTH&gt;</span>
+            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;filter&quot;</span>).matches(
+                    <span class="hljs-string">&quot;(.+\\|(\\d+|\\*|\\.)\\|(\\.|\\+|\\-|\\*)\\|(\\d+|\\*|\\.)\\|(\\d+|\\*|\\.))&quot;</span>)) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-comment">// check fetch region</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_region&quot;</span>)) {
+            <span class="hljs-comment">// check if fetch region has correct formatting.</span>
+            <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_region&quot;</span>).matches(<span class="hljs-string">&quot;\\d+\\.\\.\\d+&quot;</span>)){
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_type&quot;</span>)) {
+            <span class="hljs-comment">// check if not a bool.</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_type&quot;</span>).matches(<span class="hljs-string">&quot;(true|false)&quot;</span>)) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_children&quot;</span>)) {
+            <span class="hljs-comment">// check if not a bool.</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_children&quot;</span>).matches(<span class="hljs-string">&quot;(true|false)&quot;</span>)) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;find_wildcard&quot;</span>)) {
+            <span class="hljs-comment">// check if not a bool.</span>
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;find_wildcard&quot;</span>).matches(<span class="hljs-string">&quot;(true|false)&quot;</span>)) {
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+
+    <span class="hljs-keyword">public</span> String[] returnArguments() {
+        String[] parsed_args = <span class="hljs-keyword">new</span> String[<span class="hljs-number">7</span>];
+        <span class="hljs-comment">// build parsed_args array.</span>
+        <span class="hljs-comment">// it is filled with options/null respectively like so;</span>
+        <span class="hljs-comment">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span>
+        <span class="hljs-comment">// Options without arguments, will be false if not present, and true when present.</span>
+        <span class="hljs-comment">// Options with arguments, will also be false if not present, and their getOptionValue when present.</span>
+        <span class="hljs-comment">// keep all values strings to be consistent.</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;infile&quot;</span>)) {parsed_args[<span class="hljs-number">0</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;infile&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;summary&quot;</span>)) {parsed_args[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;true&quot;</span>;}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_type&quot;</span>)) {parsed_args[<span class="hljs-number">2</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_type&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">2</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_region&quot;</span>)) {parsed_args[<span class="hljs-number">3</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_region&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">3</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;fetch_children&quot;</span>)) {parsed_args[<span class="hljs-number">4</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;fetch_children&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">4</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;find_wildcard&quot;</span>)) {parsed_args[<span class="hljs-number">5</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;find_wildcard&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">5</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(<span class="hljs-string">&quot;filter&quot;</span>)) {parsed_args[<span class="hljs-number">6</span>] = <span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;filter&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">6</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+
+        <span class="hljs-keyword">return</span> parsed_args;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">cliHelpParse</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ParseException </span>{
+        <span class="hljs-keyword">this</span>.help_cmd = <span class="hljs-keyword">new</span> DefaultParser().parse(<span class="hljs-keyword">this</span>.help_options, args, <span class="hljs-keyword">true</span>);
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.help_cmd.hasOption(<span class="hljs-string">&quot;help&quot;</span>) || <span class="hljs-keyword">this</span>.help_cmd.getArgs().length == <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printHelp</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// print the help or the version there. return true because help is printed</span>
+        String footer = <span class="hljs-string">&quot;//omitted for brievity//&quot;</span>;
+
+        <span class="hljs-keyword">this</span>.formatter.printHelp(<span class="hljs-string">&quot;GffQuery&quot;</span>, <span class="hljs-string">&quot;Version: 1.1-SNAPSHOT&quot;</span>, <span class="hljs-keyword">this</span>.options, footer, <span class="hljs-keyword">true</span>);
+    }
+}
+</code></pre>
+<p>Since I really -really- hate it when people don&apos;t adhere to naming conventions, I&apos;ll start there.
+So this is </p>
+<h3 id="rename-variables-and-methods-to-adhere-to-java-standards">Rename variables and methods to adhere to Java standards.</h3>
+<p>So, <code>help_options</code> becomes <code>helpOptions</code>, and <code>help_cmd</code> becomes <code>helpCommandLine</code>. You may 
+note the absence of <code>help_cmd</code> in the final version. This is because there is no reason to maintain
+ it as an instance variable.</p>
+<p>Remember by the way that methods should be verbs and variables should be nouns.</p>
+<h3 id="extract-string-literal-to-constants">Extract string literal to constants</h3>
+<p>As an example, you see the word &quot;infile&quot; typed several times: 
+<code>Option infileOption = Option.builder(&quot;i&quot;).longOpt(&quot;infile&quot;)</code>, <code>if (this.cmd.hasOption(&quot;infile&quot;))</code> 
+(2 times). So this is the next step: get these out of the real code.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CLIParser</span> </span>{
+    <span class="hljs-comment">//much code omitted in this snippet!</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_INFILE = <span class="hljs-string">&quot;infile&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_SUMMARY = <span class="hljs-string">&quot;summary&quot;</span>;
+    <span class="hljs-comment">//...</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CLIParser</span><span class="hljs-params">()</span> </span>{
+        Option infileOption = Option.builder(<span class="hljs-string">&quot;i&quot;</span>)
+                .longOpt(OPTION_INFILE)
+                .required(<span class="hljs-keyword">true</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;input gff3 file, e.g. \&quot;gff3_sample.gff3\&quot;&quot;</span>)
+                .build();
+        <span class="hljs-comment">//...</span>
+    }
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkInputs</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">// check which inputs exist and check them (if neccesary)</span>
+        <span class="hljs-comment">// check infile</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.cmd.hasOption(OPTION_INFILE)) {
+            File f = <span class="hljs-keyword">new</span> File(<span class="hljs-keyword">this</span>.cmd.getOptionValue(<span class="hljs-string">&quot;infile&quot;</span>));
+            <span class="hljs-keyword">if</span>(!(f.exists() &amp;&amp; !f.isDirectory())) {
+                <span class="hljs-comment">// raise error that file does not exist.</span>
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            }
+        }
+        <span class="hljs-comment">//...</span>
+    }
+}
+</code></pre>
+<p>Should the constants be public? Maybe, maybe not. Think about it.</p>
+<h3 id="extract-functionality-from-constructor-code">Extract functionality from constructor code</h3>
+<p>Constructors should be short and readable, and only construct (maybe through calling other methods).
+What I sometimes even see is code like this:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
+        MyApp(args);
+    }
+    <span class="hljs-comment">//more code</span>
+}
+</code></pre>
+<p>That means there is application logic in the constructor that is not even called explicitly!</p>
+<p>So here is the new constructor of the CLIParser class:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CLIParser</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.parser = <span class="hljs-keyword">new</span> DefaultParser();
+        buildOptions();
+    }
+</code></pre>
+<p>It calls the <code>buildOptions()</code> method to, well, build te options. This method creates both <code>this.options = new Options();</code> 
+and <code>this.helpOptions = new Options();</code>. That seems a bit funny but this is a workaround for the problem with <code>infileOption</code>
+being required. This will throw an exception if it is absent. That conflicts with the case where only help is requested.</p>
+<h3 id="rename-methods-and-variables-to-their-real-purpose">Rename methods and variables to their real purpose</h3>
+<p>The method <code>cliHelpParse()</code> does not parse help. No, its intent is to signal that help is requested:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">cliHelpParse</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ParseException </span>{
+        <span class="hljs-keyword">this</span>.help_cmd = <span class="hljs-keyword">new</span> DefaultParser().parse(<span class="hljs-keyword">this</span>.help_options, args, <span class="hljs-keyword">true</span>);
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.help_cmd.hasOption(<span class="hljs-string">&quot;help&quot;</span>) || <span class="hljs-keyword">this</span>.help_cmd.getArgs().length == <span class="hljs-number">0</span>) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    }
+</code></pre>
+<p>So I refactored it into the following version, with a more suitable name, the commandLine variable now being local, and the
+ <code>ParseException</code> not thrown anymore (this choice can be argued extensively).</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isHelpRequested</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            CommandLine commandLine = <span class="hljs-keyword">this</span>.parser.parse(<span class="hljs-keyword">this</span>.helpOptions, args);
+            <span class="hljs-keyword">return</span> (commandLine.hasOption(OPTION_HELP));
+        } <span class="hljs-keyword">catch</span> (ParseException e) {
+            e.printStackTrace();
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    }
+</code></pre>
+<p>A variant to this solution could be:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isHelpRequested</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            CommandLine commandLine = <span class="hljs-keyword">this</span>.parser.parse(<span class="hljs-keyword">this</span>.options, args);
+            <span class="hljs-keyword">return</span> (commandLine.hasOption(OPTION_HELP));
+        } <span class="hljs-keyword">catch</span> (ParseException e) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        }
+    }
+</code></pre>
+<p>Here, the helpOption instance variable has been made obsolete, and in the catch block is is simply assumed that if 
+anything goes wrong, help should be displayed. Which is the better?  </p>
+<p>Next, method <code>public void cliParse(String[] args)</code> was renamed to <code>public void parseCommandLineArguments(String[] args)</code>.</p>
+<h3 id="refactor-to-srp">Refactor to SRP</h3>
+<p>The next aspect is the method <code>public boolean checkInputs() {}</code>. Is class CLIParse the place to do this? What if some other 
+means of options specification is implemeted, e.g. a GUI form? These options will need to be checked all the same. I think 
+<code>checkInputs</code> should not be in that class. But where else? Main? No, I think checking options, and keeping track of options, 
+should be the responsibility of a separate class. So that is where they&apos;ll go. I created class <code>GffAnalysisOptions</code> and put
+ option checking in it:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GffAnalysisOptions</span> </span>{
+    <span class="hljs-keyword">private</span> String inFile;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> summary;
+    <span class="hljs-keyword">private</span> String searchType;
+    <span class="hljs-keyword">private</span> String searchRegion;
+    <span class="hljs-keyword">private</span> String searchChildren;
+    <span class="hljs-keyword">private</span> String searchWildcard;
+    <span class="hljs-keyword">private</span> String searchFilter;
+
+    <span class="hljs-comment">//getters and setters</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkCorrectnessOfInputs</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-comment">//checking code </span>
+    }
+
+}
+</code></pre>
+<h3 id="use-basic-oop-principles">Use basic OOP principles</h3>
+<p>So, finally, there is this method (abbreviated):</p>
+<pre><code class="lang-java">    <span class="hljs-keyword">public</span> String[] returnArguments() {
+        String[] parsed_args = <span class="hljs-keyword">new</span> String[<span class="hljs-number">7</span>];
+        <span class="hljs-comment">// build parsed_args array.</span>
+        <span class="hljs-comment">// it is filled with options/null respectively like so;</span>
+        <span class="hljs-comment">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span>
+        <span class="hljs-comment">// Options without arguments, will be false if not present, and true when present.</span>
+        <span class="hljs-comment">// Options with arguments, will also be false if not present, and their getOptionValue when present.</span>
+        <span class="hljs-comment">// keep all values strings to be consistent.</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_INFILE)) {parsed_args[<span class="hljs-number">0</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;infile&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_SUMMARY)) {parsed_args[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;true&quot;</span>;}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">1</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_TYPE)) {parsed_args[<span class="hljs-number">2</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;fetch_type&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">2</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_REGION)) {parsed_args[<span class="hljs-number">3</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;fetch_region&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">3</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_REGION)) {parsed_args[<span class="hljs-number">4</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;fetch_children&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">4</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FIND_WILDCARD)) {parsed_args[<span class="hljs-number">5</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;find_wildcard&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">5</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FILTER)) {parsed_args[<span class="hljs-number">6</span>] = <span class="hljs-keyword">this</span>.commandLine.getOptionValue(<span class="hljs-string">&quot;filter&quot;</span>);}
+        <span class="hljs-keyword">else</span> {parsed_args[<span class="hljs-number">6</span>] = <span class="hljs-string">&quot;false&quot;</span>;}
+
+        <span class="hljs-keyword">return</span> parsed_args;
+    }
+</code></pre>
+<p>Auch! This hurts. A String[] with &quot;false&quot; values stored in it. Moreover, the code is so obfuscated that it needs many lines of 
+comments. Why didn&apos;t this student think of an Options class of some kind, like <code>GffAnalysisOptions</code> (shown above)?  </p>
+<p>So here I wrote a replacement method for it:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> GffAnalysisOptions <span class="hljs-title">getAnalysisOptions</span><span class="hljs-params">()</span> </span>{
+        GffAnalysisOptions gffAnalysisOptions = <span class="hljs-keyword">new</span> GffAnalysisOptions();
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_INFILE)) {
+            gffAnalysisOptions.setInFile(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_INFILE));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_SUMMARY)) {
+            gffAnalysisOptions.setSummary(<span class="hljs-keyword">true</span>);
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_TYPE)) {
+            gffAnalysisOptions.setSearchType(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_TYPE));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_REGION)) {
+            gffAnalysisOptions.setSearchRegion(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_REGION));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_CHILDREN)) {
+            gffAnalysisOptions.setSearchChildren(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_CHILDREN));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FIND_WILDCARD)) {
+            gffAnalysisOptions.setSearchWildcard(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FIND_WILDCARD));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FILTER)) {
+            gffAnalysisOptions.setSearchFilterAsString(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FILTER));
+        }
+        <span class="hljs-keyword">return</span> gffAnalysisOptions;
+    }
+</code></pre>
+<p>Of course, these options need to be processed further - primarily the filter option - before they can be put to use.</p>
+<p>To replace the (fortunately localized) usage of the <code>String[]</code> with an <code>GffAnalysisOptions</code> instance, I switched to 
+class <code>GffQuery</code> and eased it in:</p>
+<pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>{
+        <span class="hljs-comment">//much more code</span>
+
+        String[] parsedArguments = cliParser.returnArguments();
+        GffAnalysisOptions analysisOptions = cliParser.getAnalysisOptions();
+        <span class="hljs-comment">//TODO replace use of parsedArguments with analysisOptions</span>
+
+        <span class="hljs-comment">//more code</span>
+
+        <span class="hljs-comment">// handle stuff based on the case.</span>
+        <span class="hljs-keyword">int</span> mycase;
+        <span class="hljs-keyword">if</span> (parsedArguments[<span class="hljs-number">1</span>].equals(<span class="hljs-string">&quot;true&quot;</span>)) {
+            <span class="hljs-comment">// case 1, print summary.</span>
+            mycase = <span class="hljs-number">1</span>;
+        }
+        <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// case 2, actually apply filters and stuff.</span>
+            mycase = <span class="hljs-number">2</span>;
+        }
+
+        <span class="hljs-comment">//much more code, also like this:</span>
+            <span class="hljs-comment">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span>
+            filters[<span class="hljs-number">0</span>] = parsedArguments[<span class="hljs-number">2</span>];
+            filters[<span class="hljs-number">1</span>] = parsedArguments[<span class="hljs-number">3</span>];
+            filters[<span class="hljs-number">2</span>] = parsedArguments[<span class="hljs-number">6</span>];
+            filters[<span class="hljs-number">3</span>] = parsedArguments[<span class="hljs-number">4</span>];
+            filters[<span class="hljs-number">4</span>] = parsedArguments[<span class="hljs-number">5</span>];
+    }
+</code></pre>
+<p>It is extremely tempting to refactor the other ugly code as well, such as the <code>mycase = 1</code> ot the <code>String[] filters</code>, but restraint is very important in this kind of operation.
+So, only refactor out the use of <code>parsedArguments</code> now, and keep on writing and running your JUnit tests to verify no functionality gets broken:</p>
+<pre><code class="lang-java">            <span class="hljs-keyword">if</span> (analysisOptions.isSummaryRequested()) {
+<span class="hljs-comment">//            if (parsedArguments[1].equals(&quot;true&quot;)) {</span>
+                <span class="hljs-comment">// case 1, print summary.</span>
+                mycase = <span class="hljs-number">1</span>;
+            }
+            <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// case 2, actually apply filters and stuff.</span>
+                mycase = <span class="hljs-number">2</span>;
+            }
+            <span class="hljs-comment">// before running the switch, read in file and make a GffFile object</span>
+            String path = analysisOptions.getInFile();<span class="hljs-comment">//parsedArguments[0];</span>
+
+            <span class="hljs-comment">//more code </span>
+
+                    String[] filters = <span class="hljs-keyword">new</span> String[<span class="hljs-number">5</span>];
+                    <span class="hljs-comment">// filters has all filters like so;</span>
+                    <span class="hljs-comment">// fetch_type, fetch_region, filter, fetch_children, find_wildcard</span>
+                    <span class="hljs-comment">// parsedArguments had this;</span>
+                    <span class="hljs-comment">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span>
+                    filters[<span class="hljs-number">0</span>] = analysisOptions.getSearchType();
+                    filters[<span class="hljs-number">1</span>] = analysisOptions.getSearchRegion();
+                    filters[<span class="hljs-number">2</span>] = analysisOptions.getSearchFilter();
+                    filters[<span class="hljs-number">3</span>] = analysisOptions.getSearchChildren();
+                    filters[<span class="hljs-number">4</span>] = analysisOptions.getSearchWildcard();
+<span class="hljs-comment">//                    filters[0] = parsedArguments[2];</span>
+<span class="hljs-comment">//                    filters[1] = parsedArguments[3];</span>
+<span class="hljs-comment">//                    filters[2] = parsedArguments[6];</span>
+<span class="hljs-comment">//                    filters[3] = parsedArguments[4];</span>
+<span class="hljs-comment">//                    filters[4] = parsedArguments[5];</span>
+</code></pre>
+<p>Now the <code>returnArguments()</code> method can be removed. Do NOT comment it out because it clutters your code that is finally becoming readable.
+If you want it back (or have a look at it), simply go to a previous commit.</p>
+<h3 id="remove-comments">Remove comments</h3>
+<p>Good code reads like a book! If you need it for yourself, your code is probably not very good.
+API methods should be very well documented of course, but inline comments or private methods comments should ideally not be necessary. Keep them to a minimum! They get outdated and are becoming damaging by themselves. A comment like <code>/*builds the options*/</code> is entirely unnecessary!</p>
+<h2 id="the-result">The result</h2>
+<p>This is the CLIParser class after complete refactoring:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.gff_query.io;
+<span class="hljs-keyword">import</span> org.apache.commons.cli.*;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CLIParser</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_HELP = <span class="hljs-string">&quot;help&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_INFILE = <span class="hljs-string">&quot;infile&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_SUMMARY = <span class="hljs-string">&quot;summary&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_FETCH_TYPE = <span class="hljs-string">&quot;fetch_type&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_FETCH_REGION = <span class="hljs-string">&quot;fetch_region&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_FETCH_CHILDREN = <span class="hljs-string">&quot;fetch_children&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_FIND_WILDCARD = <span class="hljs-string">&quot;find_wildcard&quot;</span>;
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String OPTION_FILTER = <span class="hljs-string">&quot;filter&quot;</span>;
+    <span class="hljs-comment">/*private -&gt; testing*/</span> Options options;
+    <span class="hljs-comment">/*private -&gt; testing*/</span> CommandLine commandLine;
+    <span class="hljs-keyword">private</span> DefaultParser parser;
+    <span class="hljs-keyword">private</span> HelpFormatter formatter;
+    <span class="hljs-keyword">private</span> Options helpOptions;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CLIParser</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.parser = <span class="hljs-keyword">new</span> DefaultParser();
+        buildOptions();
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">buildOptions</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.options = <span class="hljs-keyword">new</span> Options();
+        <span class="hljs-keyword">this</span>.helpOptions = <span class="hljs-keyword">new</span> Options();
+        Option helpOption = Option.builder(<span class="hljs-string">&quot;h&quot;</span>)
+                .longOpt(OPTION_HELP)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">false</span>)
+                .desc(<span class="hljs-string">&quot;Gives usage instructions&quot;</span>)
+                .build();
+        options.addOption(helpOption);
+        helpOptions.addOption(helpOption);
+        Option infileOption = Option.builder(<span class="hljs-string">&quot;i&quot;</span>)
+                .longOpt(OPTION_INFILE)
+                .required(<span class="hljs-keyword">true</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;The input gff3 file, as absolute or relative path&quot;</span>)
+                .build();
+        options.addOption(infileOption);
+        Option summaryOption = Option.builder(<span class="hljs-string">&quot;s&quot;</span>)
+                .longOpt(OPTION_SUMMARY)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">false</span>)
+                .desc(<span class="hljs-string">&quot;lists a summary of the gff3 file&quot;</span>)
+                .build();
+        options.addOption(summaryOption);
+        Option fetchtypeOption = Option.builder(<span class="hljs-string">&quot;ft&quot;</span>)
+                .longOpt(OPTION_FETCH_TYPE)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;Lists all features of the requested type, e.g. \&quot;CDS\&quot;&quot;</span>)
+                .build();
+        options.addOption(fetchtypeOption);
+        Option fetchregionOption = Option.builder(<span class="hljs-string">&quot;fr&quot;</span>)
+                .longOpt(OPTION_FETCH_REGION)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;Lists all the features that reside completely within the given region; specified as start..end, e.g. \&quot;250000..260000\&quot;&quot;</span>)
+                .build();
+        options.addOption(fetchregionOption);
+        Option fetchchildrenOption = Option.builder(<span class="hljs-string">&quot;fc&quot;</span>)
+                .longOpt(OPTION_FETCH_CHILDREN)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;Lists all child features of the given feature ID, e.g. \&quot;PGSC0003DMT400039136\&quot;&quot;</span>)
+                .build();
+        options.addOption(fetchchildrenOption);
+        Option findwildcardOption = Option.builder(<span class="hljs-string">&quot;fw&quot;</span>)
+                .longOpt(OPTION_FIND_WILDCARD)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;Lists all features for which the \&quot;name\&quot; attribute matches the given wildcard, specified as regex pattern, &quot;</span> +
+                        <span class="hljs-string">&quot;e.g. \&quot;[dD]efesin\&quot;&quot;</span>)
+                .build();
+        options.addOption(findwildcardOption);
+        Option filterOption = Option.builder(<span class="hljs-string">&quot;f&quot;</span>)
+                .longOpt(OPTION_FILTER)
+                .required(<span class="hljs-keyword">false</span>)
+                .hasArg(<span class="hljs-keyword">true</span>)
+                .desc(<span class="hljs-string">&quot;Lists all features that pass all of the given filters specified in the format string defined as&quot;</span> +
+                        <span class="hljs-string">&quot;: \&quot;source|score|orientation|maximum_length|minimum_length\&quot; where the filters should be relevant to the &quot;</span> +
+                        <span class="hljs-string">&quot;given attribute. Suppression of an individual filter is indicated using an asterisk (*).&quot;</span> +
+                        <span class="hljs-string">&quot;ORIENTATION should be defined using a \&quot;+\&quot;, \&quot;-\&quot; or \&quot;.\&quot; character&quot;</span>)
+                .build();
+        options.addOption(filterOption);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">printHelp</span><span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">this</span>.formatter = <span class="hljs-keyword">new</span> HelpFormatter();
+        String footer = <span class="hljs-string">&quot;\nPaths are platform independent.&quot;</span>;
+        <span class="hljs-keyword">this</span>.formatter.printHelp(<span class="hljs-string">&quot;GffQuery&quot;</span>, <span class="hljs-string">&quot;Version: 1.1-SNAPSHOT&quot;</span>, <span class="hljs-keyword">this</span>.options, footer, <span class="hljs-keyword">true</span>);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isHelpRequested</span><span class="hljs-params">(String[] args)</span> </span>{
+        <span class="hljs-keyword">try</span> {
+            CommandLine commandLine = <span class="hljs-keyword">this</span>.parser.parse(<span class="hljs-keyword">this</span>.options, args);
+            <span class="hljs-keyword">return</span> (commandLine.hasOption(OPTION_HELP));
+        } <span class="hljs-keyword">catch</span> (ParseException e) {
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">parseCommandLineArguments</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> ParseException </span>{
+        <span class="hljs-keyword">this</span>.commandLine = <span class="hljs-keyword">this</span>.parser.parse(<span class="hljs-keyword">this</span>.options, args);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> GffAnalysisOptions <span class="hljs-title">getAnalysisOptions</span><span class="hljs-params">()</span> </span>{
+        GffAnalysisOptions gffAnalysisOptions = <span class="hljs-keyword">new</span> GffAnalysisOptions();
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_INFILE)) {
+            gffAnalysisOptions.setInFile(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_INFILE));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_SUMMARY)) {
+            gffAnalysisOptions.setSummary(<span class="hljs-keyword">true</span>);
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_TYPE)) {
+            gffAnalysisOptions.setSearchType(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_TYPE));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_REGION)) {
+            gffAnalysisOptions.setSearchRegion(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_REGION));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FETCH_CHILDREN)) {
+            gffAnalysisOptions.setSearchChildren(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FETCH_CHILDREN));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FIND_WILDCARD)) {
+            gffAnalysisOptions.setSearchWildcard(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FIND_WILDCARD));
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.commandLine.hasOption(OPTION_FILTER)) {
+            gffAnalysisOptions.setSearchFilterAsString(<span class="hljs-keyword">this</span>.commandLine.getOptionValue(OPTION_FILTER));
+        }
+        <span class="hljs-keyword">return</span> gffAnalysisOptions;
+    }
+}
+</code></pre>
+<h2 id="take-over">Take over</h2>
+<p>I challenge you to now take class <code>GffQuery</code> and make it look good! Check out tag 0.2 of branch <code>master</code> (commit 19a08f4).</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../06_tools/JUnit_advanced.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: JUnit 5 Advanced">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"JUnit 5 Basics","level":"9.1","depth":1,"previous":{"title":"JUnit 5 Advanced","level":"8.2","depth":1,"path":"06_tools/JUnit_advanced.md","ref":"06_tools/JUnit_advanced.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"07_design/demo_case_refactoring.md","mtime":"2019-12-16T15:13:55.863Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-26T19:10:28.838Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc/anchor-3.1.1.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-page-toc/page-toc.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
