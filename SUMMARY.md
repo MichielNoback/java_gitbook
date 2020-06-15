@@ -66,4 +66,4 @@
 * [JUnit 5 Advanced](06_tools/JUnit_advanced.md)
 
 ## Part 7: Design
-* [JUnit 5 Basics](07_design/demo_case_refactoring.md)
+* [Demo case refactoring](07_design/demo_case_refactoring.md)
