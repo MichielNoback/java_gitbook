@@ -7,7 +7,7 @@
 
 * [A first IntelliJ project](01_getting_started/intellij.md)
 * [The essentials](01_getting_started/essentials.md)
-* [Demo case: A first look at objects](01_getting_started/first_look_at_objects.md)
+* [A first look at objects](01_getting_started/first_look_at_objects.md)
 * [Basic program design](02_syntax/basic_program_design.md)
 * [Naming and commenting](02_syntax/naming_commenting.md)
 
