@@ -159,7 +159,7 @@
                 <a href="first_look_at_objects.html">
             
                     
-                    Demo case: A first look at objects
+                    A first look at objects
             
                 </a>
             
@@ -715,7 +715,7 @@
                 <a href="../07_design/demo_case_refactoring.html">
             
                     
-                    JUnit 5 Basics
+                    Demo case refactoring
             
                 </a>
             
@@ -773,49 +773,66 @@
 develop Java programs. This chapter deals with using IntelliJ Idea to create 
 Java applications.</p>
 <h2 id="dependency-management">Dependency management</h2>
-<p>As you probably already know by now, code you write is 
+<p>As you probably already know by now, code you write is always
 dependent on other code. This can be code native to the platform (such as the 
-<code>integer</code> &quot;class&quot; in R, or the <code>str</code> class in Python), but it can also be code 
-that is not distributed with the standard platform (such as <code>ggplot2</code> in R).
-These &quot;non-core&quot; code dependencies need to be managed, especially with a compiled 
-language such as Java. Several tools exist for dependency management in Java. In
- this course we&apos;ll use <strong><em>Gradle</em></strong>. It does much more than dependency management, but for 
- now this is the relevant aspect.</p>
+<code>integer</code> &quot;class&quot; in R, or the <code>str</code> class in Python) but it can also be code 
+that is not distributed with the standard platform (such as <code>ggplot2</code> in R, or <code>numpy</code> in Python).
+These &quot;non-core&quot; dependencies need to be managed. Many tools exist for dependency management; in Python this can be <code>pip</code> or <code>conda</code>, in R you use <code>install.packages()</code> and in Java there are also several technologies for this. In this course we&apos;ll use <strong><em>Gradle</em></strong>. It does much more than dependency management but for 
+ now this is the only relevant aspect.</p>
+<p>Let&apos;s dive in and see the different players in a Java coding project work together.</p>
 <h2 id="a-first-project">A first project</h2>
-<p>Start IntelliJ and select &quot;<code>+ Create New Project</code>&quot; from the start screen. </p>
+<p>Start IntelliJ and select &quot;<code>+ Create New Project</code>&quot; from the start screen (or New &#x2192; Project from the File menu). </p>
 <p><img src="figures/IntelliJ_start_screen.png" alt="IntelliJ_start_screen.png"></p>
-<p>In the New Project wizard, select Gradle on the left menu and then a project SDK (Standard Development Kit) - the examples 
-shows Java 10. Only check Java in the Libraries section.</p>
+<p>In the New Project wizard, select Gradle on the left menu and then a project SDK (Standard Development Kit) - this example 
+shows Java 10. Only check Java in the Additional Libraries section.</p>
 <p><img src="figures/IntelliJ_create_Gradle_project_1.png" alt="IntelliJ_create_Gradle_project_1.png"></p>
-<p>Click &quot;Next&quot;. In the next window, give your project a <strong><em>GroupID</em></strong>, an <strong><em>ArtifactID</em></strong> and a <strong><em>Version</em></strong>. </p>
+<p>Click &quot;Next&quot;. In the next window, give your project a Name and Location. Expand the Artifact Coordinates section which is hidden by default and give your project a <strong><em>GroupId</em></strong>, an <strong><em>ArtifactId</em></strong> and a <strong><em>Version</em></strong>. </p>
 <p><img src="figures/IntelliJ_create_Gradle_project_2.png" alt="IntelliJ_create_Gradle_project_2.png"></p>
-<p>The group ID should be a unique identifier; in Java this is usually the web domain of you or your employer, reversed and with a project name appended (note the underscores). The artifact ID is the name of your project. The version speaks for itself.</p>
-<p>Click &quot;Next&quot;.</p>
-<p>The last window lets you specify some Gradle-specific stuff. Fill out as shown below.</p>
-<p><img src="figures/IntelliJ_create_Gradle_project_3.png" alt="IntelliJ_create_Gradle_project_3.png"></p>
-<p>Click &quot;Next&quot;. </p>
-<p><img src="figures/IntelliJ_create_Gradle_project_4.png" alt="IntelliJ_create_Gradle_project_4.png"></p>
-<p>Click &quot;Finish&quot;. A fresh Gradle-managed Java project will be created with a layout as shown below.</p>
+<p>The group ID should be a unique identifier; in Java this is usually the web domain of you or your employer, reversed and with a project name appended. It is a way to guarantee a unique <em>name space</em>. Note the underscores; in Java you specify package names with underscores and lowercase letters. The artifact ID is the name of your project, also in lowercase but usually with hyphens between words. Give it version 0.0.1.</p>
+<p>Click &quot;Finish&quot;. A brand new Gradle-managed Java project will be created with a layout as shown below.</p>
 <p><img src="figures/IntelliJ_new_Gradle_project.png" alt="IntelliJ_new_Gradle_project.png"></p>
-<p>Several folders and files have been created. At the root of the project there is a <code>build.gradle</code> file. It contains the configuration of your project. One dependency has been added: JUnit 4 which is a testing framework. Since this is an older version, we&apos;ll immediately change this into JUnit5. Replace as shown below:</p>
-<pre><code class="lang-gradle"><span class="hljs-keyword">dependencies</span> {
-    <span class="hljs-comment">//don&apos;t use JUnit 4</span>
-    <span class="hljs-comment">//testCompile group: &apos;junit&apos;, name: &apos;junit&apos;, version: &apos;4.12&apos;</span>
-    <span class="hljs-comment">//JUnit 5 is better</span>
-    testImplementation <span class="hljs-string">&apos;org.junit.jupiter:junit-jupiter-api:5.1.0&apos;</span>
-    testRuntimeOnly <span class="hljs-string">&apos;org.junit.jupiter:junit-jupiter-engine:5.1.0&apos;</span>
+<p>Several folders and files have been created. The <code>src</code> folder is where the magic is going to happen of course: that&apos;s where your code is going to live. The other folders are for project management (<code>./.gradle</code>, <code>./gradle</code>, <code>./.idea</code>) and deployment (<code>./build</code> which is not present yet).</p>
+<p>At the root of the project there is a file called <code>build.gradle</code>. It contains the configuration of your project. One dependency has been added: JUnit 4, which is a <a href="https://en.wikipedia.org/wiki/Unit_testing" target="_blank">unit testing framework</a>. Since JUnit 4 is an older version, we&apos;ll immediately change this into JUnit 5. You should modify the <code>build.gradle</code> file so it looks exactly like this (except for the <code>group</code> declaration):</p>
+<pre><code class="lang-gradle"><span class="hljs-comment">//I am using Gradle to manage a Java project</span>
+plugins {
+    id <span class="hljs-string">&apos;java&apos;</span>
+}
+
+<span class="hljs-comment">//The group ID</span>
+<span class="hljs-keyword">group</span> <span class="hljs-string">&apos;nl.bioinf.nomi.my_first_project&apos;</span>
+<span class="hljs-comment">//my version</span>
+version <span class="hljs-string">&apos;0.0.1&apos;</span>
+<span class="hljs-comment">//working with Java 11 as target</span>
+<span class="hljs-keyword">sourceCompatibility</span> = JavaVersion.VERSION_11
+
+<span class="hljs-comment">//This is where dependencies should be found</span>
+<span class="hljs-keyword">repositories</span> {
+    mavenCentral()
+}
+
+<span class="hljs-comment">//the actual dependencies of my project, besides the Java SDK:</span>
+<span class="hljs-comment">// only the JUnit 5 test framework in this course</span>
+<span class="hljs-keyword">dependencies</span> {
+    testImplementation(<span class="hljs-string">&quot;org.junit.jupiter:junit-jupiter-api:5.6.2&quot;</span>)
+    testRuntimeOnly(<span class="hljs-string">&quot;org.junit.jupiter:junit-jupiter-engine:5.6.2&quot;</span>)
+}
+
+<span class="hljs-comment">//this says: use Gradle for test management, not IntelliJ</span>
+test {
+    useJUnitPlatform()
 }
 </code></pre>
-<p>Maybe IntelliJ suggests something about auto-import; accept this.</p>
-<p>Finally, let&apos;s create some code. Right-click on the <code>src/main/java</code> folder and select &quot;New&quot; -&gt; &quot;Package&quot; and give it the same name as your group ID (it is also in <code>build.gradle</code>).</p>
+<p>As you can see this is programming code (Groovy) that configures a programming project (Java).</p>
+<p>Whenever you make changes to <code>build.gradle</code> you should refresh your project via the small pop-up that appears in the editor pane, or via the Gradle Tool Window on the right (Re-import All Gradle Projects).</p>
+<p>Finally, let&apos;s create some Java code. Right-click on the <code>src/main/java</code> folder in the Project panel (left side) and select &quot;New&quot; &#x2192; &quot;Package&quot; and give it the same name as your group ID (it is also in <code>build.gradle</code>).</p>
 <p><img src="figures/new_package.png" alt="new_package.png"></p>
 <p>Select the new <code>package</code>, right-click it and select &quot;New&quot; -&gt; &quot;Java Class&quot;. Name it <code>HelloWorld</code> (do not give any file extension!) and click &quot;OK&quot;.</p>
 <p><img src="figures/new_java_class_1.png" alt="new_java_class.png">
 <img src="figures/new_java_class_2.png" alt="new_java_class.png"></p>
-<p>The class file will open in an editor. Here is a taste of the IntelliJ magic. Within the class, put the caret below the line <code>public class HelloWorld</code>. Next, type &quot;psvm&quot; and press tab.</p>
+<p>The class file will open in an editor. Within the class, put the caret below the line <code>public class HelloWorld</code>. Next, type &quot;psvm&quot; and press tab.</p>
 <p><img src="figures/new_main_method_1.png" alt="new_main_method_1.png"></p>
 <p><img src="figures/new_main_method_2.png" alt="new_main_method_2.png"></p>
-<p>A brand new <code>main()</code> method is created. Here is another extremely useful shortcut, assuming the caret is within <code>main()</code>. Type &quot;sout&quot; followed by the tab. </p>
+<p>A brand new <code>main()</code> method is created using this <em>keyboard shortcut</em>. Here is another extremely useful shortcut, assuming the caret is within <code>main()</code>. Type &quot;sout&quot; followed by the tab. </p>
 <p><img src="figures/shortcut_sout.png" alt="shortcut_sout.png"></p>
 <p>The statement <code>System.out.println();</code> appears. Within this print call, type &quot;Hello, World&quot;. Your class should look like this, except that your package will be named differently:</p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> nl.bioinf.nomi.my_first_project;
@@ -826,7 +843,7 @@ shows Java 10. Only check Java in the Libraries section.</p>
     }
 }
 </code></pre>
-<p>Click the green triangle within the editor border and select &quot;run &apos;HelloWorld.main()&apos; Note the shortcut for running main: <code>^ + shift + R</code>.</p>
+<p>Click the green triangle within the editor border and select &quot;run &apos;HelloWorld.main()&apos; Note there is also a shortcut for running <code>main()</code>: <code>^ + shift + R</code>.</p>
 <p><img src="figures/run_main.png" alt="run_main.png"></p>
 <p>In the console output on the lower pane, you will see this output, including the &quot;Hello, World&quot; message:</p>
 <pre class="console_out">
@@ -845,14 +862,40 @@ BUILD SUCCESSFUL in 0s
 </pre>
 
 <p>The &quot;Tasks&quot; are gradle stuff. It says, amongst others, that the source is compiled (Java is a compiled language!) and main() is run. You may notice that a new folder has appeared at the root of your project: <code>build</code>. Have a look at what&apos;s inside.</p>
-<p>That&apos;s it. This is how you create a Gradle-managed Java project, put a package in it, a first class at the correct location and within that, a main() method.</p>
+<p>If you get any errors (e.g. <code>Error: LinkageError occurred while loading main class nl.bioinf.nomi.my_first_project.HelloWorld</code>), you need to make sure your specified Java version in build.gradle corresponds to the one configured for your project in IntelliJ (sometimes they get mixed up). Go to File &#x2192; Project Structure and check under <code>Project Settings/Project</code> and <code>Platform Settings/SDKs</code>. The project SDK should have a version at least as high as the language level specified in build.gradle (in this case, Java 11):</p>
+<p><img src="figures/specify_SDK_and_Java_version_1.png" alt="sdk1.png"></p>
+<p><img src="figures/specify_SDK_and_Java_version_2.png" alt="sdk2.png"></p>
+<h2 id="distribute-an-executable">Distribute an executable</h2>
+<p>The final step is getting the app to your users. In Java you use a <code>jar</code> (Java ARchive) for that.</p>
+<p>Gradle can do the whole build-to-executable process. You first need to specify where your &quot;main class&quot; is located: the class which contains the <code>main()</code> method that you want to use as &quot;entry point&quot; of your application.</p>
+<p>Since we use Gradle for the build process, the place to do this is the <code>build.gradle</code> file; open it again and add this section at the bottom:</p>
+<pre><code class="lang-gradle">jar {
+    manifest {
+        attributes(
+                <span class="hljs-string">&apos;Main-Class&apos;</span>: <span class="hljs-string">&apos;nl.bioinf.nomi.my_first_project.HelloWorld&apos;</span>
+        )
+    }
+}
+</code></pre>
+<p>The <code>Main-Class</code> line specifies for the JVM -when your application  is going to be executed- to go look in class <code>HelloWorld</code> for a <code>main()</code> method to run when the application starts up. You can in fact have many <code>main()</code> methods in your application, but only one can serve as entry point in an executable. (Yes, you can make different executables with a single code base by simply specifying different entry points!)  </p>
+<p>Refresh your project as before. 
+Next, Go to the right Gradle Tool Window on the right (make it visible if required: View &#x2192; Tool Windows &#x2192; Gradle) and expand the panel. </p>
+<p>Select Tasks &#x2192; build &#x2192; double click &quot;jar&quot;. Your jar will be build under <code>build/libs</code>; go there with a terminal application (IntelliJ also has one) and type <code>java -jar my-first-project-0.0.1.jar</code>. </p>
+<p>You should see as output </p>
+<pre><code>~/IdeaProjects/my-first-project$ 
+~/IdeaProjects/my-first-project$ cd build
+~/IdeaProjects/my-first-project/build$ cd libs
+~/IdeaProjects/my-first-project/build/libs$ java -jar my-first-project-0.0.1.jar 
+Hello, World
+</code></pre><h2 id="wrap-up">Wrap-up</h2>
+<p>That&apos;s it. This is how you create, run and build a Gradle-managed Java project.</p>
 <p>These are the keyboard shortcuts you should remember:</p>
 <ul>
 <li><strong><code>psvm</code></strong> - create main()</li>
 <li><strong><code>sout</code></strong> - create print statement</li>
 <li><strong><code>^ + shift + R</code></strong> - run main()</li>
 </ul>
-<p>Next up: some really basic Java stuff to get a feel for the language.</p>
+<p>Next up: some basic about-Java stuff to get a feel for the language.</p>
 
                                 
                                 </section>
@@ -896,7 +939,7 @@ BUILD SUCCESSFUL in 0s
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"A first IntelliJ project","level":"2.1","depth":1,"next":{"title":"The essentials","level":"2.2","depth":1,"path":"01_getting_started/essentials.md","ref":"01_getting_started/essentials.md","articles":[]},"previous":{"title":"IntelliJ keyboard shortcuts","level":"1.2","depth":1,"path":"shortcuts.md","ref":"shortcuts.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_getting_started/intellij.md","mtime":"2019-05-07T11:34:40.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-02-26T19:10:28.838Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"A first IntelliJ project","level":"2.1","depth":1,"next":{"title":"The essentials","level":"2.2","depth":1,"path":"01_getting_started/essentials.md","ref":"01_getting_started/essentials.md","articles":[]},"previous":{"title":"IntelliJ keyboard shortcuts","level":"1.2","depth":1,"path":"shortcuts.md","ref":"shortcuts.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["page-toc"],"pluginsConfig":{"page-toc":{"position":"before-first","selector":".markdown-section h1, .markdown-section h2, .markdown-section h3","showByDefault":true},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"01_getting_started/intellij.md","mtime":"2020-07-01T18:46:54.196Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-07-09T10:28:48.726Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
