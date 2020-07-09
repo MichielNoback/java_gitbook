@@ -157,26 +157,25 @@ Opponent energy = 90
 </pre>
 
 
-That's a first acquaintance with classes and objects. We have used the core java class `String`, and defined three of our own: `Ninja`, `GameCharacter` and `Game`. Besides this, we have used the **_primitive types_** `int` and `double`. More on those later.
-
+That's a first acquaintance with classes and objects. We have used the core Java class `String`, and defined three of our own: `Ninja`, `GameCharacter` and `Game`. Besides this, we have used the **_primitive types_** `int` and `double`. 
 
 Next up: Cells and TestTubes in a second round of getting to know objects. As extra layer, JUnit testing will be introduced.
 
 
 ## Growing cells
 
-Suppose you want to build a cell growth simulation application. After careful analysis of
-the domain, you decided that this involves three entities: a simulator that
-controls the simulation process, a test tube that will hold the cells that are growing, and the cells themselves.
+Suppose you want to build a cell growth simulation application. 
+After careful analysis of the domain you decided that this involves three entities: 
+A simulator that controls the simulation process, a test tube that will hold the cells that are growing, and the cells themselves.
 
 The next step in a modeling process is to determine the **_relationships_** between the different entities. 
-In this case, this is as follows. The simulator will receive configuration 
+In this case this is as follows. The simulator will receive configuration 
 arguments (e.g. how many cells to grow) from the command-line, start the 
 simulation process and instantiate a test tube. 
-The test tube will be responsible for instantiating the (initial) cell
+The test tube will be responsible for instantiating the initial cell
 population. Finally, there will be cells growing within the test tube.
 
-Three separate source files are created (within a single package), each holding one class - a blueprint for the objects to be instantiated:
+Three separate source files are created (within a single package), each holding one class:
 
 - `CellGrowthSimulator.java`
 - `TestTube.java`
@@ -184,8 +183,9 @@ Three separate source files are created (within a single package), each holding 
 
 #### Cell.java
 
-We'll start with the simplest one: Cell. It has an instance variable called "size" which has a default 
-value of 5 when Cell objects are instantiated. Every call of the `grow()` method makes it increase its size by one.
+We'll start with the simplest one: Cell. 
+It has an instance variable called "size" which has a default value of 5 when Cell objects are instantiated. 
+Every call of the `grow()` method makes it increase its size by one.
 
 ```java
 package snippets.testtube;
@@ -196,7 +196,7 @@ class Cell {
      */
     int diameter = 5;
     /**
-     * Lets this cell grow in a single increment
+     * Lets this cell grow in a single 1-micrometer increment
      */
     void grow() {
         //grow by 1 micrometer
@@ -206,22 +206,28 @@ class Cell {
 }
 ```
 
-To test the logic and correctness of this class, we will have to wait until other components are 
-developed, such as TestTube and CellGrowthSimulator, _unless you use (J)Unit testing_. 
+To test the logic and correctness of this class we will have to wait until other components are developed, such as TestTube and CellGrowthSimulator.
+_Unless you use (J)Unit testing_. 
 
 #### JUnit testing
 
-JUnit is a [unit testing](https://en.wikipedia.org/wiki/Unit_testing) framework for Java. Its main purpose is to have a suite of test methods guaranteeing 
-the correctness of your **_production code_**. To create JUnit a test method, you need to have the 
-JUnit libraries defined as dependencies on your **_class path_**. 
-See the post ["A first IntelliJ project"](/01_getting_started/intellij.md) for instructions how to 
-that for JUnit5.
+JUnit is a [unit testing](https://en.wikipedia.org/wiki/Unit_testing) framework for Java. 
+Its main purpose is to have a suite of test methods guaranteeing the correctness of your **_production code_**. 
+To create JUnit a test method, you need to have the JUnit libraries defined as dependencies on your **_class path_**. 
+See the post ["A first IntelliJ project"](/01_getting_started/intellij.md) for instructions how to that for JUnit5. This piece should be in your `build.gradle` file:
 
-Next, you need to create a test class. Place the cursor on the class name and press `alt+enter`. Select "Create Test".
+```gradle
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.2")
+}
+```
+
+Next, you need to create a test class. Place the cursor on the class name (`Cell`) and press `alt+enter`. Select "Create Test".
 
 ![create_junit_test_class_1.png](figures/create_junit_test_class_1.png) 
 
-Select the method(s) you want to create test(s) for.
+Select the method(s) you want to create test(s) for and press "OK".
 
 ![create_junit_test_class_2.png](figures/create_junit_test_class_2.png)
 
@@ -264,8 +270,8 @@ The green checks indicate the test **_assertions_** passed. Knowing the Cell cla
 
 #### TestTube.java
 
-TestTube is slightly more complex. It defines a **_constructor_** that makes it mandatory to
-provide an initial number of cells. Also, you see the use of the `new` keyword for instantiating `Cell` objects.
+TestTube is slightly more complex. 
+It defines a **_constructor_** that makes it mandatory to provide an initial number of cells. It will throw an `IllegalArgumentException` when a wrong value is passed for the `initialCellCount` parameter. You again see the use of the keyword `new` to instantiate Cell objects.  
 
 ```java
 package snippets.testtube;
@@ -310,7 +316,13 @@ for (int i = 0; i < initialCellCount; i++) {
 }
 ```
 
-The for-loop itself will be dealt with in the post ["Flow control structures"](/02_syntax/flow_control_structures.md) 
+It has three elements between the parentheses: 
+
+```
+for (<LOOP INITIALIZATION>; <EXIT CONDITION>; <ITERATION INCREMENT>)
+```
+
+The for-loop itself will be dealt with in the post ["Flow control structures"](/02_syntax/flow_control_structures.md).  
 
 Here is a JUnit test to verify the construction of the TestTube:
 
@@ -326,7 +338,7 @@ class TestTubeTest {
 
 #### CellGrowthSimulator.java
 
-The last class of the system is `CellGrowthSimulator`. Here is the first version:
+The last class of the system is `CellGrowthSimulator`. Here is a first version:
 
 ```java
 package snippets.testtube;
@@ -335,13 +347,15 @@ package snippets.testtube;
  */
 class CellGrowthSimulator {
     /**
-     * @param args cl-args should be length one, containing initial cell number.
+     * @param args command-line args should be length one, 
+     * containing an initial cell number.
      */
     static void main(String[] args) {
         if (args.length != 1) {
             System.err.println("You must provide an initial cell count. Aborting.");
         }
-
+        //args[] is a String array, so the item at index [0] 
+        //should be converted into and `int` first.
         int initialCellNumber = Integer.parseInt(args[0]);
         startSimulation(initialCellNumber);
     }
@@ -354,13 +368,15 @@ class CellGrowthSimulator {
 }
 ```
 
-The `String[] args`  argument to `main(0)` is the argument array passed from the terminal when you start the application.
-Note that directly processing command-line arguments is discouraged in general; you should implement
-and support a standards-adhering command-line syntax (e.g. `java -jar GrowthSimulator --initial_count 5`).
+The `String[] args`  argument to `main()` is the argument array passed from the terminal when you start the application.
 
-So the final model now has this chain of relationships:
+(Be aware that this type of use of command-line arguments is discouraged; 
+you should implement and support a standards-adhering command-line syntax, 
+e.g. `java -jar GrowthSimulator --initial_count 5`).
 
-**_CellGrowthSimulator has a TestTube and TestTube has one or more Cells_**.
+The final model now has this chain of relationships:
+
+**_CellGrowthSimulator HAS-A TestTube and TestTube HAS one or more Cells_**.
 
 
 ## Object construction (first iteration)
@@ -371,27 +387,38 @@ You have seen the `new` keyword used several times now. But what does happen, ex
 Cell cell = new Cell();
 ```
 
-The new keyword combined with the class name followed by parentheses, calls the constructor method of a class that instantiates and returns the reference to an object of that class. The parentheses `()` enclose the argument list for the constructor method, which is empty in this case.  
+The `new` keyword combined with the class name followed by parentheses 
+calls the _constructor_ method of that class. 
+The constructor instantiates an instance of the class and returns the reference to the object. 
+The parentheses `()` enclose the argument list for the constructor method, which is empty in this case. 
+In class `TestTube` we _did_ see a constructor argument however - one specifying the number of cells to grow.
 
-The **_three steps of object construction are declaration, creation and assignment_**:
+The three steps of object construction are **_declaration_**, **_creation_** and **_assignment_**:
 
-1. `Cell cell` **_declares_** a variable of type Cell.
-2. `new Cell` **_instantiates_** an object of type Cell, stores this in memory (called **_the heap_** in Java) and returns a reference to this stored object.
-3. `=` **_assigns_** the returned reference to the declared variable.
+1. The code `Cell cell` **_declares_** a variable of type Cell.
+2. The code `new Cell()` **_instantiates_** an object of type Cell, stores this in memory and returns a reference to this stored object.
+3. The equals sign `=` **_assigns_** (couples) the returned reference to the declared variable.
 
-So…where is this constructor method in class Cell and what does it do? It is created automagically by the 
-Java compiler, if you don't specify it yourself. More on constructors in a later post.
+So...where is this constructor method in class Cell and what does it do? 
+If you look at the class you don't see a constructor, as we have seen in class `TestTube`.
+It is created by the Java compiler if you don't specify it yourself. The compiler-processed code will have something like this inserted: 
+
+```java
+public Cell() {}
+```
+
+More on constructors in later chapters.
 
 ## Inheritance
 
 Inheritance is one of the key features of object-oriented programming.
 
-Since subclasses inherit all properties and methods of their superclass, this is a very 
-powerful mechanism to introduce new or adjusted behavior in a software 
-system. The `CancerCell` class below `extends Cell` and thus declares itself
-to be a **_subclass_** of `Cell`. It not only extends itself with new functionality (`move()`), but also modifies the behavior of the `grow()` method by changing the `growthIncrement` property of its _supertype part_.
+This is a very powerful mechanism to introduce new or adjusted behavior in a software system because subclasses inherit all properties and methods of their superclass. 
+For example, the `CancerCell` class below `extends Cell` and thus declares itself to be a **_subclass_** of `Cell`. 
+It not only extends itself with new functionality (`move()`), but also modifies the behavior of the `grow()` method by changing the `growthIncrement` property of its _supertype part_.
 
 ```java
+//Cell.java
 class Cell {
     int diameter = 5;
     int growthIncrement = 1;
@@ -405,7 +432,10 @@ class Cell {
         System.out.println("I am a Cell. My size is " + this.diameter);
     }
 }
+```
 
+```java
+//CancerCell.java
 public class CancerCell extends Cell {
     CancerCell() {
         growthIncrement = 3;
@@ -415,12 +445,14 @@ public class CancerCell extends Cell {
         System.out.println("Moving through the body");
     }
 }
+```
 
-//usage
+```java
+//usage within GrowthSimulator
 Cell cell = new Cell();
 cell.grow();
 cell.grow();
-System.out.println("-----------");
+System.out.println("..........");
 CancerCell cCell = new CancerCell();
 cCell.grow();
 cCell.grow();
@@ -432,7 +464,7 @@ output:
 <pre class="console_out">
 I am a Cell. My size is 6
 I am a Cell. My size is 7
------------
+..........
 I am a Cell. My size is 8
 I am a Cell. My size is 11
 Moving through the body
