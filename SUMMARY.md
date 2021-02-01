@@ -67,3 +67,7 @@
 
 ## Part 7: Design
 * [Demo case refactoring](07_design/demo_case_refactoring.md)
+
+## Part 8: Spring framework
+* [REST and MVC with Spring](08_spring/Tut1_REST_and_MVC_with_spring.md)
+* [Dependency injection](08_spring/Tut2_Dependency_injection.md)

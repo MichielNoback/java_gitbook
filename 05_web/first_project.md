@@ -218,11 +218,12 @@ public class WelcomeServlet extends HttpServlet {
                 request.getServletContext(),
                 request.getLocale());
         ctx.setVariable("currentDate", new Date());
-        WebConfig.getTemplateEngine().process("welcome", ctx, response.getWriter());
+        WebConfig.createTemplateEngine(getServletContext()).
+            process("welcome", ctx, response.getWriter());
     }
 }
 ```
-Of course, tha package declarations will be different, as well as the first `import` statement.
+Of course, the package declarations will be different, as well as the first `import` statement.
 The alert reader may notice that this will create a `TemplateEngine` for each single servlet. This is probably not the very best strategy, but for simplicity, we'll stick to it for now. 
 Have a look at the [Demo repo](https://bitbucket.org/minoba/java_web_thymeleaf_demo "Demonstration repository") for a final solution with the template resolver.
 

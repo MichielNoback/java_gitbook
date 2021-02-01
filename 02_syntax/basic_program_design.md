@@ -1,6 +1,7 @@
 # Basic program structure and flow
 
-Basic program structure and flow. Advanced flow (switch etc) will be described later.
+Basic program structure and some flow control. 
+Advanced flow control (switch etc) will be described later.
 
 ## Basic program structure
 
