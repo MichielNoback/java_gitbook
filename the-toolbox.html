@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 29 The toolbox | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 29 The toolbox | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 29 The toolbox | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="a-refresher.html"/>
+<link rel="next" href="a-first-project-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,74 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="the-toolbox" class="section level1">
+<h1><span class="header-section-number">Chapter 29</span> The toolbox</h1>
+<div id="intro" class="section level3 unnumbered">
+<h3>Intro</h3>
+<p>These are the tools we are going to use to build our dynamic web applications:
+<strong>Java</strong>: plain old Java to build the logic
+<strong>Java EE</strong>: The enterprise edition - an extension that has web apis, including <strong>Servlets</strong>.
+<strong>Thymeleaf</strong>: A very nice templating technology for Java web pages
+<strong>Tomcat</strong>: a container where the Java web apps live</p>
+<p>Of course, you will also need (knowledge of)</p>
+<p><strong>Javascript</strong>: client-side scripting language to manipulate the view, and in particular <strong>jQuery</strong>: a Javascript library/platform for performing many tasks that are pretty hard to implement using raw Javascript
+<strong>css</strong> (cascading style sheets): to style the view</p>
+<p>but these will not be dealt with in this course.</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="the-tools" class="section level3 unnumbered">
+<h3>The tools</h3>
+<div id="java-development-kit" class="section level4 unnumbered">
+<h4>Java development kit</h4>
+<p>Download and install from Oracle.</p>
+</div>
+<div id="the-tomcat-application-server" class="section level4 unnumbered">
+<h4>The Tomcat application server</h4>
+<p>To start working with Java web technology, you have to get a <strong><em>server runtime</em></strong>. We’ll use Tomcat.
+To install it:
+- go to <a href="http://tomcat.apache.org/">apache tomcat</a> and download the latest version
+- extract it in a suitable location
+- make the <code>bin/*.sh</code> file executable
+- To test, start up Tomcat using
+- <code>./tomcat.../bin/startup.sh</code>
+- direct your browser to <code>http://localhost:8080/</code> and you should see the Tomcat management page.</p>
+</div>
+<div id="intellij-ultimate" class="section level4 unnumbered">
+<h4>IntelliJ Ultimate</h4>
+<p>This course uses IntelliJ, but for your own endeavors you are of course free to use another IDE.</p>
+</div>
+<div id="a-mysql-server" class="section level4 unnumbered">
+<h4>A MySQL server</h4>
+<p>A MySQL server and account. Installing and administering this is not in the scope of this course. Also, MySQL as query language is assumed to be known.</p>
+</div>
+<div id="debugging-web-sites" class="section level4 unnumbered">
+<h4>Debugging web sites</h4>
+<p>All modern browsers have extensive debugging support.
+Do not use the JavaScript function <code>alert("my debug message")</code> but intead use <code>console.log("my debug message")</code>!
+Use the context menu option “Inspect element” in the browser:</p>
+<div class="figure">
+<img src="05_web/figures/browser_inspector.png" alt="" />
+<p class="caption">Inspect elements</p>
+</div>
+<p>Use the inspector to investigate, change and track DOM structure, bugs, network traffic, styling information, print info from JavaScript, change JavaScript variables.</p>
+</div>
+<div id="codepen" class="section level4 unnumbered">
+<h4>Codepen</h4>
+<p>Use Codepen for testing snippets:</p>
+<div class="figure">
+<img src="05_web/figures/codepen.png" alt="" />
+<p class="caption">Codepen</p>
+</div>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="a-refresher.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-first-project-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

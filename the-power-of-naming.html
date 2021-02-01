@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 14 The power of naming | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 14 The power of naming | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 14 The power of naming | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="packages-and-imports.html"/>
+<link rel="next" href="interfaces.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,156 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="the-power-of-naming" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> The power of naming</h1>
+<p>As a lecturer I am often confronted with code that does the job it was written
+and intended for, but still makes me want crawl in a corner and weep.
+This often has to do with either one of these two aspects:</p>
+<ul>
+<li><strong>Coding style</strong><br />
+</li>
+<li><strong>Naming</strong></li>
+</ul>
+<p>The first, coding style, has to do with how you organize/layout your
+code, preferably in accordance with the conventions of your programming
+language. The second aspect is how you name your variables, methods,
+classes and packages (and projects). These two actually overlap to
+quite some extend, since coding style also has some things to say
+about naming.</p>
+<p>Let’s have a look at some sample code that could have come straight
+from my classroom:</p>
+<div class="sourceCode" id="cb92"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb92-1"><a href="the-power-of-naming.html#cb92-1"></a><span class="kw">package</span><span class="im"> my_tool;</span></span>
+<span id="cb92-2"><a href="the-power-of-naming.html#cb92-2"></a><span class="kw">public</span> <span class="kw">class</span> main {</span>
+<span id="cb92-3"><a href="the-power-of-naming.html#cb92-3"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] a) {</span>
+<span id="cb92-4"><a href="the-power-of-naming.html#cb92-4"></a>        <span class="dt">int</span> Arg = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(a[<span class="dv">1</span>]);</span>
+<span id="cb92-5"><a href="the-power-of-naming.html#cb92-5"></a>        <span class="dt">double</span> opt=<span class="bu">Double</span>.<span class="fu">parseDouble</span>(a[<span class="dv">2</span>]);</span>
+<span id="cb92-6"><a href="the-power-of-naming.html#cb92-6"></a>    parse p = <span class="kw">new</span> <span class="fu">parse_impl</span>();</span>
+<span id="cb92-7"><a href="the-power-of-naming.html#cb92-7"></a>    <span class="bu">Data</span> d= p.<span class="fu">reading</span>(args[<span class="dv">0</span>]);</span>
+<span id="cb92-8"><a href="the-power-of-naming.html#cb92-8"></a>    Calculate c = <span class="kw">new</span> <span class="fu">Calculate</span>();</span>
+<span id="cb92-9"><a href="the-power-of-naming.html#cb92-9"></a>    c.<span class="fu">Making</span>(d,Arg, opt);</span>
+<span id="cb92-10"><a href="the-power-of-naming.html#cb92-10"></a>  }</span>
+<span id="cb92-11"><a href="the-power-of-naming.html#cb92-11"></a>}</span></code></pre></div>
+<p>Take a minute and figure out what this code might do (I assure you it
+compiles and executes correctly).</p>
+<p>Take another minute to figure out how many things are wrong with this
+code. Hint: It is a <strong><em>lot</em></strong>.</p>
+<p>This code is almost as cryptic as those nice little
+minified Javascript libraries. You know, when you refactor code to
+have no comments, no whitespace except where absolutely
+necessary, and have variables of 1 or 2 characters long. Below is
+the same Java code minified:</p>
+<div class="sourceCode" id="cb93"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb93-1"><a href="the-power-of-naming.html#cb93-1"></a><span class="kw">package</span><span class="im"> my_tool;</span><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> M{<span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">m</span>(<span class="dt">final</span> <span class="bu">String</span>[]a)</span>
+<span id="cb93-2"><a href="the-power-of-naming.html#cb93-2"></a>{<span class="dt">int</span> r=<span class="bu">Integer</span>.<span class="fu">parseInt</span>(a[<span class="dv">1</span>]);<span class="dt">double</span> o=<span class="bu">Double</span>.<span class="fu">parseDouble</span>(a[<span class="dv">2</span>];P p=<span class="kw">new</span> <span class="fu">pi</span>();D</span>
+<span id="cb93-3"><a href="the-power-of-naming.html#cb93-3"></a>d=p.<span class="fu">r</span>(args[<span class="dv">0</span>]);C c=<span class="kw">new</span> <span class="fu">C</span>();c.<span class="fu">m</span>(d,r,o);}}</span></code></pre></div>
+<p>Although this is really unintelligible, the first code fragment does not do a much better job at informing you. And that is exactly what good naming practice brings you: information. It informs you about</p>
+<ol style="list-style-type: decimal">
+<li>What the classes are about (what they model)<br />
+</li>
+<li>What contract interfaces define<br />
+</li>
+<li>What the methods will likely be doing, and what the role of their arguments will have<br />
+</li>
+<li>What the purpose is of variables<br />
+</li>
+<li>What kind of entities everything refers to (classes, methods, variables)</li>
+</ol>
+<p>Whenever you write code that should have meaning to others, or to yourself a
+few months from now, use the above list as a mental review on your code.</p>
+<p>So, what actually is wrong with the first code snippet? The coding style
+violations are a pain to my eyes, so let’s get these out of the way
+first. Classes should start with an uppercase letter, be in camel case
+and be nouns, while methods should start with a lowercase letter, be
+verbs and also be in camel case. When you are into a programming language
+as much as I am into Java, you get really, really <strong>REALLY</strong> confused
+whenever a class name starts with a lowercase letter! I’ll clean that
+up a little bit (and insert some much needed whitespace as well):</p>
+<div class="sourceCode" id="cb94"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb94-1"><a href="the-power-of-naming.html#cb94-1"></a><span class="kw">package</span><span class="im"> my_tool;</span></span>
+<span id="cb94-2"><a href="the-power-of-naming.html#cb94-2"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> Main {</span>
+<span id="cb94-3"><a href="the-power-of-naming.html#cb94-3"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] args) {</span>
+<span id="cb94-4"><a href="the-power-of-naming.html#cb94-4"></a>        <span class="dt">int</span> arg = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(args[<span class="dv">1</span>]);</span>
+<span id="cb94-5"><a href="the-power-of-naming.html#cb94-5"></a>        <span class="dt">double</span> opt = <span class="bu">Double</span>.<span class="fu">parseDouble</span>(args[<span class="dv">2</span>]);</span>
+<span id="cb94-6"><a href="the-power-of-naming.html#cb94-6"></a>        <span class="bu">Parser</span> p = <span class="kw">new</span> <span class="fu">ParserImpl</span>();</span>
+<span id="cb94-7"><a href="the-power-of-naming.html#cb94-7"></a>        <span class="bu">Data</span> d = p.<span class="fu">read</span>(args[<span class="dv">0</span>]);</span>
+<span id="cb94-8"><a href="the-power-of-naming.html#cb94-8"></a>        Calculator c = <span class="kw">new</span> <span class="fu">Calculator</span>();</span>
+<span id="cb94-9"><a href="the-power-of-naming.html#cb94-9"></a>        c.<span class="fu">make</span>(d, arg, opt);</span>
+<span id="cb94-10"><a href="the-power-of-naming.html#cb94-10"></a>    }</span>
+<span id="cb94-11"><a href="the-power-of-naming.html#cb94-11"></a>}</span></code></pre></div>
+<p>None of the names give any clue about what the entities they refer
+to might be doing, except on the most generic level. Yes, “arg” is an
+argument and yes, <code>ParseImpl</code> is an implementation of the interface
+<code>Parser</code>, but this tool may equally likely deal with interstellar dust
+readings as with intracranial ultrasound measurements. Especially with the
+style abuse and the absence of comments, there is no way you can tell.
+So let’s continue with making this code a bit more revealing of its purpose.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb95-1"><a href="the-power-of-naming.html#cb95-1"></a><span class="kw">package</span><span class="im"> nl.michielnoback.sequence_analysis;</span></span>
+<span id="cb95-2"><a href="the-power-of-naming.html#cb95-2"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> ConservationAnalyserApp {</span>
+<span id="cb95-3"><a href="the-power-of-naming.html#cb95-3"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] args) {</span>
+<span id="cb95-4"><a href="the-power-of-naming.html#cb95-4"></a>        <span class="dt">int</span> maximumIntraGroupDistance = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(args[<span class="dv">1</span>]);</span>
+<span id="cb95-5"><a href="the-power-of-naming.html#cb95-5"></a>        <span class="dt">double</span> sequenceRejectThreshold = <span class="bu">Double</span>.<span class="fu">parseDouble</span>(args[<span class="dv">2</span>]);</span>
+<span id="cb95-6"><a href="the-power-of-naming.html#cb95-6"></a>        SequenceFileParser sequenceParser = <span class="kw">new</span> <span class="fu">FastaSequenceFileParser</span>();</span>
+<span id="cb95-7"><a href="the-power-of-naming.html#cb95-7"></a>        SequenceCollection sequenceCollection = sequenceParser.<span class="fu">readSequenceFile</span>(args[<span class="dv">0</span>]);</span>
+<span id="cb95-8"><a href="the-power-of-naming.html#cb95-8"></a>        DnaConservationAnalyzer sequenceConservationAnalyzer = <span class="kw">new</span> <span class="fu">DnaConservationAnalyzer</span>();</span>
+<span id="cb95-9"><a href="the-power-of-naming.html#cb95-9"></a>        sequenceConservationAnalyzer.<span class="fu">makeConservationPattern</span>(</span>
+<span id="cb95-10"><a href="the-power-of-naming.html#cb95-10"></a>                sequenceCollection,</span>
+<span id="cb95-11"><a href="the-power-of-naming.html#cb95-11"></a>                maximumIntraGroupDistance,</span>
+<span id="cb95-12"><a href="the-power-of-naming.html#cb95-12"></a>                sequenceRejectThreshold);</span>
+<span id="cb95-13"><a href="the-power-of-naming.html#cb95-13"></a>    }</span>
+<span id="cb95-14"><a href="the-power-of-naming.html#cb95-14"></a>}</span></code></pre></div>
+<p>Now I know what you do! You analyze sequences (in this case, apparently
+DNA sequences) and determine conservation in some way! Apparently, there
+are also some parameters that will be applied to sequence groups and
+on sequences individually. You might be skeptical about
+the long class and -especially- variable names, but who in their
+right mind does not use an advanced IDE with code completion nowadays? I rarely type more than three or four letters before using autocomplete.
+Also note the correct use of package name and structure here.
+By the way, since DNA is an acronym, should it
+be <code>DnaConservationAnalyzer</code> or <code>DNAconservationAnalyzer</code>? There is no
+general rule for this but I suggest you stick with <code>DnaConservationAnalyzer</code>.</p>
+<p>Are we finished? No! There is no comment at all. Your public API should be commented very well,
+and code that is not entirely self-explanatory (in this case: none).</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb96-1"><a href="the-power-of-naming.html#cb96-1"></a><span class="kw">package</span><span class="im"> nl.michielnoback.sequence_analysis;</span></span>
+<span id="cb96-2"><a href="the-power-of-naming.html#cb96-2"></a></span>
+<span id="cb96-3"><a href="the-power-of-naming.html#cb96-3"></a><span class="co">/**</span></span>
+<span id="cb96-4"><a href="the-power-of-naming.html#cb96-4"></a> <span class="co">*</span> Conservation analyzer app will determine the level of conservation between a provided set of sequences<span class="co">.</span></span>
+<span id="cb96-5"><a href="the-power-of-naming.html#cb96-5"></a> <span class="co">*</span> This is the main class of the application<span class="co">.</span></span>
+<span id="cb96-6"><a href="the-power-of-naming.html#cb96-6"></a> <span class="co">*</span> <span class="an">@author </span>Michiel Noback <span class="co">[*********@</span>gmail<span class="co">.</span>com<span class="co">]</span></span>
+<span id="cb96-7"><a href="the-power-of-naming.html#cb96-7"></a> <span class="co">*</span> <span class="an">@version </span><span class="co">0.0.1</span></span>
+<span id="cb96-8"><a href="the-power-of-naming.html#cb96-8"></a> <span class="co">*/</span></span>
+<span id="cb96-9"><a href="the-power-of-naming.html#cb96-9"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> ConservationAnalyserApp {</span>
+<span id="cb96-10"><a href="the-power-of-naming.html#cb96-10"></a>    <span class="co">/**</span></span>
+<span id="cb96-11"><a href="the-power-of-naming.html#cb96-11"></a>     <span class="co">*</span> Primary entry point of the application<span class="co">.</span></span>
+<span id="cb96-12"><a href="the-power-of-naming.html#cb96-12"></a>     <span class="co">*</span> It expects these command<span class="co">-</span>line arguments to be provided<span class="co">:</span></span>
+<span id="cb96-13"><a href="the-power-of-naming.html#cb96-13"></a>     <span class="co">*</span> args<span class="co">[0]</span> the sequence file<span class="co">,</span> Fasta formatted</span>
+<span id="cb96-14"><a href="the-power-of-naming.html#cb96-14"></a>     <span class="co">*</span> args<span class="co">[1]</span> the maximum intra group distance <span class="co">(</span>an integer between <span class="co">0</span> and <span class="co">100)</span></span>
+<span id="cb96-15"><a href="the-power-of-naming.html#cb96-15"></a>     <span class="co">*</span> args<span class="co">[2]</span> the sequence reject threshold <span class="co">(</span>a double between <span class="co">0</span> and <span class="co">1)</span></span>
+<span id="cb96-16"><a href="the-power-of-naming.html#cb96-16"></a>     <span class="co">*</span> <span class="an">@param args </span>the command line arguments</span>
+<span id="cb96-17"><a href="the-power-of-naming.html#cb96-17"></a>     <span class="co">*/</span></span>
+<span id="cb96-18"><a href="the-power-of-naming.html#cb96-18"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] args) {</span>
+<span id="cb96-19"><a href="the-power-of-naming.html#cb96-19"></a>        <span class="bu">String</span> sequenceFile = args[<span class="dv">0</span>];</span>
+<span id="cb96-20"><a href="the-power-of-naming.html#cb96-20"></a>        <span class="dt">int</span> maximumIntraGroupDistance = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(args[<span class="dv">1</span>]);</span>
+<span id="cb96-21"><a href="the-power-of-naming.html#cb96-21"></a>        <span class="dt">double</span> sequenceRejectThreshold = <span class="bu">Double</span>.<span class="fu">parseDouble</span>(args[<span class="dv">2</span>]);</span>
+<span id="cb96-22"><a href="the-power-of-naming.html#cb96-22"></a>        SequenceFileParser sequenceParser = <span class="kw">new</span> <span class="fu">FastaSequenceFileParser</span>();</span>
+<span id="cb96-23"><a href="the-power-of-naming.html#cb96-23"></a>        SequenceCollection sequenceCollection = sequenceParser.<span class="fu">readSequenceFile</span>(sequenceFile);</span>
+<span id="cb96-24"><a href="the-power-of-naming.html#cb96-24"></a>        DnaConservationAnalyzer sequenceConservationAnalyzer = <span class="kw">new</span> <span class="fu">DnaConservationAnalyzer</span>();</span>
+<span id="cb96-25"><a href="the-power-of-naming.html#cb96-25"></a>        sequenceConservationAnalyzer.<span class="fu">makeConservationPattern</span>(</span>
+<span id="cb96-26"><a href="the-power-of-naming.html#cb96-26"></a>                sequenceCollection,</span>
+<span id="cb96-27"><a href="the-power-of-naming.html#cb96-27"></a>                maximumIntraGroupDistance,</span>
+<span id="cb96-28"><a href="the-power-of-naming.html#cb96-28"></a>                sequenceRejectThreshold);</span>
+<span id="cb96-29"><a href="the-power-of-naming.html#cb96-29"></a>    }</span>
+<span id="cb96-30"><a href="the-power-of-naming.html#cb96-30"></a>}</span></code></pre></div>
+<p>You must agree, take a look at this code any time in the future and you immediately know what is going on and who is doing what.</p>
+
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
-</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="packages-and-imports.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interfaces.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

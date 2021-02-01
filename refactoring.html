@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 44 Refactoring | The Java Track</title>
+  <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 44 Refactoring | The Java Track" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 44 Refactoring | The Java Track" />
+  
+  <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
+  
+
+<meta name="author" content="Michiel Noback" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="uml.html"/>
+<link rel="next" href="rest-and-mvc-with-spring.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Java eBook</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> General introduction</a></li>
+<li class="chapter" data-level="2" data-path="keyboard-shortcuts.html"><a href="keyboard-shortcuts.html"><i class="fa fa-check"></i><b>2</b> Keyboard shortcuts</a></li>
+<li class="part"><span><b>Part I - Getting Started</b></span></li>
+<li class="chapter" data-level="3" data-path="a-first-intellij-project.html"><a href="a-first-intellij-project.html"><i class="fa fa-check"></i><b>3</b> A first IntelliJ project</a><ul>
+<li class="chapter" data-level="3.1" data-path="a-first-intellij-project.html"><a href="a-first-intellij-project.html#dependency-management"><i class="fa fa-check"></i><b>3.1</b> Dependency management</a></li>
+<li class="chapter" data-level="3.2" data-path="a-first-intellij-project.html"><a href="a-first-intellij-project.html#a-first-project"><i class="fa fa-check"></i><b>3.2</b> A first project</a></li>
+<li class="chapter" data-level="3.3" data-path="a-first-intellij-project.html"><a href="a-first-intellij-project.html#distribute-an-executable"><i class="fa fa-check"></i><b>3.3</b> Distribute an executable</a></li>
+<li class="chapter" data-level="3.4" data-path="a-first-intellij-project.html"><a href="a-first-intellij-project.html#wrap-up"><i class="fa fa-check"></i><b>3.4</b> Wrap-up</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html"><i class="fa fa-check"></i><b>4</b> The essence of Java</a><ul>
+<li class="chapter" data-level="4.1" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html#cross-platform"><i class="fa fa-check"></i><b>4.1</b> Cross-platform</a></li>
+<li class="chapter" data-level="4.2" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html#multithreaded"><i class="fa fa-check"></i><b>4.2</b> Multithreaded</a></li>
+<li class="chapter" data-level="4.3" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html#object-oriented"><i class="fa fa-check"></i><b>4.3</b> Object-Oriented</a></li>
+<li class="chapter" data-level="4.4" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html#strongly-typed-and-scoped"><i class="fa fa-check"></i><b>4.4</b> Strongly typed and scoped</a></li>
+<li class="chapter" data-level="4.5" data-path="the-essence-of-java.html"><a href="the-essence-of-java.html#compiled"><i class="fa fa-check"></i><b>4.5</b> Compiled</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="first-look-at-objects.html"><a href="first-look-at-objects.html"><i class="fa fa-check"></i><b>5</b> Objects: ninjas and growing cells</a><ul>
+<li class="chapter" data-level="5.1" data-path="first-look-at-objects.html"><a href="first-look-at-objects.html#ninjas"><i class="fa fa-check"></i><b>5.1</b> Ninjas</a></li>
+<li class="chapter" data-level="5.2" data-path="first-look-at-objects.html"><a href="first-look-at-objects.html#growing-cells"><i class="fa fa-check"></i><b>5.2</b> Growing cells</a></li>
+<li class="chapter" data-level="5.3" data-path="first-look-at-objects.html"><a href="first-look-at-objects.html#object-construction-first-iteration"><i class="fa fa-check"></i><b>5.3</b> Object construction (first iteration)</a></li>
+<li class="chapter" data-level="5.4" data-path="first-look-at-objects.html"><a href="first-look-at-objects.html#inheritance-first-discussion"><i class="fa fa-check"></i><b>5.4</b> Inheritance (first discussion)</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="basic-program-structure-and-flow.html"><a href="basic-program-structure-and-flow.html"><i class="fa fa-check"></i><b>6</b> Basic program structure and flow</a><ul>
+<li class="chapter" data-level="6.1" data-path="basic-program-structure-and-flow.html"><a href="basic-program-structure-and-flow.html#basic-program-structure"><i class="fa fa-check"></i><b>6.1</b> Basic program structure</a></li>
+<li class="chapter" data-level="6.2" data-path="basic-program-structure-and-flow.html"><a href="basic-program-structure-and-flow.html#summary"><i class="fa fa-check"></i><b>6.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="naming-and-commenting-stuff.html"><a href="naming-and-commenting-stuff.html"><i class="fa fa-check"></i><b>7</b> Naming and commenting stuff</a><ul>
+<li class="chapter" data-level="7.1" data-path="naming-and-commenting-stuff.html"><a href="naming-and-commenting-stuff.html#naming"><i class="fa fa-check"></i><b>7.1</b> Naming</a></li>
+<li class="chapter" data-level="7.2" data-path="naming-and-commenting-stuff.html"><a href="naming-and-commenting-stuff.html#commenting"><i class="fa fa-check"></i><b>7.2</b> Commenting</a></li>
+</ul></li>
+<li class="part"><span><b>Part II - Syntax</b></span></li>
+<li class="chapter" data-level="8" data-path="data-types.html"><a href="data-types.html"><i class="fa fa-check"></i><b>8</b> Data Types</a><ul>
+<li class="chapter" data-level="8.1" data-path="data-types.html"><a href="data-types.html#primitives"><i class="fa fa-check"></i><b>8.1</b> Primitives</a></li>
+<li class="chapter" data-level="8.2" data-path="data-types.html"><a href="data-types.html#reference-types"><i class="fa fa-check"></i><b>8.2</b> Reference types</a></li>
+<li class="chapter" data-level="8.3" data-path="data-types.html"><a href="data-types.html#what-is-the-difference"><i class="fa fa-check"></i><b>8.3</b> What is the difference?</a></li>
+<li class="chapter" data-level="8.4" data-path="data-types.html"><a href="data-types.html#summary-1"><i class="fa fa-check"></i><b>8.4</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="arrays.html"><a href="arrays.html"><i class="fa fa-check"></i><b>9</b> Arrays</a><ul>
+<li class="chapter" data-level="9.1" data-path="arrays.html"><a href="arrays.html#creating-arrays"><i class="fa fa-check"></i><b>9.1</b> Creating arrays</a></li>
+<li class="chapter" data-level="9.2" data-path="arrays.html"><a href="arrays.html#printing"><i class="fa fa-check"></i><b>9.2</b> Printing</a></li>
+<li class="chapter" data-level="9.3" data-path="arrays.html"><a href="arrays.html#accessing"><i class="fa fa-check"></i><b>9.3</b> Accessing</a></li>
+<li class="chapter" data-level="9.4" data-path="arrays.html"><a href="arrays.html#multidimensional-arrays"><i class="fa fa-check"></i><b>9.4</b> Multidimensional arrays</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="operators.html"><a href="operators.html"><i class="fa fa-check"></i><b>10</b> Operators</a><ul>
+<li class="chapter" data-level="10.1" data-path="operators.html"><a href="operators.html#overview"><i class="fa fa-check"></i><b>10.1</b> Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="flow-control.html"><a href="flow-control.html"><i class="fa fa-check"></i><b>11</b> Flow control</a><ul>
+<li class="chapter" data-level="11.1" data-path="flow-control.html"><a href="flow-control.html#if-else-if-else"><i class="fa fa-check"></i><b>11.1</b> if [else if] [else]</a></li>
+<li class="chapter" data-level="11.2" data-path="flow-control.html"><a href="flow-control.html#while"><i class="fa fa-check"></i><b>11.2</b> while</a></li>
+<li class="chapter" data-level="11.3" data-path="flow-control.html"><a href="flow-control.html#for"><i class="fa fa-check"></i><b>11.3</b> for</a></li>
+<li class="chapter" data-level="11.4" data-path="flow-control.html"><a href="flow-control.html#break-and-continue"><i class="fa fa-check"></i><b>11.4</b> break and continue</a></li>
+<li class="chapter" data-level="11.5" data-path="flow-control.html"><a href="flow-control.html#switchcase"><i class="fa fa-check"></i><b>11.5</b> switch/case</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="methods-1.html"><a href="methods-1.html"><i class="fa fa-check"></i><b>12</b> Methods</a><ul>
+<li class="chapter" data-level="12.1" data-path="methods-1.html"><a href="methods-1.html#method-signature"><i class="fa fa-check"></i><b>12.1</b> Method signature</a></li>
+<li class="chapter" data-level="12.2" data-path="methods-1.html"><a href="methods-1.html#interacting-with-state"><i class="fa fa-check"></i><b>12.2</b> Interacting with state</a></li>
+<li class="chapter" data-level="12.3" data-path="methods-1.html"><a href="methods-1.html#method-overloading"><i class="fa fa-check"></i><b>12.3</b> Method overloading</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="packages-and-imports.html"><a href="packages-and-imports.html"><i class="fa fa-check"></i><b>13</b> Packages and Imports</a><ul>
+<li class="chapter" data-level="13.1" data-path="packages-and-imports.html"><a href="packages-and-imports.html#class-path"><i class="fa fa-check"></i><b>13.1</b> Class path</a></li>
+<li class="chapter" data-level="13.2" data-path="packages-and-imports.html"><a href="packages-and-imports.html#namespaces"><i class="fa fa-check"></i><b>13.2</b> Namespaces</a></li>
+<li class="chapter" data-level="13.3" data-path="packages-and-imports.html"><a href="packages-and-imports.html#packages"><i class="fa fa-check"></i><b>13.3</b> Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="the-power-of-naming.html"><a href="the-power-of-naming.html"><i class="fa fa-check"></i><b>14</b> The power of naming</a></li>
+<li class="part"><span><b>Part III - Core APIs</b></span></li>
+<li class="chapter" data-level="15" data-path="interfaces.html"><a href="interfaces.html"><i class="fa fa-check"></i><b>15</b> Interfaces</a><ul>
+<li class="chapter" data-level="15.1" data-path="interfaces.html"><a href="interfaces.html#a-contract-without-implementation-interface"><i class="fa fa-check"></i><b>15.1</b> A contract without implementation: interface</a></li>
+<li class="chapter" data-level="15.2" data-path="interfaces.html"><a href="interfaces.html#summary-2"><i class="fa fa-check"></i><b>15.2</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="the-java-collections-api.html"><a href="the-java-collections-api.html"><i class="fa fa-check"></i><b>16</b> The Java Collections API</a><ul>
+<li class="chapter" data-level="16.1" data-path="the-java-collections-api.html"><a href="the-java-collections-api.html#lists-arraylist-and-linkedlist"><i class="fa fa-check"></i><b>16.1</b> Lists: ArrayList and LinkedList</a></li>
+<li class="chapter" data-level="16.2" data-path="the-java-collections-api.html"><a href="the-java-collections-api.html#code-against-interfaces-not-implementations"><i class="fa fa-check"></i><b>16.2</b> Code against interfaces, not implementations</a></li>
+<li class="chapter" data-level="16.3" data-path="the-java-collections-api.html"><a href="the-java-collections-api.html#the-collection-interfaces-map-list-set"><i class="fa fa-check"></i><b>16.3</b> The collection interfaces: Map, List, Set</a></li>
+<li class="chapter" data-level="16.4" data-path="the-java-collections-api.html"><a href="the-java-collections-api.html#collections-utility-methods"><i class="fa fa-check"></i><b>16.4</b> Collections utility methods</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="methods-of-class-object.html"><a href="methods-of-class-object.html"><i class="fa fa-check"></i><b>17</b> Methods of class Object</a><ul>
+<li class="chapter" data-level="17.1" data-path="methods-of-class-object.html"><a href="methods-of-class-object.html#tostring-equals-hashcode-getclass"><i class="fa fa-check"></i><b>17.1</b> toString(), equals(), hashCode(), getClass()</a></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="sorting.html"><a href="sorting.html"><i class="fa fa-check"></i><b>18</b> Sorting</a><ul>
+<li class="chapter" data-level="18.1" data-path="sorting.html"><a href="sorting.html#natural-sorting-with-the-comparable-interface"><i class="fa fa-check"></i><b>18.1</b> “Natural” sorting with the <code>Comparable</code> interface</a></li>
+<li class="chapter" data-level="18.2" data-path="sorting.html"><a href="sorting.html#sorting-using-a-custom-comparator"><i class="fa fa-check"></i><b>18.2</b> Sorting using a custom <code>Comparator</code></a></li>
+<li class="chapter" data-level="18.3" data-path="sorting.html"><a href="sorting.html#multilevel-sorting"><i class="fa fa-check"></i><b>18.3</b> Multilevel sorting</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="exceptions.html"><a href="exceptions.html"><i class="fa fa-check"></i><b>19</b> Exceptions</a><ul>
+<li class="chapter" data-level="19.1" data-path="exceptions.html"><a href="exceptions.html#what-are-exceptions"><i class="fa fa-check"></i><b>19.1</b> What are exceptions</a></li>
+<li class="chapter" data-level="19.2" data-path="exceptions.html"><a href="exceptions.html#checked-and-unchecked-exceptions"><i class="fa fa-check"></i><b>19.2</b> Checked and unchecked exceptions</a></li>
+<li class="chapter" data-level="19.3" data-path="exceptions.html"><a href="exceptions.html#all-trycatch-elements"><i class="fa fa-check"></i><b>19.3</b> All try/catch elements</a></li>
+<li class="chapter" data-level="19.4" data-path="exceptions.html"><a href="exceptions.html#try-with-resources"><i class="fa fa-check"></i><b>19.4</b> Try-with resources</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="file-io.html"><a href="file-io.html"><i class="fa fa-check"></i><b>20</b> File IO</a><ul>
+<li class="chapter" data-level="20.1" data-path="file-io.html"><a href="file-io.html#path-paths"><i class="fa fa-check"></i><b>20.1</b> Path &amp; Paths</a></li>
+<li class="chapter" data-level="20.2" data-path="file-io.html"><a href="file-io.html#file-and-files"><i class="fa fa-check"></i><b>20.2</b> File and Files</a></li>
+<li class="chapter" data-level="20.3" data-path="file-io.html"><a href="file-io.html#parsing-file-content-the-easy-way"><i class="fa fa-check"></i><b>20.3</b> Parsing file content the easy way</a></li>
+<li class="chapter" data-level="20.4" data-path="file-io.html"><a href="file-io.html#note-on-character-sets"><i class="fa fa-check"></i><b>20.4</b> Note on character sets</a></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="regular-expressions.html"><a href="regular-expressions.html"><i class="fa fa-check"></i><b>21</b> Regular Expressions</a><ul>
+<li class="chapter" data-level="21.1" data-path="regular-expressions.html"><a href="regular-expressions.html#regex-syntax"><i class="fa fa-check"></i><b>21.1</b> Regex syntax?</a></li>
+<li class="chapter" data-level="21.2" data-path="regular-expressions.html"><a href="regular-expressions.html#methods-of-class-string"><i class="fa fa-check"></i><b>21.2</b> Methods of class String</a></li>
+<li class="chapter" data-level="21.3" data-path="regular-expressions.html"><a href="regular-expressions.html#pattern-matcher"><i class="fa fa-check"></i><b>21.3</b> Pattern &amp; Matcher</a></li>
+</ul></li>
+<li class="part"><span><b>Part IV - OOP</b></span></li>
+<li class="chapter" data-level="22" data-path="encapsulation.html"><a href="encapsulation.html"><i class="fa fa-check"></i><b>22</b> Encapsulation</a><ul>
+<li class="chapter" data-level="22.1" data-path="encapsulation.html"><a href="encapsulation.html#summary-3"><i class="fa fa-check"></i><b>22.1</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="access-modifiers-other-keywords.html"><a href="access-modifiers-other-keywords.html"><i class="fa fa-check"></i><b>23</b> Access modifiers &amp; Other keywords</a><ul>
+<li class="chapter" data-level="23.1" data-path="access-modifiers-other-keywords.html"><a href="access-modifiers-other-keywords.html#access-modifiers"><i class="fa fa-check"></i><b>23.1</b> Access Modifiers</a></li>
+<li class="chapter" data-level="23.2" data-path="access-modifiers-other-keywords.html"><a href="access-modifiers-other-keywords.html#other-keywords"><i class="fa fa-check"></i><b>23.2</b> Other keywords</a></li>
+</ul></li>
+<li class="chapter" data-level="24" data-path="inheritance-and-uml.html"><a href="inheritance-and-uml.html"><i class="fa fa-check"></i><b>24</b> Inheritance and UML</a><ul>
+<li class="chapter" data-level="24.1" data-path="inheritance-and-uml.html"><a href="inheritance-and-uml.html#the-testtube-with-cells"><i class="fa fa-check"></i><b>24.1</b> The TestTube with cells</a></li>
+<li class="chapter" data-level="24.2" data-path="inheritance-and-uml.html"><a href="inheritance-and-uml.html#apply-inheritance-to-model-what-is-common"><i class="fa fa-check"></i><b>24.2</b> Apply inheritance to model what is common</a></li>
+</ul></li>
+<li class="chapter" data-level="25" data-path="enums-constants-on-steroids.html"><a href="enums-constants-on-steroids.html"><i class="fa fa-check"></i><b>25</b> Enums: constants on steroids</a><ul>
+<li class="chapter" data-level="25.1" data-path="enums-constants-on-steroids.html"><a href="enums-constants-on-steroids.html#constants-are-everywhere"><i class="fa fa-check"></i><b>25.1</b> Constants are everywhere</a></li>
+</ul></li>
+<li class="chapter" data-level="26" data-path="encapsulation-revisited.html"><a href="encapsulation-revisited.html"><i class="fa fa-check"></i><b>26</b> Encapsulation revisited</a></li>
+<li class="chapter" data-level="27" data-path="design-rules-summary.html"><a href="design-rules-summary.html"><i class="fa fa-check"></i><b>27</b> Design rules summary</a><ul>
+<li class="chapter" data-level="27.1" data-path="design-rules-summary.html"><a href="design-rules-summary.html#equals-and-hashcode"><i class="fa fa-check"></i><b>27.1</b> equals() and hashCode()</a></li>
+<li class="chapter" data-level="27.2" data-path="design-rules-summary.html"><a href="design-rules-summary.html#classes-1"><i class="fa fa-check"></i><b>27.2</b> Classes</a></li>
+<li class="chapter" data-level="27.3" data-path="design-rules-summary.html"><a href="design-rules-summary.html#code-against-interfaces-not-implementations-1"><i class="fa fa-check"></i><b>27.3</b> Code against interfaces, not implementations</a></li>
+<li class="chapter" data-level="27.4" data-path="design-rules-summary.html"><a href="design-rules-summary.html#exceptions-1"><i class="fa fa-check"></i><b>27.4</b> Exceptions</a></li>
+<li class="chapter" data-level="27.5" data-path="design-rules-summary.html"><a href="design-rules-summary.html#access-modifiers-1"><i class="fa fa-check"></i><b>27.5</b> Access modifiers</a></li>
+<li class="chapter" data-level="27.6" data-path="design-rules-summary.html"><a href="design-rules-summary.html#srp"><i class="fa fa-check"></i><b>27.6</b> SRP</a></li>
+<li class="chapter" data-level="27.7" data-path="design-rules-summary.html"><a href="design-rules-summary.html#various"><i class="fa fa-check"></i><b>27.7</b> Various</a></li>
+</ul></li>
+<li class="part"><span><b>Part V - Java Web Apps</b></span></li>
+<li class="chapter" data-level="28" data-path="a-refresher.html"><a href="a-refresher.html"><i class="fa fa-check"></i><b>28</b> A refresher</a><ul>
+<li class="chapter" data-level="28.1" data-path="a-refresher.html"><a href="a-refresher.html#introduction"><i class="fa fa-check"></i><b>28.1</b> Introduction</a></li>
+<li class="chapter" data-level="28.2" data-path="a-refresher.html"><a href="a-refresher.html#the-basics-of-web"><i class="fa fa-check"></i><b>28.2</b> The basics of web</a></li>
+</ul></li>
+<li class="chapter" data-level="29" data-path="the-toolbox.html"><a href="the-toolbox.html"><i class="fa fa-check"></i><b>29</b> The toolbox</a></li>
+<li class="chapter" data-level="30" data-path="a-first-project-1.html"><a href="a-first-project-1.html"><i class="fa fa-check"></i><b>30</b> A first project</a><ul>
+<li class="chapter" data-level="30.1" data-path="a-first-project-1.html"><a href="a-first-project-1.html#introduction-1"><i class="fa fa-check"></i><b>30.1</b> Introduction</a></li>
+<li class="chapter" data-level="30.2" data-path="a-first-project-1.html"><a href="a-first-project-1.html#the-steps"><i class="fa fa-check"></i><b>30.2</b> The steps</a></li>
+</ul></li>
+<li class="chapter" data-level="31" data-path="implementing-mvc.html"><a href="implementing-mvc.html"><i class="fa fa-check"></i><b>31</b> Implementing MVC</a><ul>
+<li class="chapter" data-level="31.1" data-path="implementing-mvc.html"><a href="implementing-mvc.html#introduction-2"><i class="fa fa-check"></i><b>31.1</b> Introduction</a></li>
+<li class="chapter" data-level="31.2" data-path="implementing-mvc.html"><a href="implementing-mvc.html#java-web-app-architecture"><i class="fa fa-check"></i><b>31.2</b> Java web app architecture</a></li>
+</ul></li>
+<li class="chapter" data-level="32" data-path="thymeleaf-expressions.html"><a href="thymeleaf-expressions.html"><i class="fa fa-check"></i><b>32</b> Thymeleaf expressions</a><ul>
+<li class="chapter" data-level="32.1" data-path="thymeleaf-expressions.html"><a href="thymeleaf-expressions.html#introduction-3"><i class="fa fa-check"></i><b>32.1</b> Introduction</a></li>
+<li class="chapter" data-level="32.2" data-path="thymeleaf-expressions.html"><a href="thymeleaf-expressions.html#expression-types"><i class="fa fa-check"></i><b>32.2</b> Expression types</a></li>
+</ul></li>
+<li class="chapter" data-level="33" data-path="thymeleaf-flow-control-and-fragments.html"><a href="thymeleaf-flow-control-and-fragments.html"><i class="fa fa-check"></i><b>33</b> Thymeleaf flow control and fragments</a><ul>
+<li class="chapter" data-level="33.1" data-path="thymeleaf-flow-control-and-fragments.html"><a href="thymeleaf-flow-control-and-fragments.html#introduction-4"><i class="fa fa-check"></i><b>33.1</b> Introduction</a></li>
+<li class="chapter" data-level="33.2" data-path="thymeleaf-flow-control-and-fragments.html"><a href="thymeleaf-flow-control-and-fragments.html#working-with-fragments"><i class="fa fa-check"></i><b>33.2</b> Working with fragments</a></li>
+</ul></li>
+<li class="chapter" data-level="34" data-path="sessions-scopes.html"><a href="sessions-scopes.html"><i class="fa fa-check"></i><b>34</b> Sessions &amp; Scopes</a><ul>
+<li class="chapter" data-level="34.1" data-path="sessions-scopes.html"><a href="sessions-scopes.html#introduction-5"><i class="fa fa-check"></i><b>34.1</b> Introduction</a></li>
+<li class="chapter" data-level="34.2" data-path="sessions-scopes.html"><a href="sessions-scopes.html#scopes"><i class="fa fa-check"></i><b>34.2</b> Scopes</a></li>
+<li class="chapter" data-level="34.3" data-path="sessions-scopes.html"><a href="sessions-scopes.html#summary-of-scopes"><i class="fa fa-check"></i><b>34.3</b> Summary of scopes</a></li>
+</ul></li>
+<li class="chapter" data-level="35" data-path="servlet-details-and-lifecycle-hooks.html"><a href="servlet-details-and-lifecycle-hooks.html"><i class="fa fa-check"></i><b>35</b> Servlet details and lifecycle hooks</a><ul>
+<li class="chapter" data-level="35.1" data-path="servlet-details-and-lifecycle-hooks.html"><a href="servlet-details-and-lifecycle-hooks.html#servlet-configuration"><i class="fa fa-check"></i><b>35.1</b> Servlet configuration</a></li>
+<li class="chapter" data-level="35.2" data-path="servlet-details-and-lifecycle-hooks.html"><a href="servlet-details-and-lifecycle-hooks.html#hooks"><i class="fa fa-check"></i><b>35.2</b> Hooks</a></li>
+</ul></li>
+<li class="chapter" data-level="36" data-path="database-interaction.html"><a href="database-interaction.html"><i class="fa fa-check"></i><b>36</b> Database interaction</a><ul>
+<li class="chapter" data-level="36.1" data-path="database-interaction.html"><a href="database-interaction.html#jdbc"><i class="fa fa-check"></i><b>36.1</b> JDBC</a></li>
+<li class="chapter" data-level="36.2" data-path="database-interaction.html"><a href="database-interaction.html#the-naive-implementation"><i class="fa fa-check"></i><b>36.2</b> The naive implementation</a></li>
+<li class="chapter" data-level="36.3" data-path="database-interaction.html"><a href="database-interaction.html#improve-on-naive-implementation"><i class="fa fa-check"></i><b>36.3</b> Improve on naive implementation</a></li>
+<li class="chapter" data-level="36.4" data-path="database-interaction.html"><a href="database-interaction.html#refactoring-to-oo-principles"><i class="fa fa-check"></i><b>36.4</b> Refactoring to OO principles</a></li>
+<li class="chapter" data-level="36.5" data-path="database-interaction.html"><a href="database-interaction.html#use-in-a-servlet-environment"><i class="fa fa-check"></i><b>36.5</b> Use in a servlet environment</a></li>
+</ul></li>
+<li class="chapter" data-level="37" data-path="a-simple-web-service-using-ajax.html"><a href="a-simple-web-service-using-ajax.html"><i class="fa fa-check"></i><b>37</b> A simple web service using Ajax</a><ul>
+<li class="chapter" data-level="37.1" data-path="a-simple-web-service-using-ajax.html"><a href="a-simple-web-service-using-ajax.html#introduction-6"><i class="fa fa-check"></i><b>37.1</b> Introduction</a></li>
+</ul></li>
+<li class="chapter" data-level="38" data-path="web-filters-and-file-uploads.html"><a href="web-filters-and-file-uploads.html"><i class="fa fa-check"></i><b>38</b> Web filters and File uploads</a><ul>
+<li class="chapter" data-level="38.1" data-path="web-filters-and-file-uploads.html"><a href="web-filters-and-file-uploads.html#web-filters"><i class="fa fa-check"></i><b>38.1</b> Web filters</a></li>
+<li class="chapter" data-level="38.2" data-path="web-filters-and-file-uploads.html"><a href="web-filters-and-file-uploads.html#file-uploads"><i class="fa fa-check"></i><b>38.2</b> File uploads</a></li>
+</ul></li>
+<li class="chapter" data-level="39" data-path="exercises-intro.html"><a href="exercises-intro.html"><i class="fa fa-check"></i><b>39</b> Exercises intro</a><ul>
+<li class="chapter" data-level="39.1" data-path="exercises-intro.html"><a href="exercises-intro.html#implementing-mvc-1"><i class="fa fa-check"></i><b>39.1</b> Implementing MVC</a></li>
+<li class="chapter" data-level="39.2" data-path="exercises-intro.html"><a href="exercises-intro.html#thymeleaf"><i class="fa fa-check"></i><b>39.2</b> Thymeleaf</a></li>
+<li class="chapter" data-level="39.3" data-path="exercises-intro.html"><a href="exercises-intro.html#sessions"><i class="fa fa-check"></i><b>39.3</b> Sessions</a></li>
+<li class="chapter" data-level="39.4" data-path="exercises-intro.html"><a href="exercises-intro.html#authentication-1"><i class="fa fa-check"></i><b>39.4</b> Authentication</a></li>
+<li class="chapter" data-level="39.5" data-path="exercises-intro.html"><a href="exercises-intro.html#servlet-details-and-hooks"><i class="fa fa-check"></i><b>39.5</b> Servlet details and hooks</a></li>
+<li class="chapter" data-level="39.6" data-path="exercises-intro.html"><a href="exercises-intro.html#database-interaction-1"><i class="fa fa-check"></i><b>39.6</b> Database interaction</a></li>
+<li class="chapter" data-level="39.7" data-path="exercises-intro.html"><a href="exercises-intro.html#ajax"><i class="fa fa-check"></i><b>39.7</b> Ajax</a></li>
+<li class="chapter" data-level="39.8" data-path="exercises-intro.html"><a href="exercises-intro.html#filters"><i class="fa fa-check"></i><b>39.8</b> Filters</a></li>
+</ul></li>
+<li class="chapter" data-level="40" data-path="html5-tags.html"><a href="html5-tags.html"><i class="fa fa-check"></i><b>40</b> HTML5 tags</a></li>
+<li class="part"><span><b>Part VI - JUnit</b></span></li>
+<li class="chapter" data-level="41" data-path="junit-5-basics.html"><a href="junit-5-basics.html"><i class="fa fa-check"></i><b>41</b> JUnit 5 basics</a><ul>
+<li class="chapter" data-level="41.1" data-path="junit-5-basics.html"><a href="junit-5-basics.html#introduction-7"><i class="fa fa-check"></i><b>41.1</b> Introduction</a></li>
+<li class="chapter" data-level="41.2" data-path="junit-5-basics.html"><a href="junit-5-basics.html#reasons-for-unit-testing"><i class="fa fa-check"></i><b>41.2</b> Reasons for unit testing</a></li>
+<li class="chapter" data-level="41.3" data-path="junit-5-basics.html"><a href="junit-5-basics.html#running-junit-5-tests-using-gradle-and-intellij"><i class="fa fa-check"></i><b>41.3</b> Running JUnit 5 tests using Gradle and IntelliJ</a></li>
+<li class="chapter" data-level="41.4" data-path="junit-5-basics.html"><a href="junit-5-basics.html#document"><i class="fa fa-check"></i><b>41.4</b> Document!</a></li>
+<li class="chapter" data-level="41.5" data-path="junit-5-basics.html"><a href="junit-5-basics.html#junit-assert...-methods"><i class="fa fa-check"></i><b>41.5</b> JUnit <code>assert...()</code> methods</a></li>
+<li class="chapter" data-level="41.6" data-path="junit-5-basics.html"><a href="junit-5-basics.html#testing-for-exceptions"><i class="fa fa-check"></i><b>41.6</b> Testing for Exceptions</a></li>
+<li class="chapter" data-level="41.7" data-path="junit-5-basics.html"><a href="junit-5-basics.html#grouping-assertions-using-assertall"><i class="fa fa-check"></i><b>41.7</b> Grouping assertions using <code>assertAll()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="42" data-path="junit-5-advanced-features.html"><a href="junit-5-advanced-features.html"><i class="fa fa-check"></i><b>42</b> JUnit 5 advanced features</a><ul>
+<li class="chapter" data-level="42.1" data-path="junit-5-advanced-features.html"><a href="junit-5-advanced-features.html#introduction-8"><i class="fa fa-check"></i><b>42.1</b> Introduction</a></li>
+<li class="chapter" data-level="42.2" data-path="junit-5-advanced-features.html"><a href="junit-5-advanced-features.html#junit-5-annotations"><i class="fa fa-check"></i><b>42.2</b> JUnit 5 annotations</a></li>
+</ul></li>
+<li class="part"><span><b>Part VII - Design</b></span></li>
+<li class="chapter" data-level="43" data-path="uml.html"><a href="uml.html"><i class="fa fa-check"></i><b>43</b> UML</a></li>
+<li class="chapter" data-level="44" data-path="refactoring.html"><a href="refactoring.html"><i class="fa fa-check"></i><b>44</b> Refactoring</a><ul>
+<li class="chapter" data-level="44.1" data-path="refactoring.html"><a href="refactoring.html#introduction-9"><i class="fa fa-check"></i><b>44.1</b> Introduction</a></li>
+<li class="chapter" data-level="44.2" data-path="refactoring.html"><a href="refactoring.html#get-to-know-what-is-there"><i class="fa fa-check"></i><b>44.2</b> Get to know what is there</a></li>
+<li class="chapter" data-level="44.3" data-path="refactoring.html"><a href="refactoring.html#refactor"><i class="fa fa-check"></i><b>44.3</b> Refactor</a></li>
+<li class="chapter" data-level="44.4" data-path="refactoring.html"><a href="refactoring.html#take-over"><i class="fa fa-check"></i><b>44.4</b> Take over</a></li>
+</ul></li>
+<li class="part"><span><b>Part VIII - Spring Boot</b></span></li>
+<li class="chapter" data-level="45" data-path="rest-and-mvc-with-spring.html"><a href="rest-and-mvc-with-spring.html"><i class="fa fa-check"></i><b>45</b> REST and MVC with Spring</a><ul>
+<li class="chapter" data-level="45.1" data-path="rest-and-mvc-with-spring.html"><a href="rest-and-mvc-with-spring.html#create-a-new-project"><i class="fa fa-check"></i><b>45.1</b> Create a new project</a></li>
+<li class="chapter" data-level="45.2" data-path="rest-and-mvc-with-spring.html"><a href="rest-and-mvc-with-spring.html#create-a-rest-response"><i class="fa fa-check"></i><b>45.2</b> Create a REST response</a></li>
+</ul></li>
+<li class="chapter" data-level="46" data-path="dependency-injection-in-spring.html"><a href="dependency-injection-in-spring.html"><i class="fa fa-check"></i><b>46</b> Dependency Injection in Spring</a></li>
+<li class="chapter" data-level="47" data-path="core-spring-annotations.html"><a href="core-spring-annotations.html"><i class="fa fa-check"></i><b>47</b> Core (Spring) annotations</a><ul>
+<li class="chapter" data-level="47.1" data-path="core-spring-annotations.html"><a href="core-spring-annotations.html#generic-annotations"><i class="fa fa-check"></i><b>47.1</b> Generic annotations</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">The Java Track</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="refactoring" class="section level1">
+<h1><span class="header-section-number">Chapter 44</span> Refactoring</h1>
+<div id="introduction-9" class="section level2">
+<h2><span class="header-section-number">44.1</span> Introduction</h2>
+<p>This will be quite a long post. One I hope you will finish! If you want to follow along in the code base,
+you should clone the repo. It is available at <a href="https://michiel_noback@bitbucket.org/minoba/refactoringtrainingproject.git">bitbucket</a>.
+Check out commit <code>eaf007f</code> to have a look at the original project. It was created by a student of mine, a third year bioinformatics student who will remain anonymous. As final assignment of the course Introduction to Java programming, he wrote a
+tool that can be used to read, summarize and filter files of the <code>gff3</code> format (see<a href="https://www.ensembl.org/info/website/upload/gff3.html">https://www.ensembl.org/info/website/upload/gff3.html</a>).
+This flat-file format is used to describe (annotate) elements (features), such as genes and introns, on DNA molecules,
+also supporting hierarchical or tree-like relationships. Here is a small example, copied (and slimmed down) from a much
+larger file describing some piece of Potato DNA:</p>
+<pre><code>PGSC0003DMB000000010    BGI gene    1242814 1245448 .   .   .   ID=PGSC0003DMG400000001;
+PGSC0003DMB000000010    Cufflinks   mRNA    1242814 1245444 .   +   .   ID=PGSC0003DMT400000001;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.0;Mapping_depth=48.922289;Class=1;
+PGSC0003DMB000000010    Cufflinks   mRNA    1242814 1245444 .   +   .   ID=PGSC0003DMT400000002;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.1;Mapping_depth=349.773769;Class=1;
+PGSC0003DMB000000010    Cufflinks   mRNA    1243971 1245448 .   +   .   ID=PGSC0003DMT400000003;Parent=PGSC0003DMG400000001;Source_id=RNASEQ44.3678.2;Mapping_depth=52.447281;Class=1;
+PGSC0003DMB000000010    Cufflinks   exon    1242814 1243429 .   +   .   ID=PGSC0003DME400000001;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks   exon    1243532 1243736 .   +   .   ID=PGSC0003DME400000002;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks   intron  1243430 1243531 .   +   .   ID=PGSC0003DMI400000001;Parent=PGSC0003DMT400000001,PGSC0003DMT400000002;
+PGSC0003DMB000000010    Cufflinks   intron  1244851 1244983 .   +   .   ID=PGSC0003DMI400000005;Parent=PGSC0003DMT400000002;
+PGSC0003DMB000000010    BestORF CDS 1243614 1243736 .   +   0   ID=PGSC0003DMC400000001;Parent=PGSC0003DMT400000001;
+PGSC0003DMB000000010    BestORF CDS 1244206 1244487 .   +   0   ID=PGSC0003DMC400000001;Parent=PGSC0003DMT400000001;
+PGSC0003DMB000000155    BGI gene    1093109 1102125 .   .   .   ID=PGSC0003DMG400000278;</code></pre>
+<p>It is a tab-separated file with this -abbreviated- specification:</p>
+<p>Fields must be tab-separated. Also, all but the final field in each feature line must contain a value; “empty” columns should be denoted with a ‘.’</p>
+<ol style="list-style-type: decimal">
+<li><strong>seqid</strong> - name/ID of the chromosome or segment</li>
+<li><strong>source</strong> - name of the program that generated this feature</li>
+<li><strong>type</strong> - type of feature.</li>
+<li><strong>start</strong> - Start position of the feature, starting at 1.</li>
+<li><strong>end</strong> - End position of the feature, starting at 1.</li>
+<li><strong>score</strong> - A floating point value.</li>
+<li><strong>strand</strong> - defined as + (forward) or - (reverse).</li>
+<li><strong>phase</strong> - One of ‘0’, ‘1’ or ‘2’. ‘0’ indicates that the first base of the feature is the first base of a codon, ‘1’ that the second
+base is the first base of a codon, and so on.</li>
+<li><strong>attributes</strong> - A semicolon-separated list of tag=value pairs, providing additional information about each feature. Some of these tags
+are predefined, e.g. ID, Name, Alias, Parent.</li>
+</ol>
+<p>I chose this particular project because (a) it is simple enough to be understood (b) complex enough to be a serious challenge (c) it had
+so many inline comments that the unintelligible code could be understood and (d) the functionality was (as far as I tested) not perfect,
+but OK. The student had implemented all the required use cases. But the code itself was written like a big old script, with many (naming)
+convention violations, OO violations, Encapsulation and Abstraction not applied. You’ll see many examples as we plod along.</p>
+<p>I do not plan to finish the whole project here; there should be some challenge for you left.</p>
+<div id="note-on-junit-tests" class="section level4 unnumbered">
+<h4>Note on JUnit tests</h4>
+<p>When taking over a code base like this, without any (J)Unit tests, it is a very good idea to develop JUnit tests in concert with your refactoring efforts.
+Take a look at the (too) few JUnit tests that I added to this project as well.</p>
+</div>
+</div>
+<div id="get-to-know-what-is-there" class="section level2">
+<h2><span class="header-section-number">44.2</span> Get to know what is there</h2>
+<p>First, of course, you need to run the tool in different modes and study the existing code base to what exactly is going on.</p>
+<p>Running it in this mode <code>-i data/gff3_sample.gff3 -s</code> will give a summary:</p>
+<pre><code>file    gff3_sample.gff3
+total number of features    22
+molecules with features:
+human15.1
+    number of features  22
+        CDS             10
+        gene                1
+        three_prime_UT              4
+        mRNA                4
+        five_prime_UTR              3</code></pre>
+<p>That’s not really lined out but it’ll do for now.</p>
+<p>Another use case, looking for features of a specific type <code>-i data/gff3_sample.gff3 -ft mRNA</code>:</p>
+<pre><code>human15.1 . mRNA            214360  215771 . +   . Comments=fixed+one+splice+junction;Parent=HsG8283;Evidence=7000000069743825;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant+%28partial%29;ID=HsT20206
+human15.1 . mRNA            214590  215772 . +   . Comments=fixed+one+splice+site%0A;Parent=HsG8283;Evidence=7000000069600840;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant+%28partial%29;ID=HsT20207
+human15.1 . mRNA            214301  215769 . +   . Parent=HsG8283;Evidence=7000000069974357;Transcript_type=Candidates+for+Deletion;Name=Novel+Transcript+%28partial%29;ID=HsT16028
+human15.1 . mRNA            215218  215772 . +   . Parent=HsG8283;Evidence=7000000069512231;Transcript_type=Novel_Transcript;Name=Novel+Transcript%2C+variant;ID=HsT16029</code></pre>
+<p>Some more use cases were carried out. There do not seem to major bugs.</p>
+<p>This is the simple class and package layout of the project:</p>
+<pre><code>gff_query/control
+            GffLine
+         /io
+            CLIParser
+            FileReader
+         /model
+            GffFile
+         GffQuery (main)</code></pre>
+<p>This puzzles me a bit. I would expect something like GffLine to be in the <code>model</code> and <code>CLIParser</code> somewhere not in the <code>io</code> package. We’ll get to that.</p>
+<p>A first inspection of the classes is a bit of a scare. Here is class <code>FileReader</code>.</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb368-1"><a href="refactoring.html#cb368-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.gff_query.io;</span></span>
+<span id="cb368-2"><a href="refactoring.html#cb368-2"></a><span class="co">//imports omitted</span></span>
+<span id="cb368-3"><a href="refactoring.html#cb368-3"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">FileReader</span> {</span>
+<span id="cb368-4"><a href="refactoring.html#cb368-4"></a>    <span class="kw">public</span> <span class="bu">ArrayList</span>&lt;<span class="bu">String</span>&gt; <span class="fu">readFile</span>(<span class="bu">String</span> raw_path) {</span>
+<span id="cb368-5"><a href="refactoring.html#cb368-5"></a>        <span class="bu">ArrayList</span>&lt;<span class="bu">String</span>&gt; fileArrayList = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb368-6"><a href="refactoring.html#cb368-6"></a>        Path path = Paths.<span class="fu">get</span>(raw_path);</span>
+<span id="cb368-7"><a href="refactoring.html#cb368-7"></a>        <span class="kw">try</span> (<span class="bu">BufferedReader</span> reader = Files.<span class="fu">newBufferedReader</span>(</span>
+<span id="cb368-8"><a href="refactoring.html#cb368-8"></a>                path,</span>
+<span id="cb368-9"><a href="refactoring.html#cb368-9"></a>                <span class="bu">Charset</span>.<span class="fu">defaultCharset</span>())) {</span>
+<span id="cb368-10"><a href="refactoring.html#cb368-10"></a>            <span class="bu">String</span> lineFromFile;</span>
+<span id="cb368-11"><a href="refactoring.html#cb368-11"></a>            <span class="kw">while</span> ((lineFromFile = reader.<span class="fu">readLine</span>()) != <span class="kw">null</span>) {</span>
+<span id="cb368-12"><a href="refactoring.html#cb368-12"></a>                fileArrayList.<span class="fu">add</span>(lineFromFile);</span>
+<span id="cb368-13"><a href="refactoring.html#cb368-13"></a>            }</span>
+<span id="cb368-14"><a href="refactoring.html#cb368-14"></a>        } <span class="kw">catch</span> (<span class="bu">IOException</span> exception) {</span>
+<span id="cb368-15"><a href="refactoring.html#cb368-15"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Error while reading file, </span><span class="sc">\&quot;</span><span class="st">IOExceptio</span><span class="sc">\&quot;</span><span class="st">, Did you give the correct location / does the &quot;</span> +</span>
+<span id="cb368-16"><a href="refactoring.html#cb368-16"></a>                <span class="st">&quot;file exist?&quot;</span>);</span>
+<span id="cb368-17"><a href="refactoring.html#cb368-17"></a>        }</span>
+<span id="cb368-18"><a href="refactoring.html#cb368-18"></a>        <span class="kw">return</span> fileArrayList;</span>
+<span id="cb368-19"><a href="refactoring.html#cb368-19"></a>    }</span>
+<span id="cb368-20"><a href="refactoring.html#cb368-20"></a>}</span></code></pre></div>
+<p>OK…</p>
+<p>This class does nothing more than processing the input file into a list of lines. Hello! Streaming processing? These files can get in the Gigabytes size.
+Moreover, it catches an exception only to generate a <code>System.out.println</code> message. Some work to be done here for sure. Note the name <code>raw_path</code>. This is somebody coming from Python, it seems.</p>
+<p>Next class, main: <code>GffQuery</code>. Take a minute to study its source before reading on. Note at least 5 points of improvement elegible for refactoring.</p>
+<div class="sourceCode" id="cb369"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb369-1"><a href="refactoring.html#cb369-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.gff_query;</span></span>
+<span id="cb369-2"><a href="refactoring.html#cb369-2"></a><span class="co">//imports omitted</span></span>
+<span id="cb369-3"><a href="refactoring.html#cb369-3"></a></span>
+<span id="cb369-4"><a href="refactoring.html#cb369-4"></a><span class="kw">public</span> <span class="kw">class</span> GffQuery {</span>
+<span id="cb369-5"><a href="refactoring.html#cb369-5"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">IOException</span> {</span>
+<span id="cb369-6"><a href="refactoring.html#cb369-6"></a>        <span class="co">// grab stuff from command line, try to parse.</span></span>
+<span id="cb369-7"><a href="refactoring.html#cb369-7"></a>        CLIParser my_cli_parser = <span class="kw">new</span> <span class="fu">CLIParser</span>();</span>
+<span id="cb369-8"><a href="refactoring.html#cb369-8"></a>        <span class="co">// try to parse</span></span>
+<span id="cb369-9"><a href="refactoring.html#cb369-9"></a>        <span class="kw">try</span> {</span>
+<span id="cb369-10"><a href="refactoring.html#cb369-10"></a>            <span class="co">// before anything else, try for printing the help</span></span>
+<span id="cb369-11"><a href="refactoring.html#cb369-11"></a>            <span class="dt">boolean</span> help_present = my_cli_parser.<span class="fu">cliHelpParse</span>(args);</span>
+<span id="cb369-12"><a href="refactoring.html#cb369-12"></a>            <span class="kw">if</span> (help_present) {my_cli_parser.<span class="fu">printHelp</span>();}</span>
+<span id="cb369-13"><a href="refactoring.html#cb369-13"></a>            <span class="kw">else</span>{</span>
+<span id="cb369-14"><a href="refactoring.html#cb369-14"></a>                <span class="co">// parse the command line arguments</span></span>
+<span id="cb369-15"><a href="refactoring.html#cb369-15"></a>                my_cli_parser.<span class="fu">cliParse</span>(args);</span>
+<span id="cb369-16"><a href="refactoring.html#cb369-16"></a>                <span class="co">// if this worked, go on and grab all the arguments.</span></span>
+<span id="cb369-17"><a href="refactoring.html#cb369-17"></a>                <span class="co">// but first check if the inputs are correct.</span></span>
+<span id="cb369-18"><a href="refactoring.html#cb369-18"></a>                <span class="dt">boolean</span> correct_inputs = my_cli_parser.<span class="fu">checkInputs</span>();</span>
+<span id="cb369-19"><a href="refactoring.html#cb369-19"></a>                <span class="kw">if</span> (!correct_inputs) {</span>
+<span id="cb369-20"><a href="refactoring.html#cb369-20"></a>                    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Something went wrong when checking inputs, some may be incorrect, please &quot;</span> +</span>
+<span id="cb369-21"><a href="refactoring.html#cb369-21"></a>                            <span class="st">&quot;refer to the help page or check if your input file is correct.&quot;</span>);</span>
+<span id="cb369-22"><a href="refactoring.html#cb369-22"></a>                }</span>
+<span id="cb369-23"><a href="refactoring.html#cb369-23"></a>                <span class="kw">else</span> {</span>
+<span id="cb369-24"><a href="refactoring.html#cb369-24"></a>                    <span class="bu">String</span>[] parsed_arguments = my_cli_parser.<span class="fu">returnArguments</span>();</span>
+<span id="cb369-25"><a href="refactoring.html#cb369-25"></a>                    <span class="co">// handle stuff based on the case.</span></span>
+<span id="cb369-26"><a href="refactoring.html#cb369-26"></a>                    <span class="dt">int</span> mycase;</span>
+<span id="cb369-27"><a href="refactoring.html#cb369-27"></a>                    <span class="kw">if</span> (parsed_arguments[<span class="dv">1</span>].<span class="fu">equals</span>(<span class="st">&quot;true&quot;</span>)) {</span>
+<span id="cb369-28"><a href="refactoring.html#cb369-28"></a>                        <span class="co">// case 1, print summary.</span></span>
+<span id="cb369-29"><a href="refactoring.html#cb369-29"></a>                        mycase = <span class="dv">1</span>;</span>
+<span id="cb369-30"><a href="refactoring.html#cb369-30"></a>                    }</span>
+<span id="cb369-31"><a href="refactoring.html#cb369-31"></a>                    <span class="kw">else</span> {</span>
+<span id="cb369-32"><a href="refactoring.html#cb369-32"></a>                        <span class="co">// case 2, actually apply filters and stuff.</span></span>
+<span id="cb369-33"><a href="refactoring.html#cb369-33"></a>                        mycase = <span class="dv">2</span>;</span>
+<span id="cb369-34"><a href="refactoring.html#cb369-34"></a>                    }</span>
+<span id="cb369-35"><a href="refactoring.html#cb369-35"></a>                    <span class="co">// before running the switch, read in file and make a GffFile object</span></span>
+<span id="cb369-36"><a href="refactoring.html#cb369-36"></a>                    <span class="bu">String</span> path = parsed_arguments[<span class="dv">0</span>];</span>
+<span id="cb369-37"><a href="refactoring.html#cb369-37"></a>                    <span class="bu">FileReader</span> filereader = <span class="kw">new</span> <span class="bu">FileReader</span>();</span>
+<span id="cb369-38"><a href="refactoring.html#cb369-38"></a>                    <span class="co">// read in the raw file and catch the resulting ArrayList</span></span>
+<span id="cb369-39"><a href="refactoring.html#cb369-39"></a>                    <span class="bu">ArrayList</span> fileArrayList = filereader.<span class="fu">readFile</span>(path);</span>
+<span id="cb369-40"><a href="refactoring.html#cb369-40"></a>                    <span class="kw">if</span> (fileArrayList.<span class="fu">isEmpty</span>()) {</span>
+<span id="cb369-41"><a href="refactoring.html#cb369-41"></a>                        mycase = <span class="dv">3</span>;</span>
+<span id="cb369-42"><a href="refactoring.html#cb369-42"></a>                    }</span>
+<span id="cb369-43"><a href="refactoring.html#cb369-43"></a>                    <span class="co">// parse it to a GffFile object.</span></span>
+<span id="cb369-44"><a href="refactoring.html#cb369-44"></a>                    GffFile myGffFile = <span class="kw">new</span> <span class="fu">GffFile</span>(fileArrayList, path);</span>
+<span id="cb369-45"><a href="refactoring.html#cb369-45"></a>                    <span class="kw">switch</span> (mycase) {</span>
+<span id="cb369-46"><a href="refactoring.html#cb369-46"></a>                        <span class="kw">case</span> <span class="dv">1</span>:</span>
+<span id="cb369-47"><a href="refactoring.html#cb369-47"></a>                            <span class="co">// do summary, not implemented as of yet.</span></span>
+<span id="cb369-48"><a href="refactoring.html#cb369-48"></a>                            myGffFile.<span class="fu">printSummary</span>();</span>
+<span id="cb369-49"><a href="refactoring.html#cb369-49"></a>                            <span class="kw">break</span>;</span>
+<span id="cb369-50"><a href="refactoring.html#cb369-50"></a>                        <span class="kw">case</span> <span class="dv">2</span>:</span>
+<span id="cb369-51"><a href="refactoring.html#cb369-51"></a>                            <span class="co">// apply all filters.</span></span>
+<span id="cb369-52"><a href="refactoring.html#cb369-52"></a>                            <span class="co">// create filters array</span></span>
+<span id="cb369-53"><a href="refactoring.html#cb369-53"></a>                            <span class="bu">String</span>[] filters = <span class="kw">new</span> <span class="bu">String</span>[<span class="dv">5</span>];</span>
+<span id="cb369-54"><a href="refactoring.html#cb369-54"></a>                            <span class="co">// filters has all filters like so;</span></span>
+<span id="cb369-55"><a href="refactoring.html#cb369-55"></a>                            <span class="co">// fetch_type, fetch_region, filter, fetch_children, find_wildcard</span></span>
+<span id="cb369-56"><a href="refactoring.html#cb369-56"></a>                            <span class="co">// parsed_arguments had this;</span></span>
+<span id="cb369-57"><a href="refactoring.html#cb369-57"></a>                            <span class="co">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span></span>
+<span id="cb369-58"><a href="refactoring.html#cb369-58"></a>                            filters[<span class="dv">0</span>] = parsed_arguments[<span class="dv">2</span>];</span>
+<span id="cb369-59"><a href="refactoring.html#cb369-59"></a>                            filters[<span class="dv">1</span>] = parsed_arguments[<span class="dv">3</span>];</span>
+<span id="cb369-60"><a href="refactoring.html#cb369-60"></a>                            filters[<span class="dv">2</span>] = parsed_arguments[<span class="dv">6</span>];</span>
+<span id="cb369-61"><a href="refactoring.html#cb369-61"></a>                            filters[<span class="dv">3</span>] = parsed_arguments[<span class="dv">4</span>];</span>
+<span id="cb369-62"><a href="refactoring.html#cb369-62"></a>                            filters[<span class="dv">4</span>] = parsed_arguments[<span class="dv">5</span>];</span>
+<span id="cb369-63"><a href="refactoring.html#cb369-63"></a>                            <span class="co">// put in filters and print results</span></span>
+<span id="cb369-64"><a href="refactoring.html#cb369-64"></a>                            myGffFile.<span class="fu">applyFilters</span>(filters);</span>
+<span id="cb369-65"><a href="refactoring.html#cb369-65"></a>                            <span class="kw">if</span> (myGffFile.<span class="fu">toString</span>().<span class="fu">isEmpty</span>()) {</span>
+<span id="cb369-66"><a href="refactoring.html#cb369-66"></a>                                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Oops, no lines found! Try to apply different filters. or double &quot;</span> +</span>
+<span id="cb369-67"><a href="refactoring.html#cb369-67"></a>                                        <span class="st">&quot;check them. It might also be possible that the file did not contain any&quot;</span> +</span>
+<span id="cb369-68"><a href="refactoring.html#cb369-68"></a>                                        <span class="st">&quot; valid gff3 formatted lines.&quot;</span>);</span>
+<span id="cb369-69"><a href="refactoring.html#cb369-69"></a>                            }</span>
+<span id="cb369-70"><a href="refactoring.html#cb369-70"></a>                            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">print</span>(myGffFile.<span class="fu">toString</span>());</span>
+<span id="cb369-71"><a href="refactoring.html#cb369-71"></a>                            <span class="kw">break</span>;</span>
+<span id="cb369-72"><a href="refactoring.html#cb369-72"></a>                        <span class="kw">case</span> <span class="dv">3</span>:</span>
+<span id="cb369-73"><a href="refactoring.html#cb369-73"></a>                            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;empty or corrupt file.&quot;</span>);</span>
+<span id="cb369-74"><a href="refactoring.html#cb369-74"></a>                            <span class="kw">break</span>;</span>
+<span id="cb369-75"><a href="refactoring.html#cb369-75"></a>                    }</span>
+<span id="cb369-76"><a href="refactoring.html#cb369-76"></a></span>
+<span id="cb369-77"><a href="refactoring.html#cb369-77"></a>                }</span>
+<span id="cb369-78"><a href="refactoring.html#cb369-78"></a>            }</span>
+<span id="cb369-79"><a href="refactoring.html#cb369-79"></a>        }</span>
+<span id="cb369-80"><a href="refactoring.html#cb369-80"></a>        <span class="kw">catch</span>( <span class="bu">ParseException</span> exp ) {</span>
+<span id="cb369-81"><a href="refactoring.html#cb369-81"></a>            <span class="co">// oops, something went wrong</span></span>
+<span id="cb369-82"><a href="refactoring.html#cb369-82"></a>            <span class="bu">System</span>.<span class="fu">err</span>.<span class="fu">println</span>( <span class="st">&quot;command line input parsing failed. please refer to the manual using the </span><span class="sc">\&quot;</span><span class="st">--help</span><span class="sc">\&quot;</span><span class="st"> &quot;</span> +</span>
+<span id="cb369-83"><a href="refactoring.html#cb369-83"></a>                    <span class="st">&quot;argument&quot;</span> );</span>
+<span id="cb369-84"><a href="refactoring.html#cb369-84"></a>        }</span>
+<span id="cb369-85"><a href="refactoring.html#cb369-85"></a>    }</span>
+<span id="cb369-86"><a href="refactoring.html#cb369-86"></a>}</span></code></pre></div>
+<p>OK…again…</p>
+<p>So here are a few aspects that need to be addressed:</p>
+<ol style="list-style-type: decimal">
+<li>Every line of code is in one big main</li>
+<li>This is a Many Responsibilities class</li>
+<li>Naming convention violations all over</li>
+<li>Too complex flow control</li>
+<li>Not OO at all</li>
+<li>and more</li>
+</ol>
+<p>We’ll get to this class later.</p>
+<p>The <code>GffLine</code>, <code>GffFile</code> and <code>CLIParser</code> classes are similar in nature. I won’t show them all here. In this part, I would like to focus on class <code>CLIParser</code>. To get it right, I will need to refactor in other places as well, but this will be my starting point. Why start here? This is a class that should have an obvious Single Responsibility: taking care of command-line arguments. Have a look at the code yourself first and think where you would start.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb370-1"><a href="refactoring.html#cb370-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.gff_query.io;</span></span>
+<span id="cb370-2"><a href="refactoring.html#cb370-2"></a></span>
+<span id="cb370-3"><a href="refactoring.html#cb370-3"></a><span class="kw">import</span><span class="im"> org.apache.commons.cli.*;</span></span>
+<span id="cb370-4"><a href="refactoring.html#cb370-4"></a><span class="kw">import</span><span class="im"> java.io.File;</span></span>
+<span id="cb370-5"><a href="refactoring.html#cb370-5"></a></span>
+<span id="cb370-6"><a href="refactoring.html#cb370-6"></a><span class="kw">public</span> <span class="kw">class</span> CLIParser {</span>
+<span id="cb370-7"><a href="refactoring.html#cb370-7"></a>    <span class="kw">private</span> Options options;</span>
+<span id="cb370-8"><a href="refactoring.html#cb370-8"></a>    <span class="kw">private</span> Options help_options;</span>
+<span id="cb370-9"><a href="refactoring.html#cb370-9"></a>    <span class="kw">private</span> CommandLine cmd;</span>
+<span id="cb370-10"><a href="refactoring.html#cb370-10"></a>    <span class="kw">private</span> CommandLine help_cmd;</span>
+<span id="cb370-11"><a href="refactoring.html#cb370-11"></a>    <span class="kw">private</span> DefaultParser parser;</span>
+<span id="cb370-12"><a href="refactoring.html#cb370-12"></a>    <span class="kw">private</span> HelpFormatter formatter;</span>
+<span id="cb370-13"><a href="refactoring.html#cb370-13"></a></span>
+<span id="cb370-14"><a href="refactoring.html#cb370-14"></a>    <span class="kw">public</span> <span class="fu">CLIParser</span>() {</span>
+<span id="cb370-15"><a href="refactoring.html#cb370-15"></a>        <span class="co">// Create parser object</span></span>
+<span id="cb370-16"><a href="refactoring.html#cb370-16"></a>        <span class="kw">this</span>.<span class="fu">parser</span> = <span class="kw">new</span> <span class="fu">DefaultParser</span>();</span>
+<span id="cb370-17"><a href="refactoring.html#cb370-17"></a>        <span class="co">// create Options object</span></span>
+<span id="cb370-18"><a href="refactoring.html#cb370-18"></a>        <span class="kw">this</span>.<span class="fu">options</span> = <span class="kw">new</span> <span class="fu">Options</span>();</span>
+<span id="cb370-19"><a href="refactoring.html#cb370-19"></a>        <span class="kw">this</span>.<span class="fu">help_options</span> = <span class="kw">new</span> <span class="fu">Options</span>();</span>
+<span id="cb370-20"><a href="refactoring.html#cb370-20"></a>        <span class="co">// add cli options</span></span>
+<span id="cb370-21"><a href="refactoring.html#cb370-21"></a></span>
+<span id="cb370-22"><a href="refactoring.html#cb370-22"></a>        <span class="bu">Option</span> helpOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb370-23"><a href="refactoring.html#cb370-23"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;help&quot;</span>)</span>
+<span id="cb370-24"><a href="refactoring.html#cb370-24"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-25"><a href="refactoring.html#cb370-25"></a>                .<span class="fu">hasArg</span>(<span class="kw">false</span>)</span>
+<span id="cb370-26"><a href="refactoring.html#cb370-26"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Gives program help.&quot;</span>)</span>
+<span id="cb370-27"><a href="refactoring.html#cb370-27"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-28"><a href="refactoring.html#cb370-28"></a>        <span class="kw">this</span>.<span class="fu">help_options</span>.<span class="fu">addOption</span>(helpOption);</span>
+<span id="cb370-29"><a href="refactoring.html#cb370-29"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(helpOption);</span>
+<span id="cb370-30"><a href="refactoring.html#cb370-30"></a>        <span class="bu">Option</span> infileOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;i&quot;</span>)</span>
+<span id="cb370-31"><a href="refactoring.html#cb370-31"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;infile&quot;</span>)</span>
+<span id="cb370-32"><a href="refactoring.html#cb370-32"></a>                .<span class="fu">required</span>(<span class="kw">true</span>)</span>
+<span id="cb370-33"><a href="refactoring.html#cb370-33"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-34"><a href="refactoring.html#cb370-34"></a>                .<span class="fu">desc</span>(<span class="st">&quot;input gff3 file, e.g. </span><span class="sc">\&quot;</span><span class="st">gff3_sample.gff3</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb370-35"><a href="refactoring.html#cb370-35"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-36"><a href="refactoring.html#cb370-36"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(infileOption);</span>
+<span id="cb370-37"><a href="refactoring.html#cb370-37"></a>        <span class="bu">Option</span> summaryOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;s&quot;</span>)</span>
+<span id="cb370-38"><a href="refactoring.html#cb370-38"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;summary&quot;</span>)</span>
+<span id="cb370-39"><a href="refactoring.html#cb370-39"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-40"><a href="refactoring.html#cb370-40"></a>                .<span class="fu">hasArg</span>(<span class="kw">false</span>)</span>
+<span id="cb370-41"><a href="refactoring.html#cb370-41"></a>                .<span class="fu">desc</span>(<span class="st">&quot;makes a summary of the gff3 file.&quot;</span>)</span>
+<span id="cb370-42"><a href="refactoring.html#cb370-42"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-43"><a href="refactoring.html#cb370-43"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(summaryOption);</span>
+<span id="cb370-44"><a href="refactoring.html#cb370-44"></a>        <span class="bu">Option</span> fetchtypeOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;ft&quot;</span>)</span>
+<span id="cb370-45"><a href="refactoring.html#cb370-45"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;fetch_type&quot;</span>)</span>
+<span id="cb370-46"><a href="refactoring.html#cb370-46"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-47"><a href="refactoring.html#cb370-47"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-48"><a href="refactoring.html#cb370-48"></a>                .<span class="fu">desc</span>(<span class="st">&quot;fetches type, e.g. </span><span class="sc">\&quot;</span><span class="st">CDS</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb370-49"><a href="refactoring.html#cb370-49"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-50"><a href="refactoring.html#cb370-50"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(fetchtypeOption);</span>
+<span id="cb370-51"><a href="refactoring.html#cb370-51"></a>        <span class="bu">Option</span> fetchregionOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fr&quot;</span>)</span>
+<span id="cb370-52"><a href="refactoring.html#cb370-52"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;fetch_region&quot;</span>)</span>
+<span id="cb370-53"><a href="refactoring.html#cb370-53"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-54"><a href="refactoring.html#cb370-54"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-55"><a href="refactoring.html#cb370-55"></a>                .<span class="fu">desc</span>(<span class="st">&quot;fetches region in between start..end, e.g. </span><span class="sc">\&quot;</span><span class="st">250000..260000</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb370-56"><a href="refactoring.html#cb370-56"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-57"><a href="refactoring.html#cb370-57"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(fetchregionOption);</span>
+<span id="cb370-58"><a href="refactoring.html#cb370-58"></a>        <span class="bu">Option</span> fetchchildrenOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fc&quot;</span>)</span>
+<span id="cb370-59"><a href="refactoring.html#cb370-59"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;fetch_children&quot;</span>)</span>
+<span id="cb370-60"><a href="refactoring.html#cb370-60"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-61"><a href="refactoring.html#cb370-61"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-62"><a href="refactoring.html#cb370-62"></a>                .<span class="fu">desc</span>(<span class="st">&quot;input which Parent group attributes to sort on, e.g. </span><span class="sc">\&quot;</span><span class="st">PGSC0003DMT400039136</span><span class="sc">\&quot;</span><span class="st">.&quot;</span>)</span>
+<span id="cb370-63"><a href="refactoring.html#cb370-63"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-64"><a href="refactoring.html#cb370-64"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(fetchchildrenOption);</span>
+<span id="cb370-65"><a href="refactoring.html#cb370-65"></a>        <span class="bu">Option</span> findwildcardOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fw&quot;</span>)</span>
+<span id="cb370-66"><a href="refactoring.html#cb370-66"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;find_wildcard&quot;</span>)</span>
+<span id="cb370-67"><a href="refactoring.html#cb370-67"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-68"><a href="refactoring.html#cb370-68"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-69"><a href="refactoring.html#cb370-69"></a>                .<span class="fu">desc</span>(<span class="st">&quot;input which wildcard, e.g. </span><span class="sc">\&quot;</span><span class="st">[dD]efesin</span><span class="sc">\&quot;</span><span class="st"> to match on. (gff3 name attribute)&quot;</span>)</span>
+<span id="cb370-70"><a href="refactoring.html#cb370-70"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-71"><a href="refactoring.html#cb370-71"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(findwildcardOption);</span>
+<span id="cb370-72"><a href="refactoring.html#cb370-72"></a>        <span class="bu">Option</span> filterOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;f&quot;</span>)</span>
+<span id="cb370-73"><a href="refactoring.html#cb370-73"></a>                .<span class="fu">longOpt</span>(<span class="st">&quot;filter&quot;</span>)</span>
+<span id="cb370-74"><a href="refactoring.html#cb370-74"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb370-75"><a href="refactoring.html#cb370-75"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb370-76"><a href="refactoring.html#cb370-76"></a>                .<span class="fu">desc</span>(<span class="st">&quot;miscellaneous filters, defined like&quot;</span> +</span>
+<span id="cb370-77"><a href="refactoring.html#cb370-77"></a>                        <span class="st">&quot; so: </span><span class="sc">\&quot;</span><span class="st">source|score|orientation|maximum_length|minimum_length</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb370-78"><a href="refactoring.html#cb370-78"></a>                .<span class="fu">build</span>();</span>
+<span id="cb370-79"><a href="refactoring.html#cb370-79"></a>        <span class="kw">this</span>.<span class="fu">options</span>.<span class="fu">addOption</span>(filterOption);</span>
+<span id="cb370-80"><a href="refactoring.html#cb370-80"></a>        <span class="co">// create help</span></span>
+<span id="cb370-81"><a href="refactoring.html#cb370-81"></a>        <span class="kw">this</span>.<span class="fu">formatter</span> = <span class="kw">new</span> <span class="fu">HelpFormatter</span>();</span>
+<span id="cb370-82"><a href="refactoring.html#cb370-82"></a>    }</span>
+<span id="cb370-83"><a href="refactoring.html#cb370-83"></a></span>
+<span id="cb370-84"><a href="refactoring.html#cb370-84"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">cliParse</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">ParseException</span> {</span>
+<span id="cb370-85"><a href="refactoring.html#cb370-85"></a>        <span class="kw">this</span>.<span class="fu">cmd</span> = <span class="kw">this</span>.<span class="fu">parser</span>.<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">options</span>, args);</span>
+<span id="cb370-86"><a href="refactoring.html#cb370-86"></a>    }</span>
+<span id="cb370-87"><a href="refactoring.html#cb370-87"></a></span>
+<span id="cb370-88"><a href="refactoring.html#cb370-88"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">checkInputs</span>() {</span>
+<span id="cb370-89"><a href="refactoring.html#cb370-89"></a>        <span class="co">// check which inputs exist and check them (if neccesary)</span></span>
+<span id="cb370-90"><a href="refactoring.html#cb370-90"></a>        <span class="co">// check infile</span></span>
+<span id="cb370-91"><a href="refactoring.html#cb370-91"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;infile&quot;</span>)) {</span>
+<span id="cb370-92"><a href="refactoring.html#cb370-92"></a>            <span class="bu">File</span> f = <span class="kw">new</span> <span class="bu">File</span>(<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;infile&quot;</span>));</span>
+<span id="cb370-93"><a href="refactoring.html#cb370-93"></a>            <span class="kw">if</span>(!(f.<span class="fu">exists</span>() &amp;&amp; !f.<span class="fu">isDirectory</span>())) {</span>
+<span id="cb370-94"><a href="refactoring.html#cb370-94"></a>                <span class="co">// raise error that file does not exist.</span></span>
+<span id="cb370-95"><a href="refactoring.html#cb370-95"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-96"><a href="refactoring.html#cb370-96"></a>            }</span>
+<span id="cb370-97"><a href="refactoring.html#cb370-97"></a>        }</span>
+<span id="cb370-98"><a href="refactoring.html#cb370-98"></a>        <span class="co">// check filter</span></span>
+<span id="cb370-99"><a href="refactoring.html#cb370-99"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;filter&quot;</span>)) {</span>
+<span id="cb370-100"><a href="refactoring.html#cb370-100"></a>            <span class="co">// check if filter has correct formatting. If it does not, return false</span></span>
+<span id="cb370-101"><a href="refactoring.html#cb370-101"></a>            <span class="co">// &lt;SOURCE, SCORE, ORIENTATION MAXIMUM AND/OR MINIMUM LENGTH&gt;</span></span>
+<span id="cb370-102"><a href="refactoring.html#cb370-102"></a>            <span class="kw">if</span> (!<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;filter&quot;</span>).<span class="fu">matches</span>(</span>
+<span id="cb370-103"><a href="refactoring.html#cb370-103"></a>                    <span class="st">&quot;(.+</span><span class="sc">\\</span><span class="st">|(</span><span class="sc">\\</span><span class="st">d+|</span><span class="sc">\\</span><span class="st">*|</span><span class="sc">\\</span><span class="st">.)</span><span class="sc">\\</span><span class="st">|(</span><span class="sc">\\</span><span class="st">.|</span><span class="sc">\\</span><span class="st">+|</span><span class="sc">\\</span><span class="st">-|</span><span class="sc">\\</span><span class="st">*)</span><span class="sc">\\</span><span class="st">|(</span><span class="sc">\\</span><span class="st">d+|</span><span class="sc">\\</span><span class="st">*|</span><span class="sc">\\</span><span class="st">.)</span><span class="sc">\\</span><span class="st">|(</span><span class="sc">\\</span><span class="st">d+|</span><span class="sc">\\</span><span class="st">*|</span><span class="sc">\\</span><span class="st">.))&quot;</span>)) {</span>
+<span id="cb370-104"><a href="refactoring.html#cb370-104"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-105"><a href="refactoring.html#cb370-105"></a>            }</span>
+<span id="cb370-106"><a href="refactoring.html#cb370-106"></a>        }</span>
+<span id="cb370-107"><a href="refactoring.html#cb370-107"></a>        <span class="co">// check fetch region</span></span>
+<span id="cb370-108"><a href="refactoring.html#cb370-108"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_region&quot;</span>)) {</span>
+<span id="cb370-109"><a href="refactoring.html#cb370-109"></a>            <span class="co">// check if fetch region has correct formatting.</span></span>
+<span id="cb370-110"><a href="refactoring.html#cb370-110"></a>            <span class="kw">if</span> (!<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_region&quot;</span>).<span class="fu">matches</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">d+</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+&quot;</span>)){</span>
+<span id="cb370-111"><a href="refactoring.html#cb370-111"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-112"><a href="refactoring.html#cb370-112"></a>            }</span>
+<span id="cb370-113"><a href="refactoring.html#cb370-113"></a>        }</span>
+<span id="cb370-114"><a href="refactoring.html#cb370-114"></a></span>
+<span id="cb370-115"><a href="refactoring.html#cb370-115"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_type&quot;</span>)) {</span>
+<span id="cb370-116"><a href="refactoring.html#cb370-116"></a>            <span class="co">// check if not a bool.</span></span>
+<span id="cb370-117"><a href="refactoring.html#cb370-117"></a>            <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_type&quot;</span>).<span class="fu">matches</span>(<span class="st">&quot;(true|false)&quot;</span>)) {</span>
+<span id="cb370-118"><a href="refactoring.html#cb370-118"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-119"><a href="refactoring.html#cb370-119"></a>            }</span>
+<span id="cb370-120"><a href="refactoring.html#cb370-120"></a>        }</span>
+<span id="cb370-121"><a href="refactoring.html#cb370-121"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_children&quot;</span>)) {</span>
+<span id="cb370-122"><a href="refactoring.html#cb370-122"></a>            <span class="co">// check if not a bool.</span></span>
+<span id="cb370-123"><a href="refactoring.html#cb370-123"></a>            <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_children&quot;</span>).<span class="fu">matches</span>(<span class="st">&quot;(true|false)&quot;</span>)) {</span>
+<span id="cb370-124"><a href="refactoring.html#cb370-124"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-125"><a href="refactoring.html#cb370-125"></a>            }</span>
+<span id="cb370-126"><a href="refactoring.html#cb370-126"></a>        }</span>
+<span id="cb370-127"><a href="refactoring.html#cb370-127"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;find_wildcard&quot;</span>)) {</span>
+<span id="cb370-128"><a href="refactoring.html#cb370-128"></a>            <span class="co">// check if not a bool.</span></span>
+<span id="cb370-129"><a href="refactoring.html#cb370-129"></a>            <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;find_wildcard&quot;</span>).<span class="fu">matches</span>(<span class="st">&quot;(true|false)&quot;</span>)) {</span>
+<span id="cb370-130"><a href="refactoring.html#cb370-130"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-131"><a href="refactoring.html#cb370-131"></a>            }</span>
+<span id="cb370-132"><a href="refactoring.html#cb370-132"></a>        }</span>
+<span id="cb370-133"><a href="refactoring.html#cb370-133"></a>        <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb370-134"><a href="refactoring.html#cb370-134"></a>    }</span>
+<span id="cb370-135"><a href="refactoring.html#cb370-135"></a></span>
+<span id="cb370-136"><a href="refactoring.html#cb370-136"></a>    <span class="kw">public</span> <span class="bu">String</span>[] <span class="fu">returnArguments</span>() {</span>
+<span id="cb370-137"><a href="refactoring.html#cb370-137"></a>        <span class="bu">String</span>[] parsed_args = <span class="kw">new</span> <span class="bu">String</span>[<span class="dv">7</span>];</span>
+<span id="cb370-138"><a href="refactoring.html#cb370-138"></a>        <span class="co">// build parsed_args array.</span></span>
+<span id="cb370-139"><a href="refactoring.html#cb370-139"></a>        <span class="co">// it is filled with options/null respectively like so;</span></span>
+<span id="cb370-140"><a href="refactoring.html#cb370-140"></a>        <span class="co">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span></span>
+<span id="cb370-141"><a href="refactoring.html#cb370-141"></a>        <span class="co">// Options without arguments, will be false if not present, and true when present.</span></span>
+<span id="cb370-142"><a href="refactoring.html#cb370-142"></a>        <span class="co">// Options with arguments, will also be false if not present, and their getOptionValue when present.</span></span>
+<span id="cb370-143"><a href="refactoring.html#cb370-143"></a>        <span class="co">// keep all values strings to be consistent.</span></span>
+<span id="cb370-144"><a href="refactoring.html#cb370-144"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;infile&quot;</span>)) {parsed_args[<span class="dv">0</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;infile&quot;</span>);}</span>
+<span id="cb370-145"><a href="refactoring.html#cb370-145"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">0</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-146"><a href="refactoring.html#cb370-146"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;summary&quot;</span>)) {parsed_args[<span class="dv">1</span>] = <span class="st">&quot;true&quot;</span>;}</span>
+<span id="cb370-147"><a href="refactoring.html#cb370-147"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">1</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-148"><a href="refactoring.html#cb370-148"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_type&quot;</span>)) {parsed_args[<span class="dv">2</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_type&quot;</span>);}</span>
+<span id="cb370-149"><a href="refactoring.html#cb370-149"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">2</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-150"><a href="refactoring.html#cb370-150"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_region&quot;</span>)) {parsed_args[<span class="dv">3</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_region&quot;</span>);}</span>
+<span id="cb370-151"><a href="refactoring.html#cb370-151"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">3</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-152"><a href="refactoring.html#cb370-152"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;fetch_children&quot;</span>)) {parsed_args[<span class="dv">4</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_children&quot;</span>);}</span>
+<span id="cb370-153"><a href="refactoring.html#cb370-153"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">4</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-154"><a href="refactoring.html#cb370-154"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;find_wildcard&quot;</span>)) {parsed_args[<span class="dv">5</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;find_wildcard&quot;</span>);}</span>
+<span id="cb370-155"><a href="refactoring.html#cb370-155"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">5</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-156"><a href="refactoring.html#cb370-156"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;filter&quot;</span>)) {parsed_args[<span class="dv">6</span>] = <span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;filter&quot;</span>);}</span>
+<span id="cb370-157"><a href="refactoring.html#cb370-157"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">6</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb370-158"><a href="refactoring.html#cb370-158"></a></span>
+<span id="cb370-159"><a href="refactoring.html#cb370-159"></a>        <span class="kw">return</span> parsed_args;</span>
+<span id="cb370-160"><a href="refactoring.html#cb370-160"></a>    }</span>
+<span id="cb370-161"><a href="refactoring.html#cb370-161"></a></span>
+<span id="cb370-162"><a href="refactoring.html#cb370-162"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">cliHelpParse</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">ParseException</span> {</span>
+<span id="cb370-163"><a href="refactoring.html#cb370-163"></a>        <span class="kw">this</span>.<span class="fu">help_cmd</span> = <span class="kw">new</span> <span class="fu">DefaultParser</span>().<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">help_options</span>, args, <span class="kw">true</span>);</span>
+<span id="cb370-164"><a href="refactoring.html#cb370-164"></a>        <span class="kw">if</span>(<span class="kw">this</span>.<span class="fu">help_cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;help&quot;</span>) || <span class="kw">this</span>.<span class="fu">help_cmd</span>.<span class="fu">getArgs</span>().<span class="fu">length</span> == <span class="dv">0</span>) {</span>
+<span id="cb370-165"><a href="refactoring.html#cb370-165"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb370-166"><a href="refactoring.html#cb370-166"></a>        }</span>
+<span id="cb370-167"><a href="refactoring.html#cb370-167"></a>        <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb370-168"><a href="refactoring.html#cb370-168"></a>    }</span>
+<span id="cb370-169"><a href="refactoring.html#cb370-169"></a></span>
+<span id="cb370-170"><a href="refactoring.html#cb370-170"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printHelp</span>() {</span>
+<span id="cb370-171"><a href="refactoring.html#cb370-171"></a>        <span class="co">// print the help or the version there. return true because help is printed</span></span>
+<span id="cb370-172"><a href="refactoring.html#cb370-172"></a>        <span class="bu">String</span> footer = <span class="st">&quot;//omitted for brievity//&quot;</span>;</span>
+<span id="cb370-173"><a href="refactoring.html#cb370-173"></a></span>
+<span id="cb370-174"><a href="refactoring.html#cb370-174"></a>        <span class="kw">this</span>.<span class="fu">formatter</span>.<span class="fu">printHelp</span>(<span class="st">&quot;GffQuery&quot;</span>, <span class="st">&quot;Version: 1.1-SNAPSHOT&quot;</span>, <span class="kw">this</span>.<span class="fu">options</span>, footer, <span class="kw">true</span>);</span>
+<span id="cb370-175"><a href="refactoring.html#cb370-175"></a>    }</span>
+<span id="cb370-176"><a href="refactoring.html#cb370-176"></a>}</span></code></pre></div>
+<p>Since I really -really- hate it when people don’t adhere to naming conventions, I’ll start there.</p>
+</div>
+<div id="refactor" class="section level2">
+<h2><span class="header-section-number">44.3</span> Refactor</h2>
+<div id="rename-variables-and-methods-to-adhere-to-java-standards." class="section level4 unnumbered">
+<h4>Rename variables and methods to adhere to Java standards.</h4>
+<p>So, <code>help_options</code> becomes <code>helpOptions</code>, and <code>help_cmd</code> becomes <code>helpCommandLine</code>. You may
+note the absence of <code>help_cmd</code> in the final version. This is because there is no reason to maintain
+it as an instance variable.</p>
+<p>Remember by the way that methods should be verbs and variables should be nouns.</p>
+</div>
+<div id="extract-string-literal-to-constants" class="section level4 unnumbered">
+<h4>Extract string literal to constants</h4>
+<p>As an example, you see the word “infile” typed several times:
+<code>Option infileOption = Option.builder("i").longOpt("infile")</code>, <code>if (this.cmd.hasOption("infile"))</code>
+(2 times). So this is the next step: get these out of the real code.</p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb371-1"><a href="refactoring.html#cb371-1"></a><span class="kw">public</span> <span class="kw">class</span> CLIParser {</span>
+<span id="cb371-2"><a href="refactoring.html#cb371-2"></a>    <span class="co">//much code omitted in this snippet!</span></span>
+<span id="cb371-3"><a href="refactoring.html#cb371-3"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_INFILE = <span class="st">&quot;infile&quot;</span>;</span>
+<span id="cb371-4"><a href="refactoring.html#cb371-4"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_SUMMARY = <span class="st">&quot;summary&quot;</span>;</span>
+<span id="cb371-5"><a href="refactoring.html#cb371-5"></a>    <span class="co">//...</span></span>
+<span id="cb371-6"><a href="refactoring.html#cb371-6"></a></span>
+<span id="cb371-7"><a href="refactoring.html#cb371-7"></a>    <span class="kw">public</span> <span class="fu">CLIParser</span>() {</span>
+<span id="cb371-8"><a href="refactoring.html#cb371-8"></a>        <span class="bu">Option</span> infileOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;i&quot;</span>)</span>
+<span id="cb371-9"><a href="refactoring.html#cb371-9"></a>                .<span class="fu">longOpt</span>(OPTION_INFILE)</span>
+<span id="cb371-10"><a href="refactoring.html#cb371-10"></a>                .<span class="fu">required</span>(<span class="kw">true</span>)</span>
+<span id="cb371-11"><a href="refactoring.html#cb371-11"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb371-12"><a href="refactoring.html#cb371-12"></a>                .<span class="fu">desc</span>(<span class="st">&quot;input gff3 file, e.g. </span><span class="sc">\&quot;</span><span class="st">gff3_sample.gff3</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb371-13"><a href="refactoring.html#cb371-13"></a>                .<span class="fu">build</span>();</span>
+<span id="cb371-14"><a href="refactoring.html#cb371-14"></a>        <span class="co">//...</span></span>
+<span id="cb371-15"><a href="refactoring.html#cb371-15"></a>    }</span>
+<span id="cb371-16"><a href="refactoring.html#cb371-16"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">checkInputs</span>() {</span>
+<span id="cb371-17"><a href="refactoring.html#cb371-17"></a>        <span class="co">// check which inputs exist and check them (if neccesary)</span></span>
+<span id="cb371-18"><a href="refactoring.html#cb371-18"></a>        <span class="co">// check infile</span></span>
+<span id="cb371-19"><a href="refactoring.html#cb371-19"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">hasOption</span>(OPTION_INFILE)) {</span>
+<span id="cb371-20"><a href="refactoring.html#cb371-20"></a>            <span class="bu">File</span> f = <span class="kw">new</span> <span class="bu">File</span>(<span class="kw">this</span>.<span class="fu">cmd</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;infile&quot;</span>));</span>
+<span id="cb371-21"><a href="refactoring.html#cb371-21"></a>            <span class="kw">if</span>(!(f.<span class="fu">exists</span>() &amp;&amp; !f.<span class="fu">isDirectory</span>())) {</span>
+<span id="cb371-22"><a href="refactoring.html#cb371-22"></a>                <span class="co">// raise error that file does not exist.</span></span>
+<span id="cb371-23"><a href="refactoring.html#cb371-23"></a>                <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb371-24"><a href="refactoring.html#cb371-24"></a>            }</span>
+<span id="cb371-25"><a href="refactoring.html#cb371-25"></a>        }</span>
+<span id="cb371-26"><a href="refactoring.html#cb371-26"></a>        <span class="co">//...</span></span>
+<span id="cb371-27"><a href="refactoring.html#cb371-27"></a>    }</span>
+<span id="cb371-28"><a href="refactoring.html#cb371-28"></a>}</span></code></pre></div>
+<p>Should the constants be public? Maybe, maybe not. Think about it.</p>
+</div>
+<div id="extract-functionality-from-constructor-code." class="section level4 unnumbered">
+<h4>Extract functionality from constructor code.</h4>
+<p>Constructors should be short and readable, and only construct (maybe through calling other methods).
+What I sometimes even see is code like this:</p>
+<div class="sourceCode" id="cb372"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb372-1"><a href="refactoring.html#cb372-1"></a><span class="kw">public</span> <span class="kw">class</span> MyApp{</span>
+<span id="cb372-2"><a href="refactoring.html#cb372-2"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb372-3"><a href="refactoring.html#cb372-3"></a>        <span class="fu">MyApp</span>(args);</span>
+<span id="cb372-4"><a href="refactoring.html#cb372-4"></a>    }</span>
+<span id="cb372-5"><a href="refactoring.html#cb372-5"></a>    <span class="co">//more code</span></span>
+<span id="cb372-6"><a href="refactoring.html#cb372-6"></a>}</span></code></pre></div>
+<p>That means there is application logic in the constructor that is not even called explicitly!</p>
+<p>So here is the new constructor of the CLIParser class:</p>
+<div class="sourceCode" id="cb373"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb373-1"><a href="refactoring.html#cb373-1"></a>    <span class="kw">public</span> <span class="fu">CLIParser</span>() {</span>
+<span id="cb373-2"><a href="refactoring.html#cb373-2"></a>        <span class="kw">this</span>.<span class="fu">parser</span> = <span class="kw">new</span> <span class="fu">DefaultParser</span>();</span>
+<span id="cb373-3"><a href="refactoring.html#cb373-3"></a>        <span class="fu">buildOptions</span>();</span>
+<span id="cb373-4"><a href="refactoring.html#cb373-4"></a>    }</span></code></pre></div>
+<p>It calls the <code>buildOptions()</code> method to, well, build te options. This method creates both <code>this.options = new Options();</code>
+and <code>this.helpOptions = new Options();</code>. That seems a bit funny but this is a workaround for the problem with <code>infileOption</code>
+being required. This will throw an exception if it is absent. That conflicts with the case where only help is requested.</p>
+</div>
+<div id="rename-methods-and-variables-to-their-real-purpose." class="section level4 unnumbered">
+<h4>Rename methods and variables to their real purpose.</h4>
+<p>The method <code>cliHelpParse()</code> does not parse help. No, its intent is to signal that help is requested:</p>
+<div class="sourceCode" id="cb374"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb374-1"><a href="refactoring.html#cb374-1"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">cliHelpParse</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">ParseException</span> {</span>
+<span id="cb374-2"><a href="refactoring.html#cb374-2"></a>        <span class="kw">this</span>.<span class="fu">help_cmd</span> = <span class="kw">new</span> <span class="fu">DefaultParser</span>().<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">help_options</span>, args, <span class="kw">true</span>);</span>
+<span id="cb374-3"><a href="refactoring.html#cb374-3"></a>        <span class="kw">if</span>(<span class="kw">this</span>.<span class="fu">help_cmd</span>.<span class="fu">hasOption</span>(<span class="st">&quot;help&quot;</span>) || <span class="kw">this</span>.<span class="fu">help_cmd</span>.<span class="fu">getArgs</span>().<span class="fu">length</span> == <span class="dv">0</span>) {</span>
+<span id="cb374-4"><a href="refactoring.html#cb374-4"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb374-5"><a href="refactoring.html#cb374-5"></a>        }</span>
+<span id="cb374-6"><a href="refactoring.html#cb374-6"></a>        <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb374-7"><a href="refactoring.html#cb374-7"></a>    }</span></code></pre></div>
+<p>So I refactored it into the following version, with a more suitable name, the commandLine variable now being local, and the
+<code>ParseException</code> not thrown anymore (this choice can be argued extensively).</p>
+<div class="sourceCode" id="cb375"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb375-1"><a href="refactoring.html#cb375-1"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isHelpRequested</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb375-2"><a href="refactoring.html#cb375-2"></a>        <span class="kw">try</span> {</span>
+<span id="cb375-3"><a href="refactoring.html#cb375-3"></a>            CommandLine commandLine = <span class="kw">this</span>.<span class="fu">parser</span>.<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">helpOptions</span>, args);</span>
+<span id="cb375-4"><a href="refactoring.html#cb375-4"></a>            <span class="kw">return</span> (commandLine.<span class="fu">hasOption</span>(OPTION_HELP));</span>
+<span id="cb375-5"><a href="refactoring.html#cb375-5"></a>        } <span class="kw">catch</span> (<span class="bu">ParseException</span> e) {</span>
+<span id="cb375-6"><a href="refactoring.html#cb375-6"></a>            e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb375-7"><a href="refactoring.html#cb375-7"></a>        }</span>
+<span id="cb375-8"><a href="refactoring.html#cb375-8"></a>        <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb375-9"><a href="refactoring.html#cb375-9"></a>    }</span></code></pre></div>
+<p>A variant to this solution could be:</p>
+<div class="sourceCode" id="cb376"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb376-1"><a href="refactoring.html#cb376-1"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isHelpRequested</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb376-2"><a href="refactoring.html#cb376-2"></a>        <span class="kw">try</span> {</span>
+<span id="cb376-3"><a href="refactoring.html#cb376-3"></a>            CommandLine commandLine = <span class="kw">this</span>.<span class="fu">parser</span>.<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">options</span>, args);</span>
+<span id="cb376-4"><a href="refactoring.html#cb376-4"></a>            <span class="kw">return</span> (commandLine.<span class="fu">hasOption</span>(OPTION_HELP));</span>
+<span id="cb376-5"><a href="refactoring.html#cb376-5"></a>        } <span class="kw">catch</span> (<span class="bu">ParseException</span> e) {</span>
+<span id="cb376-6"><a href="refactoring.html#cb376-6"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb376-7"><a href="refactoring.html#cb376-7"></a>        }</span>
+<span id="cb376-8"><a href="refactoring.html#cb376-8"></a>    }</span></code></pre></div>
+<p>Here, the helpOption instance variable has been made obsolete, and in the catch block is is simply assumed that if
+anything goes wrong, help should be displayed. Which is the better?</p>
+<p>Next, method <code>public void cliParse(String[] args)</code> was renamed to <code>public void parseCommandLineArguments(String[] args)</code>.</p>
+</div>
+<div id="the-single-responsibility-principle" class="section level4 unnumbered">
+<h4>The Single Responsibility Principle</h4>
+<p>The next aspect is the method <code>public boolean checkInputs() {}</code>. Is class CLIParse the place to do this? What if some other
+means of options specification is implemeted, e.g. a GUI form? These options will need to be checked all the same. I think
+<code>checkInputs</code> should not be in that class. But where else? Main? No, I think checking options, and keeping track of options,
+should be the responsibility of a separate class. So that is where they’ll go. I created class <code>GffAnalysisOptions</code> and put
+option checking in it:</p>
+<div class="sourceCode" id="cb377"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb377-1"><a href="refactoring.html#cb377-1"></a><span class="kw">public</span> <span class="kw">class</span> GffAnalysisOptions {</span>
+<span id="cb377-2"><a href="refactoring.html#cb377-2"></a>    <span class="kw">private</span> <span class="bu">String</span> inFile;</span>
+<span id="cb377-3"><a href="refactoring.html#cb377-3"></a>    <span class="kw">private</span> <span class="dt">boolean</span> summary;</span>
+<span id="cb377-4"><a href="refactoring.html#cb377-4"></a>    <span class="kw">private</span> <span class="bu">String</span> searchType;</span>
+<span id="cb377-5"><a href="refactoring.html#cb377-5"></a>    <span class="kw">private</span> <span class="bu">String</span> searchRegion;</span>
+<span id="cb377-6"><a href="refactoring.html#cb377-6"></a>    <span class="kw">private</span> <span class="bu">String</span> searchChildren;</span>
+<span id="cb377-7"><a href="refactoring.html#cb377-7"></a>    <span class="kw">private</span> <span class="bu">String</span> searchWildcard;</span>
+<span id="cb377-8"><a href="refactoring.html#cb377-8"></a>    <span class="kw">private</span> <span class="bu">String</span> searchFilter;</span>
+<span id="cb377-9"><a href="refactoring.html#cb377-9"></a></span>
+<span id="cb377-10"><a href="refactoring.html#cb377-10"></a>    <span class="co">//getters and setters</span></span>
+<span id="cb377-11"><a href="refactoring.html#cb377-11"></a></span>
+<span id="cb377-12"><a href="refactoring.html#cb377-12"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">checkCorrectnessOfInputs</span>() {</span>
+<span id="cb377-13"><a href="refactoring.html#cb377-13"></a>        <span class="co">//checking code </span></span>
+<span id="cb377-14"><a href="refactoring.html#cb377-14"></a>    }</span>
+<span id="cb377-15"><a href="refactoring.html#cb377-15"></a></span>
+<span id="cb377-16"><a href="refactoring.html#cb377-16"></a>}</span></code></pre></div>
+</div>
+<div id="use-basic-oop-principles" class="section level4 unnumbered">
+<h4>Use basic OOP principles</h4>
+<p>So, finally, there is this method (abbreviated):</p>
+<div class="sourceCode" id="cb378"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb378-1"><a href="refactoring.html#cb378-1"></a>    <span class="kw">public</span> <span class="bu">String</span>[] <span class="fu">returnArguments</span>() {</span>
+<span id="cb378-2"><a href="refactoring.html#cb378-2"></a>        <span class="bu">String</span>[] parsed_args = <span class="kw">new</span> <span class="bu">String</span>[<span class="dv">7</span>];</span>
+<span id="cb378-3"><a href="refactoring.html#cb378-3"></a>        <span class="co">// build parsed_args array.</span></span>
+<span id="cb378-4"><a href="refactoring.html#cb378-4"></a>        <span class="co">// it is filled with options/null respectively like so;</span></span>
+<span id="cb378-5"><a href="refactoring.html#cb378-5"></a>        <span class="co">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span></span>
+<span id="cb378-6"><a href="refactoring.html#cb378-6"></a>        <span class="co">// Options without arguments, will be false if not present, and true when present.</span></span>
+<span id="cb378-7"><a href="refactoring.html#cb378-7"></a>        <span class="co">// Options with arguments, will also be false if not present, and their getOptionValue when present.</span></span>
+<span id="cb378-8"><a href="refactoring.html#cb378-8"></a>        <span class="co">// keep all values strings to be consistent.</span></span>
+<span id="cb378-9"><a href="refactoring.html#cb378-9"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_INFILE)) {parsed_args[<span class="dv">0</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;infile&quot;</span>);}</span>
+<span id="cb378-10"><a href="refactoring.html#cb378-10"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">0</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-11"><a href="refactoring.html#cb378-11"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_SUMMARY)) {parsed_args[<span class="dv">1</span>] = <span class="st">&quot;true&quot;</span>;}</span>
+<span id="cb378-12"><a href="refactoring.html#cb378-12"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">1</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-13"><a href="refactoring.html#cb378-13"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_TYPE)) {parsed_args[<span class="dv">2</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_type&quot;</span>);}</span>
+<span id="cb378-14"><a href="refactoring.html#cb378-14"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">2</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-15"><a href="refactoring.html#cb378-15"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_REGION)) {parsed_args[<span class="dv">3</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_region&quot;</span>);}</span>
+<span id="cb378-16"><a href="refactoring.html#cb378-16"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">3</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-17"><a href="refactoring.html#cb378-17"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_REGION)) {parsed_args[<span class="dv">4</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;fetch_children&quot;</span>);}</span>
+<span id="cb378-18"><a href="refactoring.html#cb378-18"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">4</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-19"><a href="refactoring.html#cb378-19"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FIND_WILDCARD)) {parsed_args[<span class="dv">5</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;find_wildcard&quot;</span>);}</span>
+<span id="cb378-20"><a href="refactoring.html#cb378-20"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">5</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-21"><a href="refactoring.html#cb378-21"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FILTER)) {parsed_args[<span class="dv">6</span>] = <span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(<span class="st">&quot;filter&quot;</span>);}</span>
+<span id="cb378-22"><a href="refactoring.html#cb378-22"></a>        <span class="kw">else</span> {parsed_args[<span class="dv">6</span>] = <span class="st">&quot;false&quot;</span>;}</span>
+<span id="cb378-23"><a href="refactoring.html#cb378-23"></a></span>
+<span id="cb378-24"><a href="refactoring.html#cb378-24"></a>        <span class="kw">return</span> parsed_args;</span>
+<span id="cb378-25"><a href="refactoring.html#cb378-25"></a>    }</span></code></pre></div>
+<p>Auch! This hurts. A String[] with “false” values stored in it. Moreover, the code is so obfuscated that it needs many lines of
+comments. Why didn’t this student think of an Options class of some kind, like <code>GffAnalysisOptions</code> (shown above)?</p>
+<p>So here I wrote a replacement method for it:</p>
+<div class="sourceCode" id="cb379"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb379-1"><a href="refactoring.html#cb379-1"></a>    <span class="kw">public</span> GffAnalysisOptions <span class="fu">getAnalysisOptions</span>() {</span>
+<span id="cb379-2"><a href="refactoring.html#cb379-2"></a>        GffAnalysisOptions gffAnalysisOptions = <span class="kw">new</span> <span class="fu">GffAnalysisOptions</span>();</span>
+<span id="cb379-3"><a href="refactoring.html#cb379-3"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_INFILE)) {</span>
+<span id="cb379-4"><a href="refactoring.html#cb379-4"></a>            gffAnalysisOptions.<span class="fu">setInFile</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_INFILE));</span>
+<span id="cb379-5"><a href="refactoring.html#cb379-5"></a>        }</span>
+<span id="cb379-6"><a href="refactoring.html#cb379-6"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_SUMMARY)) {</span>
+<span id="cb379-7"><a href="refactoring.html#cb379-7"></a>            gffAnalysisOptions.<span class="fu">setSummary</span>(<span class="kw">true</span>);</span>
+<span id="cb379-8"><a href="refactoring.html#cb379-8"></a>        }</span>
+<span id="cb379-9"><a href="refactoring.html#cb379-9"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_TYPE)) {</span>
+<span id="cb379-10"><a href="refactoring.html#cb379-10"></a>            gffAnalysisOptions.<span class="fu">setSearchType</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_TYPE));</span>
+<span id="cb379-11"><a href="refactoring.html#cb379-11"></a>        }</span>
+<span id="cb379-12"><a href="refactoring.html#cb379-12"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_REGION)) {</span>
+<span id="cb379-13"><a href="refactoring.html#cb379-13"></a>            gffAnalysisOptions.<span class="fu">setSearchRegion</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_REGION));</span>
+<span id="cb379-14"><a href="refactoring.html#cb379-14"></a>        }</span>
+<span id="cb379-15"><a href="refactoring.html#cb379-15"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_CHILDREN)) {</span>
+<span id="cb379-16"><a href="refactoring.html#cb379-16"></a>            gffAnalysisOptions.<span class="fu">setSearchChildren</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_CHILDREN));</span>
+<span id="cb379-17"><a href="refactoring.html#cb379-17"></a>        }</span>
+<span id="cb379-18"><a href="refactoring.html#cb379-18"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FIND_WILDCARD)) {</span>
+<span id="cb379-19"><a href="refactoring.html#cb379-19"></a>            gffAnalysisOptions.<span class="fu">setSearchWildcard</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FIND_WILDCARD));</span>
+<span id="cb379-20"><a href="refactoring.html#cb379-20"></a>        }</span>
+<span id="cb379-21"><a href="refactoring.html#cb379-21"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FILTER)) {</span>
+<span id="cb379-22"><a href="refactoring.html#cb379-22"></a>            gffAnalysisOptions.<span class="fu">setSearchFilterAsString</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FILTER));</span>
+<span id="cb379-23"><a href="refactoring.html#cb379-23"></a>        }</span>
+<span id="cb379-24"><a href="refactoring.html#cb379-24"></a>        <span class="kw">return</span> gffAnalysisOptions;</span>
+<span id="cb379-25"><a href="refactoring.html#cb379-25"></a>    }</span></code></pre></div>
+<p>Of course, these options need to be processed further - primarily the filter option - before they can be put to use.</p>
+<p>To replace the (fortunately localized) usage of the <code>String[]</code> with an <code>GffAnalysisOptions</code> instance, I switched to
+class <code>GffQuery</code> and eased it in:</p>
+<div class="sourceCode" id="cb380"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb380-1"><a href="refactoring.html#cb380-1"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">IOException</span> {</span>
+<span id="cb380-2"><a href="refactoring.html#cb380-2"></a>        <span class="co">//much more code</span></span>
+<span id="cb380-3"><a href="refactoring.html#cb380-3"></a></span>
+<span id="cb380-4"><a href="refactoring.html#cb380-4"></a>        <span class="bu">String</span>[] parsedArguments = cliParser.<span class="fu">returnArguments</span>();</span>
+<span id="cb380-5"><a href="refactoring.html#cb380-5"></a>        GffAnalysisOptions analysisOptions = cliParser.<span class="fu">getAnalysisOptions</span>();</span>
+<span id="cb380-6"><a href="refactoring.html#cb380-6"></a>        <span class="co">//</span><span class="al">TODO</span><span class="co"> replace use of parsedArguments with analysisOptions</span></span>
+<span id="cb380-7"><a href="refactoring.html#cb380-7"></a></span>
+<span id="cb380-8"><a href="refactoring.html#cb380-8"></a>        <span class="co">//more code</span></span>
+<span id="cb380-9"><a href="refactoring.html#cb380-9"></a></span>
+<span id="cb380-10"><a href="refactoring.html#cb380-10"></a>        <span class="co">// handle stuff based on the case.</span></span>
+<span id="cb380-11"><a href="refactoring.html#cb380-11"></a>        <span class="dt">int</span> mycase;</span>
+<span id="cb380-12"><a href="refactoring.html#cb380-12"></a>        <span class="kw">if</span> (parsedArguments[<span class="dv">1</span>].<span class="fu">equals</span>(<span class="st">&quot;true&quot;</span>)) {</span>
+<span id="cb380-13"><a href="refactoring.html#cb380-13"></a>            <span class="co">// case 1, print summary.</span></span>
+<span id="cb380-14"><a href="refactoring.html#cb380-14"></a>            mycase = <span class="dv">1</span>;</span>
+<span id="cb380-15"><a href="refactoring.html#cb380-15"></a>        }</span>
+<span id="cb380-16"><a href="refactoring.html#cb380-16"></a>        <span class="kw">else</span> {</span>
+<span id="cb380-17"><a href="refactoring.html#cb380-17"></a>            <span class="co">// case 2, actually apply filters and stuff.</span></span>
+<span id="cb380-18"><a href="refactoring.html#cb380-18"></a>            mycase = <span class="dv">2</span>;</span>
+<span id="cb380-19"><a href="refactoring.html#cb380-19"></a>        }</span>
+<span id="cb380-20"><a href="refactoring.html#cb380-20"></a></span>
+<span id="cb380-21"><a href="refactoring.html#cb380-21"></a>        <span class="co">//much more code, also like this:</span></span>
+<span id="cb380-22"><a href="refactoring.html#cb380-22"></a>            <span class="co">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span></span>
+<span id="cb380-23"><a href="refactoring.html#cb380-23"></a>            filters[<span class="dv">0</span>] = parsedArguments[<span class="dv">2</span>];</span>
+<span id="cb380-24"><a href="refactoring.html#cb380-24"></a>            filters[<span class="dv">1</span>] = parsedArguments[<span class="dv">3</span>];</span>
+<span id="cb380-25"><a href="refactoring.html#cb380-25"></a>            filters[<span class="dv">2</span>] = parsedArguments[<span class="dv">6</span>];</span>
+<span id="cb380-26"><a href="refactoring.html#cb380-26"></a>            filters[<span class="dv">3</span>] = parsedArguments[<span class="dv">4</span>];</span>
+<span id="cb380-27"><a href="refactoring.html#cb380-27"></a>            filters[<span class="dv">4</span>] = parsedArguments[<span class="dv">5</span>];</span>
+<span id="cb380-28"><a href="refactoring.html#cb380-28"></a>    }</span></code></pre></div>
+<p>It is extremely tempting to refactor the other ugly code as well, such as the <code>mycase = 1</code> ot the <code>String[] filters</code>, but restraint is very important in this kind of operation.
+So, only refactor out the use of <code>parsedArguments</code> now, and keep on writing and running your JUnit tests to verify no functionality gets broken:</p>
+<div class="sourceCode" id="cb381"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb381-1"><a href="refactoring.html#cb381-1"></a>            <span class="kw">if</span> (analysisOptions.<span class="fu">isSummaryRequested</span>()) {</span>
+<span id="cb381-2"><a href="refactoring.html#cb381-2"></a><span class="co">//            if (parsedArguments[1].equals(&quot;true&quot;)) {</span></span>
+<span id="cb381-3"><a href="refactoring.html#cb381-3"></a>                <span class="co">// case 1, print summary.</span></span>
+<span id="cb381-4"><a href="refactoring.html#cb381-4"></a>                mycase = <span class="dv">1</span>;</span>
+<span id="cb381-5"><a href="refactoring.html#cb381-5"></a>            }</span>
+<span id="cb381-6"><a href="refactoring.html#cb381-6"></a>            <span class="kw">else</span> {</span>
+<span id="cb381-7"><a href="refactoring.html#cb381-7"></a>                <span class="co">// case 2, actually apply filters and stuff.</span></span>
+<span id="cb381-8"><a href="refactoring.html#cb381-8"></a>                mycase = <span class="dv">2</span>;</span>
+<span id="cb381-9"><a href="refactoring.html#cb381-9"></a>            }</span>
+<span id="cb381-10"><a href="refactoring.html#cb381-10"></a>            <span class="co">// before running the switch, read in file and make a GffFile object</span></span>
+<span id="cb381-11"><a href="refactoring.html#cb381-11"></a>            <span class="bu">String</span> path = analysisOptions.<span class="fu">getInFile</span>();<span class="co">//parsedArguments[0];</span></span>
+<span id="cb381-12"><a href="refactoring.html#cb381-12"></a></span>
+<span id="cb381-13"><a href="refactoring.html#cb381-13"></a>            <span class="co">//more code </span></span>
+<span id="cb381-14"><a href="refactoring.html#cb381-14"></a></span>
+<span id="cb381-15"><a href="refactoring.html#cb381-15"></a>                    <span class="bu">String</span>[] filters = <span class="kw">new</span> <span class="bu">String</span>[<span class="dv">5</span>];</span>
+<span id="cb381-16"><a href="refactoring.html#cb381-16"></a>                    <span class="co">// filters has all filters like so;</span></span>
+<span id="cb381-17"><a href="refactoring.html#cb381-17"></a>                    <span class="co">// fetch_type, fetch_region, filter, fetch_children, find_wildcard</span></span>
+<span id="cb381-18"><a href="refactoring.html#cb381-18"></a>                    <span class="co">// parsedArguments had this;</span></span>
+<span id="cb381-19"><a href="refactoring.html#cb381-19"></a>                    <span class="co">// infile, summary, fetch_type, fetch_region, fetch_children, find_wildcard, filter</span></span>
+<span id="cb381-20"><a href="refactoring.html#cb381-20"></a>                    filters[<span class="dv">0</span>] = analysisOptions.<span class="fu">getSearchType</span>();</span>
+<span id="cb381-21"><a href="refactoring.html#cb381-21"></a>                    filters[<span class="dv">1</span>] = analysisOptions.<span class="fu">getSearchRegion</span>();</span>
+<span id="cb381-22"><a href="refactoring.html#cb381-22"></a>                    filters[<span class="dv">2</span>] = analysisOptions.<span class="fu">getSearchFilter</span>();</span>
+<span id="cb381-23"><a href="refactoring.html#cb381-23"></a>                    filters[<span class="dv">3</span>] = analysisOptions.<span class="fu">getSearchChildren</span>();</span>
+<span id="cb381-24"><a href="refactoring.html#cb381-24"></a>                    filters[<span class="dv">4</span>] = analysisOptions.<span class="fu">getSearchWildcard</span>();</span>
+<span id="cb381-25"><a href="refactoring.html#cb381-25"></a><span class="co">//                    filters[0] = parsedArguments[2];</span></span>
+<span id="cb381-26"><a href="refactoring.html#cb381-26"></a><span class="co">//                    filters[1] = parsedArguments[3];</span></span>
+<span id="cb381-27"><a href="refactoring.html#cb381-27"></a><span class="co">//                    filters[2] = parsedArguments[6];</span></span>
+<span id="cb381-28"><a href="refactoring.html#cb381-28"></a><span class="co">//                    filters[3] = parsedArguments[4];</span></span>
+<span id="cb381-29"><a href="refactoring.html#cb381-29"></a><span class="co">//                    filters[4] = parsedArguments[5];</span></span></code></pre></div>
+<p>Now the <code>returnArguments()</code> method can be removed. Do NOT comment it out because it clutters your code that is finally becoming readable.
+If you want it back (or have a look at it), simply go to a previous commit.</p>
+</div>
+<div id="remove-unneccesary-comments" class="section level4 unnumbered">
+<h4>Remove unneccesary comments</h4>
+<p>Good code reads like a book! If you need it for yourself, your code is probably not very good.
+API methods should be very well documented of course, but inline comments or private methods comments should ideally not be necessary. Keep them to a minimum! They get outdated and are becoming damaging by themselves. A comment like <code>/*builds the options*/</code> is entirely unnecessary!</p>
+</div>
+<div id="the-result" class="section level3">
+<h3><span class="header-section-number">44.3.1</span> The result</h3>
+<p>This is the <code>CLIParser</code> class after complete refactoring:</p>
+<div class="sourceCode" id="cb382"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb382-1"><a href="refactoring.html#cb382-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.gff_query.io;</span></span>
+<span id="cb382-2"><a href="refactoring.html#cb382-2"></a><span class="kw">import</span><span class="im"> org.apache.commons.cli.*;</span></span>
+<span id="cb382-3"><a href="refactoring.html#cb382-3"></a></span>
+<span id="cb382-4"><a href="refactoring.html#cb382-4"></a><span class="kw">public</span> <span class="kw">class</span> CLIParser {</span>
+<span id="cb382-5"><a href="refactoring.html#cb382-5"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_HELP = <span class="st">&quot;help&quot;</span>;</span>
+<span id="cb382-6"><a href="refactoring.html#cb382-6"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_INFILE = <span class="st">&quot;infile&quot;</span>;</span>
+<span id="cb382-7"><a href="refactoring.html#cb382-7"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_SUMMARY = <span class="st">&quot;summary&quot;</span>;</span>
+<span id="cb382-8"><a href="refactoring.html#cb382-8"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_FETCH_TYPE = <span class="st">&quot;fetch_type&quot;</span>;</span>
+<span id="cb382-9"><a href="refactoring.html#cb382-9"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_FETCH_REGION = <span class="st">&quot;fetch_region&quot;</span>;</span>
+<span id="cb382-10"><a href="refactoring.html#cb382-10"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_FETCH_CHILDREN = <span class="st">&quot;fetch_children&quot;</span>;</span>
+<span id="cb382-11"><a href="refactoring.html#cb382-11"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_FIND_WILDCARD = <span class="st">&quot;find_wildcard&quot;</span>;</span>
+<span id="cb382-12"><a href="refactoring.html#cb382-12"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> OPTION_FILTER = <span class="st">&quot;filter&quot;</span>;</span>
+<span id="cb382-13"><a href="refactoring.html#cb382-13"></a>    <span class="co">/*private -&gt; testing*/</span> Options options;</span>
+<span id="cb382-14"><a href="refactoring.html#cb382-14"></a>    <span class="co">/*private -&gt; testing*/</span> CommandLine commandLine;</span>
+<span id="cb382-15"><a href="refactoring.html#cb382-15"></a>    <span class="kw">private</span> DefaultParser parser;</span>
+<span id="cb382-16"><a href="refactoring.html#cb382-16"></a>    <span class="kw">private</span> HelpFormatter formatter;</span>
+<span id="cb382-17"><a href="refactoring.html#cb382-17"></a>    <span class="kw">private</span> Options helpOptions;</span>
+<span id="cb382-18"><a href="refactoring.html#cb382-18"></a></span>
+<span id="cb382-19"><a href="refactoring.html#cb382-19"></a>    <span class="kw">public</span> <span class="fu">CLIParser</span>() {</span>
+<span id="cb382-20"><a href="refactoring.html#cb382-20"></a>        <span class="kw">this</span>.<span class="fu">parser</span> = <span class="kw">new</span> <span class="fu">DefaultParser</span>();</span>
+<span id="cb382-21"><a href="refactoring.html#cb382-21"></a>        <span class="fu">buildOptions</span>();</span>
+<span id="cb382-22"><a href="refactoring.html#cb382-22"></a>    }</span>
+<span id="cb382-23"><a href="refactoring.html#cb382-23"></a></span>
+<span id="cb382-24"><a href="refactoring.html#cb382-24"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">buildOptions</span>() {</span>
+<span id="cb382-25"><a href="refactoring.html#cb382-25"></a>        <span class="kw">this</span>.<span class="fu">options</span> = <span class="kw">new</span> <span class="fu">Options</span>();</span>
+<span id="cb382-26"><a href="refactoring.html#cb382-26"></a>        <span class="kw">this</span>.<span class="fu">helpOptions</span> = <span class="kw">new</span> <span class="fu">Options</span>();</span>
+<span id="cb382-27"><a href="refactoring.html#cb382-27"></a>        <span class="bu">Option</span> helpOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;h&quot;</span>)</span>
+<span id="cb382-28"><a href="refactoring.html#cb382-28"></a>                .<span class="fu">longOpt</span>(OPTION_HELP)</span>
+<span id="cb382-29"><a href="refactoring.html#cb382-29"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-30"><a href="refactoring.html#cb382-30"></a>                .<span class="fu">hasArg</span>(<span class="kw">false</span>)</span>
+<span id="cb382-31"><a href="refactoring.html#cb382-31"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Gives usage instructions&quot;</span>)</span>
+<span id="cb382-32"><a href="refactoring.html#cb382-32"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-33"><a href="refactoring.html#cb382-33"></a>        options.<span class="fu">addOption</span>(helpOption);</span>
+<span id="cb382-34"><a href="refactoring.html#cb382-34"></a>        helpOptions.<span class="fu">addOption</span>(helpOption);</span>
+<span id="cb382-35"><a href="refactoring.html#cb382-35"></a>        <span class="bu">Option</span> infileOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;i&quot;</span>)</span>
+<span id="cb382-36"><a href="refactoring.html#cb382-36"></a>                .<span class="fu">longOpt</span>(OPTION_INFILE)</span>
+<span id="cb382-37"><a href="refactoring.html#cb382-37"></a>                .<span class="fu">required</span>(<span class="kw">true</span>)</span>
+<span id="cb382-38"><a href="refactoring.html#cb382-38"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-39"><a href="refactoring.html#cb382-39"></a>                .<span class="fu">desc</span>(<span class="st">&quot;The input gff3 file, as absolute or relative path&quot;</span>)</span>
+<span id="cb382-40"><a href="refactoring.html#cb382-40"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-41"><a href="refactoring.html#cb382-41"></a>        options.<span class="fu">addOption</span>(infileOption);</span>
+<span id="cb382-42"><a href="refactoring.html#cb382-42"></a>        <span class="bu">Option</span> summaryOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;s&quot;</span>)</span>
+<span id="cb382-43"><a href="refactoring.html#cb382-43"></a>                .<span class="fu">longOpt</span>(OPTION_SUMMARY)</span>
+<span id="cb382-44"><a href="refactoring.html#cb382-44"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-45"><a href="refactoring.html#cb382-45"></a>                .<span class="fu">hasArg</span>(<span class="kw">false</span>)</span>
+<span id="cb382-46"><a href="refactoring.html#cb382-46"></a>                .<span class="fu">desc</span>(<span class="st">&quot;lists a summary of the gff3 file&quot;</span>)</span>
+<span id="cb382-47"><a href="refactoring.html#cb382-47"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-48"><a href="refactoring.html#cb382-48"></a>        options.<span class="fu">addOption</span>(summaryOption);</span>
+<span id="cb382-49"><a href="refactoring.html#cb382-49"></a>        <span class="bu">Option</span> fetchtypeOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;ft&quot;</span>)</span>
+<span id="cb382-50"><a href="refactoring.html#cb382-50"></a>                .<span class="fu">longOpt</span>(OPTION_FETCH_TYPE)</span>
+<span id="cb382-51"><a href="refactoring.html#cb382-51"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-52"><a href="refactoring.html#cb382-52"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-53"><a href="refactoring.html#cb382-53"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Lists all features of the requested type, e.g. </span><span class="sc">\&quot;</span><span class="st">CDS</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb382-54"><a href="refactoring.html#cb382-54"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-55"><a href="refactoring.html#cb382-55"></a>        options.<span class="fu">addOption</span>(fetchtypeOption);</span>
+<span id="cb382-56"><a href="refactoring.html#cb382-56"></a>        <span class="bu">Option</span> fetchregionOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fr&quot;</span>)</span>
+<span id="cb382-57"><a href="refactoring.html#cb382-57"></a>                .<span class="fu">longOpt</span>(OPTION_FETCH_REGION)</span>
+<span id="cb382-58"><a href="refactoring.html#cb382-58"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-59"><a href="refactoring.html#cb382-59"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-60"><a href="refactoring.html#cb382-60"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Lists all the features that reside completely within the given region; specified as start..end, e.g. </span><span class="sc">\&quot;</span><span class="st">250000..260000</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb382-61"><a href="refactoring.html#cb382-61"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-62"><a href="refactoring.html#cb382-62"></a>        options.<span class="fu">addOption</span>(fetchregionOption);</span>
+<span id="cb382-63"><a href="refactoring.html#cb382-63"></a>        <span class="bu">Option</span> fetchchildrenOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fc&quot;</span>)</span>
+<span id="cb382-64"><a href="refactoring.html#cb382-64"></a>                .<span class="fu">longOpt</span>(OPTION_FETCH_CHILDREN)</span>
+<span id="cb382-65"><a href="refactoring.html#cb382-65"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-66"><a href="refactoring.html#cb382-66"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-67"><a href="refactoring.html#cb382-67"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Lists all child features of the given feature ID, e.g. </span><span class="sc">\&quot;</span><span class="st">PGSC0003DMT400039136</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb382-68"><a href="refactoring.html#cb382-68"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-69"><a href="refactoring.html#cb382-69"></a>        options.<span class="fu">addOption</span>(fetchchildrenOption);</span>
+<span id="cb382-70"><a href="refactoring.html#cb382-70"></a>        <span class="bu">Option</span> findwildcardOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;fw&quot;</span>)</span>
+<span id="cb382-71"><a href="refactoring.html#cb382-71"></a>                .<span class="fu">longOpt</span>(OPTION_FIND_WILDCARD)</span>
+<span id="cb382-72"><a href="refactoring.html#cb382-72"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-73"><a href="refactoring.html#cb382-73"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-74"><a href="refactoring.html#cb382-74"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Lists all features for which the </span><span class="sc">\&quot;</span><span class="st">name</span><span class="sc">\&quot;</span><span class="st"> attribute matches the given wildcard, specified as regex pattern, &quot;</span> +</span>
+<span id="cb382-75"><a href="refactoring.html#cb382-75"></a>                        <span class="st">&quot;e.g. </span><span class="sc">\&quot;</span><span class="st">[dD]efesin</span><span class="sc">\&quot;</span><span class="st">&quot;</span>)</span>
+<span id="cb382-76"><a href="refactoring.html#cb382-76"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-77"><a href="refactoring.html#cb382-77"></a>        options.<span class="fu">addOption</span>(findwildcardOption);</span>
+<span id="cb382-78"><a href="refactoring.html#cb382-78"></a>        <span class="bu">Option</span> filterOption = <span class="bu">Option</span>.<span class="fu">builder</span>(<span class="st">&quot;f&quot;</span>)</span>
+<span id="cb382-79"><a href="refactoring.html#cb382-79"></a>                .<span class="fu">longOpt</span>(OPTION_FILTER)</span>
+<span id="cb382-80"><a href="refactoring.html#cb382-80"></a>                .<span class="fu">required</span>(<span class="kw">false</span>)</span>
+<span id="cb382-81"><a href="refactoring.html#cb382-81"></a>                .<span class="fu">hasArg</span>(<span class="kw">true</span>)</span>
+<span id="cb382-82"><a href="refactoring.html#cb382-82"></a>                .<span class="fu">desc</span>(<span class="st">&quot;Lists all features that pass all of the given filters specified in the format string defined as&quot;</span> +</span>
+<span id="cb382-83"><a href="refactoring.html#cb382-83"></a>                        <span class="st">&quot;: </span><span class="sc">\&quot;</span><span class="st">source|score|orientation|maximum_length|minimum_length</span><span class="sc">\&quot;</span><span class="st"> where the filters should be relevant to the &quot;</span> +</span>
+<span id="cb382-84"><a href="refactoring.html#cb382-84"></a>                        <span class="st">&quot;given attribute. Suppression of an individual filter is indicated using an asterisk (*).&quot;</span> +</span>
+<span id="cb382-85"><a href="refactoring.html#cb382-85"></a>                        <span class="st">&quot;ORIENTATION should be defined using a </span><span class="sc">\&quot;</span><span class="st">+</span><span class="sc">\&quot;</span><span class="st">, </span><span class="sc">\&quot;</span><span class="st">-</span><span class="sc">\&quot;</span><span class="st"> or </span><span class="sc">\&quot;</span><span class="st">.</span><span class="sc">\&quot;</span><span class="st"> character&quot;</span>)</span>
+<span id="cb382-86"><a href="refactoring.html#cb382-86"></a>                .<span class="fu">build</span>();</span>
+<span id="cb382-87"><a href="refactoring.html#cb382-87"></a>        options.<span class="fu">addOption</span>(filterOption);</span>
+<span id="cb382-88"><a href="refactoring.html#cb382-88"></a>    }</span>
+<span id="cb382-89"><a href="refactoring.html#cb382-89"></a></span>
+<span id="cb382-90"><a href="refactoring.html#cb382-90"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printHelp</span>() {</span>
+<span id="cb382-91"><a href="refactoring.html#cb382-91"></a>        <span class="kw">this</span>.<span class="fu">formatter</span> = <span class="kw">new</span> <span class="fu">HelpFormatter</span>();</span>
+<span id="cb382-92"><a href="refactoring.html#cb382-92"></a>        <span class="bu">String</span> footer = <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Paths are platform independent.&quot;</span>;</span>
+<span id="cb382-93"><a href="refactoring.html#cb382-93"></a>        <span class="kw">this</span>.<span class="fu">formatter</span>.<span class="fu">printHelp</span>(<span class="st">&quot;GffQuery&quot;</span>, <span class="st">&quot;Version: 1.1-SNAPSHOT&quot;</span>, <span class="kw">this</span>.<span class="fu">options</span>, footer, <span class="kw">true</span>);</span>
+<span id="cb382-94"><a href="refactoring.html#cb382-94"></a>    }</span>
+<span id="cb382-95"><a href="refactoring.html#cb382-95"></a></span>
+<span id="cb382-96"><a href="refactoring.html#cb382-96"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isHelpRequested</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb382-97"><a href="refactoring.html#cb382-97"></a>        <span class="kw">try</span> {</span>
+<span id="cb382-98"><a href="refactoring.html#cb382-98"></a>            CommandLine commandLine = <span class="kw">this</span>.<span class="fu">parser</span>.<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">options</span>, args);</span>
+<span id="cb382-99"><a href="refactoring.html#cb382-99"></a>            <span class="kw">return</span> (commandLine.<span class="fu">hasOption</span>(OPTION_HELP));</span>
+<span id="cb382-100"><a href="refactoring.html#cb382-100"></a>        } <span class="kw">catch</span> (<span class="bu">ParseException</span> e) {</span>
+<span id="cb382-101"><a href="refactoring.html#cb382-101"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb382-102"><a href="refactoring.html#cb382-102"></a>        }</span>
+<span id="cb382-103"><a href="refactoring.html#cb382-103"></a>    }</span>
+<span id="cb382-104"><a href="refactoring.html#cb382-104"></a></span>
+<span id="cb382-105"><a href="refactoring.html#cb382-105"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">parseCommandLineArguments</span>(<span class="bu">String</span>[] args) <span class="kw">throws</span> <span class="bu">ParseException</span> {</span>
+<span id="cb382-106"><a href="refactoring.html#cb382-106"></a>        <span class="kw">this</span>.<span class="fu">commandLine</span> = <span class="kw">this</span>.<span class="fu">parser</span>.<span class="fu">parse</span>(<span class="kw">this</span>.<span class="fu">options</span>, args);</span>
+<span id="cb382-107"><a href="refactoring.html#cb382-107"></a>    }</span>
+<span id="cb382-108"><a href="refactoring.html#cb382-108"></a></span>
+<span id="cb382-109"><a href="refactoring.html#cb382-109"></a>    <span class="kw">public</span> GffAnalysisOptions <span class="fu">getAnalysisOptions</span>() {</span>
+<span id="cb382-110"><a href="refactoring.html#cb382-110"></a>        GffAnalysisOptions gffAnalysisOptions = <span class="kw">new</span> <span class="fu">GffAnalysisOptions</span>();</span>
+<span id="cb382-111"><a href="refactoring.html#cb382-111"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_INFILE)) {</span>
+<span id="cb382-112"><a href="refactoring.html#cb382-112"></a>            gffAnalysisOptions.<span class="fu">setInFile</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_INFILE));</span>
+<span id="cb382-113"><a href="refactoring.html#cb382-113"></a>        }</span>
+<span id="cb382-114"><a href="refactoring.html#cb382-114"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_SUMMARY)) {</span>
+<span id="cb382-115"><a href="refactoring.html#cb382-115"></a>            gffAnalysisOptions.<span class="fu">setSummary</span>(<span class="kw">true</span>);</span>
+<span id="cb382-116"><a href="refactoring.html#cb382-116"></a>        }</span>
+<span id="cb382-117"><a href="refactoring.html#cb382-117"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_TYPE)) {</span>
+<span id="cb382-118"><a href="refactoring.html#cb382-118"></a>            gffAnalysisOptions.<span class="fu">setSearchType</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_TYPE));</span>
+<span id="cb382-119"><a href="refactoring.html#cb382-119"></a>        }</span>
+<span id="cb382-120"><a href="refactoring.html#cb382-120"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_REGION)) {</span>
+<span id="cb382-121"><a href="refactoring.html#cb382-121"></a>            gffAnalysisOptions.<span class="fu">setSearchRegion</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_REGION));</span>
+<span id="cb382-122"><a href="refactoring.html#cb382-122"></a>        }</span>
+<span id="cb382-123"><a href="refactoring.html#cb382-123"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FETCH_CHILDREN)) {</span>
+<span id="cb382-124"><a href="refactoring.html#cb382-124"></a>            gffAnalysisOptions.<span class="fu">setSearchChildren</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FETCH_CHILDREN));</span>
+<span id="cb382-125"><a href="refactoring.html#cb382-125"></a>        }</span>
+<span id="cb382-126"><a href="refactoring.html#cb382-126"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FIND_WILDCARD)) {</span>
+<span id="cb382-127"><a href="refactoring.html#cb382-127"></a>            gffAnalysisOptions.<span class="fu">setSearchWildcard</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FIND_WILDCARD));</span>
+<span id="cb382-128"><a href="refactoring.html#cb382-128"></a>        }</span>
+<span id="cb382-129"><a href="refactoring.html#cb382-129"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">hasOption</span>(OPTION_FILTER)) {</span>
+<span id="cb382-130"><a href="refactoring.html#cb382-130"></a>            gffAnalysisOptions.<span class="fu">setSearchFilterAsString</span>(<span class="kw">this</span>.<span class="fu">commandLine</span>.<span class="fu">getOptionValue</span>(OPTION_FILTER));</span>
+<span id="cb382-131"><a href="refactoring.html#cb382-131"></a>        }</span>
+<span id="cb382-132"><a href="refactoring.html#cb382-132"></a>        <span class="kw">return</span> gffAnalysisOptions;</span>
+<span id="cb382-133"><a href="refactoring.html#cb382-133"></a>    }</span>
+<span id="cb382-134"><a href="refactoring.html#cb382-134"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="take-over" class="section level2">
+<h2><span class="header-section-number">44.4</span> Take over</h2>
+<p>I challenge you to now take class <code>GffQuery</code> and make it look good! Check out tag 0.2 of branch <code>master</code> (commit 19a08f4).</p>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="uml.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="rest-and-mvc-with-spring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": null,
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["The Java Track.pdf", "The Java Track.epub"],
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

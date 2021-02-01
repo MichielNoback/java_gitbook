@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 10 Operators | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 10 Operators | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 10 Operators | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="arrays.html"/>
+<link rel="next" href="flow-control.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,115 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="operators" class="section level1">
+<h1><span class="header-section-number">Chapter 10</span> Operators</h1>
+<p>Operators are the syntax elements that bind, change and combine the data, classes and methods.
+Although they are extremely important, they are not very interesting in the sense that
+they are just what they are, almost the same in any programming language.</p>
+<p>Therefore, this post is quite small. It starts with an overview of all operators and ends
+with a more detailed description of the less obvious ones.</p>
+<div id="overview" class="section level2">
+<h2><span class="header-section-number">10.1</span> Overview</h2>
+<p>Operators can be <strong><em>assigning</em></strong> (<code>=</code>), <strong><em>modifying</em></strong>, as in <code>count++</code> and they
+can be <strong><em>comparing</em></strong>, as in <code>count &lt; maximum</code>.
+Another way to classify them is to look at the number of operands they work on. They
+can have one (<strong><em>unary</em></strong> - <code>count++;</code>), two (<strong><em>binary</em></strong> - <code>count &lt; maximum</code>) or
+three (**_ternairy-** - <code>(age &gt; 65 ? old=true : old=false);</code>) operands.</p>
+<p>Operators can be ordered by their <strong><em>precedence</em></strong>, which is the priority (order) in
+which they will be evaluated.</p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb62-1"><a href="operators.html#cb62-1"></a><span class="dt">int</span> x = <span class="dv">41</span>;</span>
+<span id="cb62-2"><a href="operators.html#cb62-2"></a><span class="dt">int</span> count = <span class="dv">1</span>;</span>
+<span id="cb62-3"><a href="operators.html#cb62-3"></a><span class="dt">int</span> y = x + ++count;</span>
+<span id="cb62-4"><a href="operators.html#cb62-4"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;count=&quot;</span> + count + <span class="st">&quot;; y=&quot;</span> + y);</span></code></pre></div>
+<p>This snippet will output “<em>count=2; y=43</em>” because the pre-increment operator has
+precedence over “+”, and the assignment operator.</p>
+<p>Here is the complete listing. The associativity (Left-to-Right or Right-to-Left) of an operator
+is a property that determines how operators of the same precedence are grouped in the absence of
+parentheses.</p>
+<div class="figure">
+<img src="02_syntax/figures/operator_precedence_table.png" alt="" />
+<p class="caption">Operator precedence</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>In general, use the rule: <strong><em>“When in doubt about precedence, always use parentheses”</em></strong>.</p>
+<p>They always have the highest precedence, and improve readability a lot. Compare these
+with respect to readability:</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb63-1"><a href="operators.html#cb63-1"></a>x = y + z * <span class="dv">2</span> / <span class="bu">Math</span>.<span class="fu">PI</span>;</span>
+<span id="cb63-2"><a href="operators.html#cb63-2"></a>x = y + ((z * <span class="dv">2</span>) / <span class="bu">Math</span>.<span class="fu">PI</span>);</span></code></pre></div>
+<div id="assignment-operators" class="section level4 unnumbered">
+<h4>Assignment operators</h4>
+<p>Not all languages have such an extended set of assignment operators.</p>
+<p>When you want to change the value of a variable, you can use these shorthand assignment operators</p>
+<p><code>x = x + 2;</code> is the same as <code>x += 2;</code>
+<code>x = x + y;</code> is the same as <code>x += y;</code>
+<code>x = x * 3;</code> is the same as <code>x *= 3;</code>
+<code>x = x / 3;</code> is the same as <code>x /= 3;</code>
+<code>x = x % 3;</code> is the same as <code>x %= 3;</code></p>
+<p>The last three are a bit esoteric in my opinion and I do not use them because they
+lower the readability of the code (especially <code>%=</code>).</p>
+</div>
+<div id="modulo" class="section level4 unnumbered">
+<h4>Modulo: <code>%</code></h4>
+<p>The modulo operator is also called the remainder operator; it gives the remainder of a division.</p>
+<p><code>10 % 3</code> -&gt; 1 (one)
+<code>8 % 5</code> -&gt; 3</p>
+<p>This operator is often used when even/uneven items need to be identified, or other periodic cases:
+this will address every hundredth item:</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb64-1"><a href="operators.html#cb64-1"></a><span class="kw">if</span> (x % <span class="dv">100</span> == <span class="dv">0</span>) {</span>
+<span id="cb64-2"><a href="operators.html#cb64-2"></a>    <span class="co">/*deal with every hundredth item</span></span>
+<span id="cb64-3"><a href="operators.html#cb64-3"></a><span class="co">}</span></span></code></pre></div>
+</div>
+<div id="ternary-operator" class="section level4 unnumbered">
+<h4>Ternary operator</h4>
+<p>The ternary operator is actually a condensed if..else block but can give more comprehensive code.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb65-1"><a href="operators.html#cb65-1"></a><span class="kw">if</span> (age &lt; <span class="dv">18</span>) {</span>
+<span id="cb65-2"><a href="operators.html#cb65-2"></a>    minor = <span class="kw">true</span>;</span>
+<span id="cb65-3"><a href="operators.html#cb65-3"></a>}</span>
+<span id="cb65-4"><a href="operators.html#cb65-4"></a><span class="kw">else</span> {</span>
+<span id="cb65-5"><a href="operators.html#cb65-5"></a>    minor = <span class="kw">false</span>;</span>
+<span id="cb65-6"><a href="operators.html#cb65-6"></a>}</span>
+<span id="cb65-7"><a href="operators.html#cb65-7"></a><span class="co">//same as</span></span>
+<span id="cb65-8"><a href="operators.html#cb65-8"></a>minor = (age &lt; <span class="dv">18</span> ? <span class="kw">true</span> : <span class="kw">false</span>);</span></code></pre></div>
+<p>It is often used for processing String tags, such as this one.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb66-1"><a href="operators.html#cb66-1"></a><span class="bu">String</span> name = <span class="st">&quot;John Doe&quot;</span>;</span>
+<span id="cb66-2"><a href="operators.html#cb66-2"></a>name += (academicTitle == <span class="kw">null</span> ? <span class="st">&quot;, &quot;</span> + academicTitle : <span class="st">&quot;&quot;</span>);</span></code></pre></div>
+</div>
+<div id="instanceof" class="section level4 unnumbered">
+<h4><code>instanceof</code></h4>
+<p>The <code>instanceof</code> operator (keyword) is a boolean operator that will yield <code>true</code> of the left operand
+is the type of the right operand, or a subtype of it. Defining inheritance (subtypes) is done using the
+<strong><em><code>extends</code> keyword</em></strong>. Here is an example.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb67-1"><a href="operators.html#cb67-1"></a>Dog dog = <span class="kw">new</span> <span class="fu">Dog</span>();</span>
+<span id="cb67-2"><a href="operators.html#cb67-2"></a>Wolf wolf = <span class="kw">new</span> <span class="fu">Wolf</span>();</span>
+<span id="cb67-3"><a href="operators.html#cb67-3"></a>Chihuahua chihuahua = <span class="kw">new</span> <span class="fu">Chihuahua</span>();</span>
+<span id="cb67-4"><a href="operators.html#cb67-4"></a></span>
+<span id="cb67-5"><a href="operators.html#cb67-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;dog instanceof Animal = &quot;</span> + (dog <span class="kw">instanceof</span> Animal));</span>
+<span id="cb67-6"><a href="operators.html#cb67-6"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;dog instanceof Object = &quot;</span> + (dog <span class="kw">instanceof</span> <span class="bu">Object</span>));</span>
+<span id="cb67-7"><a href="operators.html#cb67-7"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;chihuahua instanceof Dog = &quot;</span> + (chihuahua <span class="kw">instanceof</span> Dog));</span>
+<span id="cb67-8"><a href="operators.html#cb67-8"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;chihuahua instanceof Animal = &quot;</span> + (chihuahua <span class="kw">instanceof</span> Animal));</span>
+<span id="cb67-9"><a href="operators.html#cb67-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;chihuahua instanceof Chihuahua = &quot;</span> + (chihuahua <span class="kw">instanceof</span> Chihuahua));</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+dog instanceof Animal = true
+dog instanceof Object = true
+chihuahua instanceof Dog = true
+chihuahua instanceof Animal = true
+chihuahua instanceof Chihuahua = true
+</pre>
+</div>
+<div id="bitwise-operators" class="section level4 unnumbered">
+<h4>bitwise operators</h4>
+<p>Java also has some bitwise operators that are not described within this course.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="arrays.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="flow-control.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

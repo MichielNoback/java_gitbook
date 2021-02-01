@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 31 Implementing MVC | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 31 Implementing MVC | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 31 Implementing MVC | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="a-first-project-1.html"/>
+<link rel="next" href="thymeleaf-expressions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,212 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="implementing-mvc" class="section level1">
+<h1><span class="header-section-number">Chapter 31</span> Implementing MVC</h1>
+<p>The topic of this post is setting up a clean “MVC“ Java web application.
+This involves working with separated components for different responsibilities. Besides the Model, the View and the Controller, this post also deals with the Data Layer, a fourth component that is almost always a part of a web app.</p>
+<div id="introduction-2" class="section level2">
+<h2><span class="header-section-number">31.1</span> Introduction</h2>
+<div id="the-components-a.k.a-layers" class="section level3 unnumbered">
+<h3>The Components a.k.a Layers</h3>
+<p>The components -or layers- of an MVS application are generally recognized in most applications,
+web-based or not:</p>
+<ul>
+<li><strong>Model</strong>: the business-specific logic, model classes, domain-specific algorithms</li>
+<li><strong>View</strong>: what the user gets to see, often the visual representation of the underlying data</li>
+<li><strong>Controller</strong>: receives input or requests (from the user) and determines what action should be taken; what part of the model should be invoked</li>
+<li><strong>Data layer</strong>: all data is abstracted away behind data access objects (DAOs)</li>
+</ul>
+<div class="figure">
+<img src="05_web/figures/mvc_pattern2s.png" title="MVC pattern (extended)" alt="" />
+<p class="caption">Create WEB-INF</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+</div>
+<div id="the-goal-a-random-phrase-of-the-day" class="section level3 unnumbered">
+<h3>The goal: a random phrase of the day</h3>
+<p>The specs: a web app that will display a phrase, chosen randomly from one of two categories: Bullshit or Management.</p>
+<p>This post assumes you already have created a new Gradle-managed web app - see post
+<a href="first_project.md">First Project</a></p>
+</div>
+</div>
+<div id="java-web-app-architecture" class="section level2">
+<h2><span class="header-section-number">31.2</span> Java web app architecture</h2>
+<p>Java web apps are managed by servers, also called containers. We work with Tomcat, but the idea is the same for all.
+Tomcat receives requests and forwards these to specific entry points in your app.
+These entry points are not <code>main()</code> methods as in Commandline apps, but the service methods of Servlets:
+<code>void doGet(HttpServletRequest request, HttpServletResponse response)</code> and <code>doPost(HttpServletRequest request, HttpServletResponse response)</code>.
+Also, unlike commandline apps that receive their arguments via the <code>String[] args</code> argument to <code>main()</code>, the service methods receive <code>HttpServletRequest</code> and <code>HttpServletResponse</code> objects as their communication channels to the outside world: the request object is the way in and the response object is the connection out.</p>
+<p>Besides these objects, there is the <code>HttpSession</code> object supporting “cross-request memory”, and the <code>ServletContext</code> object that you use for application-wide configuration settings. And throughout the app, Plain Old Java Objects (POJOs) serve as data carriers - the glue of the app. Here is a schema of an entire app.</p>
+<div class="figure">
+<img src="05_web/figures/java_web_app_architecture.png" alt="" />
+<p class="caption">Java web app architecture</p>
+</div>
+<div id="a-view" class="section level3 unnumbered">
+<h3>A View</h3>
+<p>To create a Thymeleaf template, right-click on folder webapp/templates, select New → html.
+(Hint: you can also make your own Thymeleaf template!)</p>
+<p>Name it phrase_of_the_day.html and click OK
+The file will automatically open in an editor window, with some standard template code already present.</p>
+<p>Here is the contents of <code>phrase_of_the_day.html</code></p>
+<div class="sourceCode" id="cb213"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb213-1"><a href="implementing-mvc.html#cb213-1"></a><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb213-2"><a href="implementing-mvc.html#cb213-2"></a><span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="ot"> xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb213-3"><a href="implementing-mvc.html#cb213-3"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb213-4"><a href="implementing-mvc.html#cb213-4"></a>    <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb213-5"><a href="implementing-mvc.html#cb213-5"></a>    <span class="kw">&lt;title</span><span class="ot"> th:text=</span><span class="st">&quot;#{tab.title}&quot;</span><span class="kw">&gt;</span>_offline_<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb213-6"><a href="implementing-mvc.html#cb213-6"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb213-7"><a href="implementing-mvc.html#cb213-7"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb213-8"><a href="implementing-mvc.html#cb213-8"></a>    <span class="kw">&lt;h3</span><span class="ot"> th:text=</span><span class="st">&quot;#{page.title}&quot;</span><span class="kw">&gt;</span>Offline title<span class="kw">&lt;/h3&gt;</span></span>
+<span id="cb213-9"><a href="implementing-mvc.html#cb213-9"></a>    <span class="kw">&lt;h4</span><span class="ot"> th:text=</span><span class="st">&quot;#{page.subtitle}&quot;</span><span class="kw">&gt;</span>Offline subtitle<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb213-10"><a href="implementing-mvc.html#cb213-10"></a></span>
+<span id="cb213-11"><a href="implementing-mvc.html#cb213-11"></a>    <span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;give.phrase&quot;</span><span class="ot"> method=</span><span class="st">&quot;GET&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb213-12"><a href="implementing-mvc.html#cb213-12"></a>        <span class="kw">&lt;select</span><span class="ot"> name=</span><span class="st">&quot;phrase_category&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb213-13"><a href="implementing-mvc.html#cb213-13"></a>            <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;bullshit&quot;</span><span class="kw">&gt;</span>Bullshit<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb213-14"><a href="implementing-mvc.html#cb213-14"></a>            <span class="kw">&lt;option</span><span class="ot"> value=</span><span class="st">&quot;management&quot;</span><span class="kw">&gt;</span>Management<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb213-15"><a href="implementing-mvc.html#cb213-15"></a>        <span class="kw">&lt;/select&gt;</span></span>
+<span id="cb213-16"><a href="implementing-mvc.html#cb213-16"></a>        <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> th:value=</span><span class="st">&quot;#{get.phrase.btn}&quot;</span><span class="ot"> value=</span><span class="st">&quot;_offline_&quot;</span><span class="kw">/&gt;</span></span>
+<span id="cb213-17"><a href="implementing-mvc.html#cb213-17"></a>    <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb213-18"><a href="implementing-mvc.html#cb213-18"></a></span>
+<span id="cb213-19"><a href="implementing-mvc.html#cb213-19"></a>    <span class="kw">&lt;h4</span><span class="ot"> th:text=</span><span class="st">&quot;#{&#39;phrase.&#39; + ${phrase_num}}&quot;</span><span class="kw">&gt;</span>_phrase placeholder_<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb213-20"><a href="implementing-mvc.html#cb213-20"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb213-21"><a href="implementing-mvc.html#cb213-21"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>Note the text have been moved to a resource bundle.</p>
+<p>Within the editor pane, click the icon of the browser you want to view the file in (the browser icons are in the top right corner).
+Do not select “Run phrase_of_…” from the context menu because you will get a 404!</p>
+<div class="figure">
+<img src="05_web/figures/phrase_request_form1.png" alt="" />
+<p class="caption">Phrase request form</p>
+</div>
+<p>You won’t get any texts into the placeholders because (1) there simply aren’t any and (2) you are viewing a static html page, not a view that is processed by the template engine.</p>
+<div id="create-resource-bundle" class="section level4 unnumbered">
+<h4>Create resource bundle</h4>
+<p>The resource should have as base name <code>phrase_of_the_day</code> and should have a default and ‘en’ locale versions.
+You also need entries for the used texts, of course</p>
+<div class="figure">
+<img src="05_web/figures/phrase_of_the_day_resource_bundle.png" alt="" />
+<p class="caption">Phrase of the day resource bundle</p>
+</div>
+</div>
+</div>
+<div id="a-model" class="section level3 unnumbered">
+<h3>A model</h3>
+<p>Create a new package called <code>model</code>.
+Give it some dummy implementation (we’ll put some real code in there later on).</p>
+<div class="sourceCode" id="cb214"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb214-1"><a href="implementing-mvc.html#cb214-1"></a><span class="kw">public</span> <span class="kw">class</span> PhraseFactory {</span>
+<span id="cb214-2"><a href="implementing-mvc.html#cb214-2"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">getPhrase</span>(<span class="bu">String</span> phraseType) {</span>
+<span id="cb214-3"><a href="implementing-mvc.html#cb214-3"></a>        <span class="co">//we&#39;ll get to this later!</span></span>
+<span id="cb214-4"><a href="implementing-mvc.html#cb214-4"></a>        <span class="co">//You thought I’d return some text here, didn’t you?</span></span>
+<span id="cb214-5"><a href="implementing-mvc.html#cb214-5"></a>        <span class="kw">return</span> <span class="st">&quot;1&quot;</span>;</span>
+<span id="cb214-6"><a href="implementing-mvc.html#cb214-6"></a>    }</span>
+<span id="cb214-7"><a href="implementing-mvc.html#cb214-7"></a>}</span></code></pre></div>
+</div>
+<div id="a-controller" class="section level3 unnumbered">
+<h3>A controller</h3>
+<p>Create a new Servlet and put the following code in there.</p>
+<div class="sourceCode" id="cb215"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb215-1"><a href="implementing-mvc.html#cb215-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.servlets;</span></span>
+<span id="cb215-2"><a href="implementing-mvc.html#cb215-2"></a></span>
+<span id="cb215-3"><a href="implementing-mvc.html#cb215-3"></a><span class="co">//many imports</span></span>
+<span id="cb215-4"><a href="implementing-mvc.html#cb215-4"></a></span>
+<span id="cb215-5"><a href="implementing-mvc.html#cb215-5"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;PhraseServlet&quot;</span>, urlPatterns = <span class="st">&quot;/give.phrase&quot;</span>)</span>
+<span id="cb215-6"><a href="implementing-mvc.html#cb215-6"></a><span class="kw">public</span> <span class="kw">class</span> PhraseServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb215-7"><a href="implementing-mvc.html#cb215-7"></a>    <span class="kw">private</span> TemplateEngine templateEngine;</span>
+<span id="cb215-8"><a href="implementing-mvc.html#cb215-8"></a></span>
+<span id="cb215-9"><a href="implementing-mvc.html#cb215-9"></a>    <span class="at">@Override</span></span>
+<span id="cb215-10"><a href="implementing-mvc.html#cb215-10"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb215-11"><a href="implementing-mvc.html#cb215-11"></a>        <span class="kw">this</span>.<span class="fu">templateEngine</span> = WebConfig.<span class="fu">getTemplateEngine</span>();</span>
+<span id="cb215-12"><a href="implementing-mvc.html#cb215-12"></a>    }</span>
+<span id="cb215-13"><a href="implementing-mvc.html#cb215-13"></a></span>
+<span id="cb215-14"><a href="implementing-mvc.html#cb215-14"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doGet</span>(HttpServletRequest request, HttpServletResponse response)</span>
+<span id="cb215-15"><a href="implementing-mvc.html#cb215-15"></a>            <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb215-16"><a href="implementing-mvc.html#cb215-16"></a>        <span class="bu">String</span> phraseType = request.<span class="fu">getParameter</span>(<span class="st">&quot;phrase_category&quot;</span>);</span>
+<span id="cb215-17"><a href="implementing-mvc.html#cb215-17"></a>        <span class="bu">Locale</span> locale = request.<span class="fu">getLocale</span>();</span>
+<span id="cb215-18"><a href="implementing-mvc.html#cb215-18"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(</span>
+<span id="cb215-19"><a href="implementing-mvc.html#cb215-19"></a>                request,</span>
+<span id="cb215-20"><a href="implementing-mvc.html#cb215-20"></a>                response,</span>
+<span id="cb215-21"><a href="implementing-mvc.html#cb215-21"></a>                request.<span class="fu">getServletContext</span>(),</span>
+<span id="cb215-22"><a href="implementing-mvc.html#cb215-22"></a>                locale);</span>
+<span id="cb215-23"><a href="implementing-mvc.html#cb215-23"></a>        <span class="kw">if</span> (phraseType != <span class="kw">null</span>) {</span>
+<span id="cb215-24"><a href="implementing-mvc.html#cb215-24"></a>            <span class="dt">final</span> <span class="bu">String</span> phrase = PhraseFactory.<span class="fu">getPhrase</span>(phraseType);</span>
+<span id="cb215-25"><a href="implementing-mvc.html#cb215-25"></a>            ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_type&quot;</span>, phraseType);</span>
+<span id="cb215-26"><a href="implementing-mvc.html#cb215-26"></a>            ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_num&quot;</span>, phrase);</span>
+<span id="cb215-27"><a href="implementing-mvc.html#cb215-27"></a>        } <span class="kw">else</span> {</span>
+<span id="cb215-28"><a href="implementing-mvc.html#cb215-28"></a>            ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_type&quot;</span>, <span class="st">&quot;none&quot;</span>);</span>
+<span id="cb215-29"><a href="implementing-mvc.html#cb215-29"></a>            ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_num&quot;</span>, <span class="st">&quot;0&quot;</span>);</span>
+<span id="cb215-30"><a href="implementing-mvc.html#cb215-30"></a>        }</span>
+<span id="cb215-31"><a href="implementing-mvc.html#cb215-31"></a>        templateEngine.<span class="fu">process</span>(<span class="st">&quot;phrase_of_the_day&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb215-32"><a href="implementing-mvc.html#cb215-32"></a>    }</span>
+<span id="cb215-33"><a href="implementing-mvc.html#cb215-33"></a>}</span></code></pre></div>
+<p>The controller receives request parameters from the submitted form using <code>String requestParameter = request.getParameter("&lt;parameter_name&gt;");</code>. On the output side, it passed data to the Thymeleaf template using <code>ctx.setVariable("&lt;variable_name&gt;", &lt;variable&gt;);</code>. It is not responsible for any application logic; for that it calls on the model class <code>PhraseFactory</code>. The controller does not involve itself with the view either; it simply passes the data it received from the model to the View component, the Thymeleaf template <code>phrase_of_the_day.html</code>.</p>
+</div>
+<div id="test" class="section level3 unnumbered">
+<h3>Test!</h3>
+<p>Create a new run configuration called “phrase” and point it to give.phrase.</p>
+<p>Test the result; try the form submit; change your language; refresh</p>
+<div class="figure">
+<img src="05_web/figures/phrase_request_form2_en.png" alt="" />
+<p class="caption">Phrase request form 2</p>
+</div>
+<div class="figure">
+<img src="05_web/figures/phrase_request_form3_nl.png" alt="" />
+<p class="caption">Phrase request form 3</p>
+</div>
+</div>
+<div id="extend-the-model" class="section level3 unnumbered">
+<h3>Extend the model</h3>
+<p>Implement some nice behavior in <code>PhraseFactory.java</code>.
+First the Junit5 test and only then the implementation: this is called Test-Driven Development (TDD).</p>
+<div class="sourceCode" id="cb216"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb216-1"><a href="implementing-mvc.html#cb216-1"></a><span class="kw">class</span> PhraseFactoryTest {</span>
+<span id="cb216-2"><a href="implementing-mvc.html#cb216-2"></a>    <span class="at">@Test</span></span>
+<span id="cb216-3"><a href="implementing-mvc.html#cb216-3"></a>    <span class="dt">void</span> <span class="fu">getPhrase</span>() {</span>
+<span id="cb216-4"><a href="implementing-mvc.html#cb216-4"></a>        <span class="kw">for</span> (<span class="dt">int</span> i=<span class="dv">0</span>; i&lt;<span class="dv">50</span>; i++) {</span>
+<span id="cb216-5"><a href="implementing-mvc.html#cb216-5"></a>            <span class="dt">int</span> random = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(PhraseFactory.<span class="fu">getPhrase</span>(<span class="st">&quot;bullshit&quot;</span>));</span>
+<span id="cb216-6"><a href="implementing-mvc.html#cb216-6"></a>            <span class="fu">assertTrue</span>(random &gt;= <span class="dv">1</span> &amp;&amp; random &lt;= PhraseFactory.<span class="fu">MAX_PHRASE_COUNT</span>);</span>
+<span id="cb216-7"><a href="implementing-mvc.html#cb216-7"></a>        }</span>
+<span id="cb216-8"><a href="implementing-mvc.html#cb216-8"></a>        <span class="kw">for</span> (<span class="dt">int</span> i=<span class="dv">0</span>; i&lt;<span class="dv">50</span>; i++) {</span>
+<span id="cb216-9"><a href="implementing-mvc.html#cb216-9"></a>            <span class="dt">int</span> random = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(PhraseFactory.<span class="fu">getPhrase</span>(<span class="st">&quot;management&quot;</span>));</span>
+<span id="cb216-10"><a href="implementing-mvc.html#cb216-10"></a>            <span class="fu">assertTrue</span>(random &gt;= <span class="dv">1</span> &amp;&amp; random &lt;= PhraseFactory.<span class="fu">MAX_PHRASE_COUNT</span>);</span>
+<span id="cb216-11"><a href="implementing-mvc.html#cb216-11"></a>        }</span>
+<span id="cb216-12"><a href="implementing-mvc.html#cb216-12"></a>    }</span>
+<span id="cb216-13"><a href="implementing-mvc.html#cb216-13"></a>}</span></code></pre></div>
+<p>The implementation.</p>
+<div class="sourceCode" id="cb217"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb217-1"><a href="implementing-mvc.html#cb217-1"></a><span class="kw">public</span> <span class="kw">class</span> PhraseFactory {</span>
+<span id="cb217-2"><a href="implementing-mvc.html#cb217-2"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> MAX_PHRASE_COUNT = <span class="dv">4</span>;</span>
+<span id="cb217-3"><a href="implementing-mvc.html#cb217-3"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="bu">String</span> <span class="fu">getPhrase</span>(<span class="bu">String</span> phraseType) {</span>
+<span id="cb217-4"><a href="implementing-mvc.html#cb217-4"></a>        <span class="co">//I only have 4 phrases of each category</span></span>
+<span id="cb217-5"><a href="implementing-mvc.html#cb217-5"></a>        <span class="bu">Random</span> rand = <span class="kw">new</span> <span class="bu">Random</span>();</span>
+<span id="cb217-6"><a href="implementing-mvc.html#cb217-6"></a>        <span class="dt">int</span> phraseIndex = rand.<span class="fu">nextInt</span>(MAX_PHRASE_COUNT) + <span class="dv">1</span>;</span>
+<span id="cb217-7"><a href="implementing-mvc.html#cb217-7"></a>        <span class="kw">return</span> <span class="bu">Integer</span>.<span class="fu">toString</span>(phraseIndex);</span>
+<span id="cb217-8"><a href="implementing-mvc.html#cb217-8"></a>    }</span>
+<span id="cb217-9"><a href="implementing-mvc.html#cb217-9"></a>}</span></code></pre></div>
+<p>Now fetch the phrases a little bit sophisticated. Here is the relevant part of the Thymeleaf template.</p>
+<div class="sourceCode" id="cb218"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb218-1"><a href="implementing-mvc.html#cb218-1"></a><span class="kw">&lt;h4</span><span class="ot"> th:text=</span><span class="st">&quot;#{&#39;phrase.&#39; + ${phrase_type} + &#39;.&#39; + ${phrase_num}}&quot;</span><span class="kw">&gt;</span>_phrase placeholder_<span class="kw">&lt;/h4&gt;</span></span></code></pre></div>
+<p>This snippet is building a reference to a randomly chosen phrase from the requested category.</p>
+<p>In the resource bundle, the phrases are stored in two languages.</p>
+<div class="figure">
+<img src="05_web/figures/phrase_of_the_day_resource_bundle2.png" alt="" />
+<p class="caption">Phrase of the day resource bundle 2</p>
+</div>
+</div>
+<div id="mvc-complete" class="section level3 unnumbered">
+<h3>MVC complete</h3>
+<p>Thats it; you have seen the MVC pattern in action. There is a dedicated model class that knows how to provide a random choice for messages.
+The Servlet controller invokes the model (PhraseFactory) and dispatches its output to the view.
+The Thymeleaf template handles the view, processed by the template engine that is also responsible for injecting the text messages from the resource bundle, in the correct language.</p>
+<p>Thymeleaf has several techniques to deal with dynamic content generated by the model; this is the subject of the next post.</p>
+<div class="figure">
+<img src="05_web/figures/mvc_pattern2s.png" alt="" />
+<p class="caption">MVC pattern (extended)</p>
+</div>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="a-first-project-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="thymeleaf-expressions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 21 Regular Expressions | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 21 Regular Expressions | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 21 Regular Expressions | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="file-io.html"/>
+<link rel="next" href="encapsulation.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,266 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="regular-expressions" class="section level1">
+<h1><span class="header-section-number">Chapter 21</span> Regular Expressions</h1>
+<p>Often, when your data is well-structured, a <code>String.split()</code> with a simple separator is all you need to process your data,maybe with some conversion methods for creating ints and doubles and such from strings. However, there are cases when you need more: finding restriction enzyme sites, parsing zip codes in addresses for instance.</p>
+<p>This part only introduces the Java regex API
+It is NOT a tutorial on regex!
+(PS, I borrowed some examples from <a href="http://www.vogella.com" class="uri">http://www.vogella.com</a>)</p>
+<p>Regular expressions are used to search for patterns in text
+For instance, if you want to find occurrences of Dutch zip codes, you could use this: <code>[a-zA-Z]{4} ?[0-9]{2}</code></p>
+<p>For Java regex, these classes are related to regular expression matching (and replacement):</p>
+<ul>
+<li><code>java.lang.String</code> has several useful methods working with regexes</li>
+<li><code>java.util.regex.Pattern</code> works together with <code>java.util.regex.Matcher</code> for advanced regex operations</li>
+</ul>
+<div id="regex-syntax" class="section level2">
+<h2><span class="header-section-number">21.1</span> Regex syntax?</h2>
+<p>A regular expression is used to describe a pattern that is not literal - different distinct character strings could match the pattern.</p>
+<div id="backslashes" class="section level3">
+<h3><span class="header-section-number">21.1.1</span> Backslashes</h3>
+<p>Backslashes have meanings both in String literals and in regex. They denote special characters, but also negate the special meaning
+Thus, to match a literal backslash, your regex will be <code>\\\\</code> !!</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="character-classes" class="section level3">
+<h3><span class="header-section-number">21.1.2</span> Character classes</h3>
+<p>You can specify groups of characters that are all equally valid to match a position using character classes. They can be specified in many ways.</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="87%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Character class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>.</td>
+<td>Any character</td>
+</tr>
+<tr class="even">
+<td>[]</td>
+<td>Set definition, eg [a-z] matches all lowercase characters; [aAbB1234] matches an a, A, b, B or numbers 1, 2 ,3, 4</td>
+</tr>
+<tr class="odd">
+<td>[^]</td>
+<td>Negated set definition, eg [^a-z] matches anything BUT lowercase characters</td>
+</tr>
+<tr class="even">
+<td>X|Z</td>
+<td>Matches X or Z (either one will suffice)</td>
+</tr>
+<tr class="odd">
+<td>^regex</td>
+<td>Anchors regex at beginning of line</td>
+</tr>
+<tr class="even">
+<td>regex$</td>
+<td>Anchors regex at end of line</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Any digit, [0-9]; any non-digit, [^0-9]</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Any whitespace character; any non-whitespace character</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>A word character, short for [a-zA-Z_0-9]; same but negated</td>
+</tr>
+<tr class="even">
+<td> Word boundary</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </div>
+<div id="regex-quantifiers" class="section level3">
+<h3><span class="header-section-number">21.1.3</span> Regex quantifiers</h3>
+<p>Quantifiers let you modify how often a group or character is allowed.</p>
+<table>
+<colgroup>
+<col width="10%" />
+<col width="89%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantifier</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>{x}</td>
+<td>Occurs exactly x times</td>
+</tr>
+<tr class="even">
+<td>{x, }</td>
+<td>Occurs at least x times</td>
+</tr>
+<tr class="odd">
+<td>{, x}</td>
+<td>Occurs at the most x times</td>
+</tr>
+<tr class="even">
+<td>*</td>
+<td>Occurs zero or more times; same as {0, }</td>
+</tr>
+<tr class="odd">
+<td>+</td>
+<td>Occurs one or more times; same as {1, }</td>
+</tr>
+<tr class="even">
+<td>?</td>
+<td>Occurs zero or one time; same as {0, 1}</td>
+</tr>
+<tr class="odd">
+<td>*?</td>
+<td>Non-greedy: “?” after a quantifier makes it a reluctant quantifier, it tries to find the smallest match</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="grouping-and-backreferencing" class="section level3">
+<h3><span class="header-section-number">21.1.4</span> Grouping and backreferencing</h3>
+<p>Using parentheses, you can group parts of your regex.
+They can be used to
+- Retrieve or substitute parts of a regex
+- Apply quantifiers to groups
+- use back referencing</p>
+<p>Via the <code>$</code> you can refer to a group. <code>$1</code> is the first group, <code>$2</code> the second, etc (see examples).</p>
+<p>Similarly, back referencing is used to repeat pattern matches; this will replace all repeating character patterns:</p>
+<div class="sourceCode" id="cb164"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb164-1"><a href="regular-expressions.html#cb164-1"></a><span class="st">&quot;ABCDEEEFGGHIJJJKL&quot;</span>.<span class="fu">replaceAll</span>(<span class="st">&quot;(</span><span class="sc">\\</span><span class="st">w)</span><span class="sc">\\</span><span class="st">1+&quot;</span>, <span class="st">&quot;_rep_&quot;</span>)</span></code></pre></div>
+<p>resulting in <code>ABCD_rep_F_rep_HI_rep_KL</code>.</p>
+</div>
+</div>
+<div id="methods-of-class-string" class="section level2">
+<h2><span class="header-section-number">21.2</span> Methods of class String</h2>
+<p>Many of the common tasks can be performed using the String class only.</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="76%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>s.matches(regex)</td>
+<td>Tells whether or not this string matches the given regular expression.</td>
+</tr>
+<tr class="even">
+<td>s.split(regex)</td>
+<td>Splits this string around matches of the given regular expression</td>
+</tr>
+<tr class="odd">
+<td>s.split(regex, limit)</td>
+<td>Idem, but the <code>limit</code> parameter controls the number of times the pattern is applied</td>
+</tr>
+<tr class="even">
+<td>s.replaceAll(regex, replacement)</td>
+<td>Replaces each substring of this string that matches the given regular expression with the given replacement</td>
+</tr>
+<tr class="odd">
+<td>s.replaceFirst(regex, replacement)</td>
+<td>Replaces the first substring of this string that matches the given regular expression with the given replacement.</td>
+</tr>
+</tbody>
+</table>
+<p>Here are some examples.</p>
+<div class="sourceCode" id="cb165"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb165-1"><a href="regular-expressions.html#cb165-1"></a><span class="bu">String</span> input = <span class="st">&quot;Dogs rule this doggin&#39; world&quot;</span>;</span>
+<span id="cb165-2"><a href="regular-expressions.html#cb165-2"></a><span class="co">//replace() works with literal string!</span></span>
+<span id="cb165-3"><a href="regular-expressions.html#cb165-3"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(input.<span class="fu">replace</span>(<span class="st">&quot;[Dd]og&quot;</span>, <span class="st">&quot;Cat&quot;</span>));</span>
+<span id="cb165-4"><a href="regular-expressions.html#cb165-4"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(input.<span class="fu">replace</span>(<span class="st">&quot;Dog&quot;</span>, <span class="st">&quot;Cat&quot;</span>));</span>
+<span id="cb165-5"><a href="regular-expressions.html#cb165-5"></a><span class="co">//replaceAll() works with regex!</span></span>
+<span id="cb165-6"><a href="regular-expressions.html#cb165-6"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(input.<span class="fu">replaceAll</span>(<span class="st">&quot;[Dd]og&quot;</span>, <span class="st">&quot;Cat&quot;</span>));</span>
+<span id="cb165-7"><a href="regular-expressions.html#cb165-7"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="bu">Arrays</span>.<span class="fu">toString</span>(input.<span class="fu">split</span>(<span class="st">&quot;[Dd]&quot;</span>)));</span>
+<span id="cb165-8"><a href="regular-expressions.html#cb165-8"></a><span class="co">//matches() looks at whole target string.</span></span>
+<span id="cb165-9"><a href="regular-expressions.html#cb165-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(input.<span class="fu">matches</span>(<span class="st">&quot;[Dd]ogs&quot;</span>));</span>
+<span id="cb165-10"><a href="regular-expressions.html#cb165-10"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(input.<span class="fu">matches</span>(<span class="st">&quot;^[Dd]ogs.+&quot;</span>));</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+Dogs rule this doggin' world
+Cats rule this doggin' world
+Cats rule this Catgin' world
+[, ogs rule this , oggin' worl]
+false
+true
+</pre>
+<p>Some more advanced examples:</p>
+<div class="sourceCode" id="cb166"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb166-1"><a href="regular-expressions.html#cb166-1"></a><span class="bu">String</span> INPUT = <span class="st">&quot;This is the &lt;title&gt;example&lt;/title&gt; &quot;</span> </span>
+<span id="cb166-2"><a href="regular-expressions.html#cb166-2"></a>    + <span class="st">&quot;string which , I&#39;m going to use for pattern matching.&quot;</span>;</span>
+<span id="cb166-3"><a href="regular-expressions.html#cb166-3"></a></span>
+<span id="cb166-4"><a href="regular-expressions.html#cb166-4"></a><span class="co">// Split on whitespace stretches</span></span>
+<span id="cb166-5"><a href="regular-expressions.html#cb166-5"></a><span class="bu">String</span>[] splitString = (INPUT.<span class="fu">split</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">s+&quot;</span>));</span>
+<span id="cb166-6"><a href="regular-expressions.html#cb166-6"></a></span>
+<span id="cb166-7"><a href="regular-expressions.html#cb166-7"></a><span class="co">// Removes whitespace between a word character and . or ,</span></span>
+<span id="cb166-8"><a href="regular-expressions.html#cb166-8"></a><span class="bu">String</span> pattern = <span class="st">&quot;(</span><span class="sc">\\</span><span class="st">w)(</span><span class="sc">\\</span><span class="st">s+)([</span><span class="sc">\\</span><span class="st">.,])&quot;</span>;</span>
+<span id="cb166-9"><a href="regular-expressions.html#cb166-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(INPUT.<span class="fu">replaceAll</span>(pattern, <span class="st">&quot;$1$3&quot;</span>)); </span>
+<span id="cb166-10"><a href="regular-expressions.html#cb166-10"></a></span>
+<span id="cb166-11"><a href="regular-expressions.html#cb166-11"></a><span class="co">// Extract the text between the two title elements of</span></span>
+<span id="cb166-12"><a href="regular-expressions.html#cb166-12"></a>pattern = <span class="st">&quot;(?i)(&lt;title.*?&gt;)(.+?)(&lt;/title&gt;)&quot;</span>;</span>
+<span id="cb166-13"><a href="regular-expressions.html#cb166-13"></a><span class="bu">String</span> updated = INPUT.<span class="fu">replaceAll</span>(pattern, <span class="st">&quot;$2&quot;</span>); </span>
+<span id="cb166-14"><a href="regular-expressions.html#cb166-14"></a></span>
+<span id="cb166-15"><a href="regular-expressions.html#cb166-15"></a><span class="co">// prints true if the string contains a number less then 300</span></span>
+<span id="cb166-16"><a href="regular-expressions.html#cb166-16"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(s.<span class="fu">matches</span>(<span class="st">&quot;[^0-9]*[12]?[0-9]{1,2}[^0-9]*&quot;</span>));</span></code></pre></div>
+<p>Note that adjusting the regex mode with <code>(?i)&lt;regex&gt;</code> makes the regex case insensitive.</p>
+</div>
+<div id="pattern-matcher" class="section level2">
+<h2><span class="header-section-number">21.3</span> Pattern &amp; Matcher</h2>
+<p>For more complex tasks, use class <code>Pattern</code> to specify it and class <code>Matcher</code> to find, replace or extract it.</p>
+<p>Here is a typical use case:</p>
+<div class="sourceCode" id="cb167"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb167-1"><a href="regular-expressions.html#cb167-1"></a>        <span class="co">//with case insensitive matching</span></span>
+<span id="cb167-2"><a href="regular-expressions.html#cb167-2"></a>        <span class="bu">Pattern</span> hinc2 = <span class="bu">Pattern</span>.<span class="fu">compile</span>(<span class="st">&quot;(?i)(GT([CT][AG])AC)&quot;</span>);</span>
+<span id="cb167-3"><a href="regular-expressions.html#cb167-3"></a>        <span class="bu">Matcher</span> matcher = hinc2.<span class="fu">matcher</span>(<span class="st">&quot;GTCAACtgttgaccc&quot;</span>);</span>
+<span id="cb167-4"><a href="regular-expressions.html#cb167-4"></a></span>
+<span id="cb167-5"><a href="regular-expressions.html#cb167-5"></a>        <span class="kw">while</span> (matcher.<span class="fu">find</span>()) {</span>
+<span id="cb167-6"><a href="regular-expressions.html#cb167-6"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;matcher.group() = &quot;</span> + matcher.<span class="fu">group</span>());</span>
+<span id="cb167-7"><a href="regular-expressions.html#cb167-7"></a>            <span class="co">//whole pattern - same as group()</span></span>
+<span id="cb167-8"><a href="regular-expressions.html#cb167-8"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;matcher.group(0) = &quot;</span> + matcher.<span class="fu">group</span>(<span class="dv">0</span>));</span>
+<span id="cb167-9"><a href="regular-expressions.html#cb167-9"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;matcher.group(2) = &quot;</span> + matcher.<span class="fu">group</span>(<span class="dv">2</span>));</span>
+<span id="cb167-10"><a href="regular-expressions.html#cb167-10"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;matcher.start() = &quot;</span> + matcher.<span class="fu">start</span>());</span>
+<span id="cb167-11"><a href="regular-expressions.html#cb167-11"></a>        }</span>
+<span id="cb167-12"><a href="regular-expressions.html#cb167-12"></a></span>
+<span id="cb167-13"><a href="regular-expressions.html#cb167-13"></a>        <span class="co">//with chained method calls - replace with group capture</span></span>
+<span id="cb167-14"><a href="regular-expressions.html#cb167-14"></a>        <span class="dt">final</span> <span class="bu">String</span> replaced = hinc2.<span class="fu">matcher</span>(<span class="st">&quot;GTCAACtgttgaccc&quot;</span>).<span class="fu">replaceAll</span>(<span class="st">&quot;[[$1]]&quot;</span>);</span>
+<span id="cb167-15"><a href="regular-expressions.html#cb167-15"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;replaced = &quot;</span> + replaced);</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+matcher.group() = GTCAAC
+matcher.group(0) = GTCAAC
+matcher.group(2) = CA
+matcher.start() = 0
+matcher.group() = gttgac
+matcher.group(0) = gttgac
+matcher.group(2) = tg
+matcher.start() = 7
+replaced = [[GTCAAC]]t[[gttgac]]cc
+</pre>
+<p>Note: <strong>when a <code>Pattern</code> object is used more than once, a compiled version should be cashed!</strong> Usually this is done in an instance or class variable.</p>
+<p>There is much more to regex of course; GIYF for more detailed use cases.</p>
+
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="file-io.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="encapsulation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

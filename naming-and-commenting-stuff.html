@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 7 Naming and commenting stuff | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 7 Naming and commenting stuff | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 7 Naming and commenting stuff | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="basic-program-structure-and-flow.html"/>
+<link rel="next" href="data-types.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="naming-and-commenting-stuff" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Naming and commenting stuff</h1>
+<p>Anyone who knows me (as a teacher) knows that (a) I really like Java and (b) I really really hate it when stuff gets named in the wrong way.</p>
+<div id="naming" class="section level2">
+<h2><span class="header-section-number">7.1</span> Naming</h2>
+<p>Experienced programmers can read code as if it is a nice book. When doing this, we rely on
+some conventions, just like in real language. For instance, in regular human text, names start with a
+capital, and sentences have a certain grammatical structure that makes it possible to read quickly without too much confusion. Whenever texts do not adhere to these rules or conventions, reading becomes very difficult.<br />
+Programming languages are no different, and naming and layout-conventions help human readers to makes sense of it really quickly.</p>
+<p>Java has a concise set of naming rules that you should adopt from your first endeavors. Here are the most important ones.</p>
+<p>For all names -classes, methods, variables- the single most important rule is that they should <strong><em>describe what they model in a precise and concise way</em></strong>. For instance, a valid counter for te number of logins in a system could be <code>c</code>, <code>count</code>, <code>counter</code> or <code>loginCounter</code>, but only the last is really informative to anyone reading te code.</p>
+<p>The second general rule is that Java identifiers are always in <strong><em>CamelCase</em></strong>, with the exception of certain types of constants. Also, never start names with a number and do not use special characters! These are illegal and will not compile: <code>1forTheMoney</code>, <code>k#ller</code>.</p>
+<div id="classes" class="section level4">
+<h4><span class="header-section-number">7.1.0.1</span> Classes</h4>
+<p>Class names should be a noun, in camel case, with the first letter capitalized. Here are a few good and bad examples for names of a class reading GFF data from a file:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb34-1"><a href="naming-and-commenting-stuff.html#cb34-1"></a><span class="kw">class</span> Read {} <span class="co">//bad - no noun and vague</span></span>
+<span id="cb34-2"><a href="naming-and-commenting-stuff.html#cb34-2"></a><span class="kw">class</span> <span class="bu">Reader</span> {} <span class="co">//bad, vague</span></span>
+<span id="cb34-3"><a href="naming-and-commenting-stuff.html#cb34-3"></a><span class="kw">class</span> DataReader {} <span class="co">//bad, still vague</span></span>
+<span id="cb34-4"><a href="naming-and-commenting-stuff.html#cb34-4"></a><span class="kw">class</span> dataReader {} <span class="co">// bad - starts with lowercase</span></span>
+<span id="cb34-5"><a href="naming-and-commenting-stuff.html#cb34-5"></a><span class="kw">class</span> Data_Reader {} <span class="co">// bad - underscore is not camelcase</span></span>
+<span id="cb34-6"><a href="naming-and-commenting-stuff.html#cb34-6"></a><span class="kw">class</span> GffRead {} <span class="co">//bad, not a noun</span></span>
+<span id="cb34-7"><a href="naming-and-commenting-stuff.html#cb34-7"></a><span class="kw">class</span> GffReader {} <span class="co">//good: a noun and specific</span></span></code></pre></div>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="methods" class="section level4">
+<h4><span class="header-section-number">7.1.0.2</span> Methods</h4>
+<p>Method names should be a verb, in camel case. Here some examples for a method name calculating the Euclidean distance between two Point objects:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb35-1"><a href="naming-and-commenting-stuff.html#cb35-1"></a><span class="dt">double</span> <span class="fu">d</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">//bad - no verb and vague</span></span>
+<span id="cb35-2"><a href="naming-and-commenting-stuff.html#cb35-2"></a><span class="dt">double</span> <span class="fu">distance</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">// bad - no verb and still slightly vague</span></span>
+<span id="cb35-3"><a href="naming-and-commenting-stuff.html#cb35-3"></a><span class="dt">double</span> <span class="fu">euclidean_distance</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">//bad, no camel case</span></span>
+<span id="cb35-4"><a href="naming-and-commenting-stuff.html#cb35-4"></a><span class="dt">double</span> <span class="fu">EuclideanDistance</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">// bad - starts with uppercase character</span></span>
+<span id="cb35-5"><a href="naming-and-commenting-stuff.html#cb35-5"></a><span class="dt">double</span> <span class="fu">euclideanDistance</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">// almost good, but no noun</span></span>
+<span id="cb35-6"><a href="naming-and-commenting-stuff.html#cb35-6"></a><span class="dt">double</span> <span class="fu">getEuclideanDistance</span>(<span class="bu">Point</span> otherPoint) {} <span class="co">//finally OK</span></span></code></pre></div>
 </div>
+<div id="variables" class="section level4">
+<h4><span class="header-section-number">7.1.0.3</span> Variables</h4>
+<p>Variable names should be nouns as well, but starting in lowercase:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb36-1"><a href="naming-and-commenting-stuff.html#cb36-1"></a><span class="dt">double</span> r; <span class="co">//plain bad</span></span>
+<span id="cb36-2"><a href="naming-and-commenting-stuff.html#cb36-2"></a><span class="dt">double</span> ratio; <span class="co">//bad - what ratio?</span></span>
+<span id="cb36-3"><a href="naming-and-commenting-stuff.html#cb36-3"></a><span class="dt">double</span> Ratio; <span class="co">//bad - starts with uppercase</span></span>
+<span id="cb36-4"><a href="naming-and-commenting-stuff.html#cb36-4"></a><span class="dt">double</span> screen_ratio; <span class="co">//bad - underscore</span></span>
+<span id="cb36-5"><a href="naming-and-commenting-stuff.html#cb36-5"></a><span class="dt">double</span> screenAspectRatio; <span class="co">//good: noun and descriptive</span></span></code></pre></div>
+</div>
+</div>
+<div id="commenting" class="section level2">
+<h2><span class="header-section-number">7.2</span> Commenting</h2>
+<p>There are three ways for commenting:</p>
+<ul>
+<li>Javadoc style: <code>/**\&lt;LINE(S)\&gt;*/</code> these are the most important because they end up in your documentation!</li>
+<li>multiline comment <code>/*\&lt;LINE(S)\&gt;*/</code></li>
+<li>single line comment <code>//\&lt;SINGLE LINE\&gt;</code></li>
+</ul>
+<p>Here are some examples:</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb37-1"><a href="naming-and-commenting-stuff.html#cb37-1"></a><span class="co">/**</span></span>
+<span id="cb37-2"><a href="naming-and-commenting-stuff.html#cb37-2"></a> <span class="co">*</span> This is a Javadoc comment for the class<span class="co">:</span> it describes what the class models and should be used for<span class="co">.</span></span>
+<span id="cb37-3"><a href="naming-and-commenting-stuff.html#cb37-3"></a> <span class="co">*</span> Also<span class="co">,</span> version and author information can be put here<span class="co">.</span></span>
+<span id="cb37-4"><a href="naming-and-commenting-stuff.html#cb37-4"></a> <span class="co">*</span> <span class="an">@author </span>Michiel</span>
+<span id="cb37-5"><a href="naming-and-commenting-stuff.html#cb37-5"></a> <span class="co">*</span> <span class="an">@version </span><span class="co">0.1</span></span>
+<span id="cb37-6"><a href="naming-and-commenting-stuff.html#cb37-6"></a> <span class="co">*</span> <span class="co">*/</span></span>
+<span id="cb37-7"><a href="naming-and-commenting-stuff.html#cb37-7"></a><span class="kw">public</span> <span class="kw">class</span> Duck {</span>
+<span id="cb37-8"><a href="naming-and-commenting-stuff.html#cb37-8"></a>    <span class="co">/**</span></span>
+<span id="cb37-9"><a href="naming-and-commenting-stuff.html#cb37-9"></a>     <span class="co">*</span> This is a Javadoc comment for a method<span class="co">.</span></span>
+<span id="cb37-10"><a href="naming-and-commenting-stuff.html#cb37-10"></a>     <span class="co">*</span> It should include tags for method arguments<span class="co">,</span> exceptions and return types<span class="co">.</span></span>
+<span id="cb37-11"><a href="naming-and-commenting-stuff.html#cb37-11"></a>     <span class="co">*</span> <span class="an">@param loudness</span></span>
+<span id="cb37-12"><a href="naming-and-commenting-stuff.html#cb37-12"></a>     <span class="co">*/</span></span>
+<span id="cb37-13"><a href="naming-and-commenting-stuff.html#cb37-13"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">quack</span>(<span class="dt">int</span> loudness) {</span>
+<span id="cb37-14"><a href="naming-and-commenting-stuff.html#cb37-14"></a>        <span class="co">//single-line logic comment</span></span>
+<span id="cb37-15"><a href="naming-and-commenting-stuff.html#cb37-15"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Quacking at level &quot;</span> + loudness);</span>
+<span id="cb37-16"><a href="naming-and-commenting-stuff.html#cb37-16"></a>        <span class="co">/*I can write a multiline block of</span></span>
+<span id="cb37-17"><a href="naming-and-commenting-stuff.html#cb37-17"></a><span class="co">        * comment like this*/</span></span>
+<span id="cb37-18"><a href="naming-and-commenting-stuff.html#cb37-18"></a>    }</span>
+<span id="cb37-19"><a href="naming-and-commenting-stuff.html#cb37-19"></a>}</span></code></pre></div>
+<p>Here is a screenshot of part of the the corresponding Javadoc html:</p>
+<div class="figure">
+<img src="01_getting_started/figures/javadoc_duck_1.png" alt="" />
+<p class="caption">Javadoc</p>
+</div>
+<p>I strongly encourage you to try this out for yourself: create a class, put some javadoc
+comments in it and run “Tasks -&gt; documentation -&gt; javadoc” from the Gradle tool window.
+The javadoc folder will be located in the <code>build/docs/</code> folder.
+The javadoc tool will issue warnings but proceed for some inconsistencies, but errors and abort for others. The warnings and errors are pretty clear, fortunately.</p>
+
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="basic-program-structure-and-flow.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="data-types.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

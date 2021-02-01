@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 9 Arrays | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 9 Arrays | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 9 Arrays | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="data-types.html"/>
+<link rel="next" href="operators.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,126 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="arrays" class="section level1">
+<h1><span class="header-section-number">Chapter 9</span> Arrays</h1>
+<p>Just like any programming language, Java knows about arrays.
+Arrays are ordered collections of variables of the same type.
+These elements can by any valid Java type: primitives,
+object references, or even null values.</p>
+<p>These variables are not individually named and managed, but collectively.</p>
+<p>In real life, you don’t use arrays too much because other types (ArrayList)
+are often more convenient because arrays can’t be extended or shortened and
+don’t have all those nice helper methods that ArrayList has
+(see the <a href="collections_io/collections.md">collections post</a>). However, arrays
+certainly have their use when (memory) efficiency is an issue, or when you want
+to go multidimensional.</p>
+<p>Of course, the String array <code>String[] args</code> is the entry point of outside arguments into any
+Java program:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb55-1"><a href="arrays.html#cb55-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb55-2"><a href="arrays.html#cb55-2"></a>    <span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; args.<span class="fu">length</span>; i++) {</span>
+<span id="cb55-3"><a href="arrays.html#cb55-3"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;argument &quot;</span> + i + <span class="st">&quot; is &quot;</span> + args[i]);</span>
+<span id="cb55-4"><a href="arrays.html#cb55-4"></a>    }</span>
+<span id="cb55-5"><a href="arrays.html#cb55-5"></a>}</span></code></pre></div>
+<div id="creating-arrays" class="section level2">
+<h2><span class="header-section-number">9.1</span> Creating arrays</h2>
+<p>To create an array, you have to specify what type it will hold, and how many elements
+it will hold. This can be done via:</p>
+<ol style="list-style-type: decimal">
+<li>passing the size as a “constructor” argument</li>
+<li>declaring a literal</li>
+</ol>
+<p>Here are both ways for primitives and reference type elements.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb56-1"><a href="arrays.html#cb56-1"></a><span class="co">//create by specifying size - will contain zeros</span></span>
+<span id="cb56-2"><a href="arrays.html#cb56-2"></a><span class="dt">int</span>[] numbers = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">5</span>];</span>
+<span id="cb56-3"><a href="arrays.html#cb56-3"></a><span class="co">//create by specifying contents</span></span>
+<span id="cb56-4"><a href="arrays.html#cb56-4"></a><span class="dt">double</span>[] scores = {<span class="fl">2.</span><span class="dv">1</span>, <span class="fl">3.</span><span class="dv">0</span>, <span class="fl">4.</span><span class="dv">5</span>, <span class="fl">5.</span><span class="dv">6</span>};</span>
+<span id="cb56-5"><a href="arrays.html#cb56-5"></a><span class="co">//create by specifying size - will contain nulls</span></span>
+<span id="cb56-6"><a href="arrays.html#cb56-6"></a>Cell[] cells1 = <span class="kw">new</span> Cell[<span class="dv">6</span>];</span>
+<span id="cb56-7"><a href="arrays.html#cb56-7"></a><span class="co">//create by specifying contents</span></span>
+<span id="cb56-8"><a href="arrays.html#cb56-8"></a>Cell[] cells2 = {<span class="kw">new</span> <span class="fu">Cell</span>(), <span class="kw">new</span> <span class="fu">Cell</span>(), <span class="kw">new</span> <span class="fu">Cell</span>()};</span></code></pre></div>
+<p>Note that when only the size is specified, the array will be filled with the type’s <strong><em>default value</em></strong>,
+which is:</p>
+<ul>
+<li><code>false</code> for <code>boolean</code></li>
+<li><code>u0000</code> for <code>char</code></li>
+<li>0 or 0.0 for numeric types (<code>byte</code>, <code>short</code>, <code>int</code>, <code>long</code>)</li>
+<li><code>null</code> for reference types</li>
+</ul>
+<p>An array of primitives will actually contain the primitive values.</p>
+<div class="figure">
+<img src="02_syntax/figures/array_2.png" alt="" />
+<p class="caption">An array of primitives</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>An array of objects will hold the references to the objects, not the objects themselves</p>
+<div class="figure">
+<img src="02_syntax/figures/array_3.png" alt="" />
+<p class="caption">an array of objects</p>
+</div>
+</div>
+<div id="printing" class="section level2">
+<h2><span class="header-section-number">9.2</span> Printing</h2>
+<p>If you want to print an entire array, use the method <code>Arrays.toString()</code>:</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb57-1"><a href="arrays.html#cb57-1"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;bytes = &quot;</span> + <span class="bu">Arrays</span>.<span class="fu">toString</span>(bytes));</span></code></pre></div>
+</div>
+<div id="accessing" class="section level2">
+<h2><span class="header-section-number">9.3</span> Accessing</h2>
+<p>To get to an element of an array, you use an index. Java array indexing starts at zero.</p>
+<div class="figure">
+<img src="02_syntax/figures/array_1.png" alt="" />
+<p class="caption">Array indexing</p>
+</div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb58-1"><a href="arrays.html#cb58-1"></a><span class="dt">int</span>[] numbers = <span class="kw">new</span> <span class="dt">int</span>[<span class="dv">7</span>];</span>
+<span id="cb58-2"><a href="arrays.html#cb58-2"></a>numbers[<span class="dv">0</span>] = <span class="dv">42</span>;</span>
+<span id="cb58-3"><a href="arrays.html#cb58-3"></a>numbers[<span class="dv">4</span>] = <span class="dv">22</span>;</span></code></pre></div>
+<div class="figure">
+<img src="02_syntax/figures/array_2.png" alt="" />
+<p class="caption">Array indexing</p>
+</div>
+<p>Arrays are often created and accessed using a for loop:</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb59-1"><a href="arrays.html#cb59-1"></a>Cell[] cells = <span class="kw">new</span> Cell[number];</span>
+<span id="cb59-2"><a href="arrays.html#cb59-2"></a><span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; number; i++) {</span>
+<span id="cb59-3"><a href="arrays.html#cb59-3"></a>    cells[i] = <span class="kw">new</span> <span class="fu">Cell</span>();</span>
+<span id="cb59-4"><a href="arrays.html#cb59-4"></a>}</span></code></pre></div>
+<p>Or, if you like, the new post-Java-8 way:</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb60-1"><a href="arrays.html#cb60-1"></a><span class="dt">int</span> size = <span class="dv">10</span>;</span>
+<span id="cb60-2"><a href="arrays.html#cb60-2"></a>Cell[] cells = <span class="kw">new</span> Cell[size];</span>
+<span id="cb60-3"><a href="arrays.html#cb60-3"></a>IntStream.<span class="fu">range</span>(<span class="dv">0</span>, size)</span>
+<span id="cb60-4"><a href="arrays.html#cb60-4"></a>    .<span class="fu">forEach</span>(n -&gt; cells[n] = <span class="kw">new</span> <span class="fu">Cell</span>());</span>
+<span id="cb60-5"><a href="arrays.html#cb60-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;cells = &quot;</span> + <span class="bu">Arrays</span>.<span class="fu">toString</span>(cells));</span></code></pre></div>
+</div>
+<div id="multidimensional-arrays" class="section level2">
+<h2><span class="header-section-number">9.4</span> Multidimensional arrays</h2>
+<p>Multidimensional arrays have their use. Usually with numeric settings. You can up the number of dimensions way into the hypothetical realm. Here is an example of a two-dimensional one:</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb61-1"><a href="arrays.html#cb61-1"></a><span class="dt">final</span> <span class="dt">int</span> sideLength = <span class="dv">5</span>;</span>
+<span id="cb61-2"><a href="arrays.html#cb61-2"></a><span class="co">//creates 5*5 array</span></span>
+<span id="cb61-3"><a href="arrays.html#cb61-3"></a><span class="dt">int</span>[][] scoreBoard = <span class="kw">new</span> <span class="dt">int</span>[sideLength][sideLength];</span>
+<span id="cb61-4"><a href="arrays.html#cb61-4"></a><span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; sideLength ; i++) {</span>
+<span id="cb61-5"><a href="arrays.html#cb61-5"></a>    <span class="kw">for</span> (<span class="dt">int</span> j = <span class="dv">0</span>; j &lt; sideLength; j++) {</span>
+<span id="cb61-6"><a href="arrays.html#cb61-6"></a>        scoreBoard[i][j] = i*j;</span>
+<span id="cb61-7"><a href="arrays.html#cb61-7"></a>    }</span>
+<span id="cb61-8"><a href="arrays.html#cb61-8"></a>}</span>
+<span id="cb61-9"><a href="arrays.html#cb61-9"></a></span>
+<span id="cb61-10"><a href="arrays.html#cb61-10"></a><span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; sideLength ; i++) {</span>
+<span id="cb61-11"><a href="arrays.html#cb61-11"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="bu">Arrays</span>.<span class="fu">toString</span>(scoreBoard[i]));</span>
+<span id="cb61-12"><a href="arrays.html#cb61-12"></a>}</span></code></pre></div>
+<p>will output:</p>
+<pre class="console_out">
+[0, 0, 0, 0, 0]
+[0, 1, 2, 3, 4]
+[0, 2, 4, 6, 8]
+[0, 3, 6, 9, 12]
+[0, 4, 8, 12, 16]
+</pre>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="data-types.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="operators.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

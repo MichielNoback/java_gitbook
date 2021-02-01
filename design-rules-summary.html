@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 27 Design rules summary | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 27 Design rules summary | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 27 Design rules summary | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="encapsulation-revisited.html"/>
+<link rel="next" href="a-refresher.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="design-rules-summary" class="section level1">
+<h1><span class="header-section-number">Chapter 27</span> Design rules summary</h1>
+<div id="equals-and-hashcode" class="section level2">
+<h2><span class="header-section-number">27.1</span> equals() and hashCode()</h2>
+<ul>
+<li>Always implement equals() and hashCode(), when objects are going to live in collections (which is quite often!)</li>
+<li>Always implement both equals and hashCode; never only one!</li>
+<li>And have your IDE generate it for you…</li>
+</ul>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="classes-1" class="section level2">
+<h2><span class="header-section-number">27.2</span> Classes</h2>
+<ul>
+<li>When a class defines an instance variable that needs to be initialized in order to have an object that makes sense, and you can not give it a reasonable default value, you should make it a constructor parameter</li>
+<li>Consider the use of factory methods instead of constructors</li>
+<li>Make classes abstract that should not be instantiated</li>
+<li>Chain constructors using <code>this(fieldValue, fieldValue)</code></li>
+</ul>
 </div>
+<div id="code-against-interfaces-not-implementations-1" class="section level2">
+<h2><span class="header-section-number">27.3</span> Code against interfaces, not implementations</h2>
+<p>Use interfaces and abstract classes as the declared type of your variables. That way, implementation details may change without serious repercussions.</p>
+</div>
+<div id="exceptions-1" class="section level2">
+<h2><span class="header-section-number">27.4</span> Exceptions</h2>
+<ul>
+<li>Never let exceptions pass silently</li>
+<li>Deal with exceptions at an appropriate location</li>
+<li>Nowadays, the trend is to prefer unchecked exceptions over checked exceptions (see discussion at <a href="http://www.yegor256.com/2015/07/28/checked-vs-unchecked-exceptions.html" class="uri">http://www.yegor256.com/2015/07/28/checked-vs-unchecked-exceptions.html</a>)</li>
+<li>Never ever try to catch an Error</li>
+</ul>
+</div>
+<div id="access-modifiers-1" class="section level2">
+<h2><span class="header-section-number">27.5</span> Access modifiers</h2>
+<ul>
+<li>Minimize the accessibility of class members(fields, methods, member classes).</li>
+<li>Use getters and setters to intercept and control access to fields.</li>
+</ul>
+<p>Changing public API methods is almost impossible since it will create backward incompatibility.</p>
+</div>
+<div id="srp" class="section level2">
+<h2><span class="header-section-number">27.6</span> SRP</h2>
+<ul>
+<li>A module, class or method should have one, and only one, reason to change.</li>
+</ul>
+<p>Alternative description: every module, class, or function should have responsibility over a single part of the functionality, and that responsibility should be entirely encapsulated by the class</p>
+</div>
+<div id="various" class="section level2">
+<h2><span class="header-section-number">27.7</span> Various</h2>
+<ul>
+<li>Prefer enums to define a static set of possible values for a given property above <code>public static final</code> constants</li>
+<li>Always put Java classes in well-defined packages with a correct name structure</li>
+</ul>
+
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="encapsulation-revisited.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="a-refresher.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

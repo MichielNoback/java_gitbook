@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 15 Interfaces | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 15 Interfaces | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 15 Interfaces | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="the-power-of-naming.html"/>
+<link rel="next" href="the-java-collections-api.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,220 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="interfaces" class="section level1">
+<h1><span class="header-section-number">Chapter 15</span> Interfaces</h1>
+<p>So far, you have seen two basic types: primitives and classes. Classes have instance variables and methods acting on these. Here is an example.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb97-1"><a href="interfaces.html#cb97-1"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequence</span> {</span>
+<span id="cb97-2"><a href="interfaces.html#cb97-2"></a>    <span class="bu">String</span> sequence;</span>
+<span id="cb97-3"><a href="interfaces.html#cb97-3"></a>    <span class="bu">String</span> name;</span>
+<span id="cb97-4"><a href="interfaces.html#cb97-4"></a></span>
+<span id="cb97-5"><a href="interfaces.html#cb97-5"></a>    <span class="co">/**</span></span>
+<span id="cb97-6"><a href="interfaces.html#cb97-6"></a>     <span class="co">*</span> returns the molecular weight<span class="co">,</span> in Daltons</span>
+<span id="cb97-7"><a href="interfaces.html#cb97-7"></a>     <span class="co">* </span><span class="an">@return </span>weightInDaltons</span>
+<span id="cb97-8"><a href="interfaces.html#cb97-8"></a>     <span class="co">*/</span></span>
+<span id="cb97-9"><a href="interfaces.html#cb97-9"></a>    <span class="dt">double</span> <span class="fu">getMolecularWeight</span>() {</span>
+<span id="cb97-10"><a href="interfaces.html#cb97-10"></a>        <span class="dt">double</span> weight = <span class="dv">0</span>;</span>
+<span id="cb97-11"><a href="interfaces.html#cb97-11"></a>        <span class="co">//implementation to calculate weight</span></span>
+<span id="cb97-12"><a href="interfaces.html#cb97-12"></a>        <span class="kw">return</span> weight;</span>
+<span id="cb97-13"><a href="interfaces.html#cb97-13"></a>    }</span>
+<span id="cb97-14"><a href="interfaces.html#cb97-14"></a></span>
+<span id="cb97-15"><a href="interfaces.html#cb97-15"></a>    <span class="co">/**</span></span>
+<span id="cb97-16"><a href="interfaces.html#cb97-16"></a>     <span class="co">*</span> Mutates a single position and returns a modified copy<span class="co">.</span></span>
+<span id="cb97-17"><a href="interfaces.html#cb97-17"></a>     <span class="co">*</span> This object itself is NOT mutated<span class="co">!</span></span>
+<span id="cb97-18"><a href="interfaces.html#cb97-18"></a>     <span class="co">*</span> <span class="an">@param position</span></span>
+<span id="cb97-19"><a href="interfaces.html#cb97-19"></a>     <span class="co">*</span> <span class="an">@param newCharacter</span></span>
+<span id="cb97-20"><a href="interfaces.html#cb97-20"></a>     <span class="co">*</span> <span class="an">@return </span>mutatedSequence</span>
+<span id="cb97-21"><a href="interfaces.html#cb97-21"></a>     <span class="co">*/</span></span>
+<span id="cb97-22"><a href="interfaces.html#cb97-22"></a>    <span class="bu">Sequence</span> <span class="fu">mutate</span>(<span class="dt">int</span> position, <span class="dt">char</span> newCharacter) {</span>
+<span id="cb97-23"><a href="interfaces.html#cb97-23"></a>        <span class="bu">StringBuilder</span> stringBuilder = <span class="kw">new</span> <span class="bu">StringBuilder</span>(<span class="kw">this</span>.<span class="fu">sequence</span>);</span>
+<span id="cb97-24"><a href="interfaces.html#cb97-24"></a>        stringBuilder.<span class="fu">setCharAt</span>(position, newCharacter);</span>
+<span id="cb97-25"><a href="interfaces.html#cb97-25"></a>        <span class="bu">Sequence</span> mutatedSequence = <span class="kw">new</span> <span class="bu">Sequence</span>();</span>
+<span id="cb97-26"><a href="interfaces.html#cb97-26"></a>        mutatedSequence.<span class="fu">sequence</span> = stringBuilder.<span class="fu">toString</span>();</span>
+<span id="cb97-27"><a href="interfaces.html#cb97-27"></a>        <span class="kw">return</span> mutatedSequence;</span>
+<span id="cb97-28"><a href="interfaces.html#cb97-28"></a>    }</span>
+<span id="cb97-29"><a href="interfaces.html#cb97-29"></a>}</span></code></pre></div>
+<p>So the <strong><em>contract</em></strong> (or API, if you like) of class Sequence is that it can deliver its molecular weight and can generate a mutated copy of itself. Both are <strong><em>concrete</em></strong> methods that are implemented with a method body.</p>
+<p>Sometimes, however, you want to <strong><em>separate the contract from its implementation.</em></strong></p>
+<div id="a-contract-without-implementation-interface" class="section level2">
+<h2><span class="header-section-number">15.1</span> A contract without implementation: interface</h2>
+<p>Maybe you remember from Python the <code>print()</code> method. It has this signature</p>
+<p><code>print(*objects, sep=' ', end='\n', file=sys.stdout, flush=False)</code>.</p>
+<p>By default it writes to the console, <code>sys.stdout</code>, but you can change this
+behavior as long as you pass an object with a <code>write()</code> method: <code>print("foo", file=object_with_a_write_method)</code>.</p>
+<p>Translating this to Java, which is strongly typed, the <code>print()</code> method would
+expect an object of a certain type, or contract, exposing a <code>write()</code> method.
+But since there are so many different ways to <code>write()</code> data (to console, to
+database, to socket), it would be impossible to create a single implementation that
+supports all possible ways to write data, now and in the future.</p>
+<p>The solution is to define a <strong><em>contract without implementation</em></strong>, separating the contract from the implementation. Classes interested in fulfilling the contract can sign up and define their own implementation, as long as the contract is followed to the letter. In Java, these contracts are called <strong><em>interfaces</em></strong>. Staying with the Python print() function, we would have to define a contract (interface) defining a “write” method that states “give me your object and I will write it (to a destination of my choice)”:</p>
+<p>Why is this useful? Let’s move away from simple printing a bit. Suppose we have a <code>SequenceCollection</code> class that
+exposes a <code>flush()</code> method, that is supposed to write the held collection
+to an external location for storage and clear memory to be ready for
+filling: A typical case of <strong><em>batch processing</em></strong>. But the
+<code>SequenceCollection</code> class does not know which storage technology is
+preferred by its clients (API programmers), so it only asks API programmers
+to provide it with an object <strong><em>implementing</em></strong> the <code>SequenceWriter</code> contract.</p>
+<p>First, here is the <code>SequenceWriter</code> interface.</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb98-1"><a href="interfaces.html#cb98-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb98-2"><a href="interfaces.html#cb98-2"></a></span>
+<span id="cb98-3"><a href="interfaces.html#cb98-3"></a><span class="kw">public</span> <span class="kw">interface</span> SequenceWriter {</span>
+<span id="cb98-4"><a href="interfaces.html#cb98-4"></a>    <span class="co">/**</span></span>
+<span id="cb98-5"><a href="interfaces.html#cb98-5"></a>     <span class="co">*</span> This is the sole method defined in this interface<span class="co">. </span>It accepts an</span>
+<span id="cb98-6"><a href="interfaces.html#cb98-6"></a>     <span class="co">*</span> object and will store a representation of it to an external destination<span class="co">.</span></span>
+<span id="cb98-7"><a href="interfaces.html#cb98-7"></a>     <span class="co">*</span> <span class="an">@param sequence </span>the sequence to store</span>
+<span id="cb98-8"><a href="interfaces.html#cb98-8"></a>     <span class="co">*/</span></span>
+<span id="cb98-9"><a href="interfaces.html#cb98-9"></a>    <span class="dt">void</span> <span class="fu">store</span>(<span class="bu">Sequence</span> sequence); <span class="co">//NO METHOD BODY; ONLY A SIGNATURE!</span></span>
+<span id="cb98-10"><a href="interfaces.html#cb98-10"></a>}</span></code></pre></div>
+<p>The <code>store()</code> method does not have a method body - it only serves as a contract.</p>
+<p>Here is the <code>SequenceCollection</code> class the “talks to” only the contract - it has no clue what kind of implementation it receives.</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb99-1"><a href="interfaces.html#cb99-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb99-2"><a href="interfaces.html#cb99-2"></a></span>
+<span id="cb99-3"><a href="interfaces.html#cb99-3"></a><span class="kw">import</span><span class="im"> java.util.ArrayList;</span></span>
+<span id="cb99-4"><a href="interfaces.html#cb99-4"></a><span class="kw">import</span><span class="im"> java.util.List;</span></span>
+<span id="cb99-5"><a href="interfaces.html#cb99-5"></a></span>
+<span id="cb99-6"><a href="interfaces.html#cb99-6"></a><span class="kw">public</span> <span class="kw">class</span> SequenceCollection{</span>
+<span id="cb99-7"><a href="interfaces.html#cb99-7"></a>    <span class="kw">private</span> <span class="bu">List</span>&lt;<span class="bu">Sequence</span>&gt; sequences = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb99-8"><a href="interfaces.html#cb99-8"></a></span>
+<span id="cb99-9"><a href="interfaces.html#cb99-9"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">addSequence</span>(<span class="bu">Sequence</span> sequence) {</span>
+<span id="cb99-10"><a href="interfaces.html#cb99-10"></a>        <span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">add</span>(sequence);</span>
+<span id="cb99-11"><a href="interfaces.html#cb99-11"></a>    }</span>
+<span id="cb99-12"><a href="interfaces.html#cb99-12"></a></span>
+<span id="cb99-13"><a href="interfaces.html#cb99-13"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">removeSequence</span>(<span class="bu">Sequence</span> sequence) {</span>
+<span id="cb99-14"><a href="interfaces.html#cb99-14"></a>        <span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">remove</span>(sequence);</span>
+<span id="cb99-15"><a href="interfaces.html#cb99-15"></a>    }</span>
+<span id="cb99-16"><a href="interfaces.html#cb99-16"></a></span>
+<span id="cb99-17"><a href="interfaces.html#cb99-17"></a>    <span class="co">/**</span></span>
+<span id="cb99-18"><a href="interfaces.html#cb99-18"></a>     <span class="co">*</span> This will write the current SequenceCollection to an external destination</span>
+<span id="cb99-19"><a href="interfaces.html#cb99-19"></a>     <span class="co">*</span> and empty the collection to be filled with a next batch<span class="co">.</span></span>
+<span id="cb99-20"><a href="interfaces.html#cb99-20"></a>     <span class="co">*</span> <span class="an">@param writer </span>the writer that processes each individual sequence object</span>
+<span id="cb99-21"><a href="interfaces.html#cb99-21"></a>     <span class="co">*/</span></span>
+<span id="cb99-22"><a href="interfaces.html#cb99-22"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">flush</span>(SequenceWriter writer) {</span>
+<span id="cb99-23"><a href="interfaces.html#cb99-23"></a>        <span class="kw">for</span> (<span class="bu">Sequence</span> seq : <span class="kw">this</span>.<span class="fu">sequences</span>) {</span>
+<span id="cb99-24"><a href="interfaces.html#cb99-24"></a>            <span class="co">//NO CLUE OF THE ACTUAL STORAGE IMPLEMENTATION</span></span>
+<span id="cb99-25"><a href="interfaces.html#cb99-25"></a>            <span class="co">//ONLY KNOWS THERE IS AN OBJECT LIVING UP TO TO THE CONTRACT</span></span>
+<span id="cb99-26"><a href="interfaces.html#cb99-26"></a>            writer.<span class="fu">store</span>(seq);</span>
+<span id="cb99-27"><a href="interfaces.html#cb99-27"></a>        }</span>
+<span id="cb99-28"><a href="interfaces.html#cb99-28"></a>        <span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">clear</span>();</span>
+<span id="cb99-29"><a href="interfaces.html#cb99-29"></a>    }</span>
+<span id="cb99-30"><a href="interfaces.html#cb99-30"></a></span>
+<span id="cb99-31"><a href="interfaces.html#cb99-31"></a>    <span class="co">/**</span></span>
+<span id="cb99-32"><a href="interfaces.html#cb99-32"></a>     <span class="co">*</span> Looks for pathogenic sequences in the current batch</span>
+<span id="cb99-33"><a href="interfaces.html#cb99-33"></a>     <span class="co">* </span><span class="an">@return </span>pathogenicSequences</span>
+<span id="cb99-34"><a href="interfaces.html#cb99-34"></a>     <span class="co">*/</span></span>
+<span id="cb99-35"><a href="interfaces.html#cb99-35"></a>    <span class="kw">public</span> <span class="bu">List</span>&lt;<span class="bu">Sequence</span>&gt; <span class="fu">findPathogenicSequences</span>() {</span>
+<span id="cb99-36"><a href="interfaces.html#cb99-36"></a>        <span class="bu">ArrayList</span>&lt;<span class="bu">Sequence</span>&gt; pathogenics = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb99-37"><a href="interfaces.html#cb99-37"></a>        <span class="co">//complex logic</span></span>
+<span id="cb99-38"><a href="interfaces.html#cb99-38"></a>        <span class="kw">return</span> pathogenics;</span>
+<span id="cb99-39"><a href="interfaces.html#cb99-39"></a>    }</span>
+<span id="cb99-40"><a href="interfaces.html#cb99-40"></a></span>
+<span id="cb99-41"><a href="interfaces.html#cb99-41"></a>    <span class="co">//MORE LOGIC INVOLVING THIS SEQUENCE COLLECTION</span></span>
+<span id="cb99-42"><a href="interfaces.html#cb99-42"></a>}</span></code></pre></div>
+<p>So now, if we want to use this <code>SequenceCollection</code> class, we need to provide it with an implementer of the contract. Here are two.</p>
+<p>When you create a class in IntelliJ, and type <code>implements SequenceWriter</code>, you get a compile error, saying “Class X must either …. or implement method Y”:</p>
+<div class="figure">
+<img src="03_apis/figures/implement_interface_context_menu.png" alt="" />
+<p class="caption">Implement interface context menu</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>Place the cursor on the line with the class name, press <code>alt + Enter</code> and select “Implement methods”. Select <code>store()</code> and press Enter. Boilerplate code has been generated.</p>
+<p>This implementation simply lets the sequence get <strong><em>garbage collected</em></strong>.</p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb100-1"><a href="interfaces.html#cb100-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb100-2"><a href="interfaces.html#cb100-2"></a></span>
+<span id="cb100-3"><a href="interfaces.html#cb100-3"></a><span class="kw">public</span> <span class="kw">class</span> NoStorageSequenceWriter <span class="kw">implements</span> SequenceWriter {</span>
+<span id="cb100-4"><a href="interfaces.html#cb100-4"></a>    <span class="at">@Override</span></span>
+<span id="cb100-5"><a href="interfaces.html#cb100-5"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">store</span>(<span class="bu">Sequence</span> sequence) {</span>
+<span id="cb100-6"><a href="interfaces.html#cb100-6"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;not interested in sequence &quot;</span> + sequence.<span class="fu">name</span> + <span class="st">&quot; anymore&quot;</span>);</span>
+<span id="cb100-7"><a href="interfaces.html#cb100-7"></a>    }</span>
+<span id="cb100-8"><a href="interfaces.html#cb100-8"></a>}</span></code></pre></div>
+<p>This implementation stores the sequence as Fasta to file (we’ll deal with file IO later so don’t be scared by that bit).</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb101-1"><a href="interfaces.html#cb101-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb101-2"><a href="interfaces.html#cb101-2"></a></span>
+<span id="cb101-3"><a href="interfaces.html#cb101-3"></a><span class="kw">import</span><span class="im"> java.io.BufferedWriter;</span></span>
+<span id="cb101-4"><a href="interfaces.html#cb101-4"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb101-5"><a href="interfaces.html#cb101-5"></a><span class="kw">import</span><span class="im"> java.nio.charset.Charset;</span></span>
+<span id="cb101-6"><a href="interfaces.html#cb101-6"></a><span class="kw">import</span><span class="im"> java.nio.file.Files;</span></span>
+<span id="cb101-7"><a href="interfaces.html#cb101-7"></a><span class="kw">import</span><span class="im"> java.nio.file.Path;</span></span>
+<span id="cb101-8"><a href="interfaces.html#cb101-8"></a><span class="kw">import</span><span class="im"> java.nio.file.Paths;</span></span>
+<span id="cb101-9"><a href="interfaces.html#cb101-9"></a></span>
+<span id="cb101-10"><a href="interfaces.html#cb101-10"></a><span class="kw">public</span> <span class="kw">class</span> FileStorageSequenceWriter <span class="kw">implements</span> SequenceWriter {</span>
+<span id="cb101-11"><a href="interfaces.html#cb101-11"></a>    <span class="at">@Override</span></span>
+<span id="cb101-12"><a href="interfaces.html#cb101-12"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">store</span>(<span class="bu">Sequence</span> sequence) {</span>
+<span id="cb101-13"><a href="interfaces.html#cb101-13"></a>        Path file = Paths.<span class="fu">get</span>(<span class="st">&quot;/Users/michiel/Desktop/finished_sequences.fa&quot;</span>);</span>
+<span id="cb101-14"><a href="interfaces.html#cb101-14"></a>        <span class="kw">try</span> {</span>
+<span id="cb101-15"><a href="interfaces.html#cb101-15"></a>            <span class="kw">if</span> (! Files.<span class="fu">exists</span>(file)) {</span>
+<span id="cb101-16"><a href="interfaces.html#cb101-16"></a>                Files.<span class="fu">createFile</span>(file);</span>
+<span id="cb101-17"><a href="interfaces.html#cb101-17"></a>            }</span>
+<span id="cb101-18"><a href="interfaces.html#cb101-18"></a>            <span class="bu">String</span> fasta = <span class="st">&quot;&gt;&quot;</span> + sequence.<span class="fu">name</span> + <span class="bu">System</span>.<span class="fu">lineSeparator</span>() + sequence.<span class="fu">sequence</span> + <span class="bu">System</span>.<span class="fu">lineSeparator</span>();</span>
+<span id="cb101-19"><a href="interfaces.html#cb101-19"></a>            Files.<span class="fu">write</span>(</span>
+<span id="cb101-20"><a href="interfaces.html#cb101-20"></a>                    file,</span>
+<span id="cb101-21"><a href="interfaces.html#cb101-21"></a>                    fasta.<span class="fu">getBytes</span>(),</span>
+<span id="cb101-22"><a href="interfaces.html#cb101-22"></a>                    StandardOpenOption.<span class="fu">APPEND</span>);</span>
+<span id="cb101-23"><a href="interfaces.html#cb101-23"></a>        } <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb101-24"><a href="interfaces.html#cb101-24"></a>            e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb101-25"><a href="interfaces.html#cb101-25"></a>        }</span>
+<span id="cb101-26"><a href="interfaces.html#cb101-26"></a>    }</span>
+<span id="cb101-27"><a href="interfaces.html#cb101-27"></a>}</span></code></pre></div>
+<p>And here is the <code>Sequencer</code> class showing the usage of two <code>SequenceWriter</code> implementations:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb102-1"><a href="interfaces.html#cb102-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb102-2"><a href="interfaces.html#cb102-2"></a></span>
+<span id="cb102-3"><a href="interfaces.html#cb102-3"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequencer</span> {</span>
+<span id="cb102-4"><a href="interfaces.html#cb102-4"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb102-5"><a href="interfaces.html#cb102-5"></a>        <span class="bu">Sequencer</span> sequencer = <span class="kw">new</span> <span class="bu">Sequencer</span>();</span>
+<span id="cb102-6"><a href="interfaces.html#cb102-6"></a>        sequencer.<span class="fu">start</span>();</span>
+<span id="cb102-7"><a href="interfaces.html#cb102-7"></a>    }</span>
+<span id="cb102-8"><a href="interfaces.html#cb102-8"></a></span>
+<span id="cb102-9"><a href="interfaces.html#cb102-9"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">start</span>() {</span>
+<span id="cb102-10"><a href="interfaces.html#cb102-10"></a>        SequenceCollection sequenceCollection = <span class="kw">new</span> <span class="fu">SequenceCollection</span>();</span>
+<span id="cb102-11"><a href="interfaces.html#cb102-11"></a>        <span class="bu">Sequence</span> seq;</span>
+<span id="cb102-12"><a href="interfaces.html#cb102-12"></a></span>
+<span id="cb102-13"><a href="interfaces.html#cb102-13"></a>        seq = <span class="kw">new</span> <span class="bu">Sequence</span>();</span>
+<span id="cb102-14"><a href="interfaces.html#cb102-14"></a>        seq.<span class="fu">name</span> = <span class="st">&quot;harmless&quot;</span>;</span>
+<span id="cb102-15"><a href="interfaces.html#cb102-15"></a>        seq.<span class="fu">sequence</span> = <span class="st">&quot;GATAACAGCATAGCAAG&quot;</span>;</span>
+<span id="cb102-16"><a href="interfaces.html#cb102-16"></a>        sequenceCollection.<span class="fu">addSequence</span>(seq);</span>
+<span id="cb102-17"><a href="interfaces.html#cb102-17"></a></span>
+<span id="cb102-18"><a href="interfaces.html#cb102-18"></a>        seq = <span class="kw">new</span> <span class="bu">Sequence</span>();</span>
+<span id="cb102-19"><a href="interfaces.html#cb102-19"></a>        seq.<span class="fu">name</span> = <span class="st">&quot;probably harmless&quot;</span>;</span>
+<span id="cb102-20"><a href="interfaces.html#cb102-20"></a>        seq.<span class="fu">sequence</span> = <span class="st">&quot;GATCAGCAACTCAGCACTACGGCT&quot;</span>;</span>
+<span id="cb102-21"><a href="interfaces.html#cb102-21"></a>        sequenceCollection.<span class="fu">addSequence</span>(seq);</span>
+<span id="cb102-22"><a href="interfaces.html#cb102-22"></a></span>
+<span id="cb102-23"><a href="interfaces.html#cb102-23"></a>        seq = <span class="kw">new</span> <span class="bu">Sequence</span>();</span>
+<span id="cb102-24"><a href="interfaces.html#cb102-24"></a>        seq.<span class="fu">name</span> = <span class="st">&quot;really deadly&quot;</span>;</span>
+<span id="cb102-25"><a href="interfaces.html#cb102-25"></a>        seq.<span class="fu">sequence</span> = <span class="st">&quot;GACACGCGCGCTACAGCACT&quot;</span>;</span>
+<span id="cb102-26"><a href="interfaces.html#cb102-26"></a>        sequenceCollection.<span class="fu">addSequence</span>(seq);</span>
+<span id="cb102-27"><a href="interfaces.html#cb102-27"></a></span>
+<span id="cb102-28"><a href="interfaces.html#cb102-28"></a>        sequenceCollection.<span class="fu">findPathogenicSequences</span>();</span>
+<span id="cb102-29"><a href="interfaces.html#cb102-29"></a></span>
+<span id="cb102-30"><a href="interfaces.html#cb102-30"></a>        sequenceCollection.<span class="fu">flush</span>(<span class="kw">new</span> <span class="fu">NoStorageSequenceWriter</span>());</span>
+<span id="cb102-31"><a href="interfaces.html#cb102-31"></a><span class="co">//        sequenceCollection.flush(new FileStorageSequenceWriter());</span></span>
+<span id="cb102-32"><a href="interfaces.html#cb102-32"></a>    }</span>
+<span id="cb102-33"><a href="interfaces.html#cb102-33"></a>}</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+not interested in sequence harmless anymore
+not interested in sequence probably harmless anymore
+not interested in sequence really deadly anymore
+</pre>
+<p>while this</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb103-1"><a href="interfaces.html#cb103-1"></a><span class="co">//        sequenceCollection.flush(new NoStorageSequenceWriter());</span></span>
+<span id="cb103-2"><a href="interfaces.html#cb103-2"></a>        sequenceCollection.<span class="fu">flush</span>(<span class="kw">new</span> <span class="fu">FileStorageSequenceWriter</span>());</span></code></pre></div>
+<p>creates a file on my Desktop with this contents:</p>
+<div class="figure">
+<img src="03_apis/figures/finished_sequences_file.png" alt="" />
+<p class="caption">File cretaed</p>
+</div>
+</div>
+<div id="summary-2" class="section level2">
+<h2><span class="header-section-number">15.2</span> Summary</h2>
+<p>Interfaces make it possible to define a contract or API in a way that makes it possible to deal with an object as <em>being of the contract type</em>, without knowing its implementation, and without using inheritance.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-power-of-naming.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-java-collections-api.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

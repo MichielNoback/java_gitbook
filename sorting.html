@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 18 Sorting | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 18 Sorting | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 18 Sorting | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="methods-of-class-object.html"/>
+<link rel="next" href="exceptions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,261 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="sorting" class="section level1">
+<h1><span class="header-section-number">Chapter 18</span> Sorting</h1>
+<p>Sorting is one of the fundamental operations on data. You want the best student, the closest cafe, all players with a top 10% ranking…this all involves sorting.</p>
+<p>Sorting in “classic” Java (not using the Streams API) is done using the the <code>Collections.sort()</code> methods and, since Java 8, some methods in class List. These methods require either (a) that the objects you want to sort implement the <code>Comparable</code> interface or (b) that you provide a sorter object implementing the <code>Comparator</code> interface.</p>
+<div id="natural-sorting-with-the-comparable-interface" class="section level2">
+<h2><span class="header-section-number">18.1</span> “Natural” sorting with the <code>Comparable</code> interface</h2>
+<p>This is the first and main sorting strategy. Whenever the type in your collection implements the Comparable interface, it is said to have “natural ordering”. This interface is described in detail later. Java classes such as String, Integer, and Double all implement the Comparable interface. In IntelliJ you can see this when you select a String variable declaration and press F1 (or ^Q):</p>
+<div class="figure">
+<img src="03_apis/figures/String_Javadoc.png" alt="" />
+<p class="caption">Javadoc of class String</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>You can see <code>Comparable&lt;String&gt;</code> in the <code>implements</code> declaration.</p>
+<p>For Strings, natural order means alphabetic order and for numbers numeric order (from low to high). Using natural ordering can be achieved in two places (since Java 8): In the Collections class and in the List interface.</p>
+<p>We’ll start with the “classic” method of <code>Collections</code>.</p>
+<p>Its signature is rather complex, but fortunately using it is not.</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+public static <span style="color:darkorange;">&lt;T extends Comparable&lt;? super T&gt;&gt;</span> void sort(<span style="color:darkgreen;">List&lt;T&gt; list</span>)
+</pre>
+<p>This signature tells us a lot:</p>
+<ul>
+<li>it is static, so it can be used directly on the Collections class</li>
+<li>it has <code>void</code> as return type, so it sorts a list <strong><em>in place</em></strong> instead of returning a sorted copy.</li>
+<li>it takes as argument a <code>List</code></li>
+<li>the elements of the list are of type <code>T</code> (a generic placeholder), where the constraint on type <code>T</code> is that it should implement the <code>Comparable</code> interface - more specifically: a <code>Comparable</code> comparing T or its supertypes.</li>
+</ul>
+<p>Key here is the <code>Comparable</code> interface (package <code>java.util</code>):</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb128-1"><a href="sorting.html#cb128-1"></a><span class="kw">package</span><span class="im"> java.util;</span></span>
+<span id="cb128-2"><a href="sorting.html#cb128-2"></a><span class="kw">public</span> <span class="kw">interface</span> <span class="bu">Comparable</span>&lt;T&gt; {</span>
+<span id="cb128-3"><a href="sorting.html#cb128-3"></a>    <span class="dt">int</span> <span class="fu">compareTo</span>(T other);</span>
+<span id="cb128-4"><a href="sorting.html#cb128-4"></a>}</span></code></pre></div>
+<p>The contract is really simple. To be comparable to other objects (of the same class), a class needs to implement the method <code>compareTo(T other)</code> where <code>T</code> is the class implementing the interface. The method signature of <code>compareTo()</code> states that it should receive an instance of <code>T</code> and return an integer indicating the sort order of the current object with respect to the other object. The convention for this return value is</p>
+<ul>
+<li>a negative value if <code>this</code> &lt; <code>other</code></li>
+<li>zero if <code>this</code> equals <code>that</code></li>
+<li>a positive value if <code>this</code> &gt; <code>other</code></li>
+</ul>
+<p>Since String and other Java classes already implement this interface, you can sort them without any further work:</p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb129-1"><a href="sorting.html#cb129-1"></a><span class="bu">List</span>&lt;<span class="bu">String</span>&gt; names = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb129-2"><a href="sorting.html#cb129-2"></a>names.<span class="fu">addAll</span>(<span class="bu">List</span>.<span class="fu">of</span>(<span class="st">&quot;Jordan&quot;</span>, <span class="st">&quot;Wanda&quot;</span>, <span class="st">&quot;James&quot;</span>, <span class="st">&quot;rose&quot;</span>, <span class="st">&quot;Aaron&quot;</span>));</span>
+<span id="cb129-3"><a href="sorting.html#cb129-3"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;names before sort: &quot;</span> + names);</span>
+<span id="cb129-4"><a href="sorting.html#cb129-4"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(names);</span>
+<span id="cb129-5"><a href="sorting.html#cb129-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;names after natural sort: &quot;</span> + names);</span></code></pre></div>
+<p>This will output</p>
+<pre class="console_out">
+names before sort: [Jordan, Wanda, James, rose, Aaron]
+names after natural sort: [Aaron, James, Jordan, Wanda, rose]
+</pre>
+<p>As you can see, capitals come before lower case letters.</p>
+<p>The exact same thing could have been achieved using the <code>sort()</code> method of class <code>List</code>, added in Java 8:</p>
+<div class="sourceCode" id="cb130"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb130-1"><a href="sorting.html#cb130-1"></a>names.<span class="fu">sort</span>(<span class="bu">Comparator</span>.<span class="fu">naturalOrder</span>());</span>
+<span id="cb130-2"><a href="sorting.html#cb130-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;names after sort on List &quot;</span> + names);</span></code></pre></div>
+<p>The signature of this sort method is:</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb131-1"><a href="sorting.html#cb131-1"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">sort</span>(<span class="at">@Nullable</span> java.<span class="fu">util</span>.<span class="fu">Comparator</span>&lt;? <span class="kw">super</span> E&gt; c)</span></code></pre></div>
+<p>It takes a <code>Comparator</code> instance; this interface is described in the next section. Some common default Comparators have already been implemented, for natural (<code>Comparator.naturalOrder()</code>) and reverse (<code>Comparator.reverseOrder()</code>) order for use with classes that implement Comparable. Note that the <code>@Nullable</code> in the above signature means that if <code>null</code> is passed, it defaults to <code>Comparator.naturalOrder()</code> An overloaded method would have been better design in my opinion, because this <code>names.sort(null);</code> is really ugly.</p>
+<p>Here is the reverse ordering:</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb132-1"><a href="sorting.html#cb132-1"></a>names.<span class="fu">sort</span>(<span class="bu">Comparator</span>.<span class="fu">reverseOrder</span>());</span>
+<span id="cb132-2"><a href="sorting.html#cb132-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;names after reverse sort &quot;</span> + names);</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+names after reverse sort [rose, Wanda, Jordan, James, Aaron]
+</pre>
+<p>Another interesting Comparator is the CASE_INSENSITIVE_ORDER comparator defined in the String class:</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb133-1"><a href="sorting.html#cb133-1"></a>names.<span class="fu">sort</span>(<span class="bu">String</span>.<span class="fu">CASE_INSENSITIVE_ORDER</span>);</span>
+<span id="cb133-2"><a href="sorting.html#cb133-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;names case insensitive sort &quot;</span> + names);</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+names case insensitive sort [Aaron, James, Jordan, rose, Wanda]
+</pre>
+<div id="custom-comparable-implementations" class="section level3 unnumbered">
+<h3>Custom comparable implementations</h3>
+<p>Let’s create our own implementation of the Comparable interface in a custom class and demonstrate its use.</p>
+<p>Here is a simple Bird class.</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb134-1"><a href="sorting.html#cb134-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb134-2"><a href="sorting.html#cb134-2"></a></span>
+<span id="cb134-3"><a href="sorting.html#cb134-3"></a><span class="kw">public</span> <span class="kw">class</span> Bird {</span>
+<span id="cb134-4"><a href="sorting.html#cb134-4"></a>    <span class="bu">String</span> englishName;</span>
+<span id="cb134-5"><a href="sorting.html#cb134-5"></a>    <span class="dt">double</span> wingSpan;</span>
+<span id="cb134-6"><a href="sorting.html#cb134-6"></a>    <span class="dt">int</span> maximumAge;</span>
+<span id="cb134-7"><a href="sorting.html#cb134-7"></a></span>
+<span id="cb134-8"><a href="sorting.html#cb134-8"></a>    <span class="kw">public</span> <span class="fu">Bird</span>(<span class="bu">String</span> englishName, <span class="dt">double</span> wingSpan, <span class="dt">int</span> maximumAge) {</span>
+<span id="cb134-9"><a href="sorting.html#cb134-9"></a>        <span class="kw">this</span>.<span class="fu">englishName</span> = englishName;</span>
+<span id="cb134-10"><a href="sorting.html#cb134-10"></a>        <span class="kw">this</span>.<span class="fu">wingSpan</span> = wingSpan;</span>
+<span id="cb134-11"><a href="sorting.html#cb134-11"></a>        <span class="kw">this</span>.<span class="fu">maximumAge</span> = maximumAge;</span>
+<span id="cb134-12"><a href="sorting.html#cb134-12"></a>    }</span>
+<span id="cb134-13"><a href="sorting.html#cb134-13"></a></span>
+<span id="cb134-14"><a href="sorting.html#cb134-14"></a>    <span class="at">@Override</span></span>
+<span id="cb134-15"><a href="sorting.html#cb134-15"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb134-16"><a href="sorting.html#cb134-16"></a>        <span class="kw">return</span> <span class="st">&quot;Bird{&quot;</span> +</span>
+<span id="cb134-17"><a href="sorting.html#cb134-17"></a>                <span class="st">&quot;englishName=&#39;&quot;</span> + englishName + <span class="ch">&#39;\&#39;&#39;</span> +</span>
+<span id="cb134-18"><a href="sorting.html#cb134-18"></a>                <span class="st">&quot;, wingSpan=&quot;</span> + wingSpan +</span>
+<span id="cb134-19"><a href="sorting.html#cb134-19"></a>                <span class="st">&quot;, maximumAge=&quot;</span> + maximumAge +</span>
+<span id="cb134-20"><a href="sorting.html#cb134-20"></a>                <span class="ch">&#39;}&#39;</span>;</span>
+<span id="cb134-21"><a href="sorting.html#cb134-21"></a>    }</span>
+<span id="cb134-22"><a href="sorting.html#cb134-22"></a>}</span></code></pre></div>
+<p>The first thing you need to figure out when implementing sorting is <strong><em>what is the natural sort order of this class?</em></strong>
+This depends entirely on you application: which aspect of your class will be used primarily for sorting. In this case, I choose the <code>wingSpan</code> property.</p>
+<p>Next, these steps should be taken:</p>
+<ol style="list-style-type: decimal">
+<li>Declare your class as implementer of the <code>Comparable</code> contract</li>
+<li>Create the method stub.</li>
+<li>Implement the logic</li>
+</ol>
+<p>Step 2 is done by IntelliJ once you’ve done 1 and selected te context menu (<code>alt + enter</code>):</p>
+<div class="figure">
+<img src="03_apis/figures/implement_interface_methods.png" alt="" />
+<p class="caption">Implement interface methods</p>
+</div>
+<p>Select the single method and press enter. This is the result.</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb135-1"><a href="sorting.html#cb135-1"></a><span class="at">@Override</span></span>
+<span id="cb135-2"><a href="sorting.html#cb135-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span>(Bird other) {</span>
+<span id="cb135-3"><a href="sorting.html#cb135-3"></a>    <span class="kw">return</span> <span class="dv">0</span>;</span>
+<span id="cb135-4"><a href="sorting.html#cb135-4"></a>}</span></code></pre></div>
+<p>This compiles just fine, but logic is missing. The next snipped solves that.</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb136-1"><a href="sorting.html#cb136-1"></a><span class="at">@Override</span></span>
+<span id="cb136-2"><a href="sorting.html#cb136-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span>(Bird other) {</span>
+<span id="cb136-3"><a href="sorting.html#cb136-3"></a>    <span class="co">//declare named variables for readability</span></span>
+<span id="cb136-4"><a href="sorting.html#cb136-4"></a>    <span class="dt">final</span> <span class="dt">int</span> BEFORE = -<span class="dv">1</span>;</span>
+<span id="cb136-5"><a href="sorting.html#cb136-5"></a>    <span class="dt">final</span> <span class="dt">int</span> EQUAL = <span class="dv">0</span>;</span>
+<span id="cb136-6"><a href="sorting.html#cb136-6"></a>    <span class="dt">final</span> <span class="dt">int</span> AFTER = <span class="dv">1</span>;</span>
+<span id="cb136-7"><a href="sorting.html#cb136-7"></a>    <span class="co">//compare</span></span>
+<span id="cb136-8"><a href="sorting.html#cb136-8"></a>    <span class="kw">if</span>(<span class="kw">this</span>.<span class="fu">wingSpan</span> &lt;= other.<span class="fu">wingSpan</span>) <span class="kw">return</span> BEFORE;</span>
+<span id="cb136-9"><a href="sorting.html#cb136-9"></a>    <span class="kw">else</span> <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">wingSpan</span> &gt;= other.<span class="fu">wingSpan</span>) <span class="kw">return</span> AFTER;</span>
+<span id="cb136-10"><a href="sorting.html#cb136-10"></a>    <span class="kw">else</span> <span class="kw">return</span> EQUAL;</span>
+<span id="cb136-11"><a href="sorting.html#cb136-11"></a>}</span></code></pre></div>
+<p>Time for a test drive. The toString method was adjusted for readability and compactness. Also, a Java8+ feature (Streams API) was used for printing (not part of this courses’ material).</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb137-1"><a href="sorting.html#cb137-1"></a><span class="bu">List</span>&lt;Bird&gt; birds = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb137-2"><a href="sorting.html#cb137-2"></a></span>
+<span id="cb137-3"><a href="sorting.html#cb137-3"></a>birds.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Buzzard&quot;</span>, <span class="fl">1.</span><span class="dv">3</span>, <span class="dv">29</span>));</span>
+<span id="cb137-4"><a href="sorting.html#cb137-4"></a>birds.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Griffon vulture&quot;</span>, <span class="fl">2.</span><span class="dv">6</span>, <span class="dv">25</span>));</span>
+<span id="cb137-5"><a href="sorting.html#cb137-5"></a>birds.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Kestrel&quot;</span>, <span class="fl">0.</span><span class="dv">35</span>, <span class="dv">15</span>));</span>
+<span id="cb137-6"><a href="sorting.html#cb137-6"></a>birds.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Red kite&quot;</span>, <span class="fl">1.</span><span class="dv">8</span>, <span class="dv">23</span>));</span>
+<span id="cb137-7"><a href="sorting.html#cb137-7"></a>birds.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Steppe eagle&quot;</span>, <span class="fl">2.</span><span class="dv">1</span>, <span class="dv">41</span>));</span>
+<span id="cb137-8"><a href="sorting.html#cb137-8"></a></span>
+<span id="cb137-9"><a href="sorting.html#cb137-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Before:&quot;</span>);</span>
+<span id="cb137-10"><a href="sorting.html#cb137-10"></a><span class="co">//prints addition order using Java8 streams</span></span>
+<span id="cb137-11"><a href="sorting.html#cb137-11"></a>birds.<span class="fu">stream</span>().<span class="fu">forEach</span>(bird -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span> + bird));</span>
+<span id="cb137-12"><a href="sorting.html#cb137-12"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(birds);</span>
+<span id="cb137-13"><a href="sorting.html#cb137-13"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;After sort on wingspan:&quot;</span>);</span>
+<span id="cb137-14"><a href="sorting.html#cb137-14"></a><span class="co">//prints sort order on wingspan, ascending</span></span>
+<span id="cb137-15"><a href="sorting.html#cb137-15"></a>birds.<span class="fu">stream</span>().<span class="fu">forEach</span>(bird -&gt; <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span> + bird));</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+Before:
+    Buzzard', ws=1.3, max.age=29
+    Griffon vulture', ws=2.5, max.age=25
+    Kestrel', ws=0.35, max.age=15
+    White-tailed eagle', ws=2.5, max.age=25
+    Red kite', ws=1.8, max.age=23
+    Steppe eagle', ws=2.1, max.age=41
+After sort on wingspan:
+    Kestrel', ws=0.35, max.age=15
+    Buzzard', ws=1.3, max.age=29
+    Red kite', ws=1.8, max.age=23
+    Steppe eagle', ws=2.1, max.age=41
+    Griffon vulture', ws=2.5, max.age=25
+    White-tailed eagle', ws=2.5, max.age=25
+</pre>
+<p>Note the ascending order of wingspan. What if the natural order is descending in your opinion? Simply reverse the sort logic:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb138-1"><a href="sorting.html#cb138-1"></a><span class="at">@Override</span></span>
+<span id="cb138-2"><a href="sorting.html#cb138-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span>(Bird other) {</span>
+<span id="cb138-3"><a href="sorting.html#cb138-3"></a>    <span class="dt">final</span> <span class="dt">int</span> BEFORE = -<span class="dv">1</span>;</span>
+<span id="cb138-4"><a href="sorting.html#cb138-4"></a>    <span class="dt">final</span> <span class="dt">int</span> EQUAL = <span class="dv">0</span>;</span>
+<span id="cb138-5"><a href="sorting.html#cb138-5"></a>    <span class="dt">final</span> <span class="dt">int</span> AFTER = <span class="dv">1</span>;</span>
+<span id="cb138-6"><a href="sorting.html#cb138-6"></a>    <span class="kw">if</span>(<span class="kw">this</span>.<span class="fu">wingSpan</span> &lt;= other.<span class="fu">wingSpan</span>) <span class="kw">return</span> AFTER;</span>
+<span id="cb138-7"><a href="sorting.html#cb138-7"></a>    <span class="kw">else</span> <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">wingSpan</span> &gt;= other.<span class="fu">wingSpan</span>) <span class="kw">return</span> BEFORE;</span>
+<span id="cb138-8"><a href="sorting.html#cb138-8"></a>    <span class="kw">else</span> <span class="kw">return</span> EQUAL;</span>
+<span id="cb138-9"><a href="sorting.html#cb138-9"></a>}</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+After:
+    Griffon vulture', ws=2.6, max.age=25
+    Steppe eagle', ws=2.1, max.age=41
+    Red kite', ws=1.8, max.age=23
+    Buzzard', ws=1.3, max.age=29
+    Kestrel', ws=0.35, max.age=15
+</pre>
+<p>Although this sort logic is just fine, it is often better to use classes that are dedicated to dealing with the datatype and <strong><em>delegate</em></strong> to their implemented and tested methods:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb139-1"><a href="sorting.html#cb139-1"></a><span class="at">@Override</span></span>
+<span id="cb139-2"><a href="sorting.html#cb139-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span>(Bird other) {</span>
+<span id="cb139-3"><a href="sorting.html#cb139-3"></a>    <span class="co">//delegate to class double</span></span>
+<span id="cb139-4"><a href="sorting.html#cb139-4"></a>    <span class="kw">return</span> <span class="bu">Double</span>.<span class="fu">compare</span>(<span class="kw">this</span>.<span class="fu">wingSpan</span>, other.<span class="fu">wingSpan</span>);</span>
+<span id="cb139-5"><a href="sorting.html#cb139-5"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="sorting-using-a-custom-comparator" class="section level2">
+<h2><span class="header-section-number">18.2</span> Sorting using a custom <code>Comparator</code></h2>
+<p>What if you want to sort in other ways as well, or if you do not want to settle on a natural sort order? Then there is the second form of the <code>Collections.sort()</code> method, also supported by the <code>List.sort()</code> method since Java 8:</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+public static <span style="color:darkred;">&lt;T&gt;</span> void sort(<span style="color:darkgreen;">List&lt;T&gt; list</span>, <span style="color:darkorange;">Comparator&lt;? super T&gt; c</span>)
+</pre>
+<p>or</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+public void sort(<span style="font-style: italic;">@Nullable</span> <span style="color:darkorange;">Comparator&lt;? super E&gt; comparator</span>)
+</pre>
+<p>The <code>Comparator</code> interface has a single abstract method:</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb140-1"><a href="sorting.html#cb140-1"></a><span class="kw">package</span> java.util</span>
+<span id="cb140-2"><a href="sorting.html#cb140-2"></a></span>
+<span id="cb140-3"><a href="sorting.html#cb140-3"></a><span class="kw">public</span> <span class="kw">interface</span> <span class="bu">Comparator</span>&lt;T&gt; {</span>
+<span id="cb140-4"><a href="sorting.html#cb140-4"></a>    <span class="dt">int</span> <span class="fu">compare</span>(T one, T two);</span>
+<span id="cb140-5"><a href="sorting.html#cb140-5"></a>}</span></code></pre></div>
+<p>Let’s start with the most straightforward implementation.</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb141-1"><a href="sorting.html#cb141-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb141-2"><a href="sorting.html#cb141-2"></a><span class="kw">import</span><span class="im"> java.util.Comparator;</span></span>
+<span id="cb141-3"><a href="sorting.html#cb141-3"></a></span>
+<span id="cb141-4"><a href="sorting.html#cb141-4"></a><span class="kw">public</span> <span class="kw">class</span> BirdNameComparator <span class="kw">implements</span> <span class="bu">Comparator</span>&lt;Bird&gt; {</span>
+<span id="cb141-5"><a href="sorting.html#cb141-5"></a>    <span class="at">@Override</span></span>
+<span id="cb141-6"><a href="sorting.html#cb141-6"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(Bird first, Bird second) {</span>
+<span id="cb141-7"><a href="sorting.html#cb141-7"></a>        <span class="kw">return</span> first.<span class="fu">englishName</span>.<span class="fu">compareTo</span>(second.<span class="fu">englishName</span>);</span>
+<span id="cb141-8"><a href="sorting.html#cb141-8"></a>    }</span>
+<span id="cb141-9"><a href="sorting.html#cb141-9"></a>}</span></code></pre></div>
+<p>This one sorts on name, and again delegates to the type of the instance variable - class String. This is its usage.</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb142-1"><a href="sorting.html#cb142-1"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(birds, <span class="kw">new</span> <span class="fu">BirdNameComparator</span>());</span>
+<span id="cb142-2"><a href="sorting.html#cb142-2"></a><span class="co">//or, the Java8+ way</span></span>
+<span id="cb142-3"><a href="sorting.html#cb142-3"></a>birds.<span class="fu">sort</span>(<span class="kw">new</span> <span class="fu">BirdNameComparator</span>())</span></code></pre></div>
+<p>Implementations of the Comparator interface are often created on-the-fly. For instance, look at this <strong><em>anonymous inner class</em></strong>.</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb143-1"><a href="sorting.html#cb143-1"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(birds, <span class="kw">new</span> <span class="bu">Comparator</span>&lt;Bird&gt;(){</span>
+<span id="cb143-2"><a href="sorting.html#cb143-2"></a>    <span class="at">@Override</span></span>
+<span id="cb143-3"><a href="sorting.html#cb143-3"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">compare</span>(Bird first, Bird second) {</span>
+<span id="cb143-4"><a href="sorting.html#cb143-4"></a>        <span class="kw">return</span> <span class="bu">Integer</span>.<span class="fu">compare</span>(first.<span class="fu">maximumAge</span>, second.<span class="fu">maximumAge</span>);</span>
+<span id="cb143-5"><a href="sorting.html#cb143-5"></a>    }</span>
+<span id="cb143-6"><a href="sorting.html#cb143-6"></a>});</span></code></pre></div>
+<p>Actually, since Java8, sorting has become much versatile, but you need to climb the learning curve of lambdas first:</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb144-1"><a href="sorting.html#cb144-1"></a><span class="co">//Java8+ alternative: OK</span></span>
+<span id="cb144-2"><a href="sorting.html#cb144-2"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(birds, (birdOne, birdTwo) -&gt; <span class="bu">Integer</span>.<span class="fu">compare</span>(birdOne.<span class="fu">maximumAge</span>, birdTwo.<span class="fu">maximumAge</span>));</span>
+<span id="cb144-3"><a href="sorting.html#cb144-3"></a><span class="co">//Java8+ alternative: best</span></span>
+<span id="cb144-4"><a href="sorting.html#cb144-4"></a><span class="bu">Collections</span>.<span class="fu">sort</span>(birds, <span class="bu">Comparator</span>.<span class="fu">comparingInt</span>(bird -&gt; bird.<span class="fu">maximumAge</span>));</span></code></pre></div>
+<p>Lambdas are out of scope for this course, unfortunately.</p>
+</div>
+<div id="multilevel-sorting" class="section level2">
+<h2><span class="header-section-number">18.3</span> Multilevel sorting</h2>
+<p>The final part of this post does not deal with the API but with the logic to implement it. You have seen how to code simple comparison logic. But what if you want to sort on multiple properties? Suppose, in the case of the birds example, we wanted to sort on wingspan first and then on name.
+No matter how many properties, the pattern is always the same: check the primary property, return this if they are not equal. If they are equal, check on the secondary property:</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb145-1"><a href="sorting.html#cb145-1"></a><span class="at">@Override</span></span>
+<span id="cb145-2"><a href="sorting.html#cb145-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">compareTo</span>(Bird other) {</span>
+<span id="cb145-3"><a href="sorting.html#cb145-3"></a>    <span class="dt">int</span> compareWingSpan = <span class="bu">Double</span>.<span class="fu">compare</span>(<span class="kw">this</span>.<span class="fu">wingSpan</span>, other.<span class="fu">wingSpan</span>);</span>
+<span id="cb145-4"><a href="sorting.html#cb145-4"></a>    <span class="kw">if</span> (compareWingSpan == <span class="dv">0</span>) {</span>
+<span id="cb145-5"><a href="sorting.html#cb145-5"></a>        <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">englishName</span>.<span class="fu">compareTo</span>(other.<span class="fu">englishName</span>);</span>
+<span id="cb145-6"><a href="sorting.html#cb145-6"></a>    }</span>
+<span id="cb145-7"><a href="sorting.html#cb145-7"></a>    <span class="kw">return</span> compareWingSpan;</span>
+<span id="cb145-8"><a href="sorting.html#cb145-8"></a>}</span></code></pre></div>
+<p>Note that with alphabetical sorting capitals come before lower case letters. This is because the numeric values of the table of ASCII codes are used:</p>
+<div class="figure">
+<img src="03_apis/figures/Ascii-codes-table.png" alt="" />
+<p class="caption">The ASVII code</p>
+</div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="methods-of-class-object.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exceptions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

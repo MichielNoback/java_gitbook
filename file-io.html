@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 20 File IO | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 20 File IO | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 20 File IO | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="exceptions.html"/>
+<link rel="next" href="regular-expressions.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,194 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="file-io" class="section level1">
+<h1><span class="header-section-number">Chapter 20</span> File IO</h1>
+<p>Almost all applications work on external data – files, databases and internet resources.<br />
+Here we will only have a look at files.</p>
+<div id="path-paths" class="section level2">
+<h2><span class="header-section-number">20.1</span> Path &amp; Paths</h2>
+<p>These classes represent storage locations, not the files themselves. They are useful for quite a number of things. Here are a few.</p>
+<div class="sourceCode" id="cb153"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb153-1"><a href="file-io.html#cb153-1"></a><span class="bu">String</span> fileName = <span class="st">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa&quot;</span>;</span>
+<span id="cb153-2"><a href="file-io.html#cb153-2"></a></span>
+<span id="cb153-3"><a href="file-io.html#cb153-3"></a>Path path = Paths.<span class="fu">get</span>(fileName);</span>
+<span id="cb153-4"><a href="file-io.html#cb153-4"></a></span>
+<span id="cb153-5"><a href="file-io.html#cb153-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;path = &quot;</span> + path);</span>
+<span id="cb153-6"><a href="file-io.html#cb153-6"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;path.getParent() = &quot;</span> + path.<span class="fu">getParent</span>());</span>
+<span id="cb153-7"><a href="file-io.html#cb153-7"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;path.getRoot() = &quot;</span> + path.<span class="fu">getRoot</span>());</span>
+<span id="cb153-8"><a href="file-io.html#cb153-8"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;path.subpath(0,3) = &quot;</span> + path.<span class="fu">subpath</span>(<span class="dv">0</span>, <span class="dv">3</span>));</span>
+<span id="cb153-9"><a href="file-io.html#cb153-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;path.getFileName() = &quot;</span> + path.<span class="fu">getFileName</span>());</span>
+<span id="cb153-10"><a href="file-io.html#cb153-10"></a><span class="co">//convert to File object</span></span>
+<span id="cb153-11"><a href="file-io.html#cb153-11"></a><span class="bu">File</span> file = path.<span class="fu">toFile</span>();</span></code></pre></div>
+<p>will output</p>
+<pre><code>path = /Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa
+path.getParent() = /Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data
+path.getRoot() = /
+path.subpath(0,3) = Users/michiel/IdeaProjects
+path.getFileName() = proteins.fa</code></pre>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="file-and-files" class="section level2">
+<h2><span class="header-section-number">20.2</span> File and Files</h2>
+<p>Class <code>Files</code> has typical utility methods:</p>
+<div class="sourceCode" id="cb155"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb155-1"><a href="file-io.html#cb155-1"></a><span class="bu">String</span> fileName = <span class="st">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/proteins.fa&quot;</span>;</span>
+<span id="cb155-2"><a href="file-io.html#cb155-2"></a></span>
+<span id="cb155-3"><a href="file-io.html#cb155-3"></a>Path path = Paths.<span class="fu">get</span>(fileName);</span>
+<span id="cb155-4"><a href="file-io.html#cb155-4"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Files.isReadable(path) = &quot;</span> + Files.<span class="fu">isReadable</span>(path));</span>
+<span id="cb155-5"><a href="file-io.html#cb155-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Files.isDirectory(path) = &quot;</span> + Files.<span class="fu">isDirectory</span>(path));</span>
+<span id="cb155-6"><a href="file-io.html#cb155-6"></a><span class="kw">try</span> {</span>
+<span id="cb155-7"><a href="file-io.html#cb155-7"></a>    Path copy = Paths.<span class="fu">get</span>(<span class="st">&quot;/Users/michiel/Desktop/test.fa&quot;</span>);</span>
+<span id="cb155-8"><a href="file-io.html#cb155-8"></a>    <span class="co">//delete if it already exists</span></span>
+<span id="cb155-9"><a href="file-io.html#cb155-9"></a>    Files.<span class="fu">deleteIfExists</span>(copy);</span>
+<span id="cb155-10"><a href="file-io.html#cb155-10"></a>    Files.<span class="fu">copy</span>(path, copy);</span>
+<span id="cb155-11"><a href="file-io.html#cb155-11"></a>} <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb155-12"><a href="file-io.html#cb155-12"></a>    e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb155-13"><a href="file-io.html#cb155-13"></a>}</span></code></pre></div>
+<p>outputs this, and copies the file to my Desktop.</p>
+<pre><code>Files.isReadable(path) = true
+Files.isDirectory(path) = false
+Files.copy() = /Users/michiel/Desktop/test.fa</code></pre>
+<p>Class <code>File</code> represents the actual file on the storage system. Here is a standard workflow with reading and writing.</p>
+<div id="create" class="section level3 unnumbered">
+<h3>Create</h3>
+<p><strong><em>Create</em></strong> a file.</p>
+<div class="sourceCode" id="cb157"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb157-1"><a href="file-io.html#cb157-1"></a><span class="kw">if</span>(! Files.<span class="fu">exists</span>(dataPath)) {</span>
+<span id="cb157-2"><a href="file-io.html#cb157-2"></a>    <span class="kw">try</span> {</span>
+<span id="cb157-3"><a href="file-io.html#cb157-3"></a>        Files.<span class="fu">createFile</span>(dataPath);</span>
+<span id="cb157-4"><a href="file-io.html#cb157-4"></a>    } <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb157-5"><a href="file-io.html#cb157-5"></a>        e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb157-6"><a href="file-io.html#cb157-6"></a>    }</span>
+<span id="cb157-7"><a href="file-io.html#cb157-7"></a>}</span></code></pre></div>
+</div>
+<div id="write" class="section level3 unnumbered">
+<h3>Write</h3>
+<p><strong><em>Write</em></strong> to file. Note the <strong><em>try-with-resources</em></strong> construct that was introduced in Java7.</p>
+<div class="sourceCode" id="cb158"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb158-1"><a href="file-io.html#cb158-1"></a><span class="kw">try</span> (<span class="bu">BufferedWriter</span> writer = Files.<span class="fu">newBufferedWriter</span>(dataPath, StandardOpenOption.<span class="fu">APPEND</span>)) {</span>
+<span id="cb158-2"><a href="file-io.html#cb158-2"></a>    writer.<span class="fu">write</span>(<span class="st">&quot;Hi there&quot;</span>);</span>
+<span id="cb158-3"><a href="file-io.html#cb158-3"></a>    writer.<span class="fu">newLine</span>();</span>
+<span id="cb158-4"><a href="file-io.html#cb158-4"></a>    writer.<span class="fu">write</span>(<span class="st">&quot;Bye now&quot;</span>);</span>
+<span id="cb158-5"><a href="file-io.html#cb158-5"></a>    writer.<span class="fu">newLine</span>();</span>
+<span id="cb158-6"><a href="file-io.html#cb158-6"></a>} <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb158-7"><a href="file-io.html#cb158-7"></a>    e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb158-8"><a href="file-io.html#cb158-8"></a>}</span></code></pre></div>
+<p>Note the <code>StandardOpenOption</code> argument. Besides <code>APPEND</code> you have these choices:</p>
+<ul>
+<li><strong><code>APPEND</code></strong> If the file is opened for WRITE access then bytes will be written to the end of the file rather than the beginning.</li>
+<li><strong><code>CREATE</code></strong> Create a new file if it does not exist.</li>
+<li><strong><code>CREATE_NEW</code></strong> Create a new file, failing if the file already exists.</li>
+<li><strong><code>READ</code></strong> Open for read access.</li>
+<li><strong><code>WRITE</code></strong> Open for write access.</li>
+</ul>
+<p>Running this code twice will generate this file contents:</p>
+<div class="figure">
+<img src="03_apis/figures/write_to_file.png" alt="" />
+<p class="caption">Write to file</p>
+</div>
+<p>For convenience, you can wrap the BufferedWriter into a <code>PrintWriter</code> instance. This gives you easier line writing and the possibility for string formatting:</p>
+<div class="sourceCode" id="cb159"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb159-1"><a href="file-io.html#cb159-1"></a><span class="kw">try</span> (<span class="bu">PrintWriter</span> writer = <span class="kw">new</span> <span class="bu">PrintWriter</span>(Files.<span class="fu">newBufferedWriter</span>(dataPath, StandardOpenOption.<span class="fu">APPEND</span>))) {</span>
+<span id="cb159-2"><a href="file-io.html#cb159-2"></a>    writer.<span class="fu">println</span>(<span class="st">&quot;I&#39;m back!&quot;</span>);</span>
+<span id="cb159-3"><a href="file-io.html#cb159-3"></a>    writer<span class="fu">.format</span>(<span class="st">&quot;</span><span class="sc">%s</span><span class="st"> is mijn voornaam en </span><span class="sc">%s</span><span class="st"> mijn achternaam&quot;</span>, <span class="st">&quot;Michiel&quot;</span>, <span class="st">&quot;Noback&quot;</span>);</span>
+<span id="cb159-4"><a href="file-io.html#cb159-4"></a>    <span class="co">//Also nice:  class MessageFormat</span></span>
+<span id="cb159-5"><a href="file-io.html#cb159-5"></a>    writer.<span class="fu">println</span>(<span class="bu">MessageFormat</span><span class="fu">.format</span>(<span class="st">&quot;{0} is mijn voornaam en {1} mijn achternaam&quot;</span>, <span class="st">&quot;Jan&quot;</span>, <span class="st">&quot;Jansen&quot;</span>));</span>
+<span id="cb159-6"><a href="file-io.html#cb159-6"></a>} <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb159-7"><a href="file-io.html#cb159-7"></a>    e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb159-8"><a href="file-io.html#cb159-8"></a>}</span></code></pre></div>
+</div>
+<div id="read" class="section level3 unnumbered">
+<h3>Read</h3>
+<p><strong><em>Reading</em></strong> data from file is a similar process:</p>
+<div class="sourceCode" id="cb160"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb160-1"><a href="file-io.html#cb160-1"></a><span class="kw">try</span>(<span class="bu">BufferedReader</span> reader = Files.<span class="fu">newBufferedReader</span>(dataPath)) {</span>
+<span id="cb160-2"><a href="file-io.html#cb160-2"></a>    <span class="bu">String</span> line;</span>
+<span id="cb160-3"><a href="file-io.html#cb160-3"></a>    <span class="kw">while</span> ((line = reader.<span class="fu">readLine</span>()) != <span class="kw">null</span>) {</span>
+<span id="cb160-4"><a href="file-io.html#cb160-4"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;line = &quot;</span> + line);</span>
+<span id="cb160-5"><a href="file-io.html#cb160-5"></a>    }</span>
+<span id="cb160-6"><a href="file-io.html#cb160-6"></a>} <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb160-7"><a href="file-io.html#cb160-7"></a>    e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb160-8"><a href="file-io.html#cb160-8"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="parsing-file-content-the-easy-way" class="section level2">
+<h2><span class="header-section-number">20.3</span> Parsing file content the easy way</h2>
+<p>A thing that typically happens when reading data is to split the line into elements on some separator:</p>
+<div class="sourceCode" id="cb161"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb161-1"><a href="file-io.html#cb161-1"></a><span class="co">//splits on spaces</span></span>
+<span id="cb161-2"><a href="file-io.html#cb161-2"></a><span class="bu">String</span>[] elements = line.<span class="fu">split</span>(<span class="st">&quot; &quot;</span>)</span></code></pre></div>
+<p>In this example, this is the employee data we are going to process.</p>
+<pre class="console_out">
+Name    Age Function    Salary*1000
+JohnDoe 27  Programmer  23.67
+JaneSmith   31  Manager 42.00
+JoanDonnely 38  CEO 89.87
+RoseBanner  18  secretary   11.78
+</pre>
+<p>File <code>empl_data.csv</code> is a tab-separated file. Note the first line is a header and not real data.</p>
+<p>Here is a typical use case for working with structured data. First, class <code>Employee</code>:</p>
+<div class="sourceCode" id="cb162"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb162-1"><a href="file-io.html#cb162-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb162-2"><a href="file-io.html#cb162-2"></a></span>
+<span id="cb162-3"><a href="file-io.html#cb162-3"></a><span class="kw">public</span> <span class="kw">class</span> Employee {</span>
+<span id="cb162-4"><a href="file-io.html#cb162-4"></a>    <span class="kw">private</span> <span class="bu">String</span> name;</span>
+<span id="cb162-5"><a href="file-io.html#cb162-5"></a>    <span class="kw">private</span> <span class="dt">int</span> age;</span>
+<span id="cb162-6"><a href="file-io.html#cb162-6"></a>    <span class="kw">private</span> <span class="dt">double</span> salary;</span>
+<span id="cb162-7"><a href="file-io.html#cb162-7"></a></span>
+<span id="cb162-8"><a href="file-io.html#cb162-8"></a>    <span class="kw">public</span> <span class="fu">Employee</span>(<span class="bu">String</span> name, <span class="dt">int</span> age, <span class="dt">double</span> salary) {</span>
+<span id="cb162-9"><a href="file-io.html#cb162-9"></a>        <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb162-10"><a href="file-io.html#cb162-10"></a>        <span class="kw">this</span>.<span class="fu">age</span> = age;</span>
+<span id="cb162-11"><a href="file-io.html#cb162-11"></a>        <span class="kw">this</span>.<span class="fu">salary</span> = salary;</span>
+<span id="cb162-12"><a href="file-io.html#cb162-12"></a>    }</span>
+<span id="cb162-13"><a href="file-io.html#cb162-13"></a></span>
+<span id="cb162-14"><a href="file-io.html#cb162-14"></a>    <span class="at">@Override</span></span>
+<span id="cb162-15"><a href="file-io.html#cb162-15"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb162-16"><a href="file-io.html#cb162-16"></a>        <span class="kw">return</span> <span class="st">&quot;Employee{&quot;</span> +</span>
+<span id="cb162-17"><a href="file-io.html#cb162-17"></a>                <span class="st">&quot;name=&#39;&quot;</span> + name + <span class="ch">&#39;\&#39;&#39;</span> +</span>
+<span id="cb162-18"><a href="file-io.html#cb162-18"></a>                <span class="st">&quot;, age=&quot;</span> + age +</span>
+<span id="cb162-19"><a href="file-io.html#cb162-19"></a>                <span class="st">&quot;, salary=&quot;</span> + salary +</span>
+<span id="cb162-20"><a href="file-io.html#cb162-20"></a>                <span class="ch">&#39;}&#39;</span>;</span>
+<span id="cb162-21"><a href="file-io.html#cb162-21"></a>    }</span>
+<span id="cb162-22"><a href="file-io.html#cb162-22"></a>}</span></code></pre></div>
+<p>Next, parse Employee instances:</p>
+<div class="sourceCode" id="cb163"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb163-1"><a href="file-io.html#cb163-1"></a><span class="kw">private</span> <span class="dt">static</span> <span class="bu">List</span>&lt;Employee&gt; <span class="fu">parseEmployees</span>() {</span>
+<span id="cb163-2"><a href="file-io.html#cb163-2"></a>    <span class="bu">String</span> fileName = <span class="st">&quot;/Users/michiel/IdeaProjects/JavaIntroProgrammingAssignments/data/empl_data.csv&quot;</span>;</span>
+<span id="cb163-3"><a href="file-io.html#cb163-3"></a>    Path path = Paths.<span class="fu">get</span>(fileName);</span>
+<span id="cb163-4"><a href="file-io.html#cb163-4"></a>    <span class="bu">List</span>&lt;Employee&gt; employees = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb163-5"><a href="file-io.html#cb163-5"></a>    <span class="kw">try</span> (<span class="bu">BufferedReader</span> br = Files.<span class="fu">newBufferedReader</span>(path)) {</span>
+<span id="cb163-6"><a href="file-io.html#cb163-6"></a>        <span class="bu">String</span> line;</span>
+<span id="cb163-7"><a href="file-io.html#cb163-7"></a>        <span class="dt">int</span> lineNumber = <span class="dv">0</span>;</span>
+<span id="cb163-8"><a href="file-io.html#cb163-8"></a></span>
+<span id="cb163-9"><a href="file-io.html#cb163-9"></a>        <span class="kw">while</span> ((line = br.<span class="fu">readLine</span>()) != <span class="kw">null</span>) {</span>
+<span id="cb163-10"><a href="file-io.html#cb163-10"></a>            lineNumber++;</span>
+<span id="cb163-11"><a href="file-io.html#cb163-11"></a>            <span class="co">//skips first header line</span></span>
+<span id="cb163-12"><a href="file-io.html#cb163-12"></a>            <span class="kw">if</span> (lineNumber == <span class="dv">1</span>) <span class="kw">continue</span>;</span>
+<span id="cb163-13"><a href="file-io.html#cb163-13"></a>            <span class="co">//split on tabs</span></span>
+<span id="cb163-14"><a href="file-io.html#cb163-14"></a>            <span class="bu">String</span>[] elements = line.<span class="fu">split</span>(<span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>);</span>
+<span id="cb163-15"><a href="file-io.html#cb163-15"></a>            <span class="bu">String</span> name = elements[<span class="dv">0</span>];</span>
+<span id="cb163-16"><a href="file-io.html#cb163-16"></a>            <span class="co">//convert to int</span></span>
+<span id="cb163-17"><a href="file-io.html#cb163-17"></a>            <span class="dt">int</span> age = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(elements[<span class="dv">1</span>]);</span>
+<span id="cb163-18"><a href="file-io.html#cb163-18"></a>            <span class="bu">String</span> function = elements[<span class="dv">2</span>];</span>
+<span id="cb163-19"><a href="file-io.html#cb163-19"></a>            <span class="co">//convert to double</span></span>
+<span id="cb163-20"><a href="file-io.html#cb163-20"></a>            <span class="dt">double</span> salary = <span class="bu">Double</span>.<span class="fu">parseDouble</span>(elements[<span class="dv">3</span>]) * <span class="dv">1000</span>;</span>
+<span id="cb163-21"><a href="file-io.html#cb163-21"></a></span>
+<span id="cb163-22"><a href="file-io.html#cb163-22"></a>            Employee emp = <span class="kw">new</span> <span class="fu">Employee</span>(name, age, salary);</span>
+<span id="cb163-23"><a href="file-io.html#cb163-23"></a>            employees.<span class="fu">add</span>(emp);</span>
+<span id="cb163-24"><a href="file-io.html#cb163-24"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(emp);</span>
+<span id="cb163-25"><a href="file-io.html#cb163-25"></a>        }</span>
+<span id="cb163-26"><a href="file-io.html#cb163-26"></a>    } <span class="kw">catch</span> (<span class="bu">IOException</span> e) {</span>
+<span id="cb163-27"><a href="file-io.html#cb163-27"></a>        e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb163-28"><a href="file-io.html#cb163-28"></a>    }</span>
+<span id="cb163-29"><a href="file-io.html#cb163-29"></a>    <span class="kw">return</span> employees;</span>
+<span id="cb163-30"><a href="file-io.html#cb163-30"></a>}</span></code></pre></div>
+<p>As stated before: this is very typical for the start of any data processing pipeline.</p>
+<p>More advanced splitting is discussed in a next topic: regular expressions.</p>
+</div>
+<div id="note-on-character-sets" class="section level2">
+<h2><span class="header-section-number">20.4</span> Note on character sets</h2>
+<p>All these examples worked with the default characterset of Java, <strong><em>UTF-8</em></strong>. When other sets are required, these can be specified in the <code>Files.newBufferedReader()</code> and <code>Files.newBufferedWriter()</code> factory methods. See docs for details.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="exceptions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regular-expressions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

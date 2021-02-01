@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 45 REST and MVC with Spring | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 45 REST and MVC with Spring | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 45 REST and MVC with Spring | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="refactoring.html"/>
+<link rel="next" href="dependency-injection-in-spring.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,177 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="rest-and-mvc-with-spring" class="section level1">
+<h1><span class="header-section-number">Chapter 45</span> REST and MVC with Spring</h1>
+<p>These tutorials assume you have Jetbrands IntelliJ Idea ultimate. They also assume you have a working knowledge of http, Java - in particular Servlets, and annotations, Gradle, Thymeleaf and html. It is recommended to use Postman for testing your endpoints (visit <a href="https://www.postman.com/">Website</a>).</p>
+<div id="create-a-new-project" class="section level2">
+<h2><span class="header-section-number">45.1</span> Create a new project</h2>
+<p>Let’s start with a quick rundown of how you create and run a Spring MVC Web application.</p>
+<ol style="list-style-type: decimal">
+<li><p>Open IntelliJ</p></li>
+<li><p>Choose New Project…</p>
+<ol style="list-style-type: lower-alpha">
+<li>Spring Initializr → Next<br />
+</li>
+<li>Give Group &amp; Artifact → Next<br />
+</li>
+<li>Choose Gradle / Java / Jar → Next<br />
+</li>
+<li>Choose Dependencies:
+<ol style="list-style-type: lower-roman">
+<li>Web → Spring Web<br />
+</li>
+<li>Template Engines → ThymeleafSQL → JDBC API / Spring Data JPA / JDBC / MySQL Driver [This depends on what you are going to do with the app of course. These can be added later in <code>build.gradle</code> as well]<br />
+</li>
+</ol></li>
+<li>Choose location → Next &amp; Finish</li>
+</ol>
+<p>The <code>build.gradle</code> file will have these dependencies:</p>
+<div class="sourceCode" id="cb383"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb383-1"><a href="rest-and-mvc-with-spring.html#cb383-1"></a>dependencies <span class="op">{</span></span>
+<span id="cb383-2"><a href="rest-and-mvc-with-spring.html#cb383-2"></a>    implementation <span class="st">&#39;org.springframework.boot:spring-boot-starter-thymeleaf&#39;</span></span>
+<span id="cb383-3"><a href="rest-and-mvc-with-spring.html#cb383-3"></a>    implementation <span class="st">&#39;org.springframework.boot:spring-boot-starter-web&#39;</span></span>
+<span id="cb383-4"><a href="rest-and-mvc-with-spring.html#cb383-4"></a>    testImplementation <span class="st">&#39;org.springframework.boot:spring-boot-starter-test&#39;</span></span>
+<span id="cb383-5"><a href="rest-and-mvc-with-spring.html#cb383-5"></a><span class="op">}</span></span></code></pre></div>
+<p>If you look at the “External Libraries” section in the project panel you will see a huge amount of dependencies are pulled in with only these three top level dependencies.</p></li>
+<li><p>Go to root folder <code>/main/java/&lt;your/package&gt;/</code> and open <code>&lt;YourProject&gt;Application.java</code>. Run the application by clicking on the green triangle in the editor margin.</p>
+<div class="sourceCode" id="cb384"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb384-1"><a href="rest-and-mvc-with-spring.html#cb384-1"></a><span class="at">@SpringBootApplication</span></span>
+<span id="cb384-2"><a href="rest-and-mvc-with-spring.html#cb384-2"></a><span class="kw">public</span> <span class="kw">class</span> SpringDemoProjectApplication {</span>
+<span id="cb384-3"><a href="rest-and-mvc-with-spring.html#cb384-3"></a></span>
+<span id="cb384-4"><a href="rest-and-mvc-with-spring.html#cb384-4"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb384-5"><a href="rest-and-mvc-with-spring.html#cb384-5"></a>        SpringApplication.<span class="fu">run</span>(SpringDemoProjectApplication.<span class="fu">class</span>, args);</span>
+<span id="cb384-6"><a href="rest-and-mvc-with-spring.html#cb384-6"></a>    }</span>
+<span id="cb384-7"><a href="rest-and-mvc-with-spring.html#cb384-7"></a>}</span></code></pre></div></li>
+<li><p>Go to your browser (or Postman!) and open <a href="localhost/8080">localhost/8080</a>. This will generate “Whitelabel Error Page” in the browser. In Postman you get this - a Json literal:</p>
+<div class="sourceCode" id="cb385"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb385-1"><a href="rest-and-mvc-with-spring.html#cb385-1"></a><span class="fu">{</span></span>
+<span id="cb385-2"><a href="rest-and-mvc-with-spring.html#cb385-2"></a>    <span class="dt">&quot;timestamp&quot;</span><span class="fu">:</span> <span class="st">&quot;2021-01-12T09:54:58.110+00:00&quot;</span><span class="fu">,</span></span>
+<span id="cb385-3"><a href="rest-and-mvc-with-spring.html#cb385-3"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="dv">404</span><span class="fu">,</span></span>
+<span id="cb385-4"><a href="rest-and-mvc-with-spring.html#cb385-4"></a>    <span class="dt">&quot;error&quot;</span><span class="fu">:</span> <span class="st">&quot;Not Found&quot;</span><span class="fu">,</span></span>
+<span id="cb385-5"><a href="rest-and-mvc-with-spring.html#cb385-5"></a>    <span class="dt">&quot;message&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb385-6"><a href="rest-and-mvc-with-spring.html#cb385-6"></a>    <span class="dt">&quot;path&quot;</span><span class="fu">:</span> <span class="st">&quot;/&quot;</span></span>
+<span id="cb385-7"><a href="rest-and-mvc-with-spring.html#cb385-7"></a><span class="fu">}</span></span></code></pre></div></li>
+</ol>
+<p>OK, the app works, but there nothing (no data or web page) being served by the application at this url. Therefore you get an <code>404/Not Found</code>. Let’s fix that</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="create-a-rest-response" class="section level2">
+<h2><span class="header-section-number">45.2</span> Create a REST response</h2>
+<p>Right click on base package → New → Package → name = <code>webcontrol</code>
+Right click on this package → New → Java Class → name = <code>HelloRest</code></p>
+<p>In the editor, modify the class so it looks like this</p>
+<div class="sourceCode" id="cb386"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb386-1"><a href="rest-and-mvc-with-spring.html#cb386-1"></a><span class="at">@RestController</span></span>
+<span id="cb386-2"><a href="rest-and-mvc-with-spring.html#cb386-2"></a><span class="at">@RequestMapping</span>(value = <span class="st">&quot;/hello&quot;</span>)</span>
+<span id="cb386-3"><a href="rest-and-mvc-with-spring.html#cb386-3"></a><span class="kw">public</span> <span class="kw">class</span> HelloRest {</span>
+<span id="cb386-4"><a href="rest-and-mvc-with-spring.html#cb386-4"></a></span>
+<span id="cb386-5"><a href="rest-and-mvc-with-spring.html#cb386-5"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/rest1&quot;</span>)</span>
+<span id="cb386-6"><a href="rest-and-mvc-with-spring.html#cb386-6"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getHello</span>() {</span>
+<span id="cb386-7"><a href="rest-and-mvc-with-spring.html#cb386-7"></a>        <span class="kw">return</span> <span class="st">&quot;Hello Spring Boot!&quot;</span>;</span>
+<span id="cb386-8"><a href="rest-and-mvc-with-spring.html#cb386-8"></a>    }</span>
+<span id="cb386-9"><a href="rest-and-mvc-with-spring.html#cb386-9"></a>}</span></code></pre></div>
+<p>The corresponding import statements will appear as well. There are several core <em>Spring annotations</em> here that warrant some explanation.</p>
+<p>The annotation <code>@RestController</code> tells the Spring container that this class will service REST (REpresentational State Transfer) endpoints. See <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">https://en.wikipedia.org/wiki/Representational_state_transfer</a> for details.</p>
+<p><code>@RequestMapping</code> publishes to the container that this class will serve all urls that start with <code>/hello</code> relative to the <em>context path</em> (or base url) of this application. <code>@GetMapping</code> serves the same purpose, but only for GET requests. And in this case it applies only to the method it annotates. Therefore, the url <code>&lt;app_root&gt;/hello/rest1</code> will map to the method <code>getHello()</code>. Since the entire class is annotated as being a REST controller, all return values of its controller methods (i.e. web-serving methods) will be converted into JSON literals automagically (using the Jackson library).</p>
+<p>Now reload the app by pressing this button in the lower panel:</p>
+<p><img src="08_spring/figures/reload.png" /></p>
+<p>Go to Postman and hit the endpoint <a href="http://localhost:8080/hello/rest1">http://localhost:8080/hello/rest1</a>.
+You should get this:</p>
+<blockquote>
+<p>Hello Spring Boot!</p>
+</blockquote>
+<div id="serve-json-literals" class="section level3">
+<h3><span class="header-section-number">45.2.1</span> Serve Json literals</h3>
+<p>Create a new package (<code>model</code>) with a new class, <code>Bird</code>, and generate a constructor, <code>toString()</code> and getters for all fields.</p>
+<div class="sourceCode" id="cb387"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb387-1"><a href="rest-and-mvc-with-spring.html#cb387-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.model;</span></span>
+<span id="cb387-2"><a href="rest-and-mvc-with-spring.html#cb387-2"></a></span>
+<span id="cb387-3"><a href="rest-and-mvc-with-spring.html#cb387-3"></a><span class="kw">public</span> <span class="kw">class</span> Bird{</span>
+<span id="cb387-4"><a href="rest-and-mvc-with-spring.html#cb387-4"></a><span class="kw">private</span> <span class="bu">String</span> name;</span>
+<span id="cb387-5"><a href="rest-and-mvc-with-spring.html#cb387-5"></a><span class="kw">private</span> <span class="bu">String</span> status;</span>
+<span id="cb387-6"><a href="rest-and-mvc-with-spring.html#cb387-6"></a></span>
+<span id="cb387-7"><a href="rest-and-mvc-with-spring.html#cb387-7"></a><span class="kw">public</span> <span class="fu">Bird</span> (<span class="bu">String</span> name, <span class="bu">String</span> status) {</span>
+<span id="cb387-8"><a href="rest-and-mvc-with-spring.html#cb387-8"></a>    <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb387-9"><a href="rest-and-mvc-with-spring.html#cb387-9"></a>    <span class="kw">this</span>.<span class="fu">status</span> = status;</span>
+<span id="cb387-10"><a href="rest-and-mvc-with-spring.html#cb387-10"></a>}</span>
+<span id="cb387-11"><a href="rest-and-mvc-with-spring.html#cb387-11"></a><span class="co">//boilerplate code omitted</span></span></code></pre></div>
+<p>Create a new method within class <code>HelloRest</code>.</p>
+<div class="sourceCode" id="cb388"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb388-1"><a href="rest-and-mvc-with-spring.html#cb388-1"></a><span class="at">@GetMapping</span>(value = <span class="st">&quot;/rest2&quot;</span>)</span>
+<span id="cb388-2"><a href="rest-and-mvc-with-spring.html#cb388-2"></a><span class="kw">public</span> Bird <span class="fu">getBird</span>() {</span>
+<span id="cb388-3"><a href="rest-and-mvc-with-spring.html#cb388-3"></a>    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Bird</span>(<span class="st">&quot;Long-legged buzzard&quot;</span>, <span class="st">&quot;extremely rare&quot;</span>);</span>
+<span id="cb388-4"><a href="rest-and-mvc-with-spring.html#cb388-4"></a>}</span></code></pre></div>
+<p>Hit the endpoint <a href="http://localhost:8080/hello/rest2">http://localhost:8080/hello/rest2</a>. As you can see, a JSON literal is returned representing a Java Bird instance. That is because your annotated the class with <code>@RestController</code>. All objects returned from the controller methods will be converted into a Json representation. In fact, it works for the whole object graph, so if you return a list of Java objects you will get a Javascript array containing these objects as json!</p>
+</div>
+<div id="path-variables" class="section level3">
+<h3><span class="header-section-number">45.2.2</span> Path Variables</h3>
+<p>Create a new method within <code>HelloRest</code></p>
+<div class="sourceCode" id="cb389"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb389-1"><a href="rest-and-mvc-with-spring.html#cb389-1"></a><span class="at">@GetMapping</span>(value=<span class="st">&quot;/echo/{msg}&quot;</span>)</span>
+<span id="cb389-2"><a href="rest-and-mvc-with-spring.html#cb389-2"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">doEcho</span>(<span class="at">@PathVariable</span> <span class="bu">String</span> msg) {</span>
+<span id="cb389-3"><a href="rest-and-mvc-with-spring.html#cb389-3"></a>    <span class="kw">return</span> <span class="st">&quot;You said&quot;</span> + msg + <span class="st">&quot;...I say goodbye.&quot;</span>;</span>
+<span id="cb389-4"><a href="rest-and-mvc-with-spring.html#cb389-4"></a>}</span></code></pre></div>
+<p>Note that the three occurrences of “msg” should be typed exactly the same! Hit the endpoint <a href="http://localhost:8080/hello/echo/I%20Rule%20Rest">http://localhost:8080/hello/echo/I%20Rule%20Rest</a>. You will get this:<br />
+<code>You said I Rule Rest...I say goodbye.</code></p>
+<p>There is a new annotation here: <code>@PathVariable</code>. It is used on a method parameter. Together with the <code>value="/echo/{msg}"</code> attribute of <code>@GetMapping</code>, it tells the container that there is a request variable embedded in the url and it should be extracted into <code>String msg</code>.</p>
+</div>
+<div id="request-parameters" class="section level3">
+<h3><span class="header-section-number">45.2.3</span> Request Parameters</h3>
+<p>Create a new method within <code>HelloRest</code></p>
+<div class="sourceCode" id="cb390"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb390-1"><a href="rest-and-mvc-with-spring.html#cb390-1"></a><span class="at">@GetMapping</span>(value=<span class="st">&quot;/echo_name&quot;</span>)</span>
+<span id="cb390-2"><a href="rest-and-mvc-with-spring.html#cb390-2"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">doEchoName</span>(<span class="at">@RequestParam</span>(value = <span class="st">&quot;name&quot;</span>) <span class="bu">String</span> name) {</span>
+<span id="cb390-3"><a href="rest-and-mvc-with-spring.html#cb390-3"></a>    <span class="kw">return</span> <span class="st">&quot;You said&quot;</span> + name + <span class="st">&quot;...I say goodbye.&quot;</span>;</span>
+<span id="cb390-4"><a href="rest-and-mvc-with-spring.html#cb390-4"></a>}</span></code></pre></div>
+<p>And go to url <a href="http://localhost:8080/hello/echo_name?name=%3Cyour_name%3E">http://localhost:8080/hello/echo_name?name=<your_name></a></p>
+<p>The annotation <code>@RequestParam(value = "name")</code> tells the system that the GET request should contain a request parameter called <code>name</code> and it should be inserted into the value of <code>String name</code>. You can specify whether it is a required parameter, and whether it should have a default value.:</p>
+<div class="sourceCode" id="cb391"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb391-1"><a href="rest-and-mvc-with-spring.html#cb391-1"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/echo_name&quot;</span>)</span>
+<span id="cb391-2"><a href="rest-and-mvc-with-spring.html#cb391-2"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">doEchoName</span>(<span class="at">@RequestParam</span>(</span>
+<span id="cb391-3"><a href="rest-and-mvc-with-spring.html#cb391-3"></a>            value = <span class="st">&quot;name&quot;</span>, </span>
+<span id="cb391-4"><a href="rest-and-mvc-with-spring.html#cb391-4"></a>            required = <span class="kw">false</span>, </span>
+<span id="cb391-5"><a href="rest-and-mvc-with-spring.html#cb391-5"></a>            defaultValue = <span class="st">&quot;JohnDoe&quot;</span>) <span class="bu">String</span> name) {</span>
+<span id="cb391-6"><a href="rest-and-mvc-with-spring.html#cb391-6"></a>        <span class="kw">return</span> <span class="st">&quot;You said &quot;</span> + name + <span class="st">&quot;...I say goodbye.&quot;</span>;</span>
+<span id="cb391-7"><a href="rest-and-mvc-with-spring.html#cb391-7"></a>    }</span></code></pre></div>
+</div>
+<div id="an-html-view-instead-of-json" class="section level3">
+<h3><span class="header-section-number">45.2.4</span> An html view instead of Json</h3>
+<p>So far you have seen three basic ways of serving data using a REST endpoint. Now we’ll switch to serving an html view using Thymeleaf.
+Create a new class within package <code>webcontrol</code> called <code>HelloMvc</code>, with this content</p>
+<div class="sourceCode" id="cb392"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb392-1"><a href="rest-and-mvc-with-spring.html#cb392-1"></a><span class="at">@Controller</span></span>
+<span id="cb392-2"><a href="rest-and-mvc-with-spring.html#cb392-2"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;greeting&quot;</span>)</span>
+<span id="cb392-3"><a href="rest-and-mvc-with-spring.html#cb392-3"></a><span class="kw">public</span> <span class="kw">class</span> HelloMvc {</span>
+<span id="cb392-4"><a href="rest-and-mvc-with-spring.html#cb392-4"></a></span>
+<span id="cb392-5"><a href="rest-and-mvc-with-spring.html#cb392-5"></a>    <span class="at">@GetMapping</span>(value=<span class="st">&quot;hello&quot;</span>)</span>
+<span id="cb392-6"><a href="rest-and-mvc-with-spring.html#cb392-6"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getGreeting</span>(Model model) {</span>
+<span id="cb392-7"><a href="rest-and-mvc-with-spring.html#cb392-7"></a>        model.<span class="fu">addAttribute</span>(<span class="st">&quot;greeting&quot;</span>, <span class="st">&quot;Hello to MVC&quot;</span>);</span>
+<span id="cb392-8"><a href="rest-and-mvc-with-spring.html#cb392-8"></a>        <span class="kw">return</span> <span class="st">&quot;greeting&quot;</span>;</span>
+<span id="cb392-9"><a href="rest-and-mvc-with-spring.html#cb392-9"></a>    }</span>
+<span id="cb392-10"><a href="rest-and-mvc-with-spring.html#cb392-10"></a>}</span></code></pre></div>
+<p>Under folder <code>/src/main/resources/templates</code>, right-click and select New → Thymeleaf. This will generate a standard html page. Replace</p>
+<div class="sourceCode" id="cb393"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb393-1"><a href="rest-and-mvc-with-spring.html#cb393-1"></a>    <span class="kw">&lt;h1</span><span class="ot"> th:tekst=</span><span class="st">&quot;#{page.title}&quot;</span><span class="kw">&gt;</span>Offline title<span class="kw">&lt;/h1&gt;</span> </span></code></pre></div>
+<p>with</p>
+<div class="sourceCode" id="cb394"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb394-1"><a href="rest-and-mvc-with-spring.html#cb394-1"></a><span class="kw">&lt;h1</span><span class="ot"> th:text=</span><span class="st">&quot;${greeting}&quot;</span><span class="kw">&gt;</span>_greeting_<span class="kw">&lt;/h1&gt;</span></span></code></pre></div>
+<p>Reload the app and hit the endpoint <a href="http://localhost:8080/greeting/hello">http://localhost:8080/greeting/hello</a>. Postman will show this:</p>
+<div class="sourceCode" id="cb395"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb395-1"><a href="rest-and-mvc-with-spring.html#cb395-1"></a>    <span class="dt">&lt;!DOCTYPE </span>html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb395-2"><a href="rest-and-mvc-with-spring.html#cb395-2"></a>    <span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb395-3"><a href="rest-and-mvc-with-spring.html#cb395-3"></a>    <span class="kw">&lt;head&gt;</span></span>
+<span id="cb395-4"><a href="rest-and-mvc-with-spring.html#cb395-4"></a>        <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb395-5"><a href="rest-and-mvc-with-spring.html#cb395-5"></a>        <span class="kw">&lt;title&gt;</span>Phrase of the day<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb395-6"><a href="rest-and-mvc-with-spring.html#cb395-6"></a>    <span class="kw">&lt;/head&gt;</span></span>
+<span id="cb395-7"><a href="rest-and-mvc-with-spring.html#cb395-7"></a>    <span class="kw">&lt;body&gt;</span></span>
+<span id="cb395-8"><a href="rest-and-mvc-with-spring.html#cb395-8"></a>        <span class="kw">&lt;h1&gt;</span>Hello to MVC<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb395-9"><a href="rest-and-mvc-with-spring.html#cb395-9"></a>    <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb395-10"><a href="rest-and-mvc-with-spring.html#cb395-10"></a>    <span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>Whereas the browser will show</p>
+<div class="figure">
+<img src="08_spring/figures/hello_mvc.png" alt="" />
+<p class="caption">hello MVC</p>
+</div>
+<p>This concludes a first acquaintance with several aspects of the Spring (Boot) framework. You have seen the creation and consuming of both REST and MVC-type endpoints. All discussed annotations are listed and explained <a href="spring_annotations.md">here</a></p>
+<p>Demo code can be found in this git repo <a href="https://github.com/MichielNoback/spring-demo">https://github.com/MichielNoback/spring-demo</a>. Use tag <code>tutorial1</code> to get the current version of the repo.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="refactoring.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="dependency-injection-in-spring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

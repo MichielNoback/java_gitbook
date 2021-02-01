@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 40 HTML5 tags | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 40 HTML5 tags | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 40 HTML5 tags | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="exercises-intro.html"/>
+<link rel="next" href="junit-5-basics.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,414 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="html5-tags" class="section level1">
+<h1><span class="header-section-number">Chapter 40</span> HTML5 tags</h1>
+<p>Below is an alphabetic listing of the most important (most-used) html5 tags that may be relevant on the test of the module webbased information systems 1. The information presented in this page is mostly copied from the site <a href="www.w3schools.com">w3schools</a>.</p>
+<div id="links-a" class="section level4 unnumbered">
+<h4>Links: <code>&lt;a&gt;</code></h4>
+<p>The <code>&lt;a&gt;</code> tag defines a hyperlink, which is used to link from one page to another.
+Most important attribute is <code>href</code> which specifies the URL the link goes to.</p>
+<p>Example</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb321-1"><a href="html5-tags.html#cb321-1"></a><span class="kw">&lt;a</span><span class="ot"> href=</span><span class="st">&quot;https://www.w3schools.com&quot;</span><span class="kw">&gt;</span>Visit W3Schools.com!<span class="kw">&lt;/a&gt;</span></span></code></pre></div>
+<p><a href="https://www.w3schools.com">Visit W3Schools.com!</a></p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="page-body-body" class="section level4 unnumbered">
+<h4>Page body: <code>&lt;body&gt;</code></h4>
+<p>The <code>&lt;body&gt;</code> tag defines the document’s body.
+The <code>&lt;body&gt;</code> element contains all the contents of an HTML document, such as text, hyperlinks, images, tables, lists, etc.</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb322-1"><a href="html5-tags.html#cb322-1"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb322-2"><a href="html5-tags.html#cb322-2"></a>    <span class="kw">&lt;head&gt;</span></span>
+<span id="cb322-3"><a href="html5-tags.html#cb322-3"></a>    <span class="kw">&lt;title&gt;</span>Title of the document<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb322-4"><a href="html5-tags.html#cb322-4"></a>    <span class="kw">&lt;/head&gt;</span></span>
+<span id="cb322-5"><a href="html5-tags.html#cb322-5"></a></span>
+<span id="cb322-6"><a href="html5-tags.html#cb322-6"></a>    <span class="kw">&lt;body&gt;</span></span>
+<span id="cb322-7"><a href="html5-tags.html#cb322-7"></a>    The content of the document......</span>
+<span id="cb322-8"><a href="html5-tags.html#cb322-8"></a>    <span class="kw">&lt;/body&gt;</span></span>
+<span id="cb322-9"><a href="html5-tags.html#cb322-9"></a></span>
+<span id="cb322-10"><a href="html5-tags.html#cb322-10"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 </div>
+<div id="line-breaks-br" class="section level4 unnumbered">
+<h4>Line breaks: <code>&lt;br&gt;</code></h4>
+<p>The <code>&lt;br&gt;</code> tag inserts a single line break.</p>
+<p>The <code>&lt;br&gt;</code> tag is an empty tag which means that it has no end tag.</p>
+<p>In HTML, the <code>&lt;br&gt;</code> tag has no end tag.
+In XHTML, the <br> tag must be properly closed, like this: <code>&lt;br /&gt;</code>.</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb323-1"><a href="html5-tags.html#cb323-1"></a>This text contains<span class="kw">&lt;br&gt;</span>a line break.</span></code></pre></div>
+<p>This text contains<br>a line break.</p>
+</div>
+<div id="a-clickable-button-button" class="section level4 unnumbered">
+<h4>A clickable button: <code>&lt;button&gt;</code></h4>
+<p>Inside a <code>&lt;button&gt;</code> element you can put content, like text or images.
+This is the difference between this element and buttons created with the <code>&lt;input&gt;</code> element.</p>
+<div class="sourceCode" id="cb324"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb324-1"><a href="html5-tags.html#cb324-1"></a><span class="kw">&lt;button</span><span class="ot"> type=</span><span class="st">&quot;button&quot;</span><span class="kw">&gt;</span>Click Me!<span class="kw">&lt;/button&gt;</span></span></code></pre></div>
+<button type="button">
+Click Me!
+</button>
+<p>The most important attributes are
+- <code>value</code>, which specifies the initial value (text).
+- <code>type</code>, the type that can be either <code>button</code>, <code>reset</code> or <code>submit</code></p>
+</div>
+<div id="predefined-text-types" class="section level4 unnumbered">
+<h4>Predefined text types</h4>
+<p>The <code>&lt;code&gt;</code> tag is a phrase tag. It defines a piece of computer code.Other simalar types of tags are included in the fragment below.</p>
+<div class="sourceCode" id="cb325"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb325-1"><a href="html5-tags.html#cb325-1"></a><span class="kw">&lt;em&gt;</span>Emphasized text<span class="kw">&lt;/em&gt;&lt;br&gt;</span></span>
+<span id="cb325-2"><a href="html5-tags.html#cb325-2"></a><span class="kw">&lt;strong&gt;</span>Strong text<span class="kw">&lt;/strong&gt;&lt;br&gt;</span></span>
+<span id="cb325-3"><a href="html5-tags.html#cb325-3"></a><span class="kw">&lt;code&gt;</span>A piece of computer code<span class="kw">&lt;/code&gt;&lt;br&gt;</span></span>
+<span id="cb325-4"><a href="html5-tags.html#cb325-4"></a><span class="kw">&lt;samp&gt;</span>Sample output from a computer program<span class="kw">&lt;/samp&gt;&lt;br&gt;</span></span>
+<span id="cb325-5"><a href="html5-tags.html#cb325-5"></a><span class="kw">&lt;kbd&gt;</span>Keyboard input<span class="kw">&lt;/kbd&gt;&lt;br&gt;</span></span>
+<span id="cb325-6"><a href="html5-tags.html#cb325-6"></a><span class="kw">&lt;var&gt;</span>Variable<span class="kw">&lt;/var&gt;</span></span></code></pre></div>
+<p><em>Emphasized text</em><br>
+<strong>Strong text</strong><br>
+<code>A piece of computer code</code><br>
+<samp>Sample output from a computer program</samp><br>
+<kbd>Keyboard input</kbd><br>
+<var>Variable</var></p>
+<p>Here are all “phrase” tags:</p>
+<ul>
+<li><code>&lt;em&gt;</code> Renders as emphasized text</li>
+<li><code>&lt;strong&gt;</code> Defines important text</li>
+<li><code>&lt;code&gt;</code> Defines a piece of computer code</li>
+<li><code>&lt;samp&gt;</code> Defines sample output from a computer program</li>
+<li><code>&lt;kbd&gt;</code> Defines keyboard input</li>
+<li><code>&lt;var&gt;</code> Defines a variable</li>
+</ul>
+</div>
+<div id="page-section-div" class="section level4 unnumbered">
+<h4>Page section: <code>&lt;div&gt;</code></h4>
+<p>The <code>&lt;div&gt;</code> tag defines a division or a section in an HTML document.</p>
+<p>The <code>&lt;div&gt;</code> element is often used as a container for other HTML elements to style them with CSS or to perform certain tasks with JavaScript.</p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb326-1"><a href="html5-tags.html#cb326-1"></a><span class="kw">&lt;div</span><span class="ot"> style=</span><span class="st">&quot;background-color:lightblue&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb326-2"><a href="html5-tags.html#cb326-2"></a>  <span class="kw">&lt;h4&gt;</span>This is a heading<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb326-3"><a href="html5-tags.html#cb326-3"></a>  <span class="kw">&lt;p&gt;</span>This is a paragraph.<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb326-4"><a href="html5-tags.html#cb326-4"></a><span class="kw">&lt;/div&gt;</span></span></code></pre></div>
+<div style="background-color:lightblue">
+<h4>
+This is a heading
+</h4>
+<p>
+This is a paragraph.
+</p>
+</div>
+</div>
+<div id="a-description-list-dl-dd-dt" class="section level4 unnumbered">
+<h4>A description list: <code>&lt;dl&gt;</code>, <code>&lt;dd&gt;</code> &amp; <code>&lt;dt&gt;</code></h4>
+<p>A description list, with terms and descriptions.
+The <code>&lt;dl&gt;</code> tag defines a description list.</p>
+<p>The <code>&lt;dl&gt;</code> tag is used in conjunction with <code>&lt;dt&gt;</code> (defines terms/names) and <code>&lt;dd&gt;</code> (describes each term/name).</p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb327-1"><a href="html5-tags.html#cb327-1"></a><span class="kw">&lt;dl&gt;</span></span>
+<span id="cb327-2"><a href="html5-tags.html#cb327-2"></a>  <span class="kw">&lt;dt&gt;</span>Coffee<span class="kw">&lt;/dt&gt;</span></span>
+<span id="cb327-3"><a href="html5-tags.html#cb327-3"></a>  <span class="kw">&lt;dd&gt;</span>Black hot drink<span class="kw">&lt;/dd&gt;</span></span>
+<span id="cb327-4"><a href="html5-tags.html#cb327-4"></a>  <span class="kw">&lt;dt&gt;</span>Milk<span class="kw">&lt;/dt&gt;</span></span>
+<span id="cb327-5"><a href="html5-tags.html#cb327-5"></a>  <span class="kw">&lt;dd&gt;</span>White cold drink<span class="kw">&lt;/dd&gt;</span></span>
+<span id="cb327-6"><a href="html5-tags.html#cb327-6"></a><span class="kw">&lt;/dl&gt;</span></span></code></pre></div>
+<dl>
+<dt>
+Coffee
+</dt>
+<dd>
+Black hot drink
+</dd>
+<dt>
+Milk
+</dt>
+<dd>
+White cold drink
+</dd>
+</dl>
+</div>
+<div id="forms-and-its-elements" class="section level4 unnumbered">
+<h4>Forms and its elements</h4>
+<p>The <code>&lt;form&gt;</code> tag is used to create an HTML form for user input.
+The <code>&lt;form&gt;</code> element can contain one or more of the following form elements:</p>
+<ul>
+<li><code>&lt;input&gt;</code></li>
+<li><code>&lt;textarea&gt;</code></li>
+<li><code>&lt;button&gt;</code></li>
+<li><code>&lt;select&gt;</code></li>
+<li><code>&lt;option&gt;</code></li>
+<li><code>&lt;label&gt;</code></li>
+</ul>
+<p>(there are more but these are not relevant for this course).
+The most important attributes are its <code>action</code> (the URL to submit to), its <code>method</code> (GET or POST) and its <code>enctype</code> when submitting for file uploads.
+Here is a typical form demonstrating these elements. Note the different attributes for the <code>input</code> element.</p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb328-1"><a href="html5-tags.html#cb328-1"></a>    <span class="kw">&lt;form</span><span class="ot"> action</span> <span class="ot">=</span> <span class="st">&quot;#&quot;</span><span class="er">,</span><span class="ot"> method</span> <span class="ot">=</span> <span class="st">&quot;post&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb328-2"><a href="html5-tags.html#cb328-2"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;username-field&quot;</span><span class="kw">&gt;</span>Username<span class="kw">&lt;/label&gt;</span>:<span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-3"><a href="html5-tags.html#cb328-3"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;username-field&quot;</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> name=</span><span class="st">&quot;username&quot;</span><span class="ot"> minlength=</span><span class="st">&quot;5&quot;</span><span class="ot"> maxlength=</span><span class="st">&quot;20&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb328-4"><a href="html5-tags.html#cb328-4"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;password-field&quot;</span><span class="kw">&gt;</span>Username<span class="kw">&lt;/label&gt;</span>:<span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-5"><a href="html5-tags.html#cb328-5"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;password-field&quot;</span><span class="ot"> type=</span><span class="st">&quot;password&quot;</span><span class="ot"> name=</span><span class="st">&quot;password&quot;</span><span class="ot"> minlength=</span><span class="st">&quot;5&quot;</span><span class="ot"> maxlength=</span><span class="st">&quot;20&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb328-6"><a href="html5-tags.html#cb328-6"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;email-field&quot;</span><span class="kw">&gt;</span>Email<span class="kw">&lt;/label&gt;</span>:<span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-7"><a href="html5-tags.html#cb328-7"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;email-field&quot;</span><span class="ot"> type=</span><span class="st">&quot;email&quot;</span><span class="ot"> name=</span><span class="st">&quot;email&quot;</span><span class="kw">&gt;&lt;br&gt;</span></span>
+<span id="cb328-8"><a href="html5-tags.html#cb328-8"></a>        <span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-9"><a href="html5-tags.html#cb328-9"></a>        Favourite animals (more than one can be selected)<span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-10"><a href="html5-tags.html#cb328-10"></a>        <span class="kw">&lt;select</span><span class="ot"> name=</span><span class="st">&quot;favorite-animal&quot;</span><span class="ot"> size=</span><span class="st">&quot;3&quot;</span><span class="ot"> multiple</span><span class="kw">&gt;</span></span>
+<span id="cb328-11"><a href="html5-tags.html#cb328-11"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;cheetah&quot;</span><span class="kw">&gt;</span>Cheetah<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-12"><a href="html5-tags.html#cb328-12"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;lion&quot;</span><span class="kw">&gt;</span>Lion<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-13"><a href="html5-tags.html#cb328-13"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;platypus&quot;</span><span class="kw">&gt;</span>Platypus<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-14"><a href="html5-tags.html#cb328-14"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;goat&quot;</span><span class="kw">&gt;</span>Goat<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-15"><a href="html5-tags.html#cb328-15"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;coyote&quot;</span><span class="kw">&gt;</span>Coyote<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-16"><a href="html5-tags.html#cb328-16"></a>            <span class="kw">&lt;option</span><span class="ot"> name=</span><span class="st">&quot;skunk&quot;</span><span class="ot"> selected</span><span class="kw">&gt;</span>Skunk<span class="kw">&lt;/option&gt;</span></span>
+<span id="cb328-17"><a href="html5-tags.html#cb328-17"></a>        <span class="kw">&lt;/select&gt;</span></span>
+<span id="cb328-18"><a href="html5-tags.html#cb328-18"></a>        <span class="kw">&lt;br&gt;&lt;br&gt;</span></span>
+<span id="cb328-19"><a href="html5-tags.html#cb328-19"></a>        <span class="kw">&lt;textarea</span><span class="ot"> name=</span><span class="st">&quot;message&quot;</span><span class="ot"> rows=</span><span class="st">&quot;10&quot;</span><span class="ot"> cols=</span><span class="st">&quot;30&quot;</span><span class="kw">&gt;</span>My favourite animal is the <span class="dv">&amp;lt;</span>fill in<span class="dv">&amp;gt;</span> because (FINISH).</span>
+<span id="cb328-20"><a href="html5-tags.html#cb328-20"></a>        <span class="kw">&lt;/textarea&gt;</span></span>
+<span id="cb328-21"><a href="html5-tags.html#cb328-21"></a>        <span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-22"><a href="html5-tags.html#cb328-22"></a>        Gender:</span>
+<span id="cb328-23"><a href="html5-tags.html#cb328-23"></a>        <span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-24"><a href="html5-tags.html#cb328-24"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;gendermale&quot;</span><span class="ot"> type=</span><span class="st">&quot;radio&quot;</span><span class="ot"> name=</span><span class="st">&quot;gender&quot;</span><span class="ot"> value=</span><span class="st">&quot;male&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb328-25"><a href="html5-tags.html#cb328-25"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;gendermale&quot;</span><span class="kw">&gt;</span>Male<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb328-26"><a href="html5-tags.html#cb328-26"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;genderfemale&quot;</span><span class="ot"> type=</span><span class="st">&quot;radio&quot;</span><span class="ot"> name=</span><span class="st">&quot;gender&quot;</span><span class="ot"> value=</span><span class="st">&quot;female&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb328-27"><a href="html5-tags.html#cb328-27"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;genderfemale&quot;</span><span class="kw">&gt;</span>Female<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb328-28"><a href="html5-tags.html#cb328-28"></a>        <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;genderother&quot;</span><span class="ot"> type=</span><span class="st">&quot;radio&quot;</span><span class="ot"> name=</span><span class="st">&quot;gender&quot;</span><span class="ot"> value=</span><span class="st">&quot;other&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb328-29"><a href="html5-tags.html#cb328-29"></a>        <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;genderother&quot;</span><span class="kw">&gt;</span>Other<span class="kw">&lt;/label&gt;</span></span>
+<span id="cb328-30"><a href="html5-tags.html#cb328-30"></a>        <span class="kw">&lt;br&gt;</span></span>
+<span id="cb328-31"><a href="html5-tags.html#cb328-31"></a>        <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;That&#39;s it!&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb328-32"><a href="html5-tags.html#cb328-32"></a>    <span class="kw">&lt;/form&gt;</span></span>
+<span id="cb328-33"><a href="html5-tags.html#cb328-33"></a><span class="kw">&lt;hr&gt;</span></span></code></pre></div>
+<form action = "#", method = "post">
+    <label for="username-field">Username</label>:<br>
+    <input id="username-field" type="text" name="username" minlength="5" maxlength="20"><br>
+    <label for="password-field">Username</label>:<br>
+    <input id="password-field" type="password" name="password" minlength="5" maxlength="20"><br>
+    <label for="email-field">Email</label>:<br>
+    <input id="email-field" type="email" name="email"><br>
+    <br>
+    Favourite animals (more than one can be selected)<br>
+    <select name="favorite-animal" size="3" multiple>
+        <option name="cheetah">Cheetah</option>
+        <option name="lion">Lion</option>
+        <option name="platypus">Platypus</option>
+        <option name="goat">Goat</option>
+        <option name="coyote">Coyote</option>
+        <option name="skunk" selected>Skunk</option>
+    </select>
+    <br><br>
+    <textarea name="message" rows="10" cols="30">My favourite animal is the &lt;fill in&gt; because (FINISH).
+    </textarea>
+    <br>
+    Gender:
+    <br>
+    <input id="gendermale" type="radio" name="gender" value="male">
+    <label for="gendermale">Male</label>
+    <input id="genderfemale" type="radio" name="gender" value="female">
+    <label for="genderfemale">Female</label>
+    <input id="genderother" type="radio" name="gender" value="other">
+    <label for="genderother">Other</label>
+    <br>
+    <input type="submit" value="That's it!">
+</form>
+<hr>
+</div>
+<div id="headers-h1---h6" class="section level4 unnumbered">
+<h4>Headers: <code>&lt;h1&gt;</code> - <code>&lt;h6&gt;</code></h4>
+<p>The default appearance of headers may vary between browsers.</p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb329-1"><a href="html5-tags.html#cb329-1"></a><span class="kw">&lt;h1&gt;</span>This is heading 1<span class="kw">&lt;/h1&gt;</span></span>
+<span id="cb329-2"><a href="html5-tags.html#cb329-2"></a><span class="kw">&lt;h2&gt;</span>This is heading 2<span class="kw">&lt;/h2&gt;</span></span>
+<span id="cb329-3"><a href="html5-tags.html#cb329-3"></a><span class="kw">&lt;h3&gt;</span>This is heading 3<span class="kw">&lt;/h3&gt;</span></span>
+<span id="cb329-4"><a href="html5-tags.html#cb329-4"></a><span class="kw">&lt;h4&gt;</span>This is heading 4<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb329-5"><a href="html5-tags.html#cb329-5"></a><span class="kw">&lt;h5&gt;</span>This is heading 5<span class="kw">&lt;/h5&gt;</span></span>
+<span id="cb329-6"><a href="html5-tags.html#cb329-6"></a><span class="kw">&lt;h6&gt;</span>This is heading 6<span class="kw">&lt;/h6&gt;</span></span></code></pre></div>
+</div>
+<div id="the-non-rendered-part-of-the-dom-head" class="section level4 unnumbered">
+<h4>The non-rendered part of the DOM: <code>&lt;head&gt;</code></h4>
+<p>The <code>head</code> element is a container for all the head elements.
+The <code>head</code> element can include a title for the document, scripts, styles, meta information, and more.
+The following elements can go inside the <code>head</code> element:</p>
+<ul>
+<li><code>title</code> (this element is required in an HTML document)</li>
+<li><code>style</code></li>
+<li><code>base</code></li>
+<li><code>link</code></li>
+<li><code>meta</code></li>
+<li><code>script</code></li>
+<li><code>noscript</code></li>
+</ul>
+</div>
+<div id="separator-for-sections-hr" class="section level4 unnumbered">
+<h4>Separator for sections: <code>&lt;hr&gt;</code></h4>
+<div class="sourceCode" id="cb330"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb330-1"><a href="html5-tags.html#cb330-1"></a><span class="kw">&lt;h4&gt;</span>This is before<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb330-2"><a href="html5-tags.html#cb330-2"></a><span class="kw">&lt;hr&gt;</span></span>
+<span id="cb330-3"><a href="html5-tags.html#cb330-3"></a><span class="kw">&lt;h4&gt;</span>This is after<span class="kw">&lt;/h4&gt;</span></span></code></pre></div>
+<h4>
+This is before
+</h4>
+<hr>
+<h4>
+This is after
+</h4>
+</div>
+<div id="the-top-level-container-html" class="section level4 unnumbered">
+<h4>The top level container: <code>&lt;html&gt;</code></h4>
+<p>The <code>html</code> tag tells the browser that this is an HTML document.
+The <code>html</code> tag represents the root of an HTML document.
+The <code>html</code> tag is the container for all other HTML elements (except for the <code>!DOCTYPE</code> tag).</p>
+</div>
+<div id="images-img" class="section level4 unnumbered">
+<h4>Images: <code>&lt;img&gt;</code></h4>
+<p>The <code>&lt;img&gt;</code> tag defines an image in an HTML page.
+The <code>&lt;img&gt;</code> tag has two required attributes: src and alt.
+Images are not technically inserted into an HTML page, images are linked to HTML pages. The <code>&lt;img&gt;</code> tag creates a holding space for the referenced image.
+Tip: To link an image to another document, simply nest the <code>&lt;img&gt;</code> tag inside <code>&lt;a&gt;</code> tags.</p>
+</div>
+<div id="describe-metadata-meta" class="section level4 unnumbered">
+<h4>Describe metadata: <code>&lt;meta&gt;</code></h4>
+<p>Metadata is data (information) about data.
+The <code>&lt;meta&gt;</code> tag provides metadata about the HTML document. Metadata will not be displayed on the page, but will be machine parsable.<br />
+Meta elements are typically used to specify page description, keywords, author of the document, last modified, and other metadata.<br />
+The metadata can be used by browsers (how to display content or reload page), search engines (keywords), or other web services.<br />
+HTML5 introduced a method to let web designers take control over the viewport (the user’s visible area of a web page), through the <code>&lt;meta&gt;</code> tag.</p>
+<div class="sourceCode" id="cb331"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb331-1"><a href="html5-tags.html#cb331-1"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb331-2"><a href="html5-tags.html#cb331-2"></a>  <span class="kw">&lt;meta</span><span class="ot"> charset=</span><span class="st">&quot;UTF-8&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb331-3"><a href="html5-tags.html#cb331-3"></a>  <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;description&quot;</span><span class="ot"> content=</span><span class="st">&quot;Free Web tutorials&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb331-4"><a href="html5-tags.html#cb331-4"></a>  <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;keywords&quot;</span><span class="ot"> content=</span><span class="st">&quot;HTML,CSS,XML,JavaScript&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb331-5"><a href="html5-tags.html#cb331-5"></a>  <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;author&quot;</span><span class="ot"> content=</span><span class="st">&quot;John Doe&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb331-6"><a href="html5-tags.html#cb331-6"></a>  <span class="kw">&lt;meta</span><span class="ot"> name=</span><span class="st">&quot;viewport&quot;</span><span class="ot"> content=</span><span class="st">&quot;width=device-width, initial-scale=1.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb331-7"><a href="html5-tags.html#cb331-7"></a><span class="kw">&lt;/head&gt;</span></span></code></pre></div>
+</div>
+<div id="ordered-and-unordered-lists-ol-ul-li" class="section level4 unnumbered">
+<h4>Ordered and unordered lists: <code>&lt;ol&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code></h4>
+<p>Ordered lists have numbering, unordered lists are not (usually bulleted lists).</p>
+<p>The main attributes of an ordered list are:<br />
+- <code>reversed</code>
+- <code>start</code> the start number
+- <code>type</code> the number type. Possible values are <code>1</code> (the default), <code>A</code>, <code>a</code>, <code>I</code>, <code>i</code>.</p>
+<div class="sourceCode" id="cb332"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb332-1"><a href="html5-tags.html#cb332-1"></a><span class="kw">&lt;ol</span><span class="ot"> start=</span><span class="st">&quot;10&quot;</span><span class="er">,</span><span class="ot"> type=</span><span class="st">&quot;i&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb332-2"><a href="html5-tags.html#cb332-2"></a>  <span class="kw">&lt;li&gt;</span>Coffee<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb332-3"><a href="html5-tags.html#cb332-3"></a>  <span class="kw">&lt;li&gt;</span>Tea<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb332-4"><a href="html5-tags.html#cb332-4"></a>  <span class="kw">&lt;li&gt;</span>Milk<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb332-5"><a href="html5-tags.html#cb332-5"></a><span class="kw">&lt;/ol&gt;</span></span></code></pre></div>
+<ol start="10", type="i">
+  <li>Coffee</li>
+  <li>Tea</li>
+  <li>Milk</li>
+</ol>
+<p>The unordered list can only configure its symbol, but this is not generally supported in html5.</p>
+<div class="sourceCode" id="cb333"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb333-1"><a href="html5-tags.html#cb333-1"></a><span class="kw">&lt;ul</span><span class="ot"> type=</span><span class="st">&quot;square&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb333-2"><a href="html5-tags.html#cb333-2"></a>  <span class="kw">&lt;li&gt;</span>Coffee<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb333-3"><a href="html5-tags.html#cb333-3"></a>  <span class="kw">&lt;li&gt;</span>Tea<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb333-4"><a href="html5-tags.html#cb333-4"></a>  <span class="kw">&lt;li&gt;</span>Milk<span class="kw">&lt;/li&gt;</span></span>
+<span id="cb333-5"><a href="html5-tags.html#cb333-5"></a><span class="kw">&lt;/ul&gt;</span></span></code></pre></div>
+<ul type="square">
+<li>
+Coffee
+</li>
+<li>
+Tea
+</li>
+<li>
+Milk
+</li>
+</ul>
+</div>
+<div id="paragraphs-p" class="section level3 unnumbered">
+<h3>Paragraphs: <code>&lt;p&gt;</code></h3>
+<p>The <code>&lt;p&gt;</code> tag defines a paragraph.<br />
+Browsers automatically add some space (margin) before and after each <code>&lt;p&gt;</code> element. The margins can be modified with CSS (with the margin properties).</p>
+<div class="sourceCode" id="cb334"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb334-1"><a href="html5-tags.html#cb334-1"></a><span class="kw">&lt;p</span><span class="ot"> style=</span><span class="st">&quot;border-style: dotted; text-align: center&quot;</span><span class="kw">&gt;</span>This is some text in a paragraph.<span class="kw">&lt;/p&gt;</span></span></code></pre></div>
+<p style="border-style: dotted; text-align: center">
+This is some text in a paragraph.
+</p>
+</div>
+<div id="scripts-with-script" class="section level3 unnumbered">
+<h3>Scripts with <code>&lt;script&gt;</code></h3>
+<p>Usually you place scripts outside the html, but there are good uses for
+placing the code within script tags.</p>
+<div class="sourceCode" id="cb335"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb335-1"><a href="html5-tags.html#cb335-1"></a><span class="kw">&lt;div</span><span class="ot"> id=</span><span class="st">&quot;demo&quot;</span><span class="kw">&gt;</span>Hello World<span class="kw">&lt;/div&gt;</span></span>
+<span id="cb335-2"><a href="html5-tags.html#cb335-2"></a><span class="kw">&lt;script&gt;</span></span>
+<span id="cb335-3"><a href="html5-tags.html#cb335-3"></a><span class="va">document</span>.<span class="at">getElementById</span>(<span class="st">&quot;demo&quot;</span>).<span class="at">innerHTML</span> <span class="op">=</span> <span class="st">&quot;Hello JavaScript!&quot;</span><span class="op">;</span></span>
+<span id="cb335-4"><a href="html5-tags.html#cb335-4"></a><span class="kw">&lt;/script&gt;</span></span></code></pre></div>
+</div>
+<div id="tables-table" class="section level3 unnumbered">
+<h3>Tables: <code>&lt;table&gt;</code></h3>
+<p>The <code>&lt;table&gt;</code> tag defines an HTML table.
+An HTML table consists of the <code>&lt;table&gt;</code> element and one or more <code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>, and <code>&lt;td&gt;</code> elements.
+The <code>&lt;tr&gt;</code> element defines a table row, the <code>&lt;th&gt;</code> element defines a table header, and the <code>&lt;td&gt;</code> element defines a table cell.
+A more complex HTML table may also include <code>&lt;caption&gt;</code>, <code>&lt;col&gt;</code>, <code>&lt;colgroup&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tfoot&gt;</code>, and <code>&lt;tbody&gt;</code> elements.
+Here is a table with the tags it can contain:</p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb336-1"><a href="html5-tags.html#cb336-1"></a><span class="kw">&lt;table&gt;</span></span>
+<span id="cb336-2"><a href="html5-tags.html#cb336-2"></a>    <span class="kw">&lt;thead&gt;</span></span>
+<span id="cb336-3"><a href="html5-tags.html#cb336-3"></a>    <span class="kw">&lt;tr&gt;</span></span>
+<span id="cb336-4"><a href="html5-tags.html#cb336-4"></a>        <span class="kw">&lt;th&gt;</span>Nucleotide<span class="kw">&lt;/th&gt;</span></span>
+<span id="cb336-5"><a href="html5-tags.html#cb336-5"></a>        <span class="kw">&lt;th&gt;</span>Name<span class="kw">&lt;/th&gt;</span></span>
+<span id="cb336-6"><a href="html5-tags.html#cb336-6"></a>    <span class="kw">&lt;/tr&gt;</span></span>
+<span id="cb336-7"><a href="html5-tags.html#cb336-7"></a>    <span class="kw">&lt;/thead&gt;</span></span>
+<span id="cb336-8"><a href="html5-tags.html#cb336-8"></a>    <span class="kw">&lt;tbody&gt;</span></span>
+<span id="cb336-9"><a href="html5-tags.html#cb336-9"></a>    <span class="kw">&lt;tr&gt;</span></span>
+<span id="cb336-10"><a href="html5-tags.html#cb336-10"></a>        <span class="kw">&lt;td&gt;</span>A<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-11"><a href="html5-tags.html#cb336-11"></a>        <span class="kw">&lt;td&gt;</span>Adenine<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-12"><a href="html5-tags.html#cb336-12"></a>    <span class="kw">&lt;/tr&gt;</span></span>
+<span id="cb336-13"><a href="html5-tags.html#cb336-13"></a>    <span class="kw">&lt;tr&gt;</span></span>
+<span id="cb336-14"><a href="html5-tags.html#cb336-14"></a>        <span class="kw">&lt;td&gt;</span>C<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-15"><a href="html5-tags.html#cb336-15"></a>        <span class="kw">&lt;td&gt;</span>Cytosine<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-16"><a href="html5-tags.html#cb336-16"></a>    <span class="kw">&lt;/tr&gt;</span></span>
+<span id="cb336-17"><a href="html5-tags.html#cb336-17"></a>    <span class="kw">&lt;tr&gt;</span></span>
+<span id="cb336-18"><a href="html5-tags.html#cb336-18"></a>        <span class="kw">&lt;td&gt;</span>G<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-19"><a href="html5-tags.html#cb336-19"></a>        <span class="kw">&lt;td&gt;</span>Guanine<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-20"><a href="html5-tags.html#cb336-20"></a>    <span class="kw">&lt;/tr&gt;</span></span>
+<span id="cb336-21"><a href="html5-tags.html#cb336-21"></a>    <span class="kw">&lt;tr&gt;</span></span>
+<span id="cb336-22"><a href="html5-tags.html#cb336-22"></a>        <span class="kw">&lt;td&gt;</span>T<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-23"><a href="html5-tags.html#cb336-23"></a>        <span class="kw">&lt;td&gt;</span>Thymine<span class="kw">&lt;/td&gt;</span></span>
+<span id="cb336-24"><a href="html5-tags.html#cb336-24"></a>    <span class="kw">&lt;/tr&gt;</span></span>
+<span id="cb336-25"><a href="html5-tags.html#cb336-25"></a>    <span class="kw">&lt;/tbody&gt;</span></span>
+<span id="cb336-26"><a href="html5-tags.html#cb336-26"></a><span class="kw">&lt;/table&gt;</span></span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>
+Nucleotide
+</th>
+<th>
+Name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+A
+</td>
+<td>
+Adenine
+</td>
+</tr>
+<tr>
+<td>
+C
+</td>
+<td>
+Cytosine
+</td>
+</tr>
+<tr>
+<td>
+G
+</td>
+<td>
+Guanine
+</td>
+</tr>
+<tr>
+<td>
+T
+</td>
+<td>
+Thymine
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="exercises-intro.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="junit-5-basics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

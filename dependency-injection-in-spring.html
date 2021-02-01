@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 46 Dependency Injection in Spring | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 46 Dependency Injection in Spring | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 46 Dependency Injection in Spring | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="rest-and-mvc-with-spring.html"/>
+<link rel="next" href="core-spring-annotations.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,252 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
-</div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="dependency-injection-in-spring" class="section level1">
+<h1><span class="header-section-number">Chapter 46</span> Dependency Injection in Spring</h1>
+<p>In software engineering, dependency injection (DI) is a technique in which an object receives other objects that it depends on. Together with its elaborate collection of annotations, dependency injection is the heart of the Spring framework.</p>
+<p>We will be using the debugger to explore the concept of DI. The same project of the previous tutorial will be used to go through this tutorial. The previously used Bird class will also be used, with minor modifications (an ID field was added).</p>
+<p>As example, a simple Bird “database” will be used as data layer to make available to the application.</p>
+<p>This is the <code>Bird</code> class:</p>
+<div class="sourceCode" id="cb396"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb396-1"><a href="dependency-injection-in-spring.html#cb396-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.model;</span></span>
+<span id="cb396-2"><a href="dependency-injection-in-spring.html#cb396-2"></a></span>
+<span id="cb396-3"><a href="dependency-injection-in-spring.html#cb396-3"></a><span class="kw">import</span><span class="im"> java.util.Objects;</span></span>
+<span id="cb396-4"><a href="dependency-injection-in-spring.html#cb396-4"></a></span>
+<span id="cb396-5"><a href="dependency-injection-in-spring.html#cb396-5"></a><span class="kw">public</span> <span class="kw">class</span> Bird {</span>
+<span id="cb396-6"><a href="dependency-injection-in-spring.html#cb396-6"></a>    <span class="kw">private</span> <span class="bu">Long</span> id;</span>
+<span id="cb396-7"><a href="dependency-injection-in-spring.html#cb396-7"></a>    <span class="kw">private</span> <span class="bu">String</span> name;</span>
+<span id="cb396-8"><a href="dependency-injection-in-spring.html#cb396-8"></a>    <span class="kw">private</span> <span class="bu">String</span> status;</span>
+<span id="cb396-9"><a href="dependency-injection-in-spring.html#cb396-9"></a></span>
+<span id="cb396-10"><a href="dependency-injection-in-spring.html#cb396-10"></a>    <span class="kw">public</span> <span class="fu">Bird</span>(<span class="bu">Long</span> id, <span class="bu">String</span> name, <span class="bu">String</span> status) {</span>
+<span id="cb396-11"><a href="dependency-injection-in-spring.html#cb396-11"></a>        <span class="kw">this</span>.<span class="fu">id</span> = Objects.<span class="fu">requireNonNull</span>(id);</span>
+<span id="cb396-12"><a href="dependency-injection-in-spring.html#cb396-12"></a>        <span class="kw">this</span>.<span class="fu">name</span> = Objects.<span class="fu">requireNonNull</span>(name);</span>
+<span id="cb396-13"><a href="dependency-injection-in-spring.html#cb396-13"></a>        <span class="kw">this</span>.<span class="fu">status</span> = status;</span>
+<span id="cb396-14"><a href="dependency-injection-in-spring.html#cb396-14"></a>    }</span>
+<span id="cb396-15"><a href="dependency-injection-in-spring.html#cb396-15"></a></span>
+<span id="cb396-16"><a href="dependency-injection-in-spring.html#cb396-16"></a>    <span class="kw">public</span> <span class="bu">Long</span> <span class="fu">getId</span>() {</span>
+<span id="cb396-17"><a href="dependency-injection-in-spring.html#cb396-17"></a>        <span class="kw">return</span> id;</span>
+<span id="cb396-18"><a href="dependency-injection-in-spring.html#cb396-18"></a>    }</span>
+<span id="cb396-19"><a href="dependency-injection-in-spring.html#cb396-19"></a></span>
+<span id="cb396-20"><a href="dependency-injection-in-spring.html#cb396-20"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span>() {</span>
+<span id="cb396-21"><a href="dependency-injection-in-spring.html#cb396-21"></a>        <span class="kw">return</span> name;</span>
+<span id="cb396-22"><a href="dependency-injection-in-spring.html#cb396-22"></a>    }</span>
+<span id="cb396-23"><a href="dependency-injection-in-spring.html#cb396-23"></a></span>
+<span id="cb396-24"><a href="dependency-injection-in-spring.html#cb396-24"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getStatus</span>() {</span>
+<span id="cb396-25"><a href="dependency-injection-in-spring.html#cb396-25"></a>        <span class="kw">return</span> status;</span>
+<span id="cb396-26"><a href="dependency-injection-in-spring.html#cb396-26"></a>    }</span>
+<span id="cb396-27"><a href="dependency-injection-in-spring.html#cb396-27"></a></span>
+<span id="cb396-28"><a href="dependency-injection-in-spring.html#cb396-28"></a>    <span class="at">@Override</span></span>
+<span id="cb396-29"><a href="dependency-injection-in-spring.html#cb396-29"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb396-30"><a href="dependency-injection-in-spring.html#cb396-30"></a>        <span class="kw">return</span> <span class="st">&quot;Bird{&quot;</span> +</span>
+<span id="cb396-31"><a href="dependency-injection-in-spring.html#cb396-31"></a>                <span class="st">&quot;name=&#39;&quot;</span> + name + <span class="ch">&#39;\&#39;&#39;</span> +</span>
+<span id="cb396-32"><a href="dependency-injection-in-spring.html#cb396-32"></a>                <span class="st">&quot;, status=&#39;&quot;</span> + status + <span class="ch">&#39;\&#39;&#39;</span> +</span>
+<span id="cb396-33"><a href="dependency-injection-in-spring.html#cb396-33"></a>                <span class="ch">&#39;}&#39;</span>;</span>
+<span id="cb396-34"><a href="dependency-injection-in-spring.html#cb396-34"></a>    }</span>
+<span id="cb396-35"><a href="dependency-injection-in-spring.html#cb396-35"></a></span>
+<span id="cb396-36"><a href="dependency-injection-in-spring.html#cb396-36"></a>    <span class="at">@Override</span></span>
+<span id="cb396-37"><a href="dependency-injection-in-spring.html#cb396-37"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="bu">Object</span> o) {</span>
+<span id="cb396-38"><a href="dependency-injection-in-spring.html#cb396-38"></a>        <span class="kw">if</span> (<span class="kw">this</span> == o) <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb396-39"><a href="dependency-injection-in-spring.html#cb396-39"></a>        <span class="kw">if</span> (o == <span class="kw">null</span> || <span class="fu">getClass</span>() != o.<span class="fu">getClass</span>()) <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb396-40"><a href="dependency-injection-in-spring.html#cb396-40"></a></span>
+<span id="cb396-41"><a href="dependency-injection-in-spring.html#cb396-41"></a>        Bird bird = (Bird) o;</span>
+<span id="cb396-42"><a href="dependency-injection-in-spring.html#cb396-42"></a></span>
+<span id="cb396-43"><a href="dependency-injection-in-spring.html#cb396-43"></a>        <span class="kw">return</span> <span class="fu">getId</span>() != <span class="kw">null</span> ? <span class="fu">getId</span>().<span class="fu">equals</span>(bird.<span class="fu">getId</span>()) : bird.<span class="fu">getId</span>() == <span class="kw">null</span>;</span>
+<span id="cb396-44"><a href="dependency-injection-in-spring.html#cb396-44"></a>    }</span>
+<span id="cb396-45"><a href="dependency-injection-in-spring.html#cb396-45"></a></span>
+<span id="cb396-46"><a href="dependency-injection-in-spring.html#cb396-46"></a>    <span class="at">@Override</span></span>
+<span id="cb396-47"><a href="dependency-injection-in-spring.html#cb396-47"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">hashCode</span>() {</span>
+<span id="cb396-48"><a href="dependency-injection-in-spring.html#cb396-48"></a>        <span class="kw">return</span> <span class="fu">getId</span>() != <span class="kw">null</span> ? <span class="fu">getId</span>().<span class="fu">hashCode</span>() : <span class="dv">0</span>;</span>
+<span id="cb396-49"><a href="dependency-injection-in-spring.html#cb396-49"></a>    }</span>
+<span id="cb396-50"><a href="dependency-injection-in-spring.html#cb396-50"></a>}</span></code></pre></div>
+<p>Create a package named <code>dao</code>. In it, create an interface named BirdsRepository:</p>
+<div class="sourceCode" id="cb397"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb397-1"><a href="dependency-injection-in-spring.html#cb397-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.dao;</span></span>
+<span id="cb397-2"><a href="dependency-injection-in-spring.html#cb397-2"></a></span>
+<span id="cb397-3"><a href="dependency-injection-in-spring.html#cb397-3"></a><span class="kw">import</span><span class="im"> nl.bioinf.model.Bird;</span></span>
+<span id="cb397-4"><a href="dependency-injection-in-spring.html#cb397-4"></a></span>
+<span id="cb397-5"><a href="dependency-injection-in-spring.html#cb397-5"></a><span class="kw">public</span> <span class="kw">interface</span> BirdsRepository {</span>
+<span id="cb397-6"><a href="dependency-injection-in-spring.html#cb397-6"></a>    <span class="dt">void</span> <span class="fu">add</span>(Bird bird);</span>
+<span id="cb397-7"><a href="dependency-injection-in-spring.html#cb397-7"></a>    Bird <span class="fu">findByName</span>(<span class="bu">String</span> name);</span>
+<span id="cb397-8"><a href="dependency-injection-in-spring.html#cb397-8"></a>    Bird <span class="fu">findById</span>(<span class="bu">Long</span> id);</span>
+<span id="cb397-9"><a href="dependency-injection-in-spring.html#cb397-9"></a>}</span></code></pre></div>
+<p>Create a sub-package of <code>dao</code> named <code>dummy</code>. In this package, create a class named <code>BirdsRepositoryDummyImpl</code> that implements the interface. It uses the Java Streams api that may be new to you. Try to figure out what is going on:</p>
+<div class="sourceCode" id="cb398"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb398-1"><a href="dependency-injection-in-spring.html#cb398-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.dao.dummy;</span></span>
+<span id="cb398-2"><a href="dependency-injection-in-spring.html#cb398-2"></a></span>
+<span id="cb398-3"><a href="dependency-injection-in-spring.html#cb398-3"></a><span class="co">//imports omitted</span></span>
+<span id="cb398-4"><a href="dependency-injection-in-spring.html#cb398-4"></a></span>
+<span id="cb398-5"><a href="dependency-injection-in-spring.html#cb398-5"></a><span class="kw">public</span> <span class="kw">class</span> BirdsRepositoryDummyImpl <span class="kw">implements</span> BirdsRepository {</span>
+<span id="cb398-6"><a href="dependency-injection-in-spring.html#cb398-6"></a>    <span class="kw">private</span> <span class="bu">Map</span>&lt;<span class="bu">Long</span>, Bird&gt; birds = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();</span>
+<span id="cb398-7"><a href="dependency-injection-in-spring.html#cb398-7"></a></span>
+<span id="cb398-8"><a href="dependency-injection-in-spring.html#cb398-8"></a>    <span class="at">@Override</span></span>
+<span id="cb398-9"><a href="dependency-injection-in-spring.html#cb398-9"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">add</span>(Bird bird) {</span>
+<span id="cb398-10"><a href="dependency-injection-in-spring.html#cb398-10"></a>        Objects.<span class="fu">requireNonNull</span>(bird);</span>
+<span id="cb398-11"><a href="dependency-injection-in-spring.html#cb398-11"></a>        <span class="kw">this</span>.<span class="fu">birds</span>.<span class="fu">put</span>(bird.<span class="fu">getId</span>(), bird);</span>
+<span id="cb398-12"><a href="dependency-injection-in-spring.html#cb398-12"></a>    }</span>
+<span id="cb398-13"><a href="dependency-injection-in-spring.html#cb398-13"></a></span>
+<span id="cb398-14"><a href="dependency-injection-in-spring.html#cb398-14"></a>    <span class="at">@Override</span></span>
+<span id="cb398-15"><a href="dependency-injection-in-spring.html#cb398-15"></a>    <span class="kw">public</span> Bird <span class="fu">findByName</span>(<span class="bu">String</span> name) {</span>
+<span id="cb398-16"><a href="dependency-injection-in-spring.html#cb398-16"></a>        <span class="dt">final</span> <span class="bu">List</span>&lt;Bird&gt; found = <span class="kw">this</span>.<span class="fu">birds</span></span>
+<span id="cb398-17"><a href="dependency-injection-in-spring.html#cb398-17"></a>                .<span class="fu">values</span>()</span>
+<span id="cb398-18"><a href="dependency-injection-in-spring.html#cb398-18"></a>                .<span class="fu">stream</span>()</span>
+<span id="cb398-19"><a href="dependency-injection-in-spring.html#cb398-19"></a>                .<span class="fu">filter</span>(b -&gt; b.<span class="fu">getName</span>().<span class="fu">equals</span>(name))</span>
+<span id="cb398-20"><a href="dependency-injection-in-spring.html#cb398-20"></a>                .<span class="fu">collect</span>(Collectors.<span class="fu">toList</span>());</span>
+<span id="cb398-21"><a href="dependency-injection-in-spring.html#cb398-21"></a>        <span class="fu">assert</span>(found.<span class="fu">size</span>() &lt;= <span class="dv">1</span>);</span>
+<span id="cb398-22"><a href="dependency-injection-in-spring.html#cb398-22"></a>        <span class="kw">if</span> (found.<span class="fu">isEmpty</span>()) {</span>
+<span id="cb398-23"><a href="dependency-injection-in-spring.html#cb398-23"></a>            <span class="kw">return</span> <span class="kw">null</span>;</span>
+<span id="cb398-24"><a href="dependency-injection-in-spring.html#cb398-24"></a>        } <span class="kw">else</span> {</span>
+<span id="cb398-25"><a href="dependency-injection-in-spring.html#cb398-25"></a>            <span class="kw">return</span> found.<span class="fu">get</span>(<span class="dv">0</span>);</span>
+<span id="cb398-26"><a href="dependency-injection-in-spring.html#cb398-26"></a>        }</span>
+<span id="cb398-27"><a href="dependency-injection-in-spring.html#cb398-27"></a>    }</span>
+<span id="cb398-28"><a href="dependency-injection-in-spring.html#cb398-28"></a></span>
+<span id="cb398-29"><a href="dependency-injection-in-spring.html#cb398-29"></a>    <span class="at">@Override</span></span>
+<span id="cb398-30"><a href="dependency-injection-in-spring.html#cb398-30"></a>    <span class="kw">public</span> Bird <span class="fu">findById</span>(<span class="bu">Long</span> id) {</span>
+<span id="cb398-31"><a href="dependency-injection-in-spring.html#cb398-31"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">birds</span>.<span class="fu">containsKey</span>(id)) {</span>
+<span id="cb398-32"><a href="dependency-injection-in-spring.html#cb398-32"></a>            <span class="kw">return</span> birds.<span class="fu">get</span>(id);</span>
+<span id="cb398-33"><a href="dependency-injection-in-spring.html#cb398-33"></a>        } <span class="kw">else</span> {</span>
+<span id="cb398-34"><a href="dependency-injection-in-spring.html#cb398-34"></a>            <span class="kw">return</span> <span class="kw">null</span>;</span>
+<span id="cb398-35"><a href="dependency-injection-in-spring.html#cb398-35"></a>        }</span>
+<span id="cb398-36"><a href="dependency-injection-in-spring.html#cb398-36"></a>    }</span>
+<span id="cb398-37"><a href="dependency-injection-in-spring.html#cb398-37"></a>}</span></code></pre></div>
+<p>Note that returning <code>null</code> from a method is generally considered bad practice. You should use the Optional class for such cases. However, for simplicity’s sake I keep things as they are. Also note there are more sophisticated ways of “mocking” your data layer.</p>
+<p>Let’s first create some tests to see whether it works.</p>
+<div class="sourceCode" id="cb399"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb399-1"><a href="dependency-injection-in-spring.html#cb399-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.dao.dummy;</span></span>
+<span id="cb399-2"><a href="dependency-injection-in-spring.html#cb399-2"></a></span>
+<span id="cb399-3"><a href="dependency-injection-in-spring.html#cb399-3"></a><span class="co">//imports omitted</span></span>
+<span id="cb399-4"><a href="dependency-injection-in-spring.html#cb399-4"></a></span>
+<span id="cb399-5"><a href="dependency-injection-in-spring.html#cb399-5"></a><span class="kw">class</span> BirdsRepositoryDummyImplTest {</span>
+<span id="cb399-6"><a href="dependency-injection-in-spring.html#cb399-6"></a>    <span class="kw">private</span> BirdsRepository birdsRepository;</span>
+<span id="cb399-7"><a href="dependency-injection-in-spring.html#cb399-7"></a>    <span class="kw">private</span> Bird bird;</span>
+<span id="cb399-8"><a href="dependency-injection-in-spring.html#cb399-8"></a></span>
+<span id="cb399-9"><a href="dependency-injection-in-spring.html#cb399-9"></a>    <span class="at">@BeforeEach</span></span>
+<span id="cb399-10"><a href="dependency-injection-in-spring.html#cb399-10"></a>    <span class="dt">void</span> <span class="fu">setupDatabase</span>() {</span>
+<span id="cb399-11"><a href="dependency-injection-in-spring.html#cb399-11"></a>        <span class="kw">this</span>.<span class="fu">birdsRepository</span> = <span class="kw">new</span> <span class="fu">BirdsRepositoryDummyImpl</span>();</span>
+<span id="cb399-12"><a href="dependency-injection-in-spring.html#cb399-12"></a>        <span class="kw">this</span>.<span class="fu">bird</span> = <span class="kw">new</span> <span class="fu">Bird</span>(<span class="dv">1234L</span>, <span class="st">&quot;Steppe eagle&quot;</span>, <span class="st">&quot;extremely rare&quot;</span>);</span>
+<span id="cb399-13"><a href="dependency-injection-in-spring.html#cb399-13"></a>    }</span>
+<span id="cb399-14"><a href="dependency-injection-in-spring.html#cb399-14"></a></span>
+<span id="cb399-15"><a href="dependency-injection-in-spring.html#cb399-15"></a>    <span class="at">@Test</span></span>
+<span id="cb399-16"><a href="dependency-injection-in-spring.html#cb399-16"></a>    <span class="dt">void</span> <span class="fu">findByName_OK</span>() {</span>
+<span id="cb399-17"><a href="dependency-injection-in-spring.html#cb399-17"></a>        birdsRepository.<span class="fu">add</span>(<span class="kw">this</span>.<span class="fu">bird</span>);</span>
+<span id="cb399-18"><a href="dependency-injection-in-spring.html#cb399-18"></a>        Bird found = birdsRepository.<span class="fu">findByName</span>(<span class="st">&quot;Steppe eagle&quot;</span>);</span>
+<span id="cb399-19"><a href="dependency-injection-in-spring.html#cb399-19"></a>        <span class="fu">assertEquals</span>(<span class="kw">this</span>.<span class="fu">bird</span>, found);</span>
+<span id="cb399-20"><a href="dependency-injection-in-spring.html#cb399-20"></a>    }</span>
+<span id="cb399-21"><a href="dependency-injection-in-spring.html#cb399-21"></a></span>
+<span id="cb399-22"><a href="dependency-injection-in-spring.html#cb399-22"></a>    <span class="at">@Test</span></span>
+<span id="cb399-23"><a href="dependency-injection-in-spring.html#cb399-23"></a>    <span class="dt">void</span> <span class="fu">findByName_Null</span>() {</span>
+<span id="cb399-24"><a href="dependency-injection-in-spring.html#cb399-24"></a>        birdsRepository.<span class="fu">add</span>(<span class="kw">this</span>.<span class="fu">bird</span>);</span>
+<span id="cb399-25"><a href="dependency-injection-in-spring.html#cb399-25"></a>        Bird found = birdsRepository.<span class="fu">findByName</span>(<span class="st">&quot;Tawny Eagle&quot;</span>);</span>
+<span id="cb399-26"><a href="dependency-injection-in-spring.html#cb399-26"></a>        <span class="fu">assertNull</span>(found);</span>
+<span id="cb399-27"><a href="dependency-injection-in-spring.html#cb399-27"></a>    }</span>
+<span id="cb399-28"><a href="dependency-injection-in-spring.html#cb399-28"></a></span>
+<span id="cb399-29"><a href="dependency-injection-in-spring.html#cb399-29"></a>    <span class="at">@Test</span></span>
+<span id="cb399-30"><a href="dependency-injection-in-spring.html#cb399-30"></a>    <span class="dt">void</span> <span class="fu">findById</span>() {</span>
+<span id="cb399-31"><a href="dependency-injection-in-spring.html#cb399-31"></a>        birdsRepository.<span class="fu">add</span>(<span class="kw">this</span>.<span class="fu">bird</span>);</span>
+<span id="cb399-32"><a href="dependency-injection-in-spring.html#cb399-32"></a>        Bird found = birdsRepository.<span class="fu">findById</span>(<span class="kw">this</span>.<span class="fu">bird</span>.<span class="fu">getId</span>());</span>
+<span id="cb399-33"><a href="dependency-injection-in-spring.html#cb399-33"></a>        <span class="fu">assertEquals</span>(<span class="kw">this</span>.<span class="fu">bird</span>, found);</span>
+<span id="cb399-34"><a href="dependency-injection-in-spring.html#cb399-34"></a>    }</span>
+<span id="cb399-35"><a href="dependency-injection-in-spring.html#cb399-35"></a>}</span></code></pre></div>
+<p>It passes. Note that, when we want to test the application, we will want to run these tests no matter what the service layer implementation looks like. This is called an integration test, and it also uses Spring DI. We’ll return to good testing practices in the Spring framework later.</p>
+<p>Now let’s consume the service. Here is a REST controller that we want to use to serve birds from the data layer:</p>
+<div class="sourceCode" id="cb400"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb400-1"><a href="dependency-injection-in-spring.html#cb400-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.webcontrol;</span></span>
+<span id="cb400-2"><a href="dependency-injection-in-spring.html#cb400-2"></a></span>
+<span id="cb400-3"><a href="dependency-injection-in-spring.html#cb400-3"></a><span class="co">//imports omitted</span></span>
+<span id="cb400-4"><a href="dependency-injection-in-spring.html#cb400-4"></a></span>
+<span id="cb400-5"><a href="dependency-injection-in-spring.html#cb400-5"></a><span class="at">@RestController</span></span>
+<span id="cb400-6"><a href="dependency-injection-in-spring.html#cb400-6"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;/birds&quot;</span>)</span>
+<span id="cb400-7"><a href="dependency-injection-in-spring.html#cb400-7"></a><span class="kw">public</span> <span class="kw">class</span> BirdsController {</span>
+<span id="cb400-8"><a href="dependency-injection-in-spring.html#cb400-8"></a></span>
+<span id="cb400-9"><a href="dependency-injection-in-spring.html#cb400-9"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/{id}&quot;</span>)</span>
+<span id="cb400-10"><a href="dependency-injection-in-spring.html#cb400-10"></a>    <span class="kw">public</span> Bird <span class="fu">getBirdById</span>(<span class="at">@PathVariable</span>(value=<span class="st">&quot;id&quot;</span>) <span class="bu">Long</span> id) {</span>
+<span id="cb400-11"><a href="dependency-injection-in-spring.html#cb400-11"></a>        <span class="co">//I need to get hold of a BirdsRepository implementation here</span></span>
+<span id="cb400-12"><a href="dependency-injection-in-spring.html#cb400-12"></a></span>
+<span id="cb400-13"><a href="dependency-injection-in-spring.html#cb400-13"></a>        <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">UnsupportedOperationException</span>(<span class="st">&quot;not implemented yet&quot;</span>);</span>
+<span id="cb400-14"><a href="dependency-injection-in-spring.html#cb400-14"></a>    }</span>
+<span id="cb400-15"><a href="dependency-injection-in-spring.html#cb400-15"></a>}</span></code></pre></div>
+<p>As you can see, in order to serve birds, a reference to a <code>BirdsRepository</code> implementation needs to be present. The <code>BirdsController</code> class has a dependency on a <code>BirdsRepository</code> implementation. There are several ways to satisfy this dependency. Whichever technique you choose, <strong><em>never make a class dependent on an implementation; always use abstractions</em></strong>.</p>
+<p>The dependency could be passed into the constructor or into a setter. But which object will be responsible for passing that dependency? Alternatively, you may have learned patterns like these:</p>
+<div class="sourceCode" id="cb401"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb401-1"><a href="dependency-injection-in-spring.html#cb401-1"></a>BirdsRepository repo = BirdsRepositoryDummyImpl.<span class="fu">getInstance</span>()</span>
+<span id="cb401-2"><a href="dependency-injection-in-spring.html#cb401-2"></a><span class="co">//OR, more loosely coupled and thus better</span></span>
+<span id="cb401-3"><a href="dependency-injection-in-spring.html#cb401-3"></a>BirdsRepository repo = BirdsRepositoryFactory.<span class="fu">getInstance</span>();</span></code></pre></div>
+<p>Which makes the <code>BirdsController</code> class dependent on a factory class (or worse, a specific implementation). A general guideline in OO design is that you want to have as few dependencies as possible: <strong><em>loose coupling</em></strong> is the term for that (see <a href="https://en.wikipedia.org/wiki/Loose_coupling">wikipedia</a>).</p>
+<p>Supporting loose coupling is exactly what the Spring framework is build for: <em><strong>Wiring the objects that make up the backbone of your application with the objects they depend upon</strong></em>.</p>
+<p>Let’s have a look at the Spring way of doing this.</p>
+<p>First, we’ll add a <code>@Component</code> annotation to the <code>BirdsRepositoryDummyImpl</code> class.</p>
+<div class="sourceCode" id="cb402"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb402-1"><a href="dependency-injection-in-spring.html#cb402-1"></a><span class="at">@Component</span></span>
+<span id="cb402-2"><a href="dependency-injection-in-spring.html#cb402-2"></a><span class="kw">public</span> <span class="kw">class</span> BirdsRepositoryDummyImpl <span class="kw">implements</span> BirdsRepository {</span>
+<span id="cb402-3"><a href="dependency-injection-in-spring.html#cb402-3"></a>    <span class="kw">public</span> <span class="fu">BirdsRepositoryDummyImpl</span>() {</span>
+<span id="cb402-4"><a href="dependency-injection-in-spring.html#cb402-4"></a>        <span class="co">//add a single bird to be able to serve</span></span>
+<span id="cb402-5"><a href="dependency-injection-in-spring.html#cb402-5"></a>        <span class="kw">this</span>.<span class="fu">birds</span>.<span class="fu">put</span>(<span class="dv">1111L</span>, <span class="kw">new</span> <span class="fu">Bird</span>(<span class="dv">1111L</span>, <span class="st">&quot;Long-eared owl&quot;</span>, <span class="st">&quot;fairly common&quot;</span>));</span>
+<span id="cb402-6"><a href="dependency-injection-in-spring.html#cb402-6"></a>    }</span>
+<span id="cb402-7"><a href="dependency-injection-in-spring.html#cb402-7"></a>    <span class="co">//rest of code omitted</span></span></code></pre></div>
+<p>What this <code>@Component</code> annotation does is telling the Spring container that this class should be instantiated as a component of the application.
+Once you’ve done that, you should never take that responsibility back: never use <code>new BirdsRepositoryDummyImpl()</code> in your code. Spring is now responsible for that.
+Now, whenever your request an object of type <code>BirdsRepository</code> you will get the single instance of this class that Spring instantiates.</p>
+<p>For testing purposes, I already add a single bird within the constructor. I know, this is not the official way to do this. But I want to stay focussed on the topic here, which is dependency injection.</p>
+<p>Next, we’ll tell the Spring container we’ll be needing a component of type <code>BirdsRepository</code>, using the <code>@Autowired</code> annotation.</p>
+<div class="sourceCode" id="cb403"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb403-1"><a href="dependency-injection-in-spring.html#cb403-1"></a><span class="at">@RestController</span></span>
+<span id="cb403-2"><a href="dependency-injection-in-spring.html#cb403-2"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;/birds&quot;</span>)</span>
+<span id="cb403-3"><a href="dependency-injection-in-spring.html#cb403-3"></a><span class="kw">public</span> <span class="kw">class</span> BirdsController {</span>
+<span id="cb403-4"><a href="dependency-injection-in-spring.html#cb403-4"></a></span>
+<span id="cb403-5"><a href="dependency-injection-in-spring.html#cb403-5"></a>    <span class="at">@Autowired</span></span>
+<span id="cb403-6"><a href="dependency-injection-in-spring.html#cb403-6"></a>    <span class="kw">private</span> BirdsRepository birdsRepository;</span>
+<span id="cb403-7"><a href="dependency-injection-in-spring.html#cb403-7"></a></span>
+<span id="cb403-8"><a href="dependency-injection-in-spring.html#cb403-8"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/{id}&quot;</span>)</span>
+<span id="cb403-9"><a href="dependency-injection-in-spring.html#cb403-9"></a>    <span class="kw">public</span> Bird <span class="fu">getBirdById</span>(<span class="at">@PathVariable</span>(value=<span class="st">&quot;id&quot;</span>) <span class="bu">Long</span> id) {</span>
+<span id="cb403-10"><a href="dependency-injection-in-spring.html#cb403-10"></a>        <span class="kw">return</span> birdsRepository.<span class="fu">findById</span>(id);</span>
+<span id="cb403-11"><a href="dependency-injection-in-spring.html#cb403-11"></a>    }</span>
+<span id="cb403-12"><a href="dependency-injection-in-spring.html#cb403-12"></a>}</span></code></pre></div>
+<p>Go to the endpoint <a href="http://localhost:8080/birds/1111">http://localhost:8080/birds/1111</a> and you should receive this:</p>
+<div class="sourceCode" id="cb404"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb404-1"><a href="dependency-injection-in-spring.html#cb404-1"></a><span class="fu">{</span></span>
+<span id="cb404-2"><a href="dependency-injection-in-spring.html#cb404-2"></a>    <span class="dt">&quot;id&quot;</span><span class="fu">:</span> <span class="dv">1111</span><span class="fu">,</span></span>
+<span id="cb404-3"><a href="dependency-injection-in-spring.html#cb404-3"></a>    <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Long-eared owl&quot;</span><span class="fu">,</span></span>
+<span id="cb404-4"><a href="dependency-injection-in-spring.html#cb404-4"></a>    <span class="dt">&quot;status&quot;</span><span class="fu">:</span> <span class="st">&quot;fairly common&quot;</span></span>
+<span id="cb404-5"><a href="dependency-injection-in-spring.html#cb404-5"></a><span class="fu">}</span></span></code></pre></div>
+<p>I used the interface type, not the implementation, to get hold of a <code>BirdsRepositoryDummyImpl</code> instance. Spring will look up all implementations and if there is only one, it will instantiate that class. If there are more implementations (or none), it will throw an error. More on how to solve that later.</p>
+<p>This is the simplest form of Autowiring; IntelliJ suggests it is not the best way. Alternatively, I could have used Autowiring of the constructor, like below.
+In some cases, autowiring a field gives <code>null</code> whereas autowiring the constructor works. See this <a href="https://reflectoring.io/constructor-injection/">blog post</a> for a discussion on pros and cons of different types of DI.</p>
+<div class="sourceCode" id="cb405"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb405-1"><a href="dependency-injection-in-spring.html#cb405-1"></a><span class="at">@RestController</span></span>
+<span id="cb405-2"><a href="dependency-injection-in-spring.html#cb405-2"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;/birds&quot;</span>)</span>
+<span id="cb405-3"><a href="dependency-injection-in-spring.html#cb405-3"></a><span class="kw">public</span> <span class="kw">class</span> BirdsController {</span>
+<span id="cb405-4"><a href="dependency-injection-in-spring.html#cb405-4"></a></span>
+<span id="cb405-5"><a href="dependency-injection-in-spring.html#cb405-5"></a>    <span class="kw">private</span> <span class="dt">final</span> BirdsRepository birdsRepository;</span>
+<span id="cb405-6"><a href="dependency-injection-in-spring.html#cb405-6"></a></span>
+<span id="cb405-7"><a href="dependency-injection-in-spring.html#cb405-7"></a>    <span class="at">@Autowired</span></span>
+<span id="cb405-8"><a href="dependency-injection-in-spring.html#cb405-8"></a>    <span class="kw">public</span> <span class="fu">BirdsController</span>(BirdsRepository birdsRepository) {</span>
+<span id="cb405-9"><a href="dependency-injection-in-spring.html#cb405-9"></a>        <span class="kw">this</span>.<span class="fu">birdsRepository</span> = birdsRepository;</span>
+<span id="cb405-10"><a href="dependency-injection-in-spring.html#cb405-10"></a>    }</span>
+<span id="cb405-11"><a href="dependency-injection-in-spring.html#cb405-11"></a></span>
+<span id="cb405-12"><a href="dependency-injection-in-spring.html#cb405-12"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/{id}&quot;</span>)</span>
+<span id="cb405-13"><a href="dependency-injection-in-spring.html#cb405-13"></a>    <span class="kw">public</span> Bird <span class="fu">getBirdById</span>(<span class="at">@PathVariable</span>(value=<span class="st">&quot;id&quot;</span>) <span class="bu">Long</span> id) {</span>
+<span id="cb405-14"><a href="dependency-injection-in-spring.html#cb405-14"></a>        <span class="kw">return</span> birdsRepository.<span class="fu">findById</span>(id);</span>
+<span id="cb405-15"><a href="dependency-injection-in-spring.html#cb405-15"></a>    }</span>
+<span id="cb405-16"><a href="dependency-injection-in-spring.html#cb405-16"></a>}</span></code></pre></div>
+<p>Finally, I could also have used setter-based injection:</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb406-1"><a href="dependency-injection-in-spring.html#cb406-1"></a><span class="at">@RestController</span></span>
+<span id="cb406-2"><a href="dependency-injection-in-spring.html#cb406-2"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;/birds&quot;</span>)</span>
+<span id="cb406-3"><a href="dependency-injection-in-spring.html#cb406-3"></a><span class="kw">public</span> <span class="kw">class</span> BirdsController {</span>
+<span id="cb406-4"><a href="dependency-injection-in-spring.html#cb406-4"></a></span>
+<span id="cb406-5"><a href="dependency-injection-in-spring.html#cb406-5"></a>    <span class="kw">private</span> BirdsRepository birdsRepository;</span>
+<span id="cb406-6"><a href="dependency-injection-in-spring.html#cb406-6"></a></span>
+<span id="cb406-7"><a href="dependency-injection-in-spring.html#cb406-7"></a>    <span class="at">@Autowired</span></span>
+<span id="cb406-8"><a href="dependency-injection-in-spring.html#cb406-8"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">setBirdsRepository</span>(BirdsRepository repo) {</span>
+<span id="cb406-9"><a href="dependency-injection-in-spring.html#cb406-9"></a>        <span class="kw">this</span>.<span class="fu">birdsRepository</span> = repo;</span>
+<span id="cb406-10"><a href="dependency-injection-in-spring.html#cb406-10"></a>    }</span>
+<span id="cb406-11"><a href="dependency-injection-in-spring.html#cb406-11"></a></span>
+<span id="cb406-12"><a href="dependency-injection-in-spring.html#cb406-12"></a>    <span class="at">@GetMapping</span>(value = <span class="st">&quot;/{id}&quot;</span>)</span>
+<span id="cb406-13"><a href="dependency-injection-in-spring.html#cb406-13"></a>    <span class="kw">public</span> Bird <span class="fu">getBirdById</span>(<span class="at">@PathVariable</span>(value=<span class="st">&quot;id&quot;</span>) <span class="bu">Long</span> id) {</span>
+<span id="cb406-14"><a href="dependency-injection-in-spring.html#cb406-14"></a>        <span class="kw">return</span> birdsRepository.<span class="fu">findById</span>(id);</span>
+<span id="cb406-15"><a href="dependency-injection-in-spring.html#cb406-15"></a>    }</span>
+<span id="cb406-16"><a href="dependency-injection-in-spring.html#cb406-16"></a>}</span></code></pre></div>
+<p>Perhaps surprisingly, the setter can be made <code>private</code>.</p>
+<p>This concludes the three ways of doing dependency injection using the spring framework.</p>
+<p>Use this technique to build the backbone of your application. Once you’ve annotated a class as a <code>@Component</code> or other related ones such as <code>@Service</code>, <code>@DataSource</code>, <strong><em>never ever construct them yourself</em></strong>.</p>
+<p>Note that this is primarily used for classes of which the application needs only a single instance; you are not likely going to annotate your data objects in this way.</p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="rest-and-mvc-with-spring.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="core-spring-annotations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

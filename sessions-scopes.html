@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 34 Sessions &amp; Scopes | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 34 Sessions &amp; Scopes | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 34 Sessions &amp; Scopes | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="thymeleaf-flow-control-and-fragments.html"/>
+<link rel="next" href="servlet-details-and-lifecycle-hooks.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,248 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="sessions-scopes" class="section level1">
+<h1><span class="header-section-number">Chapter 34</span> Sessions &amp; Scopes</h1>
+<div id="introduction-5" class="section level2">
+<h2><span class="header-section-number">34.1</span> Introduction</h2>
+<p>In this post, some seemingly diverse topics are dealt with. After reading, you should be aware that they actually relate.</p>
+<p>The topics are:
+- application-scoped variables with web.xml
+- user authentication
+- sessions
+- overview of the different scopes and when to use which</p>
+<p><img style="float: left; margin: 10px;" src="figures/warning_64.png"></p>
+<p><strong>DISCLAIMER<br />
+<em>Everything in this presentation related to authentication is purely for the purpose of showing principles.
+For real-world applications you will need to do much work on security</em></strong></p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="scopes" class="section level2">
+<h2><span class="header-section-number">34.2</span> Scopes</h2>
+<div id="application-scope-web.xml" class="section level3">
+<h3><span class="header-section-number">34.2.1</span> Application scope: web.xml</h3>
+<p>You use application-scoped variables for everything that
+relates to the entire application: admin email, database type and url, servlet configuration, etc.
+<strong><em>Application-scoped variables</em></strong> are available withing servlets but also within Thymeleaf templates. These variables are defined within an xml file named <code>web.xml</code> and it is called a <strong><em>deployment descriptor</em></strong>.</p>
+<div id="adding-a-deployment-descriptor" class="section level4 unnumbered">
+<h4>Adding a deployment descriptor</h4>
+<p>These are the steps you can take to have IntelliJ add a web.xml file in the correct location.</p>
+<ol style="list-style-type: decimal">
+<li>Go to Project Structure (<code>Cmd + ;</code> on Mac)</li>
+<li>Facets → Web → Web Gradle (select your project)</li>
+<li>Under pane Deployment Descriptors, click “+”</li>
+<li>Select “web.xml”</li>
+<li>In the path, put this: <code>&lt;your project root&gt;/src/main/webapp/WEB-INF/web.xml</code></li>
+</ol>
+<p>You’ll get something like this</p>
+<div class="sourceCode" id="cb265"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb265-1"><a href="sessions-scopes.html#cb265-1"></a><span class="kw">&lt;?xml</span> version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;<span class="kw">?&gt;</span></span>
+<span id="cb265-2"><a href="sessions-scopes.html#cb265-2"></a><span class="kw">&lt;web-app</span><span class="ot"> xmlns=</span><span class="st">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span>
+<span id="cb265-3"><a href="sessions-scopes.html#cb265-3"></a><span class="ot">         xmlns:xsi=</span><span class="st">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span>
+<span id="cb265-4"><a href="sessions-scopes.html#cb265-4"></a><span class="ot">         xsi:schemaLocation=</span><span class="st">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span>
+<span id="cb265-5"><a href="sessions-scopes.html#cb265-5"></a><span class="ot">         version=</span><span class="st">&quot;4.0&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb265-6"><a href="sessions-scopes.html#cb265-6"></a></span>
+<span id="cb265-7"><a href="sessions-scopes.html#cb265-7"></a><span class="kw">&lt;/web-app&gt;</span></span></code></pre></div>
+</div>
+<div id="add-an-application-scoped-variable" class="section level4 unnumbered">
+<h4>Add an application-scoped variable</h4>
+<p>In <code>web.xml</code>, put the following snippet:</p>
+<div class="sourceCode" id="cb266"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb266-1"><a href="sessions-scopes.html#cb266-1"></a>    <span class="kw">&lt;context-param&gt;</span></span>
+<span id="cb266-2"><a href="sessions-scopes.html#cb266-2"></a>        <span class="kw">&lt;param-name&gt;</span>admin_email<span class="kw">&lt;/param-name&gt;</span></span>
+<span id="cb266-3"><a href="sessions-scopes.html#cb266-3"></a>        <span class="kw">&lt;param-value&gt;</span>admin@example.com<span class="kw">&lt;/param-value&gt;</span></span>
+<span id="cb266-4"><a href="sessions-scopes.html#cb266-4"></a>    <span class="kw">&lt;/context-param&gt;</span></span></code></pre></div>
+</div>
+<div id="using-the-application-scoped-variable" class="section level4 unnumbered">
+<h4>Using the application-scoped variable</h4>
+<p>In your servlets, use the web app variable like this:</p>
+<div class="sourceCode" id="cb267"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb267-1"><a href="sessions-scopes.html#cb267-1"></a><span class="fu">getServletContext</span>().<span class="fu">getInitParameter</span>(<span class="st">&quot;admin_email&quot;</span>)</span></code></pre></div>
+<p>In your Thymeleaf template, the application-scoped variable, is available like this</p>
+<div class="sourceCode" id="cb268"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb268-1"><a href="sessions-scopes.html#cb268-1"></a>th:text=&quot;${#servletContext.getInitParameter(&#39;admin_email&#39;)}&quot;</span></code></pre></div>
+</div>
+</div>
+<div id="session-scope-cross-request-memory" class="section level3">
+<h3><span class="header-section-number">34.2.2</span> Session scope: cross-request “memory”</h3>
+<p>A server handling your request will have no memory of your visit after it is processed.
+To be able to “keep in touch” you will need to have a tracking system: we call this a session.
+The most well-known session implementation system is by means of cookies.</p>
+<p>This is a cookie according to Wikipedia: “In computing, a cookie (also tracking cookie, browser cookie, and HTTP cookie) is a small piece of text stored on a user’s computer by a web browser. A cookie consists of one or more name-value pairs containing bits of information such as … the identifier for a server-based session….”</p>
+<p>Thus, sessions represent <strong><em>cross-request memory</em></strong>.</p>
+<p>Typical usages of session objects are
+- keeping an authenticated user “logged in”
+- keeping track of “shopping baskets”
+- keeping track of history (“here at the items you have looked at previously”)</p>
+<p>In java, sessions are usually maintained by means of a JSessionID stored as a cookie.
+You will probably never create a cookie directly. You simply use this statement:
+<code>HttpSession session = request.getSession();</code></p>
+</div>
+<div id="authentication" class="section level3">
+<h3><span class="header-section-number">34.2.3</span> Authentication</h3>
+<p>You do not need to have an authenticated user to create a session, but authentication is never done without using session.</p>
+<p>There are several reasons why you would like to know who it is that requests a certain page, the main reason being that you want only authorized persons to have access (and with a certain role).</p>
+<p>Let’s look at some sample code to create a login system using sessions.</p>
+<div id="login-form" class="section level4 unnumbered">
+<h4>Login form</h4>
+<p>Here is the first element, a login form. Take notice of the form field names eg <code>name="username"</code>. These names are going to be used in the servlet to fetch the login credentials. Also note the <code>action="login"</code> attribute of the <code>&lt;form&gt;</code> tag. It will direct to the server requesting resource <code>login</code>.</p>
+<div class="sourceCode" id="cb269"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb269-1"><a href="sessions-scopes.html#cb269-1"></a><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb269-2"><a href="sessions-scopes.html#cb269-2"></a></span>
+<span id="cb269-3"><a href="sessions-scopes.html#cb269-3"></a><span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span></span>
+<span id="cb269-4"><a href="sessions-scopes.html#cb269-4"></a><span class="ot">      xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb269-5"><a href="sessions-scopes.html#cb269-5"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb269-6"><a href="sessions-scopes.html#cb269-6"></a>    <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span><span class="kw">/&gt;</span></span>
+<span id="cb269-7"><a href="sessions-scopes.html#cb269-7"></a>    <span class="kw">&lt;title&gt;</span>Authentication demo<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb269-8"><a href="sessions-scopes.html#cb269-8"></a></span>
+<span id="cb269-9"><a href="sessions-scopes.html#cb269-9"></a>    <span class="kw">&lt;link</span><span class="ot"> rel=</span><span class="st">&quot;stylesheet&quot;</span><span class="ot"> th:href=</span><span class="st">&quot;@{/css/main.css}&quot;</span><span class="ot"> href=</span><span class="st">&quot;../../css/main.css&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb269-10"><a href="sessions-scopes.html#cb269-10"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb269-11"><a href="sessions-scopes.html#cb269-11"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb269-12"><a href="sessions-scopes.html#cb269-12"></a><span class="kw">&lt;h4&gt;</span>Log in<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb269-13"><a href="sessions-scopes.html#cb269-13"></a><span class="kw">&lt;h4</span><span class="ot"> th:text=</span><span class="st">&quot;${message}&quot;</span><span class="ot"> th:class=</span><span class="st">&quot;${message_type}&quot;</span><span class="kw">&gt;</span>_message_<span class="kw">&lt;/h4&gt;</span></span>
+<span id="cb269-14"><a href="sessions-scopes.html#cb269-14"></a></span>
+<span id="cb269-15"><a href="sessions-scopes.html#cb269-15"></a><span class="kw">&lt;form</span><span class="ot"> action=</span><span class="st">&quot;login&quot;</span><span class="ot"> method=</span><span class="st">&quot;POST&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb269-16"><a href="sessions-scopes.html#cb269-16"></a>    <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;username_field&quot;</span><span class="kw">&gt;</span> User name: <span class="kw">&lt;/label&gt;</span></span>
+<span id="cb269-17"><a href="sessions-scopes.html#cb269-17"></a>    <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;username_field&quot;</span><span class="ot"> type=</span><span class="st">&quot;text&quot;</span><span class="ot"> name=</span><span class="st">&quot;username&quot;</span><span class="ot"> required</span><span class="kw">/&gt;</span> <span class="kw">&lt;br/&gt;</span></span>
+<span id="cb269-18"><a href="sessions-scopes.html#cb269-18"></a>    <span class="kw">&lt;label</span><span class="ot"> for=</span><span class="st">&quot;password_field&quot;</span><span class="kw">&gt;</span> User password: <span class="kw">&lt;/label&gt;</span></span>
+<span id="cb269-19"><a href="sessions-scopes.html#cb269-19"></a>    <span class="kw">&lt;input</span><span class="ot"> id=</span><span class="st">&quot;password_field&quot;</span><span class="ot"> type=</span><span class="st">&quot;password&quot;</span><span class="ot"> name=</span><span class="st">&quot;password&quot;</span><span class="ot"> required</span><span class="kw">/&gt;&lt;br/&gt;</span></span>
+<span id="cb269-20"><a href="sessions-scopes.html#cb269-20"></a>    <span class="kw">&lt;label</span><span class="ot"> class=</span><span class="st">&quot;login_field&quot;</span><span class="kw">&gt;</span> <span class="kw">&lt;/label&gt;</span></span>
+<span id="cb269-21"><a href="sessions-scopes.html#cb269-21"></a>    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;OK&quot;</span><span class="kw">/&gt;</span></span>
+<span id="cb269-22"><a href="sessions-scopes.html#cb269-22"></a><span class="kw">&lt;/form&gt;</span></span>
+<span id="cb269-23"><a href="sessions-scopes.html#cb269-23"></a></span>
+<span id="cb269-24"><a href="sessions-scopes.html#cb269-24"></a><span class="kw">&lt;h5&gt;</span>If you have any problems, please contact <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${#servletContext.getInitParameter(&#39;admin_email&#39;)}&quot;</span><span class="kw">&gt;&lt;/span&gt;&lt;/h5&gt;</span></span>
+<span id="cb269-25"><a href="sessions-scopes.html#cb269-25"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb269-26"><a href="sessions-scopes.html#cb269-26"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>and it looks like this in the browser:</p>
+<div class="figure">
+<img src="05_web/figures/login_form1s.png" alt="" />
+<p class="caption">Login form 1</p>
+</div>
+<p><img style="float: left; margin: 10px;" src="figures/warning_64.png"></p>
+<p><strong>Actually, when you see a <code>http://</code> protocol instead of an <code>https://</code> protocol in the location bar of your browser, you do NOT have safety on you connection, even though you cannot see the password in the form!</strong></p>
+<p>But that issue is not within the scope of this course.</p>
+</div>
+<div id="login-servlet" class="section level4 unnumbered">
+<h4>Login servlet</h4>
+<p>This is the servlet dealing with the login form.</p>
+<div class="sourceCode" id="cb270"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb270-1"><a href="sessions-scopes.html#cb270-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.servlets;</span></span>
+<span id="cb270-2"><a href="sessions-scopes.html#cb270-2"></a></span>
+<span id="cb270-3"><a href="sessions-scopes.html#cb270-3"></a><span class="co">//many imports</span></span>
+<span id="cb270-4"><a href="sessions-scopes.html#cb270-4"></a></span>
+<span id="cb270-5"><a href="sessions-scopes.html#cb270-5"></a><span class="at">@WebServlet</span>(urlPatterns = <span class="st">&quot;/login&quot;</span>)</span>
+<span id="cb270-6"><a href="sessions-scopes.html#cb270-6"></a><span class="kw">public</span> <span class="kw">class</span> LoginServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb270-7"><a href="sessions-scopes.html#cb270-7"></a>    <span class="kw">private</span> TemplateEngine templateEngine;</span>
+<span id="cb270-8"><a href="sessions-scopes.html#cb270-8"></a></span>
+<span id="cb270-9"><a href="sessions-scopes.html#cb270-9"></a>    <span class="at">@Override</span></span>
+<span id="cb270-10"><a href="sessions-scopes.html#cb270-10"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb270-11"><a href="sessions-scopes.html#cb270-11"></a>        <span class="kw">this</span>.<span class="fu">templateEngine</span> = WebConfig.<span class="fu">getTemplateEngine</span>();</span>
+<span id="cb270-12"><a href="sessions-scopes.html#cb270-12"></a>    }</span>
+<span id="cb270-13"><a href="sessions-scopes.html#cb270-13"></a></span>
+<span id="cb270-14"><a href="sessions-scopes.html#cb270-14"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doPost</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb270-15"><a href="sessions-scopes.html#cb270-15"></a>        <span class="bu">String</span> username = request.<span class="fu">getParameter</span>(<span class="st">&quot;username&quot;</span>);</span>
+<span id="cb270-16"><a href="sessions-scopes.html#cb270-16"></a>        <span class="bu">String</span> password = request.<span class="fu">getParameter</span>(<span class="st">&quot;password&quot;</span>);</span>
+<span id="cb270-17"><a href="sessions-scopes.html#cb270-17"></a></span>
+<span id="cb270-18"><a href="sessions-scopes.html#cb270-18"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(</span>
+<span id="cb270-19"><a href="sessions-scopes.html#cb270-19"></a>                request,</span>
+<span id="cb270-20"><a href="sessions-scopes.html#cb270-20"></a>                response,</span>
+<span id="cb270-21"><a href="sessions-scopes.html#cb270-21"></a>                request.<span class="fu">getServletContext</span>(),</span>
+<span id="cb270-22"><a href="sessions-scopes.html#cb270-22"></a>                request.<span class="fu">getLocale</span>());</span>
+<span id="cb270-23"><a href="sessions-scopes.html#cb270-23"></a></span>
+<span id="cb270-24"><a href="sessions-scopes.html#cb270-24"></a>        <span class="co">//fetch the session object</span></span>
+<span id="cb270-25"><a href="sessions-scopes.html#cb270-25"></a>        <span class="co">//if it is not present, one will be created</span></span>
+<span id="cb270-26"><a href="sessions-scopes.html#cb270-26"></a>        HttpSession session = request.<span class="fu">getSession</span>();</span>
+<span id="cb270-27"><a href="sessions-scopes.html#cb270-27"></a>        <span class="bu">String</span> nextPage;</span>
+<span id="cb270-28"><a href="sessions-scopes.html#cb270-28"></a>        </span>
+<span id="cb270-29"><a href="sessions-scopes.html#cb270-29"></a>        </span>
+<span id="cb270-30"><a href="sessions-scopes.html#cb270-30"></a>        <span class="kw">if</span> (session.<span class="fu">isNew</span>() || session.<span class="fu">getAttribute</span>(<span class="st">&quot;user&quot;</span>) == <span class="kw">null</span>) {</span>
+<span id="cb270-31"><a href="sessions-scopes.html#cb270-31"></a>            <span class="dt">boolean</span> authenticated = <span class="fu">authenticate</span>(username, password);</span>
+<span id="cb270-32"><a href="sessions-scopes.html#cb270-32"></a>            <span class="kw">if</span> (authenticated) {</span>
+<span id="cb270-33"><a href="sessions-scopes.html#cb270-33"></a>                session.<span class="fu">setAttribute</span>(<span class="st">&quot;user&quot;</span>, <span class="kw">new</span> <span class="fu">User</span>(<span class="st">&quot;Henk&quot;</span>, <span class="st">&quot;henk@example.com&quot;</span>, <span class="bu">Role</span>.<span class="fu">USER</span>));</span>
+<span id="cb270-34"><a href="sessions-scopes.html#cb270-34"></a>                nextPage = <span class="st">&quot;mainSite&quot;</span>;</span>
+<span id="cb270-35"><a href="sessions-scopes.html#cb270-35"></a>            } <span class="kw">else</span> {</span>
+<span id="cb270-36"><a href="sessions-scopes.html#cb270-36"></a>                ctx.<span class="fu">setVariable</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Your password and/or username are incorrect; please try again&quot;</span>);</span>
+<span id="cb270-37"><a href="sessions-scopes.html#cb270-37"></a>                ctx.<span class="fu">setVariable</span>(<span class="st">&quot;message_type&quot;</span>, <span class="st">&quot;error&quot;</span>);</span>
+<span id="cb270-38"><a href="sessions-scopes.html#cb270-38"></a>                nextPage = <span class="st">&quot;login&quot;</span>;</span>
+<span id="cb270-39"><a href="sessions-scopes.html#cb270-39"></a>            }</span>
+<span id="cb270-40"><a href="sessions-scopes.html#cb270-40"></a>        } <span class="kw">else</span> {</span>
+<span id="cb270-41"><a href="sessions-scopes.html#cb270-41"></a>            nextPage = <span class="st">&quot;mainSite&quot;</span>;</span>
+<span id="cb270-42"><a href="sessions-scopes.html#cb270-42"></a>        }</span>
+<span id="cb270-43"><a href="sessions-scopes.html#cb270-43"></a>        templateEngine.<span class="fu">process</span>(nextPage, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb270-44"><a href="sessions-scopes.html#cb270-44"></a>    }</span>
+<span id="cb270-45"><a href="sessions-scopes.html#cb270-45"></a></span>
+<span id="cb270-46"><a href="sessions-scopes.html#cb270-46"></a>    <span class="kw">private</span> <span class="dt">boolean</span> <span class="fu">authenticate</span>(<span class="bu">String</span> username, <span class="bu">String</span> password) {</span>
+<span id="cb270-47"><a href="sessions-scopes.html#cb270-47"></a>        <span class="kw">return</span> username.<span class="fu">equals</span>(<span class="st">&quot;Henk&quot;</span>) &amp;&amp; password.<span class="fu">equals</span>(<span class="st">&quot;henk&quot;</span>);</span>
+<span id="cb270-48"><a href="sessions-scopes.html#cb270-48"></a>    }</span>
+<span id="cb270-49"><a href="sessions-scopes.html#cb270-49"></a></span>
+<span id="cb270-50"><a href="sessions-scopes.html#cb270-50"></a>    <span class="co">//simple GET requests are immediately forwarded to the login page</span></span>
+<span id="cb270-51"><a href="sessions-scopes.html#cb270-51"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doGet</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb270-52"><a href="sessions-scopes.html#cb270-52"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(</span>
+<span id="cb270-53"><a href="sessions-scopes.html#cb270-53"></a>                request,</span>
+<span id="cb270-54"><a href="sessions-scopes.html#cb270-54"></a>                response,</span>
+<span id="cb270-55"><a href="sessions-scopes.html#cb270-55"></a>                request.<span class="fu">getServletContext</span>(),</span>
+<span id="cb270-56"><a href="sessions-scopes.html#cb270-56"></a>                request.<span class="fu">getLocale</span>());</span>
+<span id="cb270-57"><a href="sessions-scopes.html#cb270-57"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;Fill out the login form&quot;</span>);</span>
+<span id="cb270-58"><a href="sessions-scopes.html#cb270-58"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;message_type&quot;</span>, <span class="st">&quot;info&quot;</span>);</span>
+<span id="cb270-59"><a href="sessions-scopes.html#cb270-59"></a>        templateEngine.<span class="fu">process</span>(<span class="st">&quot;login&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb270-60"><a href="sessions-scopes.html#cb270-60"></a>    }</span>
+<span id="cb270-61"><a href="sessions-scopes.html#cb270-61"></a>}</span></code></pre></div>
+<p>Above the class declaration you see the <code>@WebServlet(urlPatterns = "/login")</code> annotation which tells the application server to route all requests to the URL <code>/login</code> to this servlet class.</p>
+<p>The <code>doPost()</code> method -which has several code smells (do you know which)- creates a session object. Next, it checks the session status and proceeds. If it is new (or empty): check user credentials. Else: go directly to the main page - why check credentials if the user already is logged in?
+The <code>authenticate()</code> method is a dummy of course. We’ll visit that part of authentication in the post on database interaction because -obviously- user data are stored in a database and are never hard-coded. If authentication is successful, the user is forwarded to the sites’ main page:</p>
+<div class="sourceCode" id="cb271"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb271-1"><a href="sessions-scopes.html#cb271-1"></a><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb271-2"><a href="sessions-scopes.html#cb271-2"></a></span>
+<span id="cb271-3"><a href="sessions-scopes.html#cb271-3"></a><span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span></span>
+<span id="cb271-4"><a href="sessions-scopes.html#cb271-4"></a><span class="ot">      xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb271-5"><a href="sessions-scopes.html#cb271-5"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb271-6"><a href="sessions-scopes.html#cb271-6"></a>    <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span><span class="kw">/&gt;</span></span>
+<span id="cb271-7"><a href="sessions-scopes.html#cb271-7"></a>    <span class="kw">&lt;title&gt;</span>_TITLE_<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb271-8"><a href="sessions-scopes.html#cb271-8"></a></span>
+<span id="cb271-9"><a href="sessions-scopes.html#cb271-9"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb271-10"><a href="sessions-scopes.html#cb271-10"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb271-11"><a href="sessions-scopes.html#cb271-11"></a>    <span class="kw">&lt;h3&gt;</span>Welcome to our main page, [[${session.user.name}]]! Feel free to browse our content<span class="kw">&lt;/h3&gt;</span></span>
+<span id="cb271-12"><a href="sessions-scopes.html#cb271-12"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb271-13"><a href="sessions-scopes.html#cb271-13"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>The <code>[[${session.user.name}]]!</code> expression is an inline text expression - it does not need to be embedded in a html tag.</p>
+<p>Alternatively, we could have used this:</p>
+<div class="sourceCode" id="cb272"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb272-1"><a href="sessions-scopes.html#cb272-1"></a>    <span class="kw">&lt;h3&gt;</span>Welcome to our main page, <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${session.user.name}&quot;</span><span class="kw">&gt;</span>__offline__<span class="kw">&lt;/span&gt;</span>! Feel free to browse our content<span class="kw">&lt;/h3&gt;</span></span></code></pre></div>
+</div>
+<div id="test-1" class="section level4 unnumbered">
+<h4>Test</h4>
+<p>Start the server and run
+- Log in
+- Enter username and password
+- Test false credentials
+- Test correct credentials</p>
+<p>What is the result, what do you see?
+Can you detect weaknesses and/or improve on the design?</p>
+</div>
+</div>
+</div>
+<div id="summary-of-scopes" class="section level2">
+<h2><span class="header-section-number">34.3</span> Summary of scopes</h2>
+<p>As in all programming environments, scopes are really important in web applications.
+We have seen the three main ones:</p>
+<div id="application-scope" class="section level4 unnumbered">
+<h4>Application scope</h4>
+<p>Specified in <code>web.xml</code> and accessed through
+<code>${#servletContext.getInitParameter('admin_email')}</code> in the Thymeleaf files or <code>getServletContext().getInitParameter("&lt;attrib_name&gt;")</code> in the servlet code</p>
+</div>
+<div id="session-scope" class="section level4 unnumbered">
+<h4>Session scope</h4>
+<p>Stored in <code>HttpSession</code> object. When available, accessed through
+<code>${session.&lt;attrib_name&gt;}</code> in the Thymeleaf files and
+<code>getSession.getAttribute("&lt;attrib_name&gt;")</code> in the servlet code. Set through <code>getSession.setAttribute("&lt;attrib_name&gt;", &lt;attrib&gt;)</code>.</p>
+</div>
+<div id="request-scope" class="section level4 unnumbered">
+<h4>“Request” scope</h4>
+<p>Each http request generates its own <code>HttpRequest</code> object.
+It can be accessed through <code>${#request.&lt;attrib_name&gt;}</code> in the Thymeleaf files. In servlet context, use <code>request.getParameter("&lt;attrib_name&gt;")</code> to get it or <code>request.setAttribute("&lt;attrib_name&gt;", "&lt;attrib&gt;")</code> to set it.
+The <code>WebContext</code> object is of course used much more in Thymeleaf, and in that context simply accessed as <code>${attrib_name&gt;}</code></p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="thymeleaf-flow-control-and-fragments.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="servlet-details-and-lifecycle-hooks.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

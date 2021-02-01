@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 25 Enums: constants on steroids | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 25 Enums: constants on steroids | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 25 Enums: constants on steroids | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="inheritance-and-uml.html"/>
+<link rel="next" href="encapsulation-revisited.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,265 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="enums-constants-on-steroids" class="section level1">
+<h1><span class="header-section-number">Chapter 25</span> Enums: constants on steroids</h1>
+<div id="constants-are-everywhere" class="section level2">
+<h2><span class="header-section-number">25.1</span> Constants are everywhere</h2>
+<p>Constants are everywhere: the number pi, the number e, the URL to a web service
+you use in your app. These are really simple constants that do not need anything
+special besides being defined as a</p>
+<div class="sourceCode" id="cb185"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb185-1"><a href="enums-constants-on-steroids.html#cb185-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> PI = <span class="fl">3.</span><span class="dv">1416</span>;</span>
+<span id="cb185-2"><a href="enums-constants-on-steroids.html#cb185-2"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">String</span> API_URL = <span class="st">&quot;http://www.example.com&quot;</span>;</span></code></pre></div>
+<p>Of course, any alert observer might state that pi is already defined in class
+Math as PI, and in much more detail: 3.141592653589793. And of course, URLs
+should not be defined as hard-coded strings, but in a neat little properties
+file.</p>
+<p>But this post is not about simple constants. This post is about sets of constants
+that all refer to a given property with your application. This is where enums come
+in. I love them and hope that, after reading this post, you will too. I will
+show you that Java enums are so much more than simple constants. In fact, enums
+are regular Java classes, but only special in the fact that only the instances
+defined in the enum class file will ever see the day of light!</p>
+<p>For instance, the roles of visitors in your web application: <code>GUEST</code>, <code>LOGGED_IN_USER</code>,
+<code>ADMIN</code>, or pizza sizes in your online ordering form: <code>SMALL</code>, <code>MEDIUM</code>, <code>LARGE</code>,
+<code>LUNATIC</code>. Or the four letters of the DNA alphabet: <code>G</code>, <code>A</code>, <code>T</code> and <code>C</code>. Let’s look at an example using the nucleotides.</p>
+<div class="sourceCode" id="cb186"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb186-1"><a href="enums-constants-on-steroids.html#cb186-1"></a><span class="kw">public</span> <span class="kw">enum</span> Nucleotide {</span>
+<span id="cb186-2"><a href="enums-constants-on-steroids.html#cb186-2"></a>    A,</span>
+<span id="cb186-3"><a href="enums-constants-on-steroids.html#cb186-3"></a>    C, </span>
+<span id="cb186-4"><a href="enums-constants-on-steroids.html#cb186-4"></a>    G,</span>
+<span id="cb186-5"><a href="enums-constants-on-steroids.html#cb186-5"></a>    T;</span>
+<span id="cb186-6"><a href="enums-constants-on-steroids.html#cb186-6"></a>}</span></code></pre></div>
+<p>Here, I have defined an enum with four values: G, A, T, and C. As a convention, enum value names must always be all-caps.<br />
+You can do some nice things with it already.</p>
+<div class="sourceCode" id="cb187"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb187-1"><a href="enums-constants-on-steroids.html#cb187-1"></a><span class="kw">package</span><span class="im"> enums;</span></span>
+<span id="cb187-2"><a href="enums-constants-on-steroids.html#cb187-2"></a></span>
+<span id="cb187-3"><a href="enums-constants-on-steroids.html#cb187-3"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> EnumDemo {</span>
+<span id="cb187-4"><a href="enums-constants-on-steroids.html#cb187-4"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] args) {</span>
+<span id="cb187-5"><a href="enums-constants-on-steroids.html#cb187-5"></a>        EnumDemo enumDemo = <span class="kw">new</span> <span class="fu">EnumDemo</span>();</span>
+<span id="cb187-6"><a href="enums-constants-on-steroids.html#cb187-6"></a>        enumDemo.<span class="fu">start</span>();</span>
+<span id="cb187-7"><a href="enums-constants-on-steroids.html#cb187-7"></a>    }</span>
+<span id="cb187-8"><a href="enums-constants-on-steroids.html#cb187-8"></a></span>
+<span id="cb187-9"><a href="enums-constants-on-steroids.html#cb187-9"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">start</span>() {</span>
+<span id="cb187-10"><a href="enums-constants-on-steroids.html#cb187-10"></a>        Nucleotide nucA = Nucleotide.<span class="fu">A</span>;</span>
+<span id="cb187-11"><a href="enums-constants-on-steroids.html#cb187-11"></a>        <span class="co">//print it</span></span>
+<span id="cb187-12"><a href="enums-constants-on-steroids.html#cb187-12"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nucA = &quot;</span> + nucA);</span>
+<span id="cb187-13"><a href="enums-constants-on-steroids.html#cb187-13"></a>        <span class="co">//test its nature</span></span>
+<span id="cb187-14"><a href="enums-constants-on-steroids.html#cb187-14"></a>        <span class="kw">if</span> (nucA == Nucleotide.<span class="fu">A</span>) {</span>
+<span id="cb187-15"><a href="enums-constants-on-steroids.html#cb187-15"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;We&#39;ve got an A!&quot;</span>);</span>
+<span id="cb187-16"><a href="enums-constants-on-steroids.html#cb187-16"></a>        }</span>
+<span id="cb187-17"><a href="enums-constants-on-steroids.html#cb187-17"></a>        <span class="co">//switch on it!</span></span>
+<span id="cb187-18"><a href="enums-constants-on-steroids.html#cb187-18"></a>        <span class="fu">switchOnNucleotide</span>(Nucleotide.<span class="fu">G</span>);</span>
+<span id="cb187-19"><a href="enums-constants-on-steroids.html#cb187-19"></a>    }</span>
+<span id="cb187-20"><a href="enums-constants-on-steroids.html#cb187-20"></a></span>
+<span id="cb187-21"><a href="enums-constants-on-steroids.html#cb187-21"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">switchOnNucleotide</span>(<span class="dt">final</span> Nucleotide nuc) {</span>
+<span id="cb187-22"><a href="enums-constants-on-steroids.html#cb187-22"></a>        <span class="kw">switch</span> (nuc) {</span>
+<span id="cb187-23"><a href="enums-constants-on-steroids.html#cb187-23"></a>            <span class="kw">case</span> A:</span>
+<span id="cb187-24"><a href="enums-constants-on-steroids.html#cb187-24"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is an A&quot;</span>);</span>
+<span id="cb187-25"><a href="enums-constants-on-steroids.html#cb187-25"></a>                <span class="kw">break</span>;</span>
+<span id="cb187-26"><a href="enums-constants-on-steroids.html#cb187-26"></a>            <span class="kw">case</span> C:</span>
+<span id="cb187-27"><a href="enums-constants-on-steroids.html#cb187-27"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is a C&quot;</span>);</span>
+<span id="cb187-28"><a href="enums-constants-on-steroids.html#cb187-28"></a>                <span class="kw">break</span>;</span>
+<span id="cb187-29"><a href="enums-constants-on-steroids.html#cb187-29"></a>            <span class="kw">case</span> G:</span>
+<span id="cb187-30"><a href="enums-constants-on-steroids.html#cb187-30"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is a G&quot;</span>);</span>
+<span id="cb187-31"><a href="enums-constants-on-steroids.html#cb187-31"></a>                <span class="kw">break</span>;</span>
+<span id="cb187-32"><a href="enums-constants-on-steroids.html#cb187-32"></a>            <span class="kw">case</span> T:</span>
+<span id="cb187-33"><a href="enums-constants-on-steroids.html#cb187-33"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is a T&quot;</span>);</span>
+<span id="cb187-34"><a href="enums-constants-on-steroids.html#cb187-34"></a>                <span class="kw">break</span>;</span>
+<span id="cb187-35"><a href="enums-constants-on-steroids.html#cb187-35"></a>        }</span>
+<span id="cb187-36"><a href="enums-constants-on-steroids.html#cb187-36"></a>    }</span>
+<span id="cb187-37"><a href="enums-constants-on-steroids.html#cb187-37"></a>}</span></code></pre></div>
+<p>When printed, an enum will simply be displayed as the name of its value:</p>
+<pre class="console_out">
+nucA = A
+We've got an A!
+It is an G
+</pre>
+<p>If you want something else printed by default besides the name of the constant,
+you can provide this value through a constructor:</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb188-1"><a href="enums-constants-on-steroids.html#cb188-1"></a><span class="kw">package</span><span class="im"> enums;</span></span>
+<span id="cb188-2"><a href="enums-constants-on-steroids.html#cb188-2"></a></span>
+<span id="cb188-3"><a href="enums-constants-on-steroids.html#cb188-3"></a><span class="kw">public</span> <span class="kw">enum</span> Nucleotide {</span>
+<span id="cb188-4"><a href="enums-constants-on-steroids.html#cb188-4"></a>    <span class="fu">A</span>(<span class="st">&quot;Adenine&quot;</span>),</span>
+<span id="cb188-5"><a href="enums-constants-on-steroids.html#cb188-5"></a>    <span class="fu">C</span>(<span class="st">&quot;Guanine&quot;</span>),</span>
+<span id="cb188-6"><a href="enums-constants-on-steroids.html#cb188-6"></a>    <span class="fu">G</span>(<span class="st">&quot;Cytosine&quot;</span>),</span>
+<span id="cb188-7"><a href="enums-constants-on-steroids.html#cb188-7"></a>    <span class="fu">T</span>(<span class="st">&quot;Thymine&quot;</span>);</span>
+<span id="cb188-8"><a href="enums-constants-on-steroids.html#cb188-8"></a></span>
+<span id="cb188-9"><a href="enums-constants-on-steroids.html#cb188-9"></a>    <span class="kw">private</span> <span class="bu">String</span> name;</span>
+<span id="cb188-10"><a href="enums-constants-on-steroids.html#cb188-10"></a></span>
+<span id="cb188-11"><a href="enums-constants-on-steroids.html#cb188-11"></a>    <span class="kw">private</span> <span class="fu">Nucleotide</span>(<span class="dt">final</span> <span class="bu">String</span> fullName) {</span>
+<span id="cb188-12"><a href="enums-constants-on-steroids.html#cb188-12"></a>        <span class="kw">this</span>.<span class="fu">name</span> = fullName;</span>
+<span id="cb188-13"><a href="enums-constants-on-steroids.html#cb188-13"></a>    }</span>
+<span id="cb188-14"><a href="enums-constants-on-steroids.html#cb188-14"></a></span>
+<span id="cb188-15"><a href="enums-constants-on-steroids.html#cb188-15"></a>    <span class="at">@Override</span></span>
+<span id="cb188-16"><a href="enums-constants-on-steroids.html#cb188-16"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb188-17"><a href="enums-constants-on-steroids.html#cb188-17"></a>        <span class="kw">return</span> name;</span>
+<span id="cb188-18"><a href="enums-constants-on-steroids.html#cb188-18"></a>    }</span>
+<span id="cb188-19"><a href="enums-constants-on-steroids.html#cb188-19"></a>}</span></code></pre></div>
+<p>Now, when you print an enum you will get its string value given via the constructor
+argument. Yes, this <code>A("Adenine")</code> constructs a Nucleotide enum constant of type <code>Nucleotide.A</code> with “name” property “Adenine”.
+The reverse is also a much-used aspect: you have some string value and want to create an enum from it.<br />
+This is how it’s done:</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb189-1"><a href="enums-constants-on-steroids.html#cb189-1"></a><span class="bu">String</span> letter = <span class="st">&quot;G&quot;</span>;</span>
+<span id="cb189-2"><a href="enums-constants-on-steroids.html#cb189-2"></a>Nucleotide nuc = Nucleotide.<span class="fu">valueOf</span>(letter);</span>
+<span id="cb189-3"><a href="enums-constants-on-steroids.html#cb189-3"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nuc = &quot;</span> + nuc);</span></code></pre></div>
+<p>This will output</p>
+<pre class="console_out">
+nuc = Guanine
+</pre>
+<p>This <code>valueOf()</code> call returned the <code>Nucleotide.G</code> constant. Note it will not be created, since only one instance will exist during your app life cycle.</p>
+<p>When you use a non-existing value you get an <code>IllegalArgumentException</code>:</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb190-1"><a href="enums-constants-on-steroids.html#cb190-1"></a>letter = <span class="st">&quot;P&quot;</span>;</span>
+<span id="cb190-2"><a href="enums-constants-on-steroids.html#cb190-2"></a>nuc = Nucleotide.<span class="fu">valueOf</span>(letter);</span></code></pre></div>
+<p>This will output</p>
+<pre class="console_out">
+Exception in thread "main" java.lang.IllegalArgumentException: No enum constant enums.Nucleotide.P
+    at java.lang.Enum.valueOf(Enum.java:238)
+    at enums.Nucleotide.valueOf(Nucleotide.java:11)
+    at enums.EnumDemo.start(EnumDemo.java:41)
+    at enums.EnumDemo.main(EnumDemo.java:19)
+</pre>
+<p>This is already pretty neat, yes? And we’re only just getting started!</p>
+<p>Let’s add some functionality. First something simple: provide access to the
+nucleotides’ molecular weight. I’ll use a HashMap to store these values and
+define a simple method that serves them.</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb191-1"><a href="enums-constants-on-steroids.html#cb191-1"></a>    <span class="co">//rest of class omitted</span></span>
+<span id="cb191-2"><a href="enums-constants-on-steroids.html#cb191-2"></a></span>
+<span id="cb191-3"><a href="enums-constants-on-steroids.html#cb191-3"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">HashMap</span>&lt;Nucleotide, <span class="bu">Double</span>&gt; MOLECULAR_WEIGHTS;</span>
+<span id="cb191-4"><a href="enums-constants-on-steroids.html#cb191-4"></a>    <span class="co">/**</span></span>
+<span id="cb191-5"><a href="enums-constants-on-steroids.html#cb191-5"></a>     <span class="co">*</span> static initializer to populate the map<span class="co">.</span></span>
+<span id="cb191-6"><a href="enums-constants-on-steroids.html#cb191-6"></a>     <span class="co">*/</span></span>
+<span id="cb191-7"><a href="enums-constants-on-steroids.html#cb191-7"></a>    <span class="dt">static</span> {</span>
+<span id="cb191-8"><a href="enums-constants-on-steroids.html#cb191-8"></a>        MOLECULAR_WEIGHTS = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();</span>
+<span id="cb191-9"><a href="enums-constants-on-steroids.html#cb191-9"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(A, <span class="fl">313.</span><span class="dv">2</span>);</span>
+<span id="cb191-10"><a href="enums-constants-on-steroids.html#cb191-10"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(C, <span class="fl">304.</span><span class="dv">2</span>);</span>
+<span id="cb191-11"><a href="enums-constants-on-steroids.html#cb191-11"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(G, <span class="fl">329.</span><span class="dv">2</span>);</span>
+<span id="cb191-12"><a href="enums-constants-on-steroids.html#cb191-12"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(T, <span class="fl">304.</span><span class="dv">2</span>);</span>
+<span id="cb191-13"><a href="enums-constants-on-steroids.html#cb191-13"></a>    }</span>
+<span id="cb191-14"><a href="enums-constants-on-steroids.html#cb191-14"></a>    <span class="co">/**</span></span>
+<span id="cb191-15"><a href="enums-constants-on-steroids.html#cb191-15"></a>     <span class="co">*</span> returns the molecular weight of this nucleotide in single<span class="co">-</span>stranded DNA<span class="co">,</span> in Daltons<span class="co">.</span></span>
+<span id="cb191-16"><a href="enums-constants-on-steroids.html#cb191-16"></a>     <span class="co">*</span> <span class="an">@return </span>molecularWeight</span>
+<span id="cb191-17"><a href="enums-constants-on-steroids.html#cb191-17"></a>     <span class="co">*/</span></span>
+<span id="cb191-18"><a href="enums-constants-on-steroids.html#cb191-18"></a>    <span class="kw">public</span> <span class="dt">double</span> <span class="fu">getMolecularWeight</span>() {</span>
+<span id="cb191-19"><a href="enums-constants-on-steroids.html#cb191-19"></a>        <span class="kw">return</span> MOLECULAR_WEIGHTS.<span class="fu">get</span>(<span class="kw">this</span>);</span>
+<span id="cb191-20"><a href="enums-constants-on-steroids.html#cb191-20"></a>    }</span>
+<span id="cb191-21"><a href="enums-constants-on-steroids.html#cb191-21"></a>    <span class="co">//rest of class omitted</span></span></code></pre></div>
+<p>See how you can use the reference to <code>this</code> to fetch the molecular weight?
+Here are two lines using this functionality:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb192-1"><a href="enums-constants-on-steroids.html#cb192-1"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nuc A weight = &quot;</span> + nucA.<span class="fu">getMolecularWeight</span>());</span>
+<span id="cb192-2"><a href="enums-constants-on-steroids.html#cb192-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nuc C weight = &quot;</span> + Nucleotide.<span class="fu">C</span>.<span class="fu">getMolecularWeight</span>());</span></code></pre></div>
+<p>But how about the complements of these values (you know, the letter on the other
+strand of DNA in the double helix, the one it pairs with)? “A” has as complement
+“T”, “G” has “C” etc. I want to be able to get a complement for all nucleotides,
+given its original value. Exactly the same as the molecular weights, but the
+value is another nucleotide.</p>
+<p>Still this is not the whole story. The <em>piece de resistance</em> has yet to come. As
+you may know, there is another nucleotide that does not occur in DNA but solely
+in RNA: U (Uracil). DNA has A, C, G and T while RNA has A, C, G, and U. Thus, U
+replaces T in RNA. I want to add that one to my Nucleotide enum, and also provide
+a method that will tell me whether a nucleotide only occurs in RNA. I could
+simply provide a map for that, but this is not as efficient (or cool) as
+another solution. In fact, ONLY the U is exclusive for RNA. Therefore, I could
+provide some default functionality and override that behavior for Uracil.</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb193-1"><a href="enums-constants-on-steroids.html#cb193-1"></a>    <span class="co">//rest of enum omitted</span></span>
+<span id="cb193-2"><a href="enums-constants-on-steroids.html#cb193-2"></a>    <span class="fu">A</span>(<span class="st">&quot;Adenine&quot;</span>),</span>
+<span id="cb193-3"><a href="enums-constants-on-steroids.html#cb193-3"></a>    <span class="fu">C</span>(<span class="st">&quot;Guanine&quot;</span>),</span>
+<span id="cb193-4"><a href="enums-constants-on-steroids.html#cb193-4"></a>    <span class="fu">G</span>(<span class="st">&quot;Cytosine&quot;</span>),</span>
+<span id="cb193-5"><a href="enums-constants-on-steroids.html#cb193-5"></a>    <span class="fu">T</span>(<span class="st">&quot;Thymine&quot;</span>),</span>
+<span id="cb193-6"><a href="enums-constants-on-steroids.html#cb193-6"></a>    <span class="fu">U</span>(<span class="st">&quot;Uracil&quot;</span>) {</span>
+<span id="cb193-7"><a href="enums-constants-on-steroids.html#cb193-7"></a>        <span class="co">/*yes! a CONSTANT-SPECIFIC CLASS BODY!*/</span></span>
+<span id="cb193-8"><a href="enums-constants-on-steroids.html#cb193-8"></a>        <span class="at">@Override</span></span>
+<span id="cb193-9"><a href="enums-constants-on-steroids.html#cb193-9"></a>        <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isExclusiveRNA</span>() {</span>
+<span id="cb193-10"><a href="enums-constants-on-steroids.html#cb193-10"></a>            <span class="co">//override for single RNA nucleotide</span></span>
+<span id="cb193-11"><a href="enums-constants-on-steroids.html#cb193-11"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb193-12"><a href="enums-constants-on-steroids.html#cb193-12"></a>        }</span>
+<span id="cb193-13"><a href="enums-constants-on-steroids.html#cb193-13"></a>    };</span>
+<span id="cb193-14"><a href="enums-constants-on-steroids.html#cb193-14"></a>    <span class="co">//rest of enum omitted</span></span>
+<span id="cb193-15"><a href="enums-constants-on-steroids.html#cb193-15"></a>    <span class="co">/**</span></span>
+<span id="cb193-16"><a href="enums-constants-on-steroids.html#cb193-16"></a>     <span class="co">*</span> returns whether this nucleotide is only found in RNA<span class="co">.</span></span>
+<span id="cb193-17"><a href="enums-constants-on-steroids.html#cb193-17"></a>     <span class="co">*</span></span>
+<span id="cb193-18"><a href="enums-constants-on-steroids.html#cb193-18"></a>     <span class="co">*</span> <span class="an">@return </span>isExclusiveRNA</span>
+<span id="cb193-19"><a href="enums-constants-on-steroids.html#cb193-19"></a>     <span class="co">*/</span></span>
+<span id="cb193-20"><a href="enums-constants-on-steroids.html#cb193-20"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isExclusiveRNA</span>() {</span>
+<span id="cb193-21"><a href="enums-constants-on-steroids.html#cb193-21"></a>        <span class="co">//the default value</span></span>
+<span id="cb193-22"><a href="enums-constants-on-steroids.html#cb193-22"></a>        <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb193-23"><a href="enums-constants-on-steroids.html#cb193-23"></a>    }</span>
+<span id="cb193-24"><a href="enums-constants-on-steroids.html#cb193-24"></a>    <span class="co">//rest of enum omitted</span></span></code></pre></div>
+<p>This is an example of a <strong><em>constant-specific class body</em></strong>, something only certified
+Java programmers seem to know about. And now you do, too. Its purpose is to
+provide an override for some generic functionality that applies to most of the
+other constants of the enum.</p>
+<p>Below follows the complete code of the enum. Of course, there is at least one
+major flaw in the model with respect to adherence to molecular biology – there
+awaits eternal fame for you if you find it.</p>
+<div class="sourceCode" id="cb194"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb194-1"><a href="enums-constants-on-steroids.html#cb194-1"></a><span class="kw">package</span><span class="im"> enums;</span></span>
+<span id="cb194-2"><a href="enums-constants-on-steroids.html#cb194-2"></a></span>
+<span id="cb194-3"><a href="enums-constants-on-steroids.html#cb194-3"></a><span class="kw">import</span><span class="im"> java.util.HashMap;</span></span>
+<span id="cb194-4"><a href="enums-constants-on-steroids.html#cb194-4"></a></span>
+<span id="cb194-5"><a href="enums-constants-on-steroids.html#cb194-5"></a><span class="kw">public</span> <span class="kw">enum</span> Nucleotide {</span>
+<span id="cb194-6"><a href="enums-constants-on-steroids.html#cb194-6"></a>    <span class="fu">A</span>(<span class="st">&quot;Adenine&quot;</span>),</span>
+<span id="cb194-7"><a href="enums-constants-on-steroids.html#cb194-7"></a>    <span class="fu">C</span>(<span class="st">&quot;Guanine&quot;</span>),</span>
+<span id="cb194-8"><a href="enums-constants-on-steroids.html#cb194-8"></a>    <span class="fu">G</span>(<span class="st">&quot;Cytosine&quot;</span>),</span>
+<span id="cb194-9"><a href="enums-constants-on-steroids.html#cb194-9"></a>    <span class="fu">T</span>(<span class="st">&quot;Thymine&quot;</span>),</span>
+<span id="cb194-10"><a href="enums-constants-on-steroids.html#cb194-10"></a>    <span class="fu">U</span>(<span class="st">&quot;Uracil&quot;</span>) {</span>
+<span id="cb194-11"><a href="enums-constants-on-steroids.html#cb194-11"></a>        <span class="co">/*yes! a CONSTANT-SPECIFIC CLASS BODY!*/</span></span>
+<span id="cb194-12"><a href="enums-constants-on-steroids.html#cb194-12"></a>        <span class="at">@Override</span></span>
+<span id="cb194-13"><a href="enums-constants-on-steroids.html#cb194-13"></a>        <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isExclusiveRNA</span>() {</span>
+<span id="cb194-14"><a href="enums-constants-on-steroids.html#cb194-14"></a>            <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb194-15"><a href="enums-constants-on-steroids.html#cb194-15"></a>        }</span>
+<span id="cb194-16"><a href="enums-constants-on-steroids.html#cb194-16"></a>    };</span>
+<span id="cb194-17"><a href="enums-constants-on-steroids.html#cb194-17"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">HashMap</span>&lt;Nucleotide, <span class="bu">Double</span>&gt; MOLECULAR_WEIGHTS;</span>
+<span id="cb194-18"><a href="enums-constants-on-steroids.html#cb194-18"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="bu">HashMap</span>&lt;Nucleotide, Nucleotide&gt; REVERSE_COMPLEMENTS;</span>
+<span id="cb194-19"><a href="enums-constants-on-steroids.html#cb194-19"></a></span>
+<span id="cb194-20"><a href="enums-constants-on-steroids.html#cb194-20"></a>    <span class="dt">static</span> {</span>
+<span id="cb194-21"><a href="enums-constants-on-steroids.html#cb194-21"></a>        <span class="co">//MOL WEIGHTS</span></span>
+<span id="cb194-22"><a href="enums-constants-on-steroids.html#cb194-22"></a>        MOLECULAR_WEIGHTS = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();</span>
+<span id="cb194-23"><a href="enums-constants-on-steroids.html#cb194-23"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(A, <span class="fl">331.</span><span class="dv">2</span>);</span>
+<span id="cb194-24"><a href="enums-constants-on-steroids.html#cb194-24"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(C, <span class="fl">307.</span><span class="dv">2</span>);</span>
+<span id="cb194-25"><a href="enums-constants-on-steroids.html#cb194-25"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(G, <span class="fl">347.</span><span class="dv">2</span>);</span>
+<span id="cb194-26"><a href="enums-constants-on-steroids.html#cb194-26"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(T, <span class="fl">322.</span><span class="dv">2</span>);</span>
+<span id="cb194-27"><a href="enums-constants-on-steroids.html#cb194-27"></a>        MOLECULAR_WEIGHTS.<span class="fu">put</span>(T, <span class="fl">324.</span><span class="dv">2</span>);</span>
+<span id="cb194-28"><a href="enums-constants-on-steroids.html#cb194-28"></a>        <span class="co">//REV COMPLS</span></span>
+<span id="cb194-29"><a href="enums-constants-on-steroids.html#cb194-29"></a>        REVERSE_COMPLEMENTS = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();</span>
+<span id="cb194-30"><a href="enums-constants-on-steroids.html#cb194-30"></a>        REVERSE_COMPLEMENTS.<span class="fu">put</span>(A, T);</span>
+<span id="cb194-31"><a href="enums-constants-on-steroids.html#cb194-31"></a>        REVERSE_COMPLEMENTS.<span class="fu">put</span>(C, G);</span>
+<span id="cb194-32"><a href="enums-constants-on-steroids.html#cb194-32"></a>        REVERSE_COMPLEMENTS.<span class="fu">put</span>(G, C);</span>
+<span id="cb194-33"><a href="enums-constants-on-steroids.html#cb194-33"></a>        REVERSE_COMPLEMENTS.<span class="fu">put</span>(T, A);</span>
+<span id="cb194-34"><a href="enums-constants-on-steroids.html#cb194-34"></a>        REVERSE_COMPLEMENTS.<span class="fu">put</span>(U, A);</span>
+<span id="cb194-35"><a href="enums-constants-on-steroids.html#cb194-35"></a>    }</span>
+<span id="cb194-36"><a href="enums-constants-on-steroids.html#cb194-36"></a></span>
+<span id="cb194-37"><a href="enums-constants-on-steroids.html#cb194-37"></a>    <span class="kw">public</span> <span class="dt">double</span> <span class="fu">getMolecularWeight</span>() {</span>
+<span id="cb194-38"><a href="enums-constants-on-steroids.html#cb194-38"></a>        <span class="kw">return</span> MOLECULAR_WEIGHTS.<span class="fu">get</span>(<span class="kw">this</span>);</span>
+<span id="cb194-39"><a href="enums-constants-on-steroids.html#cb194-39"></a>    }</span>
+<span id="cb194-40"><a href="enums-constants-on-steroids.html#cb194-40"></a></span>
+<span id="cb194-41"><a href="enums-constants-on-steroids.html#cb194-41"></a>    <span class="kw">public</span> Nucleotide <span class="fu">complement</span>() {</span>
+<span id="cb194-42"><a href="enums-constants-on-steroids.html#cb194-42"></a>        <span class="kw">return</span> REVERSE_COMPLEMENTS.<span class="fu">get</span>(<span class="kw">this</span>);</span>
+<span id="cb194-43"><a href="enums-constants-on-steroids.html#cb194-43"></a>    }</span>
+<span id="cb194-44"><a href="enums-constants-on-steroids.html#cb194-44"></a></span>
+<span id="cb194-45"><a href="enums-constants-on-steroids.html#cb194-45"></a>    <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isExclusiveRNA</span>() {</span>
+<span id="cb194-46"><a href="enums-constants-on-steroids.html#cb194-46"></a>        <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb194-47"><a href="enums-constants-on-steroids.html#cb194-47"></a>    }</span>
+<span id="cb194-48"><a href="enums-constants-on-steroids.html#cb194-48"></a></span>
+<span id="cb194-49"><a href="enums-constants-on-steroids.html#cb194-49"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">String</span> name;</span>
+<span id="cb194-50"><a href="enums-constants-on-steroids.html#cb194-50"></a></span>
+<span id="cb194-51"><a href="enums-constants-on-steroids.html#cb194-51"></a>    <span class="kw">private</span> <span class="fu">Nucleotide</span>(<span class="dt">final</span> <span class="bu">String</span> fullName) {</span>
+<span id="cb194-52"><a href="enums-constants-on-steroids.html#cb194-52"></a>        <span class="kw">this</span>.<span class="fu">name</span> = fullName;</span>
+<span id="cb194-53"><a href="enums-constants-on-steroids.html#cb194-53"></a>    }</span>
+<span id="cb194-54"><a href="enums-constants-on-steroids.html#cb194-54"></a></span>
+<span id="cb194-55"><a href="enums-constants-on-steroids.html#cb194-55"></a>    <span class="at">@Override</span></span>
+<span id="cb194-56"><a href="enums-constants-on-steroids.html#cb194-56"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb194-57"><a href="enums-constants-on-steroids.html#cb194-57"></a>        <span class="kw">return</span> name;</span>
+<span id="cb194-58"><a href="enums-constants-on-steroids.html#cb194-58"></a>    }</span>
+<span id="cb194-59"><a href="enums-constants-on-steroids.html#cb194-59"></a>}</span></code></pre></div>
+
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="inheritance-and-uml.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="encapsulation-revisited.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

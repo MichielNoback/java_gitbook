@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 22 Encapsulation | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 22 Encapsulation | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 22 Encapsulation | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="regular-expressions.html"/>
+<link rel="next" href="access-modifiers-other-keywords.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,245 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="encapsulation" class="section level1">
+<h1><span class="header-section-number">Chapter 22</span> Encapsulation</h1>
+<p>So far, we have not dealt with the concept of <strong><em>data hiding</em></strong> which actually is a pivotal aspect of object-oriented programming. This concept will be illustrated here, starting with the <code>Cell</code> class from <strong>Part one</strong> (see <a href="first-look-at-objects.html#first-look-at-objects">5</a>). I modified it a bit for demonstration purposes. All access modifiers were removed and a check was introduced, so that the program crashes when a Cell grows too big.</p>
+<div class="sourceCode" id="cb168"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb168-1"><a href="encapsulation.html#cb168-1"></a><span class="kw">package</span><span class="im"> snippets.testtube2;</span></span>
+<span id="cb168-2"><a href="encapsulation.html#cb168-2"></a></span>
+<span id="cb168-3"><a href="encapsulation.html#cb168-3"></a><span class="kw">public</span> <span class="kw">class</span> Cell {</span>
+<span id="cb168-4"><a href="encapsulation.html#cb168-4"></a>    <span class="co">//diameter in micrometers</span></span>
+<span id="cb168-5"><a href="encapsulation.html#cb168-5"></a>    <span class="dt">int</span> diameter = <span class="dv">5</span>;</span>
+<span id="cb168-6"><a href="encapsulation.html#cb168-6"></a>    <span class="dt">int</span> growthIncrement = <span class="dv">1</span>;</span>
+<span id="cb168-7"><a href="encapsulation.html#cb168-7"></a></span>
+<span id="cb168-8"><a href="encapsulation.html#cb168-8"></a>    <span class="co">/**</span></span>
+<span id="cb168-9"><a href="encapsulation.html#cb168-9"></a>     <span class="co">*</span> Lets this cell grow in a single increment</span>
+<span id="cb168-10"><a href="encapsulation.html#cb168-10"></a>     <span class="co">*/</span></span>
+<span id="cb168-11"><a href="encapsulation.html#cb168-11"></a>    <span class="dt">void</span> <span class="fu">grow</span>() {</span>
+<span id="cb168-12"><a href="encapsulation.html#cb168-12"></a>        <span class="co">//grow by 1 micrometer</span></span>
+<span id="cb168-13"><a href="encapsulation.html#cb168-13"></a>        <span class="kw">this</span>.<span class="fu">diameter</span> += growthIncrement;</span>
+<span id="cb168-14"><a href="encapsulation.html#cb168-14"></a>        <span class="co">//we can grow many cycles safely before resources run out</span></span>
+<span id="cb168-15"><a href="encapsulation.html#cb168-15"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">diameter</span> &gt; <span class="dv">1000</span>) <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&quot;TestTube will explode in 5 seconds&quot;</span>);</span>
+<span id="cb168-16"><a href="encapsulation.html#cb168-16"></a>    }</span>
+<span id="cb168-17"><a href="encapsulation.html#cb168-17"></a>}</span></code></pre></div>
+<p>So, the logic of this cell is based on the assumption that it starts growing at size 5 with an increment of 1 at each cycle. Nothing funny going on.</p>
+<p>Now here is a very simple version of class <code>TestTube</code>.</p>
+<div class="sourceCode" id="cb169"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb169-1"><a href="encapsulation.html#cb169-1"></a><span class="kw">package</span><span class="im"> snippets.testtube2;</span></span>
+<span id="cb169-2"><a href="encapsulation.html#cb169-2"></a></span>
+<span id="cb169-3"><a href="encapsulation.html#cb169-3"></a><span class="kw">class</span> TestTube {</span>
+<span id="cb169-4"><a href="encapsulation.html#cb169-4"></a>    Cell cell;</span>
+<span id="cb169-5"><a href="encapsulation.html#cb169-5"></a></span>
+<span id="cb169-6"><a href="encapsulation.html#cb169-6"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb169-7"><a href="encapsulation.html#cb169-7"></a>        TestTube tube = <span class="kw">new</span> <span class="fu">TestTube</span>();</span>
+<span id="cb169-8"><a href="encapsulation.html#cb169-8"></a>        tube.<span class="fu">cell</span> = <span class="kw">new</span> <span class="fu">Cell</span>();</span>
+<span id="cb169-9"><a href="encapsulation.html#cb169-9"></a>        <span class="co">//run for 5 generations</span></span>
+<span id="cb169-10"><a href="encapsulation.html#cb169-10"></a>        <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">5</span>; i++) {</span>
+<span id="cb169-11"><a href="encapsulation.html#cb169-11"></a>            tube.<span class="fu">growCells</span>();</span>
+<span id="cb169-12"><a href="encapsulation.html#cb169-12"></a>        }</span>
+<span id="cb169-13"><a href="encapsulation.html#cb169-13"></a>    }</span>
+<span id="cb169-14"><a href="encapsulation.html#cb169-14"></a></span>
+<span id="cb169-15"><a href="encapsulation.html#cb169-15"></a>    <span class="co">/**</span></span>
+<span id="cb169-16"><a href="encapsulation.html#cb169-16"></a>     <span class="co">*</span> Grows the cells<span class="co">,</span> in one single iteration<span class="co">.</span></span>
+<span id="cb169-17"><a href="encapsulation.html#cb169-17"></a>     <span class="co">*/</span></span>
+<span id="cb169-18"><a href="encapsulation.html#cb169-18"></a>    <span class="dt">void</span> <span class="fu">growCells</span>() {</span>
+<span id="cb169-19"><a href="encapsulation.html#cb169-19"></a>        <span class="co">//set diameter in nanometers</span></span>
+<span id="cb169-20"><a href="encapsulation.html#cb169-20"></a>        cell.<span class="fu">diameter</span> = <span class="dv">6000</span>;</span>
+<span id="cb169-21"><a href="encapsulation.html#cb169-21"></a>        cell.<span class="fu">growthIncrement</span> = <span class="dv">750</span>;</span>
+<span id="cb169-22"><a href="encapsulation.html#cb169-22"></a>        cell.<span class="fu">grow</span>();</span>
+<span id="cb169-23"><a href="encapsulation.html#cb169-23"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;cell diameter = &quot;</span> + cell.<span class="fu">diameter</span>);</span>
+<span id="cb169-24"><a href="encapsulation.html#cb169-24"></a>    }</span>
+<span id="cb169-25"><a href="encapsulation.html#cb169-25"></a>}</span></code></pre></div>
+<p>which outputs</p>
+<pre class="console_out">
+Exception in thread "main" java.lang.Error: TestTube will explode in 5 seconds
+    at snippets.testtube2.Cell.grow(Cell.java:14)
+    at snippets.testtube2.TestTube.growCells(TestTube.java:22)
+    at snippets.testtube2.TestTube.main(TestTube.java:11)
+</pre>
+<p>The TestTube developer was working with nanometer units while the Cell developer was working with micrometer units. The result is a crashing application (or Mars orbiter).</p>
+<p>Besides this big problem, when another class tries to run the <code>growCells()</code> method on a TestTube instance, it will get a <code>NullPointerException</code>. Can you figure out why?</p>
+<p><strong><em>So we need a way to protect the inner state of objects</em></strong></p>
+<p>Java has a heap of techniques for preventing illegal access or modification to your instance variables (and methods). These techniques start with the use of <strong><em>access modifiers</em></strong>.</p>
+<p>Let’s improve and secure this <code>Cell</code> and <code>TesTube</code> and keep access open only to that which needs to be publicly accessible.</p>
+<p>Here is a new and improved Cell class:</p>
+<div class="sourceCode" id="cb170"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb170-1"><a href="encapsulation.html#cb170-1"></a><span class="kw">package</span><span class="im"> snippets.testtube2;</span></span>
+<span id="cb170-2"><a href="encapsulation.html#cb170-2"></a></span>
+<span id="cb170-3"><a href="encapsulation.html#cb170-3"></a><span class="kw">public</span> <span class="kw">class</span> Cell {</span>
+<span id="cb170-4"><a href="encapsulation.html#cb170-4"></a>    <span class="kw">private</span> <span class="dt">int</span> diameterInMicrometers = <span class="dv">5</span>;</span>
+<span id="cb170-5"><a href="encapsulation.html#cb170-5"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> growthIncrementInMicrometers;</span>
+<span id="cb170-6"><a href="encapsulation.html#cb170-6"></a></span>
+<span id="cb170-7"><a href="encapsulation.html#cb170-7"></a>    <span class="co">/**</span></span>
+<span id="cb170-8"><a href="encapsulation.html#cb170-8"></a>     <span class="co">*</span> Construct with diameter and growth increment<span class="co">,</span> in micrometers<span class="co">.</span></span>
+<span id="cb170-9"><a href="encapsulation.html#cb170-9"></a>     <span class="co">*</span></span>
+<span id="cb170-10"><a href="encapsulation.html#cb170-10"></a>     <span class="co">*</span> <span class="an">@param diameterInMicrometers </span>diameter between <span class="co">1</span> and <span class="co">40</span> micrometers</span>
+<span id="cb170-11"><a href="encapsulation.html#cb170-11"></a>     <span class="co">*</span> <span class="an">@param growthIncrementInMicrometers </span>growth increment between <span class="co">1</span> and <span class="co">5</span> micrometers</span>
+<span id="cb170-12"><a href="encapsulation.html#cb170-12"></a>     <span class="co">*</span> <span class="an">@throws IllegalArgumentException </span>ex if one of the arguments is out of range</span>
+<span id="cb170-13"><a href="encapsulation.html#cb170-13"></a>     <span class="co">*/</span></span>
+<span id="cb170-14"><a href="encapsulation.html#cb170-14"></a>     <span class="kw">public</span> <span class="fu">Cell</span>(<span class="dt">int</span> diameterInMicrometers, <span class="dt">int</span> growthIncrementInMicrometers) {</span>
+<span id="cb170-15"><a href="encapsulation.html#cb170-15"></a>        <span class="kw">if</span> (diameterInMicrometers &lt; <span class="dv">1</span></span>
+<span id="cb170-16"><a href="encapsulation.html#cb170-16"></a>            || diameterInMicrometers &gt; <span class="dv">41</span></span>
+<span id="cb170-17"><a href="encapsulation.html#cb170-17"></a>            || growthIncrementInMicrometers &lt; <span class="dv">1</span></span>
+<span id="cb170-18"><a href="encapsulation.html#cb170-18"></a>            || growthIncrementInMicrometers &gt; <span class="dv">6</span></span>
+<span id="cb170-19"><a href="encapsulation.html#cb170-19"></a>        ) {</span>
+<span id="cb170-20"><a href="encapsulation.html#cb170-20"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span>(<span class="st">&quot;Cell size must start between 0 and 40 &quot;</span> +</span>
+<span id="cb170-21"><a href="encapsulation.html#cb170-21"></a>                    <span class="st">&quot;and growth increment between 0 and 5&quot;</span>);</span>
+<span id="cb170-22"><a href="encapsulation.html#cb170-22"></a>        }</span>
+<span id="cb170-23"><a href="encapsulation.html#cb170-23"></a>        <span class="kw">this</span>.<span class="fu">diameterInMicrometers</span> = diameterInMicrometers;</span>
+<span id="cb170-24"><a href="encapsulation.html#cb170-24"></a>        <span class="co">//growth increment can never be changed after construction</span></span>
+<span id="cb170-25"><a href="encapsulation.html#cb170-25"></a>        <span class="kw">this</span>.<span class="fu">growthIncrementInMicrometers</span> = growthIncrementInMicrometers;</span>
+<span id="cb170-26"><a href="encapsulation.html#cb170-26"></a>    }</span>
+<span id="cb170-27"><a href="encapsulation.html#cb170-27"></a></span>
+<span id="cb170-28"><a href="encapsulation.html#cb170-28"></a>    <span class="co">/**</span></span>
+<span id="cb170-29"><a href="encapsulation.html#cb170-29"></a>     <span class="co">*</span> Serves the read<span class="co">-</span>only property diameter<span class="co">.</span></span>
+<span id="cb170-30"><a href="encapsulation.html#cb170-30"></a>     <span class="co">*</span> <span class="co">@</span>return</span>
+<span id="cb170-31"><a href="encapsulation.html#cb170-31"></a>     <span class="co">*/</span></span>
+<span id="cb170-32"><a href="encapsulation.html#cb170-32"></a>    <span class="kw">public</span> <span class="dt">int</span> <span class="fu">getDiameterInMicrometers</span>() {</span>
+<span id="cb170-33"><a href="encapsulation.html#cb170-33"></a>        <span class="kw">return</span> diameterInMicrometers;</span>
+<span id="cb170-34"><a href="encapsulation.html#cb170-34"></a>    }</span>
+<span id="cb170-35"><a href="encapsulation.html#cb170-35"></a></span>
+<span id="cb170-36"><a href="encapsulation.html#cb170-36"></a>    <span class="co">/**</span></span>
+<span id="cb170-37"><a href="encapsulation.html#cb170-37"></a>     <span class="co">*</span> Grows this cell in a single increment<span class="co">,</span> increasing its size with one time</span>
+<span id="cb170-38"><a href="encapsulation.html#cb170-38"></a>     <span class="co">*</span> the growth increment<span class="co">.</span></span>
+<span id="cb170-39"><a href="encapsulation.html#cb170-39"></a>     <span class="co">*</span> </span>
+<span id="cb170-40"><a href="encapsulation.html#cb170-40"></a>     <span class="co">*/</span></span>
+<span id="cb170-41"><a href="encapsulation.html#cb170-41"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">grow</span>() {</span>
+<span id="cb170-42"><a href="encapsulation.html#cb170-42"></a>        <span class="kw">this</span>.<span class="fu">diameterInMicrometers</span> += growthIncrementInMicrometers;</span>
+<span id="cb170-43"><a href="encapsulation.html#cb170-43"></a>        <span class="kw">if</span> (<span class="kw">this</span>.<span class="fu">diameterInMicrometers</span> &gt; <span class="dv">1000</span>) <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">Error</span>(<span class="st">&quot;TestTube will explode in 5 seconds&quot;</span>);</span>
+<span id="cb170-44"><a href="encapsulation.html#cb170-44"></a>    }</span>
+<span id="cb170-45"><a href="encapsulation.html#cb170-45"></a>}</span></code></pre></div>
+<p>Quite a lot has changed:
+1. All instance variables have been marked <code>private</code> which means only code inside class Cell can access them.
+2. Variables have been renamed to be more reflective of what they represent.
+3. A Constructor was added to provide a single point of assignment to both variables, at construction time.
+4. The constructor performs a check on its parameters so that illegal arguments are caught early.
+5. Javadoc was added to explain the public API.
+6. A single <strong><em>getter</em></strong> was introduced for property diameter, making it a <strong><em>read-only property</em></strong>.
+7. No getter was created for property <code>growthIncrementInMicrometers</code> because it was decided by the developer (me) that it should only be set once during the life cycle of a Cell object. For that reason, instance variable <code>growthIncrementInMicrometers</code> was <strong><em>marked final</em></strong>.</p>
+<p>One setback of this whole procedure: class <code>TestTube</code> will not compile anymore because (a) it attempts to access the <code>private</code> members of class Cell and (b) because there is no <strong><em>no-arg constructor</em></strong> anymore:</p>
+<div class="figure">
+<img src="04_oop/figures/compile_errors.png" alt="" />
+<p class="caption">Compile errors</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>Since Javadoc was added to class Cell, we can get additional information in IntelliJ by pressing <code>ctrl + Q</code> (Linux), <code>ctrl + J</code> (Mac), or <code>F1</code>when the cursor is on the Constructor:</p>
+<div class="figure">
+<img src="04_oop/figures/show_javadoc.png" alt="" />
+<p class="caption">Show Javadoc</p>
+</div>
+<p>Let’s solve the compilation problems, make <code>TestTube</code> safe, add multi-cell support, and move the <code>main()</code> function to the Simulator class.</p>
+<div class="sourceCode" id="cb171"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb171-1"><a href="encapsulation.html#cb171-1"></a><span class="kw">package</span><span class="im"> snippets.testtube2;</span></span>
+<span id="cb171-2"><a href="encapsulation.html#cb171-2"></a></span>
+<span id="cb171-3"><a href="encapsulation.html#cb171-3"></a><span class="kw">import</span><span class="im"> java.util.ArrayList;</span></span>
+<span id="cb171-4"><a href="encapsulation.html#cb171-4"></a><span class="kw">import</span><span class="im"> java.util.List;</span></span>
+<span id="cb171-5"><a href="encapsulation.html#cb171-5"></a></span>
+<span id="cb171-6"><a href="encapsulation.html#cb171-6"></a><span class="kw">public</span> <span class="kw">class</span> TestTube {</span>
+<span id="cb171-7"><a href="encapsulation.html#cb171-7"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> numberOfLifeCyclesToRun;</span>
+<span id="cb171-8"><a href="encapsulation.html#cb171-8"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> initialCellCount;</span>
+<span id="cb171-9"><a href="encapsulation.html#cb171-9"></a>    <span class="kw">private</span> <span class="bu">List</span>&lt;Cell&gt; cells = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;&gt;();</span>
+<span id="cb171-10"><a href="encapsulation.html#cb171-10"></a>    <span class="kw">private</span> <span class="dt">int</span> defaultCellDiameter = <span class="dv">20</span>;</span>
+<span id="cb171-11"><a href="encapsulation.html#cb171-11"></a>    <span class="kw">private</span> <span class="dt">int</span> defaultSizeIncrement = <span class="dv">2</span>;</span>
+<span id="cb171-12"><a href="encapsulation.html#cb171-12"></a></span>
+<span id="cb171-13"><a href="encapsulation.html#cb171-13"></a>    <span class="co">/**</span></span>
+<span id="cb171-14"><a href="encapsulation.html#cb171-14"></a>     <span class="co">*</span> Constructs with the two essential parameters</span>
+<span id="cb171-15"><a href="encapsulation.html#cb171-15"></a>     <span class="co">* </span><span class="an">@param numberOfLifeCyclesToRun </span>a number between <span class="co">1</span> and <span class="co">100</span></span>
+<span id="cb171-16"><a href="encapsulation.html#cb171-16"></a>     <span class="co">*</span> <span class="an">@param initialCellCount </span>a number between <span class="co">1</span> and <span class="co">1000</span></span>
+<span id="cb171-17"><a href="encapsulation.html#cb171-17"></a>     <span class="co">*</span> <span class="an">@return </span>testtube a TestTube instance</span>
+<span id="cb171-18"><a href="encapsulation.html#cb171-18"></a>     <span class="co">*/</span></span>
+<span id="cb171-19"><a href="encapsulation.html#cb171-19"></a>    <span class="kw">public</span> <span class="fu">TestTube</span> (<span class="dt">int</span> numberOfLifeCyclesToRun, <span class="dt">int</span> initialCellCount) {</span>
+<span id="cb171-20"><a href="encapsulation.html#cb171-20"></a>        <span class="kw">if</span> (numberOfLifeCyclesToRun &lt; <span class="dv">1</span></span>
+<span id="cb171-21"><a href="encapsulation.html#cb171-21"></a>                || numberOfLifeCyclesToRun &gt; <span class="dv">100</span></span>
+<span id="cb171-22"><a href="encapsulation.html#cb171-22"></a>                || initialCellCount &lt; <span class="dv">1</span></span>
+<span id="cb171-23"><a href="encapsulation.html#cb171-23"></a>                || initialCellCount &gt; <span class="dv">1000</span>) {</span>
+<span id="cb171-24"><a href="encapsulation.html#cb171-24"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">IllegalArgumentException</span>(<span class="st">&quot;Number of life cycles should be between 1 and 100 and initial cell &quot;</span> +</span>
+<span id="cb171-25"><a href="encapsulation.html#cb171-25"></a>                    <span class="st">&quot;count between 1 and 1000&quot;</span>);</span>
+<span id="cb171-26"><a href="encapsulation.html#cb171-26"></a>        }</span>
+<span id="cb171-27"><a href="encapsulation.html#cb171-27"></a>        <span class="kw">this</span>.<span class="fu">numberOfLifeCyclesToRun</span> = numberOfLifeCyclesToRun;</span>
+<span id="cb171-28"><a href="encapsulation.html#cb171-28"></a>        <span class="kw">this</span>.<span class="fu">initialCellCount</span> = initialCellCount;</span>
+<span id="cb171-29"><a href="encapsulation.html#cb171-29"></a>    }</span>
+<span id="cb171-30"><a href="encapsulation.html#cb171-30"></a></span>
+<span id="cb171-31"><a href="encapsulation.html#cb171-31"></a>    <span class="co">/**</span></span>
+<span id="cb171-32"><a href="encapsulation.html#cb171-32"></a>     <span class="co">*</span> sets the initial diameter of instantiated cells<span class="co">.</span></span>
+<span id="cb171-33"><a href="encapsulation.html#cb171-33"></a>     <span class="co">*</span> <span class="an">@param defaultCellDiameter</span></span>
+<span id="cb171-34"><a href="encapsulation.html#cb171-34"></a>     <span class="co">*/</span></span>
+<span id="cb171-35"><a href="encapsulation.html#cb171-35"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setDefaultCellDiameter</span>(<span class="dt">int</span> defaultCellDiameter) {</span>
+<span id="cb171-36"><a href="encapsulation.html#cb171-36"></a>        <span class="kw">this</span>.<span class="fu">defaultCellDiameter</span> = defaultCellDiameter;</span>
+<span id="cb171-37"><a href="encapsulation.html#cb171-37"></a>    }</span>
+<span id="cb171-38"><a href="encapsulation.html#cb171-38"></a></span>
+<span id="cb171-39"><a href="encapsulation.html#cb171-39"></a>    <span class="co">/**</span></span>
+<span id="cb171-40"><a href="encapsulation.html#cb171-40"></a>     <span class="co">*</span> Sets the size increment for cell growth</span>
+<span id="cb171-41"><a href="encapsulation.html#cb171-41"></a>     <span class="co">* </span><span class="an">@param defaultSizeIncrement</span></span>
+<span id="cb171-42"><a href="encapsulation.html#cb171-42"></a>     <span class="co">*/</span></span>
+<span id="cb171-43"><a href="encapsulation.html#cb171-43"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setDefaultSizeIncrement</span>(<span class="dt">int</span> defaultSizeIncrement) {</span>
+<span id="cb171-44"><a href="encapsulation.html#cb171-44"></a>        <span class="kw">this</span>.<span class="fu">defaultSizeIncrement</span> = defaultSizeIncrement;</span>
+<span id="cb171-45"><a href="encapsulation.html#cb171-45"></a>    }</span>
+<span id="cb171-46"><a href="encapsulation.html#cb171-46"></a></span>
+<span id="cb171-47"><a href="encapsulation.html#cb171-47"></a>    <span class="co">/**</span></span>
+<span id="cb171-48"><a href="encapsulation.html#cb171-48"></a>     <span class="co">*</span> starts the growth process</span>
+<span id="cb171-49"><a href="encapsulation.html#cb171-49"></a>     <span class="co">*/</span></span>
+<span id="cb171-50"><a href="encapsulation.html#cb171-50"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">start</span>() {</span>
+<span id="cb171-51"><a href="encapsulation.html#cb171-51"></a>        <span class="fu">initializeCells</span>();</span>
+<span id="cb171-52"><a href="encapsulation.html#cb171-52"></a>        <span class="fu">runLifeCycles</span>();</span>
+<span id="cb171-53"><a href="encapsulation.html#cb171-53"></a>    }</span>
+<span id="cb171-54"><a href="encapsulation.html#cb171-54"></a></span>
+<span id="cb171-55"><a href="encapsulation.html#cb171-55"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">runLifeCycles</span>() {</span>
+<span id="cb171-56"><a href="encapsulation.html#cb171-56"></a>        <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="kw">this</span>.<span class="fu">numberOfLifeCyclesToRun</span>; i++) {</span>
+<span id="cb171-57"><a href="encapsulation.html#cb171-57"></a>            <span class="fu">growCells</span>();</span>
+<span id="cb171-58"><a href="encapsulation.html#cb171-58"></a>        }</span>
+<span id="cb171-59"><a href="encapsulation.html#cb171-59"></a>    }</span>
+<span id="cb171-60"><a href="encapsulation.html#cb171-60"></a></span>
+<span id="cb171-61"><a href="encapsulation.html#cb171-61"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">initializeCells</span>() {</span>
+<span id="cb171-62"><a href="encapsulation.html#cb171-62"></a>        <span class="kw">for</span> (<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="kw">this</span>.<span class="fu">initialCellCount</span>; i++) {</span>
+<span id="cb171-63"><a href="encapsulation.html#cb171-63"></a>            cells.<span class="fu">add</span>(<span class="kw">new</span> <span class="fu">Cell</span>(<span class="kw">this</span>.<span class="fu">defaultCellDiameter</span>, <span class="kw">this</span>.<span class="fu">defaultSizeIncrement</span>));</span>
+<span id="cb171-64"><a href="encapsulation.html#cb171-64"></a>        }</span>
+<span id="cb171-65"><a href="encapsulation.html#cb171-65"></a>    }</span>
+<span id="cb171-66"><a href="encapsulation.html#cb171-66"></a></span>
+<span id="cb171-67"><a href="encapsulation.html#cb171-67"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">growCells</span>() {</span>
+<span id="cb171-68"><a href="encapsulation.html#cb171-68"></a>        <span class="kw">for</span> (Cell cell : <span class="kw">this</span>.<span class="fu">cells</span>) {</span>
+<span id="cb171-69"><a href="encapsulation.html#cb171-69"></a>            cell.<span class="fu">grow</span>();</span>
+<span id="cb171-70"><a href="encapsulation.html#cb171-70"></a>        }</span>
+<span id="cb171-71"><a href="encapsulation.html#cb171-71"></a>        <span class="co">//since Java 8, this is also possible:</span></span>
+<span id="cb171-72"><a href="encapsulation.html#cb171-72"></a>        <span class="co">//this.cells.forEach(c -&gt; c.grow());</span></span>
+<span id="cb171-73"><a href="encapsulation.html#cb171-73"></a>        <span class="co">//or</span></span>
+<span id="cb171-74"><a href="encapsulation.html#cb171-74"></a>        <span class="co">//this.cells.forEach(Cell::grow);</span></span>
+<span id="cb171-75"><a href="encapsulation.html#cb171-75"></a>    }</span>
+<span id="cb171-76"><a href="encapsulation.html#cb171-76"></a>}</span></code></pre></div>
+<p>Yes, the class file became substantially larger - one of the setbacks of safe design.</p>
+<p>There are several noteworthy changes here:</p>
+<ol style="list-style-type: decimal">
+<li>All instance variables are <code>private</code>. Note a pattern here?</li>
+<li>Two public setters were provided (making <code>defaultCellDiameter</code> and <code>defaultSizeIncrement</code> <strong><em>write-only</em></strong>), a public constructor and one public <strong><em>API method</em></strong> that will start the testtube: <code>start()</code></li>
+<li>All functionality is divided into very small methods with a very clear (and testable) responsibility. This is the <strong><em>Single responsibility Principle</em></strong> at work. See post <a href="srp.md">SRP</a> for more details.</li>
+</ol>
+<p>Finally, here is the <strong><em>controller</em></strong> class <code>CellGrowthSimulator</code>. Its sole purpose is now to start the simulation process.</p>
+<div class="sourceCode" id="cb172"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb172-1"><a href="encapsulation.html#cb172-1"></a><span class="kw">package</span><span class="im"> snippets.testtube2;</span></span>
+<span id="cb172-2"><a href="encapsulation.html#cb172-2"></a></span>
+<span id="cb172-3"><a href="encapsulation.html#cb172-3"></a><span class="co">/**</span></span>
+<span id="cb172-4"><a href="encapsulation.html#cb172-4"></a> <span class="co">*</span> <span class="co">&quot;</span>Controller<span class="co">&quot;</span> class</span>
+<span id="cb172-5"><a href="encapsulation.html#cb172-5"></a> <span class="co">*/</span></span>
+<span id="cb172-6"><a href="encapsulation.html#cb172-6"></a><span class="kw">public</span> <span class="kw">class</span> CellGrowthSimulator {</span>
+<span id="cb172-7"><a href="encapsulation.html#cb172-7"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb172-8"><a href="encapsulation.html#cb172-8"></a>        <span class="fu">startSimulation</span>();</span>
+<span id="cb172-9"><a href="encapsulation.html#cb172-9"></a>    }</span>
+<span id="cb172-10"><a href="encapsulation.html#cb172-10"></a></span>
+<span id="cb172-11"><a href="encapsulation.html#cb172-11"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">startSimulation</span>() {</span>
+<span id="cb172-12"><a href="encapsulation.html#cb172-12"></a>        TestTube testTube = <span class="kw">new</span> <span class="fu">TestTube</span>(<span class="dv">10</span>, <span class="dv">5</span>);</span>
+<span id="cb172-13"><a href="encapsulation.html#cb172-13"></a>        testTube.<span class="fu">setDefaultCellDiameter</span>(<span class="dv">10</span>);</span>
+<span id="cb172-14"><a href="encapsulation.html#cb172-14"></a>        testTube.<span class="fu">start</span>();</span>
+<span id="cb172-15"><a href="encapsulation.html#cb172-15"></a>    }</span>
+<span id="cb172-16"><a href="encapsulation.html#cb172-16"></a>}</span></code></pre></div>
+<div id="summary-3" class="section level2">
+<h2><span class="header-section-number">22.1</span> Summary</h2>
+<p>This post has introduced a fundamental concept of Object-Oriented Programming and design: <strong><em>encapsulation</em></strong>; hiding the inner workings of a class, mostly through the use of the private keyword and usage of getters and setters. It has also shown a first view of <strong><em>abstraction</em></strong> in class TestTube: this class has a single simple public API method (<code>start()</code>) and has hidden all the complexities of its simulation algorithm.</p>
+<p>You have seen two access modifiers; there are two more that are dealt with in the next post.</p>
+<p>Also, there is another post covering some more sophisticated aspects of encapsulation.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="regular-expressions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="access-modifiers-other-keywords.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

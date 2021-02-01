@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 38 Web filters and File uploads | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 38 Web filters and File uploads | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 38 Web filters and File uploads | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="a-simple-web-service-using-ajax.html"/>
+<link rel="next" href="exercises-intro.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,275 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="web-filters-and-file-uploads" class="section level1">
+<h1><span class="header-section-number">Chapter 38</span> Web filters and File uploads</h1>
+<p>This is the last post in this course. It deals with two loose ends: uploading files and intercepting requests.</p>
+<div id="web-filters" class="section level2">
+<h2><span class="header-section-number">38.1</span> Web filters</h2>
+<p>Suppose you want to intercept requests for a (group of) servlets, to log what is requested and where it came from.
+For instance, to do analyse the web traffic later on in order to pinpoint the most used resources.<br />
+Or more relevant: intercept requests to asses authentication status of the user. And reject a request if the user is not authorized to see a resource.</p>
+<div id="a-basic-example" class="section level4 unnumbered">
+<h4>A basic example</h4>
+<p>Here is our old friend, the PhraseServlet (only relevant code show):</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb312-1"><a href="web-filters-and-file-uploads.html#cb312-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.servlets;</span></span>
+<span id="cb312-2"><a href="web-filters-and-file-uploads.html#cb312-2"></a></span>
+<span id="cb312-3"><a href="web-filters-and-file-uploads.html#cb312-3"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;PhraseServlet&quot;</span>, urlPatterns = <span class="st">&quot;/give.phrase&quot;</span>)</span>
+<span id="cb312-4"><a href="web-filters-and-file-uploads.html#cb312-4"></a><span class="kw">public</span> <span class="kw">class</span> PhraseServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb312-5"><a href="web-filters-and-file-uploads.html#cb312-5"></a>    <span class="kw">private</span> TemplateEngine templateEngine;</span>
+<span id="cb312-6"><a href="web-filters-and-file-uploads.html#cb312-6"></a></span>
+<span id="cb312-7"><a href="web-filters-and-file-uploads.html#cb312-7"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doGet</span>(HttpServletRequest request, HttpServletResponse response)</span>
+<span id="cb312-8"><a href="web-filters-and-file-uploads.html#cb312-8"></a>            <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb312-9"><a href="web-filters-and-file-uploads.html#cb312-9"></a>        <span class="bu">String</span> phraseType = request.<span class="fu">getParameter</span>(<span class="st">&quot;phrase_category&quot;</span>);</span>
+<span id="cb312-10"><a href="web-filters-and-file-uploads.html#cb312-10"></a>        <span class="bu">Locale</span> locale = request.<span class="fu">getLocale</span>();</span>
+<span id="cb312-11"><a href="web-filters-and-file-uploads.html#cb312-11"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, response, request.<span class="fu">getServletContext</span>(), locale);</span>
+<span id="cb312-12"><a href="web-filters-and-file-uploads.html#cb312-12"></a>        <span class="bu">String</span> phrase = PhraseFactory.<span class="fu">getPhrase</span>(phraseType);</span>
+<span id="cb312-13"><a href="web-filters-and-file-uploads.html#cb312-13"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_type&quot;</span>, phraseType);</span>
+<span id="cb312-14"><a href="web-filters-and-file-uploads.html#cb312-14"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;phrase_num&quot;</span>, phrase);</span>
+<span id="cb312-15"><a href="web-filters-and-file-uploads.html#cb312-15"></a>        templateEngine.<span class="fu">process</span>(<span class="st">&quot;phrase_of_the_day&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb312-16"><a href="web-filters-and-file-uploads.html#cb312-16"></a>    }</span>
+<span id="cb312-17"><a href="web-filters-and-file-uploads.html#cb312-17"></a>}</span></code></pre></div>
+<p>This is the way to keep track of requests for <code>/give.phrase</code>; a <code>@WebFilter</code> annotation on a class implementing <code>javax.servlet.Filter</code> does the trick:</p>
+<div class="sourceCode" id="cb313"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb313-1"><a href="web-filters-and-file-uploads.html#cb313-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.webfilters;</span></span>
+<span id="cb313-2"><a href="web-filters-and-file-uploads.html#cb313-2"></a></span>
+<span id="cb313-3"><a href="web-filters-and-file-uploads.html#cb313-3"></a><span class="kw">import</span><span class="im"> javax.servlet.*;</span></span>
+<span id="cb313-4"><a href="web-filters-and-file-uploads.html#cb313-4"></a><span class="kw">import</span><span class="im"> javax.servlet.annotation.WebFilter;</span></span>
+<span id="cb313-5"><a href="web-filters-and-file-uploads.html#cb313-5"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletRequest;</span></span>
+<span id="cb313-6"><a href="web-filters-and-file-uploads.html#cb313-6"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb313-7"><a href="web-filters-and-file-uploads.html#cb313-7"></a></span>
+<span id="cb313-8"><a href="web-filters-and-file-uploads.html#cb313-8"></a><span class="at">@WebFilter</span>(urlPatterns = <span class="st">&quot;/give.phrase&quot;</span>)</span>
+<span id="cb313-9"><a href="web-filters-and-file-uploads.html#cb313-9"></a><span class="kw">public</span> <span class="kw">class</span> PhraseServletFilter <span class="kw">implements</span> <span class="bu">Filter</span>{</span>
+<span id="cb313-10"><a href="web-filters-and-file-uploads.html#cb313-10"></a></span>
+<span id="cb313-11"><a href="web-filters-and-file-uploads.html#cb313-11"></a>    <span class="at">@Override</span></span>
+<span id="cb313-12"><a href="web-filters-and-file-uploads.html#cb313-12"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doFilter</span>(ServletRequest request, ServletResponse response, FilterChain chain) <span class="kw">throws</span> <span class="bu">IOException</span>, ServletException {</span>
+<span id="cb313-13"><a href="web-filters-and-file-uploads.html#cb313-13"></a>        <span class="kw">if</span> (request <span class="kw">instanceof</span> HttpServletRequest) {</span>
+<span id="cb313-14"><a href="web-filters-and-file-uploads.html#cb313-14"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Request for &quot;</span> + ((HttpServletRequest)request).<span class="fu">getRequestURL</span>().<span class="fu">toString</span>());</span>
+<span id="cb313-15"><a href="web-filters-and-file-uploads.html#cb313-15"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Query: &quot;</span> + ((HttpServletRequest)request).<span class="fu">getQueryString</span>());</span>
+<span id="cb313-16"><a href="web-filters-and-file-uploads.html#cb313-16"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Remote address: &quot;</span> + request.<span class="fu">getRemoteAddr</span>());</span>
+<span id="cb313-17"><a href="web-filters-and-file-uploads.html#cb313-17"></a>        }</span>
+<span id="cb313-18"><a href="web-filters-and-file-uploads.html#cb313-18"></a>        <span class="kw">try</span> {</span>
+<span id="cb313-19"><a href="web-filters-and-file-uploads.html#cb313-19"></a>            <span class="co">//pass on the request after you are done</span></span>
+<span id="cb313-20"><a href="web-filters-and-file-uploads.html#cb313-20"></a>            chain.<span class="fu">doFilter</span>(request, response);</span>
+<span id="cb313-21"><a href="web-filters-and-file-uploads.html#cb313-21"></a>        } <span class="kw">catch</span> (<span class="bu">Exception</span> e) {</span>
+<span id="cb313-22"><a href="web-filters-and-file-uploads.html#cb313-22"></a>            e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb313-23"><a href="web-filters-and-file-uploads.html#cb313-23"></a>        }</span>
+<span id="cb313-24"><a href="web-filters-and-file-uploads.html#cb313-24"></a>    }</span>
+<span id="cb313-25"><a href="web-filters-and-file-uploads.html#cb313-25"></a></span>
+<span id="cb313-26"><a href="web-filters-and-file-uploads.html#cb313-26"></a>    <span class="at">@Override</span></span>
+<span id="cb313-27"><a href="web-filters-and-file-uploads.html#cb313-27"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(FilterConfig filterConfig) <span class="kw">throws</span> ServletException {</span>
+<span id="cb313-28"><a href="web-filters-and-file-uploads.html#cb313-28"></a>        <span class="co">/*not interesting here*/</span></span>
+<span id="cb313-29"><a href="web-filters-and-file-uploads.html#cb313-29"></a>    }</span>
+<span id="cb313-30"><a href="web-filters-and-file-uploads.html#cb313-30"></a></span>
+<span id="cb313-31"><a href="web-filters-and-file-uploads.html#cb313-31"></a>    <span class="at">@Override</span></span>
+<span id="cb313-32"><a href="web-filters-and-file-uploads.html#cb313-32"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">destroy</span>() {</span>
+<span id="cb313-33"><a href="web-filters-and-file-uploads.html#cb313-33"></a>        <span class="co">/*not interesting here*/</span></span>
+<span id="cb313-34"><a href="web-filters-and-file-uploads.html#cb313-34"></a>    }</span>
+<span id="cb313-35"><a href="web-filters-and-file-uploads.html#cb313-35"></a>}</span></code></pre></div>
+<p>Whe the <code>/give.phrase?phrase_category=bullshit</code> resource is requested, the Tomcat logs show</p>
+<pre class="console_out">
+Request for http://localhost:8080/give.phrase
+Query: phrase_category=bullshit
+Remote address: 0:0:0:0:0:0:0:1
+</pre>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="check-for-authentication" class="section level4 unnumbered">
+<h4>Check for authentication</h4>
+<p>Suppose you have an application with a few public pages and a few pages for which authentication is required. This is a typical use case for WebFilter.</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb314-1"><a href="web-filters-and-file-uploads.html#cb314-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.webfilters;</span></span>
+<span id="cb314-2"><a href="web-filters-and-file-uploads.html#cb314-2"></a></span>
+<span id="cb314-3"><a href="web-filters-and-file-uploads.html#cb314-3"></a></span>
+<span id="cb314-4"><a href="web-filters-and-file-uploads.html#cb314-4"></a><span class="kw">import</span><span class="im"> javax.servlet.*;</span></span>
+<span id="cb314-5"><a href="web-filters-and-file-uploads.html#cb314-5"></a><span class="kw">import</span><span class="im"> javax.servlet.annotation.WebFilter;</span></span>
+<span id="cb314-6"><a href="web-filters-and-file-uploads.html#cb314-6"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletRequest;</span></span>
+<span id="cb314-7"><a href="web-filters-and-file-uploads.html#cb314-7"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletResponse;</span></span>
+<span id="cb314-8"><a href="web-filters-and-file-uploads.html#cb314-8"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpSession;</span></span>
+<span id="cb314-9"><a href="web-filters-and-file-uploads.html#cb314-9"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb314-10"><a href="web-filters-and-file-uploads.html#cb314-10"></a></span>
+<span id="cb314-11"><a href="web-filters-and-file-uploads.html#cb314-11"></a><span class="at">@WebFilter</span>(urlPatterns = {<span class="st">&quot;/user.dashboard&quot;</span>, <span class="st">&quot;/list.secrets&quot;</span>}) <span class="co">//use &quot;/*&quot; for catch-all</span></span>
+<span id="cb314-12"><a href="web-filters-and-file-uploads.html#cb314-12"></a><span class="kw">public</span> <span class="kw">class</span> AuthenticationFilter <span class="kw">implements</span> <span class="bu">Filter</span> {</span>
+<span id="cb314-13"><a href="web-filters-and-file-uploads.html#cb314-13"></a></span>
+<span id="cb314-14"><a href="web-filters-and-file-uploads.html#cb314-14"></a>    <span class="at">@Override</span></span>
+<span id="cb314-15"><a href="web-filters-and-file-uploads.html#cb314-15"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doFilter</span>(ServletRequest request, ServletResponse response, FilterChain chain) <span class="kw">throws</span> <span class="bu">IOException</span>, ServletException {</span>
+<span id="cb314-16"><a href="web-filters-and-file-uploads.html#cb314-16"></a>        <span class="kw">if</span> (request <span class="kw">instanceof</span> HttpServletRequest) {</span>
+<span id="cb314-17"><a href="web-filters-and-file-uploads.html#cb314-17"></a>            HttpServletRequest req = ((HttpServletRequest)request);</span>
+<span id="cb314-18"><a href="web-filters-and-file-uploads.html#cb314-18"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[AuthenticationFilter] Intercepted URL: &quot;</span> + req.<span class="fu">getRequestURL</span>().<span class="fu">toString</span>());</span>
+<span id="cb314-19"><a href="web-filters-and-file-uploads.html#cb314-19"></a>            <span class="dt">final</span> HttpSession session = req.<span class="fu">getSession</span>();</span>
+<span id="cb314-20"><a href="web-filters-and-file-uploads.html#cb314-20"></a>            <span class="kw">if</span> (session.<span class="fu">getAttribute</span>(<span class="st">&quot;user&quot;</span>) == <span class="kw">null</span>) {</span>
+<span id="cb314-21"><a href="web-filters-and-file-uploads.html#cb314-21"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[AuthenticationFilter] no authenticated user: redirecting to /login&quot;</span>);</span>
+<span id="cb314-22"><a href="web-filters-and-file-uploads.html#cb314-22"></a>                ((HttpServletResponse)response).<span class="fu">sendRedirect</span>(<span class="st">&quot;/login&quot;</span>);</span>
+<span id="cb314-23"><a href="web-filters-and-file-uploads.html#cb314-23"></a>            } <span class="kw">else</span> {</span>
+<span id="cb314-24"><a href="web-filters-and-file-uploads.html#cb314-24"></a>                <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[AuthenticationFilter] authenticated status checked; user= &quot;</span> + session.<span class="fu">getAttribute</span>(<span class="st">&quot;user&quot;</span>));</span>
+<span id="cb314-25"><a href="web-filters-and-file-uploads.html#cb314-25"></a>                <span class="kw">try</span> {</span>
+<span id="cb314-26"><a href="web-filters-and-file-uploads.html#cb314-26"></a>                    chain.<span class="fu">doFilter</span>(request, response);</span>
+<span id="cb314-27"><a href="web-filters-and-file-uploads.html#cb314-27"></a>                } <span class="kw">catch</span> (<span class="bu">Exception</span> e) {</span>
+<span id="cb314-28"><a href="web-filters-and-file-uploads.html#cb314-28"></a>                    e.<span class="fu">printStackTrace</span>();</span>
+<span id="cb314-29"><a href="web-filters-and-file-uploads.html#cb314-29"></a>                }</span>
+<span id="cb314-30"><a href="web-filters-and-file-uploads.html#cb314-30"></a>            }</span>
+<span id="cb314-31"><a href="web-filters-and-file-uploads.html#cb314-31"></a>        }</span>
+<span id="cb314-32"><a href="web-filters-and-file-uploads.html#cb314-32"></a>    }</span>
+<span id="cb314-33"><a href="web-filters-and-file-uploads.html#cb314-33"></a></span>
+<span id="cb314-34"><a href="web-filters-and-file-uploads.html#cb314-34"></a>    <span class="at">@Override</span></span>
+<span id="cb314-35"><a href="web-filters-and-file-uploads.html#cb314-35"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(FilterConfig filterConfig) <span class="kw">throws</span> ServletException {</span>
+<span id="cb314-36"><a href="web-filters-and-file-uploads.html#cb314-36"></a>        <span class="co">/*not interesting here*/</span></span>
+<span id="cb314-37"><a href="web-filters-and-file-uploads.html#cb314-37"></a>    }</span>
+<span id="cb314-38"><a href="web-filters-and-file-uploads.html#cb314-38"></a></span>
+<span id="cb314-39"><a href="web-filters-and-file-uploads.html#cb314-39"></a>    <span class="at">@Override</span></span>
+<span id="cb314-40"><a href="web-filters-and-file-uploads.html#cb314-40"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">destroy</span>() {</span>
+<span id="cb314-41"><a href="web-filters-and-file-uploads.html#cb314-41"></a>        <span class="co">/*not interesting here*/</span></span>
+<span id="cb314-42"><a href="web-filters-and-file-uploads.html#cb314-42"></a>    }</span>
+<span id="cb314-43"><a href="web-filters-and-file-uploads.html#cb314-43"></a>}</span></code></pre></div>
+<p>Here is the output after a few requests</p>
+<pre class="console_out">
+[AuthenticationFilter] Intercepted URL: http://localhost:8080/list.secrets 
+[AuthenticationFilter] no authenticated user: redirecting to /login
+
+&lt;logged in as Henk&gt;
+
+[AuthenticationFilter] Intercepted URL: http://localhost:8080/list.secrets 
+[AuthenticationFilter] authenticated status checked; user= User{name='Henk', email='henk@example.com', password='null', role=USER}
+[AuthenticationFilter] Intercepted URL: http://localhost:8080/user.dashboard 
+[AuthenticationFilter] authenticated status checked; user= User{name='Henk', email='henk@example.com', password='null', role=USER}
+</pre>
+</div>
+</div>
+<div id="file-uploads" class="section level2">
+<h2><span class="header-section-number">38.2</span> File uploads</h2>
+<p>File Upload is an essential feature! Many websites provide some form of upload functionality:
+- Photos &amp; Video
+- Data
+- Configuration</p>
+<p>Fortunately, uploading is boilerplate code!</p>
+<p>The harder thing is: what will you do with the file?
+- Into database
+- Store locally
+- Process directly</p>
+<div id="upload-form" class="section level4 unnumbered">
+<h4>Upload form</h4>
+<p>Suppose we want to offer a scv data upload.
+Here is the html for uploading csv data. Key are <code>enctype="multipart/form-data"</code> in the <code>form</code> tag and the <code>&lt;input type="file" name="scv_data" accept="text/csv"&gt;</code> tag.</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb315-1"><a href="web-filters-and-file-uploads.html#cb315-1"></a><span class="kw">&lt;form</span><span class="ot"> th:action=</span><span class="st">&quot;@{&#39;data_upload&#39;}&quot;</span><span class="ot"> method=</span><span class="st">&quot;post&quot;</span><span class="ot"> enctype=</span><span class="st">&quot;multipart/form-data&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb315-2"><a href="web-filters-and-file-uploads.html#cb315-2"></a>    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;file&quot;</span><span class="ot"> name=</span><span class="st">&quot;scv_data&quot;</span><span class="ot"> accept=</span><span class="st">&quot;text/csv&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb315-3"><a href="web-filters-and-file-uploads.html#cb315-3"></a>    <span class="kw">&lt;input</span><span class="ot"> type=</span><span class="st">&quot;submit&quot;</span><span class="ot"> value=</span><span class="st">&quot;Upload&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb315-4"><a href="web-filters-and-file-uploads.html#cb315-4"></a><span class="kw">&lt;/form&gt;</span></span></code></pre></div>
+<p>The servlet handling the file upload needs to be annotated as such:</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb316-1"><a href="web-filters-and-file-uploads.html#cb316-1"></a><span class="at">@MultipartConfig</span>(location=<span class="st">&quot;/tmp&quot;</span>,</span>
+<span id="cb316-2"><a href="web-filters-and-file-uploads.html#cb316-2"></a>        fileSizeThreshold = <span class="dv">1024</span> * <span class="dv">1024</span>,</span>
+<span id="cb316-3"><a href="web-filters-and-file-uploads.html#cb316-3"></a>        maxFileSize = <span class="dv">1024</span> * <span class="dv">1024</span> * <span class="dv">5</span>,</span>
+<span id="cb316-4"><a href="web-filters-and-file-uploads.html#cb316-4"></a>        maxRequestSize = <span class="dv">1024</span> * <span class="dv">1024</span> * <span class="dv">5</span> * <span class="dv">5</span>)</span>
+<span id="cb316-5"><a href="web-filters-and-file-uploads.html#cb316-5"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;FileUploadServlet&quot;</span>, urlPatterns = <span class="st">&quot;/data_upload&quot;</span>)</span>
+<span id="cb316-6"><a href="web-filters-and-file-uploads.html#cb316-6"></a><span class="kw">public</span> <span class="kw">class</span> FileUploadServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb316-7"><a href="web-filters-and-file-uploads.html#cb316-7"></a>    <span class="co">//class body</span></span>
+<span id="cb316-8"><a href="web-filters-and-file-uploads.html#cb316-8"></a>}</span></code></pre></div>
+<p>The <code>@MultipartConfig</code> annotation has several parameters:</p>
+<ul>
+<li><strong><em>location</em></strong>: An absolute path to a directory on the file system. This location is used to store files temporarily while the parts are processed or when the size of the file exceeds the specified <code>fileSizeThreshold</code> setting. The default location is "".</li>
+<li><strong><em>fileSizeThreshold</em></strong>: The file size in bytes after which the file will be temporarily stored on disk. The default size is 0 bytes.</li>
+<li><strong><em>maxFileSize</em></strong>: The maximum size allowed for uploaded files, in bytes. If the size is greater, the container will throw an exception (<code>IllegalStateExceptio</code>n). The default size is unlimited.</li>
+<li><strong><em>maxRequestSize</em></strong>: The maximum size allowed for a multipart/form-data request, in bytes. The web container will throw an exception if the overall size of all uploaded files exceeds this threshold. The default size is unlimited.</li>
+</ul>
+<p>Instead of hardcoding the constraints, you can also put them in web.xml:</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb317-1"><a href="web-filters-and-file-uploads.html#cb317-1"></a>    <span class="kw">&lt;servlet-mapping&gt;</span></span>
+<span id="cb317-2"><a href="web-filters-and-file-uploads.html#cb317-2"></a>        <span class="kw">&lt;servlet-name&gt;</span>FileUploadServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb317-3"><a href="web-filters-and-file-uploads.html#cb317-3"></a>        <span class="kw">&lt;url-pattern&gt;</span>/data_upload<span class="kw">&lt;/url-pattern&gt;</span></span>
+<span id="cb317-4"><a href="web-filters-and-file-uploads.html#cb317-4"></a>    <span class="kw">&lt;/servlet-mapping&gt;</span></span>
+<span id="cb317-5"><a href="web-filters-and-file-uploads.html#cb317-5"></a>    <span class="kw">&lt;servlet&gt;</span></span>
+<span id="cb317-6"><a href="web-filters-and-file-uploads.html#cb317-6"></a>        <span class="kw">&lt;servlet-name&gt;</span>FileUploadServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb317-7"><a href="web-filters-and-file-uploads.html#cb317-7"></a>        <span class="kw">&lt;servlet-class&gt;</span>nl.bioinf.wis_on_thymeleaf.servlets.FileUploadServlet<span class="kw">&lt;/servlet-class&gt;</span></span>
+<span id="cb317-8"><a href="web-filters-and-file-uploads.html#cb317-8"></a>        <span class="kw">&lt;init-param&gt;</span></span>
+<span id="cb317-9"><a href="web-filters-and-file-uploads.html#cb317-9"></a>            <span class="kw">&lt;param-name&gt;</span>upload_dir<span class="kw">&lt;/param-name&gt;</span></span>
+<span id="cb317-10"><a href="web-filters-and-file-uploads.html#cb317-10"></a>            <span class="kw">&lt;param-value&gt;</span>/path/to/file/upload<span class="kw">&lt;/param-value&gt;</span></span>
+<span id="cb317-11"><a href="web-filters-and-file-uploads.html#cb317-11"></a>        <span class="kw">&lt;/init-param&gt;</span></span>
+<span id="cb317-12"><a href="web-filters-and-file-uploads.html#cb317-12"></a>        <span class="kw">&lt;multipart-config&gt;</span></span>
+<span id="cb317-13"><a href="web-filters-and-file-uploads.html#cb317-13"></a>            <span class="kw">&lt;location&gt;</span>/path/to/tmp/tmp<span class="kw">&lt;/location&gt;</span></span>
+<span id="cb317-14"><a href="web-filters-and-file-uploads.html#cb317-14"></a>            <span class="co">&lt;!-- all in bytes --&gt;</span></span>
+<span id="cb317-15"><a href="web-filters-and-file-uploads.html#cb317-15"></a>            <span class="kw">&lt;max-file-size&gt;</span>20848820<span class="kw">&lt;/max-file-size&gt;</span></span>
+<span id="cb317-16"><a href="web-filters-and-file-uploads.html#cb317-16"></a>            <span class="kw">&lt;max-request-size&gt;</span>418018841<span class="kw">&lt;/max-request-size&gt;</span></span>
+<span id="cb317-17"><a href="web-filters-and-file-uploads.html#cb317-17"></a>            <span class="kw">&lt;file-size-threshold&gt;</span>1048576<span class="kw">&lt;/file-size-threshold&gt;</span></span>
+<span id="cb317-18"><a href="web-filters-and-file-uploads.html#cb317-18"></a>        <span class="kw">&lt;/multipart-config&gt;</span></span>
+<span id="cb317-19"><a href="web-filters-and-file-uploads.html#cb317-19"></a>    <span class="kw">&lt;/servlet&gt;</span></span></code></pre></div>
+<p>Here is the servlet dealing with the uploads. The final upload location is specified using an <code>init-param</code> in the <code>web.xml</code> deployment descriptor of course.</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb318-1"><a href="web-filters-and-file-uploads.html#cb318-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.servlets;</span></span>
+<span id="cb318-2"><a href="web-filters-and-file-uploads.html#cb318-2"></a></span>
+<span id="cb318-3"><a href="web-filters-and-file-uploads.html#cb318-3"></a><span class="kw">import</span><span class="im"> nl.bioinf.wis_on_thymeleaf.config.WebConfig;</span></span>
+<span id="cb318-4"><a href="web-filters-and-file-uploads.html#cb318-4"></a><span class="kw">import</span><span class="im"> org.thymeleaf.TemplateEngine;</span></span>
+<span id="cb318-5"><a href="web-filters-and-file-uploads.html#cb318-5"></a><span class="kw">import</span><span class="im"> org.thymeleaf.context.WebContext;</span></span>
+<span id="cb318-6"><a href="web-filters-and-file-uploads.html#cb318-6"></a></span>
+<span id="cb318-7"><a href="web-filters-and-file-uploads.html#cb318-7"></a><span class="kw">import</span><span class="im"> javax.servlet.ServletException;</span></span>
+<span id="cb318-8"><a href="web-filters-and-file-uploads.html#cb318-8"></a><span class="kw">import</span><span class="im"> javax.servlet.http.Part;</span></span>
+<span id="cb318-9"><a href="web-filters-and-file-uploads.html#cb318-9"></a><span class="kw">import</span><span class="im"> javax.servlet.annotation.WebServlet;</span></span>
+<span id="cb318-10"><a href="web-filters-and-file-uploads.html#cb318-10"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServlet;</span></span>
+<span id="cb318-11"><a href="web-filters-and-file-uploads.html#cb318-11"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletRequest;</span></span>
+<span id="cb318-12"><a href="web-filters-and-file-uploads.html#cb318-12"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletResponse;</span></span>
+<span id="cb318-13"><a href="web-filters-and-file-uploads.html#cb318-13"></a><span class="kw">import</span><span class="im"> java.io.File;</span></span>
+<span id="cb318-14"><a href="web-filters-and-file-uploads.html#cb318-14"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb318-15"><a href="web-filters-and-file-uploads.html#cb318-15"></a></span>
+<span id="cb318-16"><a href="web-filters-and-file-uploads.html#cb318-16"></a><span class="co">//moved to web.xml</span></span>
+<span id="cb318-17"><a href="web-filters-and-file-uploads.html#cb318-17"></a><span class="co">//@MultipartConfig(location=&quot;/tmp&quot;,</span></span>
+<span id="cb318-18"><a href="web-filters-and-file-uploads.html#cb318-18"></a><span class="co">//        fileSizeThreshold = 1024 * 1024,</span></span>
+<span id="cb318-19"><a href="web-filters-and-file-uploads.html#cb318-19"></a><span class="co">//        maxFileSize = 1024 * 1024 * 5,</span></span>
+<span id="cb318-20"><a href="web-filters-and-file-uploads.html#cb318-20"></a><span class="co">//        maxRequestSize = 1024 * 1024 * 5 * 5)</span></span>
+<span id="cb318-21"><a href="web-filters-and-file-uploads.html#cb318-21"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;FileUploadServlet&quot;</span>, urlPatterns = <span class="st">&quot;/data_upload&quot;</span>)</span>
+<span id="cb318-22"><a href="web-filters-and-file-uploads.html#cb318-22"></a><span class="kw">public</span> <span class="kw">class</span> FileUploadServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb318-23"><a href="web-filters-and-file-uploads.html#cb318-23"></a></span>
+<span id="cb318-24"><a href="web-filters-and-file-uploads.html#cb318-24"></a>    <span class="kw">private</span> TemplateEngine templateEngine;</span>
+<span id="cb318-25"><a href="web-filters-and-file-uploads.html#cb318-25"></a>    <span class="kw">private</span> <span class="bu">String</span> uploadDir;</span>
+<span id="cb318-26"><a href="web-filters-and-file-uploads.html#cb318-26"></a></span>
+<span id="cb318-27"><a href="web-filters-and-file-uploads.html#cb318-27"></a>    <span class="at">@Override</span></span>
+<span id="cb318-28"><a href="web-filters-and-file-uploads.html#cb318-28"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb318-29"><a href="web-filters-and-file-uploads.html#cb318-29"></a>        <span class="kw">this</span>.<span class="fu">templateEngine</span> = WebConfig.<span class="fu">getTemplateEngine</span>();</span>
+<span id="cb318-30"><a href="web-filters-and-file-uploads.html#cb318-30"></a>        <span class="kw">this</span>.<span class="fu">uploadDir</span> = <span class="fu">getInitParameter</span>(<span class="st">&quot;upload_dir&quot;</span>);</span>
+<span id="cb318-31"><a href="web-filters-and-file-uploads.html#cb318-31"></a></span>
+<span id="cb318-32"><a href="web-filters-and-file-uploads.html#cb318-32"></a>        <span class="co">//or, use relative to this app:</span></span>
+<span id="cb318-33"><a href="web-filters-and-file-uploads.html#cb318-33"></a>        <span class="co">// gets absolute path of the web application</span></span>
+<span id="cb318-34"><a href="web-filters-and-file-uploads.html#cb318-34"></a>        <span class="co">//String applicationPath = getServletContext().getRealPath(&quot;&quot;);</span></span>
+<span id="cb318-35"><a href="web-filters-and-file-uploads.html#cb318-35"></a>        <span class="co">//String uploadFilePath = applicationPath + File.separator + uploadDir;</span></span>
+<span id="cb318-36"><a href="web-filters-and-file-uploads.html#cb318-36"></a>    }</span>
+<span id="cb318-37"><a href="web-filters-and-file-uploads.html#cb318-37"></a></span>
+<span id="cb318-38"><a href="web-filters-and-file-uploads.html#cb318-38"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doGet</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb318-39"><a href="web-filters-and-file-uploads.html#cb318-39"></a>        <span class="co">//simply go back to upload form</span></span>
+<span id="cb318-40"><a href="web-filters-and-file-uploads.html#cb318-40"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, response, request.<span class="fu">getServletContext</span>(), request.<span class="fu">getLocale</span>());</span>
+<span id="cb318-41"><a href="web-filters-and-file-uploads.html#cb318-41"></a>        templateEngine.<span class="fu">process</span>(<span class="st">&quot;upload_form&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb318-42"><a href="web-filters-and-file-uploads.html#cb318-42"></a>    }</span>
+<span id="cb318-43"><a href="web-filters-and-file-uploads.html#cb318-43"></a></span>
+<span id="cb318-44"><a href="web-filters-and-file-uploads.html#cb318-44"></a>    <span class="kw">protected</span> <span class="dt">void</span> <span class="fu">doPost</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> ServletException, <span class="bu">IOException</span> {</span>
+<span id="cb318-45"><a href="web-filters-and-file-uploads.html#cb318-45"></a>        <span class="bu">File</span> fileSaveDir = <span class="kw">new</span> <span class="bu">File</span>(<span class="kw">this</span>.<span class="fu">uploadDir</span>);</span>
+<span id="cb318-46"><a href="web-filters-and-file-uploads.html#cb318-46"></a>        <span class="kw">if</span> (! fileSaveDir.<span class="fu">exists</span>()) {</span>
+<span id="cb318-47"><a href="web-filters-and-file-uploads.html#cb318-47"></a>            <span class="kw">throw</span> <span class="kw">new</span> <span class="bu">IllegalStateException</span>(<span class="st">&quot;Upload dir does not exist: &quot;</span> + <span class="kw">this</span>.<span class="fu">uploadDir</span>);</span>
+<span id="cb318-48"><a href="web-filters-and-file-uploads.html#cb318-48"></a>        }</span>
+<span id="cb318-49"><a href="web-filters-and-file-uploads.html#cb318-49"></a></span>
+<span id="cb318-50"><a href="web-filters-and-file-uploads.html#cb318-50"></a>        <span class="co">//Do this only if you are sure there won&#39;t be any file name conflicts!</span></span>
+<span id="cb318-51"><a href="web-filters-and-file-uploads.html#cb318-51"></a>        <span class="co">//An existing one will simply be overwritten</span></span>
+<span id="cb318-52"><a href="web-filters-and-file-uploads.html#cb318-52"></a><span class="co">//        String fileName;</span></span>
+<span id="cb318-53"><a href="web-filters-and-file-uploads.html#cb318-53"></a><span class="co">//        for (Part part : request.getParts()) {</span></span>
+<span id="cb318-54"><a href="web-filters-and-file-uploads.html#cb318-54"></a><span class="co">//            fileName = part.getSubmittedFileName();</span></span>
+<span id="cb318-55"><a href="web-filters-and-file-uploads.html#cb318-55"></a><span class="co">//            part.write(this.uploadDir + File.separator + fileName);</span></span>
+<span id="cb318-56"><a href="web-filters-and-file-uploads.html#cb318-56"></a><span class="co">//        }</span></span>
+<span id="cb318-57"><a href="web-filters-and-file-uploads.html#cb318-57"></a></span>
+<span id="cb318-58"><a href="web-filters-and-file-uploads.html#cb318-58"></a>        <span class="co">//the safe way, with a generated file name becomes something like this</span></span>
+<span id="cb318-59"><a href="web-filters-and-file-uploads.html#cb318-59"></a>        <span class="co">//my_app_upload14260971264207930189.csv</span></span>
+<span id="cb318-60"><a href="web-filters-and-file-uploads.html#cb318-60"></a>        <span class="bu">File</span> generatedFile = <span class="bu">File</span>.<span class="fu">createTempFile</span>(<span class="st">&quot;my_app_upload&quot;</span>, <span class="st">&quot;.csv&quot;</span>);</span>
+<span id="cb318-61"><a href="web-filters-and-file-uploads.html#cb318-61"></a>        <span class="kw">for</span> (Part part : request.<span class="fu">getParts</span>()) {</span>
+<span id="cb318-62"><a href="web-filters-and-file-uploads.html#cb318-62"></a>            part.<span class="fu">write</span>(<span class="kw">this</span>.<span class="fu">uploadDir</span> + <span class="bu">File</span>.<span class="fu">separator</span> + generatedFile.<span class="fu">getName</span>());</span>
+<span id="cb318-63"><a href="web-filters-and-file-uploads.html#cb318-63"></a>        }</span>
+<span id="cb318-64"><a href="web-filters-and-file-uploads.html#cb318-64"></a></span>
+<span id="cb318-65"><a href="web-filters-and-file-uploads.html#cb318-65"></a>        <span class="co">//go back to the upload form</span></span>
+<span id="cb318-66"><a href="web-filters-and-file-uploads.html#cb318-66"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(request, response, request.<span class="fu">getServletContext</span>(), request.<span class="fu">getLocale</span>());</span>
+<span id="cb318-67"><a href="web-filters-and-file-uploads.html#cb318-67"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;message&quot;</span>, <span class="st">&quot;upload successfull, wanna do another on?&quot;</span>);</span>
+<span id="cb318-68"><a href="web-filters-and-file-uploads.html#cb318-68"></a>        templateEngine.<span class="fu">process</span>(<span class="st">&quot;upload_form&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb318-69"><a href="web-filters-and-file-uploads.html#cb318-69"></a>    }</span>
+<span id="cb318-70"><a href="web-filters-and-file-uploads.html#cb318-70"></a>}</span></code></pre></div>
+<p>If you want to be sure files won’t get overwritten, you should use random generated file names, as in the above code example.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="a-simple-web-service-using-ajax.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="exercises-intro.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

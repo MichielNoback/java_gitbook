@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 43 UML | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 43 UML | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 43 UML | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="junit-5-advanced-features.html"/>
+<link rel="next" href="refactoring.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,135 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="uml" class="section level1">
+<h1><span class="header-section-number">Chapter 43</span> UML</h1>
+<p>This chapter only gives a really simple intro so you are able to read the schematics that are used in the courses, in books and on the internet.</p>
+<p>In the picture below you can see a UML schema of a simple datamodel. Since it uses the OO UML conventions, any OO programmer can “read” the picture and immediately understand what story it is telling.</p>
+<div class="figure">
+<img src="07_design/figures/example_class_diagram1.png" alt="" />
+<p class="caption">Example UML</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>UML is used to create graphical representations of your design –any design-. Since there are strict rules/conventions, other designers can “read” your model easily. In the chapter only OO design UML is dealt with, and the bare essentials at that.</p>
+<div id="class" class="section level4 unnumbered">
+<h4>Class</h4>
+<p>A rectangle containing three compartments stacked vertically.<br />
+The top compartment holds the class name. The middle compartment: class attributes/properties with name and type.
+The bottom compartment: class operations/methods with name, parameters (not always) and return type.</p>
+<div class="figure">
+<img src="07_design/figures/class_uml_s.png" alt="" />
+<p class="caption">A class without (left) and with types (right)</p>
+</div>
+<p>The attributes’ type, method parameter names and types and return types may also be given, as shown in the figure.
+Sometimes, members (properties and/or methods) are preceded by a symbol indication their visibility:</p>
+<ul>
+<li><strong><code>+</code></strong> denotes <em>public</em> attributes or operations<br />
+</li>
+<li><strong><code>-</code></strong> denotes <em>private</em> attributes or operations<br />
+</li>
+<li><strong><code>#</code></strong> denotes <em>protected</em> attributes or operations</li>
+<li><strong><code>~</code></strong> denotes <em>package</em> attributes or operations</li>
+</ul>
+<p>Here is another class example: <code>Employee</code>. Regular setters and getters have been omitted to keep the picture clean.</p>
+<div class="figure">
+<img src="07_design/figures/employee_uml_s.png" alt="" />
+<p class="caption">An Employee class</p>
+</div>
+<p>The UML plugin for IntelliJ -used for some of the graphics in this chapter- uses lock symbols to show the scope of the members:</p>
+<div class="figure">
+<img src="07_design/figures/employee_uml_intellij.png" alt="" />
+<p class="caption">Employee class in intelliJ)</p>
+</div>
+<div id="interfaces-1" class="section level5 unnumbered">
+<h5>Interfaces</h5>
+<p>A class and an interface differ: A class can have an actual instance, whereas an interface must have at least one class to implement it.
+An interface is drawn just like a class, but the top compartment of the rectangle also has either the text <em><code>&lt;&lt;interface&gt;&gt;</code></em> or the name of the class is printed in italics.</p>
+<div class="figure">
+<img src="07_design/figures/interface_uml_s.png" alt="" />
+<p class="caption">Interface EmployeeDataSource UML</p>
+</div>
+<p>Again, the IntelliJ UML plugin takes a slightly different approach.</p>
+<div class="figure">
+<img src="07_design/figures/employee_datasource_intellij.png" alt="" />
+<p class="caption">EmployeeDataSource in IntelliJ</p>
+</div>
+</div>
+</div>
+<div id="inheritance" class="section level4 unnumbered">
+<h4>Inheritance</h4>
+<p>Inheritance is indicated by a solid line with a closed, (usually) unfilled arrowhead pointing at the super class. It can be drawn with separate lines or using a tree notation, as in this example.</p>
+<div class="figure">
+<img src="07_design/figures/employee_inheritance_uml_s.png" alt="" />
+<p class="caption">Employee inheritance</p>
+</div>
+</div>
+<div id="realization" class="section level4 unnumbered">
+<h4>Realization</h4>
+<p>Realization is a bit like inheritance. Subclasses indicate inheritance. Sometimes implementing classes of interfaces are also called subclasses, but the relation is is slightly different. Although they pas the <em>IS-A</em> test of the <code>instanceof</code> operator, they are actually <em>realizations</em> of a contract. Therefore they show up slightly different in an UML schema.
+Realization is indicated with a dashed line and closed, filled arrowheads pointing at the interface.</p>
+<div class="figure">
+<img src="07_design/figures/realization_uml.png" alt="" />
+<p class="caption">Realization, or implementation</p>
+</div>
+</div>
+<div id="association" class="section level4 unnumbered">
+<h4>Association</h4>
+<p>It is a relationship between objects. One object is connected to the other. Usually called as “has-a” relationship. Both objects have independent life-cycle. Each object owns their actions and will not affect other object.</p>
+<p>Example: <code>Car</code> and <code>Driver</code>.</p>
+<div class="figure">
+<img src="07_design/figures/association_uml.png" alt="" />
+<p class="caption">Simple association</p>
+</div>
+</div>
+<div id="basic-aggregation" class="section level4 unnumbered">
+<h4>Basic Aggregation</h4>
+<p>A specialized form of Association. Usually called as “has-a” relationship.
+Each object has an independent life-cycle. A whole-part relationship between a component object and an aggregate object. There is sense of ownership between objects.
+In basic aggregation, the child class instance can outlive its parent class.<br />
+Drawn with a solid line from the parent class to the part class, with an unfilled diamond shape on the parent class’s association end.</p>
+<div class="figure">
+<img src="07_design/figures/basic_aggregation_uml.png" alt="" />
+<p class="caption">Basic aggregation</p>
+</div>
+<p>This is a typical example of basic aggregation. A car has 3 to 4 wheels, and wheels can absolutely outlive their cars (and be exchanged for that matter).</p>
+</div>
+<div id="composition-aggregation" class="section level4 unnumbered">
+<h4>Composition aggregation</h4>
+<p>This is also a specialized form of Aggregation. Usually called as “has-a” relationship. The Child Object has a dependent life-cycle. This is what separates it from aggregation. A whole-part relationship between a component object and an aggregate object (one class is an integral part of another class). Sense of ownership between objects</p>
+<p>In composition aggregation, the child class’s instance lifecycle is dependent on the parent class’s instance lifecycle. Also, the part class can only be related to one instance of the parent class.<br />
+Drawn with a solid line from the parent class to the part class, with a filled diamond shape on the parent class’s association end.</p>
+<div class="figure">
+<img src="07_design/figures/composition_aggregation_uml.png" alt="" />
+<p class="caption">Composition aggregation</p>
+</div>
+<p>In this example, a company can have zero to many deprtments. However, a department cannot outlive its company.</p>
+</div>
+<div id="reflexive-aggregation" class="section level4 unnumbered">
+<h4>Reflexive aggregation</h4>
+<p>One class is associated with itself.</p>
+<div class="figure">
+<img src="07_design/figures/reflexive_aggregation_uml.png" alt="" />
+<p class="caption">Reflexive aggregation</p>
+</div>
+<p>Here it means that an instance of Employee can be the manager of other (0 to many) Employee instances.<br />
+Drawn with a solid line.</p>
+</div>
+<div id="all-together" class="section level4 unnumbered">
+<h4>All together</h4>
+<p>In this example, all described types of UML entities and relationships are present, as well as some more.</p>
+<div class="figure">
+<img src="07_design/figures/example_class_diagram_with_explanations1.png" alt="" />
+<p class="caption">All entities and relationships</p>
+</div>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="junit-5-advanced-features.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="refactoring.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

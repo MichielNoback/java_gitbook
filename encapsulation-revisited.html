@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 26 Encapsulation revisited | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 26 Encapsulation revisited | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 26 Encapsulation revisited | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="enums-constants-on-steroids.html"/>
+<link rel="next" href="design-rules-summary.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,186 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
-</div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="encapsulation-revisited" class="section level1">
+<h1><span class="header-section-number">Chapter 26</span> Encapsulation revisited</h1>
+<p>In this post, I want to revisit one of the most basic of Object Oriented Programming (OOP) concepts: encapsulation.</p>
+<p>It is a principle my students often fail to see the use for. And I must admit some
+of my colleagues as well – especially those who are really into Python. They are of the opinion that NOTHING should be hidden. Just be careful when programming.</p>
+<p>Well, my response is: some people also argue that Evolution is just a theory that you can simply disagree with!</p>
+<p>So what does encapsulation exactly mean? My good friend Wikipedia tells me that
+“It allows selective hiding of properties and methods in an object by building
+an impenetrable wall to protect the code from accidental corruption“. Key here
+is the word <strong><em>corruption</em></strong> of course. Let’s look at an example in code. Note: of
+course there are Javadoc comments missing, and some other issues with the code
+can be discussed, but I have taken the liberty to keep things simple for the
+purpose of demonstrating encapsulation.</p>
+<p>Here is class <code>SequenceManager</code>, the main class of a GUI application managing
+biological sequences:</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb195-1"><a href="encapsulation-revisited.html#cb195-1"></a></span>
+<span id="cb195-2"><a href="encapsulation-revisited.html#cb195-2"></a><span class="kw">package</span><span class="im"> encapsulation;</span></span>
+<span id="cb195-3"><a href="encapsulation-revisited.html#cb195-3"></a></span>
+<span id="cb195-4"><a href="encapsulation-revisited.html#cb195-4"></a></span>
+<span id="cb195-5"><a href="encapsulation-revisited.html#cb195-5"></a><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> SequenceManager {</span>
+<span id="cb195-6"><a href="encapsulation-revisited.html#cb195-6"></a></span>
+<span id="cb195-7"><a href="encapsulation-revisited.html#cb195-7"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> <span class="bu">String</span>[] args) {</span>
+<span id="cb195-8"><a href="encapsulation-revisited.html#cb195-8"></a>        SequenceManager mainObject = <span class="kw">new</span> <span class="fu">SequenceManager</span>();</span>
+<span id="cb195-9"><a href="encapsulation-revisited.html#cb195-9"></a>        mainObject.<span class="fu">start</span>();</span>
+<span id="cb195-10"><a href="encapsulation-revisited.html#cb195-10"></a>    }</span>
+<span id="cb195-11"><a href="encapsulation-revisited.html#cb195-11"></a>    </span>
+<span id="cb195-12"><a href="encapsulation-revisited.html#cb195-12"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">start</span>() {</span>
+<span id="cb195-13"><a href="encapsulation-revisited.html#cb195-13"></a>        SequenceCollection sc = <span class="kw">new</span> <span class="fu">SequenceCollection</span>();</span>
+<span id="cb195-14"><a href="encapsulation-revisited.html#cb195-14"></a>        sc.<span class="fu">addSequence</span>(<span class="kw">new</span> <span class="bu">Sequence</span>(<span class="st">&quot;Gene 1&quot;</span>, <span class="st">&quot;GAATTC&quot;</span>, <span class="st">&quot;gi|12345&quot;</span>));</span>
+<span id="cb195-15"><a href="encapsulation-revisited.html#cb195-15"></a>        sc.<span class="fu">addSequence</span>(<span class="kw">new</span> <span class="bu">Sequence</span>(<span class="st">&quot;Gene 2&quot;</span>, <span class="st">&quot;GAATTC&quot;</span>, <span class="st">&quot;gi|98765&quot;</span>));</span>
+<span id="cb195-16"><a href="encapsulation-revisited.html#cb195-16"></a>        </span>
+<span id="cb195-17"><a href="encapsulation-revisited.html#cb195-17"></a>        MyCoolGUIPanel guiPanel = <span class="kw">new</span> <span class="fu">MyCoolGUIPanel</span>(sc);</span>
+<span id="cb195-18"><a href="encapsulation-revisited.html#cb195-18"></a>        guiPanel.<span class="fu">showSequenceCollection</span>();</span>
+<span id="cb195-19"><a href="encapsulation-revisited.html#cb195-19"></a>        </span>
+<span id="cb195-20"><a href="encapsulation-revisited.html#cb195-20"></a>        <span class="co">//also add to other panels of the GUI</span></span>
+<span id="cb195-21"><a href="encapsulation-revisited.html#cb195-21"></a>    }</span>
+<span id="cb195-22"><a href="encapsulation-revisited.html#cb195-22"></a>}</span></code></pre></div>
+<p>Nothing funny going on here. A SequenceCollection is created and stocked (of course, in real life this will come from some file or database), and subsequently passed to some GUI panels for displaying and managing.
+The <code>Sequence</code> class looks quite like any POJO you will ever meet:</p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb196-1"><a href="encapsulation-revisited.html#cb196-1"></a></span>
+<span id="cb196-2"><a href="encapsulation-revisited.html#cb196-2"></a><span class="kw">package</span><span class="im"> encapsulation;</span></span>
+<span id="cb196-3"><a href="encapsulation-revisited.html#cb196-3"></a></span>
+<span id="cb196-4"><a href="encapsulation-revisited.html#cb196-4"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequence</span> {</span>
+<span id="cb196-5"><a href="encapsulation-revisited.html#cb196-5"></a>    <span class="kw">private</span> <span class="bu">String</span> name;</span>
+<span id="cb196-6"><a href="encapsulation-revisited.html#cb196-6"></a>    <span class="kw">private</span> <span class="bu">String</span> sequence;</span>
+<span id="cb196-7"><a href="encapsulation-revisited.html#cb196-7"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">String</span> id;</span>
+<span id="cb196-8"><a href="encapsulation-revisited.html#cb196-8"></a></span>
+<span id="cb196-9"><a href="encapsulation-revisited.html#cb196-9"></a>    <span class="kw">public</span> <span class="bu">Sequence</span>(<span class="bu">String</span> name, <span class="bu">String</span> sequence, <span class="bu">String</span> id) {</span>
+<span id="cb196-10"><a href="encapsulation-revisited.html#cb196-10"></a>        <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb196-11"><a href="encapsulation-revisited.html#cb196-11"></a>        <span class="kw">this</span>.<span class="fu">sequence</span> = sequence;</span>
+<span id="cb196-12"><a href="encapsulation-revisited.html#cb196-12"></a>        <span class="kw">this</span>.<span class="fu">id</span> = id;</span>
+<span id="cb196-13"><a href="encapsulation-revisited.html#cb196-13"></a>    }</span>
+<span id="cb196-14"><a href="encapsulation-revisited.html#cb196-14"></a></span>
+<span id="cb196-15"><a href="encapsulation-revisited.html#cb196-15"></a>    <span class="kw">public</span> <span class="bu">Sequence</span>(<span class="bu">String</span> name, <span class="bu">String</span> id) {</span>
+<span id="cb196-16"><a href="encapsulation-revisited.html#cb196-16"></a>        <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb196-17"><a href="encapsulation-revisited.html#cb196-17"></a>        <span class="kw">this</span>.<span class="fu">id</span> = id;</span>
+<span id="cb196-18"><a href="encapsulation-revisited.html#cb196-18"></a>    }</span>
+<span id="cb196-19"><a href="encapsulation-revisited.html#cb196-19"></a></span>
+<span id="cb196-20"><a href="encapsulation-revisited.html#cb196-20"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getName</span>() {</span>
+<span id="cb196-21"><a href="encapsulation-revisited.html#cb196-21"></a>        <span class="kw">return</span> name;</span>
+<span id="cb196-22"><a href="encapsulation-revisited.html#cb196-22"></a>    }</span>
+<span id="cb196-23"><a href="encapsulation-revisited.html#cb196-23"></a></span>
+<span id="cb196-24"><a href="encapsulation-revisited.html#cb196-24"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setName</span>(<span class="bu">String</span> name) {</span>
+<span id="cb196-25"><a href="encapsulation-revisited.html#cb196-25"></a>        <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb196-26"><a href="encapsulation-revisited.html#cb196-26"></a>    }</span>
+<span id="cb196-27"><a href="encapsulation-revisited.html#cb196-27"></a></span>
+<span id="cb196-28"><a href="encapsulation-revisited.html#cb196-28"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getSequence</span>() {</span>
+<span id="cb196-29"><a href="encapsulation-revisited.html#cb196-29"></a>        <span class="kw">return</span> sequence;</span>
+<span id="cb196-30"><a href="encapsulation-revisited.html#cb196-30"></a>    }</span>
+<span id="cb196-31"><a href="encapsulation-revisited.html#cb196-31"></a></span>
+<span id="cb196-32"><a href="encapsulation-revisited.html#cb196-32"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">setSequence</span>(<span class="bu">String</span> sequence) {</span>
+<span id="cb196-33"><a href="encapsulation-revisited.html#cb196-33"></a>        <span class="kw">this</span>.<span class="fu">sequence</span> = sequence;</span>
+<span id="cb196-34"><a href="encapsulation-revisited.html#cb196-34"></a>    }</span>
+<span id="cb196-35"><a href="encapsulation-revisited.html#cb196-35"></a></span>
+<span id="cb196-36"><a href="encapsulation-revisited.html#cb196-36"></a>    <span class="kw">public</span> <span class="bu">String</span> <span class="fu">getId</span>() {</span>
+<span id="cb196-37"><a href="encapsulation-revisited.html#cb196-37"></a>        <span class="kw">return</span> id;</span>
+<span id="cb196-38"><a href="encapsulation-revisited.html#cb196-38"></a>    }</span>
+<span id="cb196-39"><a href="encapsulation-revisited.html#cb196-39"></a>}</span></code></pre></div>
+<p>The only noteworthy thing here is the omission of a setter for the Sequence ID,
+and the id member being final (often a good choice for identifiers of bean
+objects).</p>
+<p>Now, the collection class managing our sequences:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb197-1"><a href="encapsulation-revisited.html#cb197-1"></a></span>
+<span id="cb197-2"><a href="encapsulation-revisited.html#cb197-2"></a><span class="kw">package</span><span class="im"> encapsulation;</span></span>
+<span id="cb197-3"><a href="encapsulation-revisited.html#cb197-3"></a><span class="kw">import</span><span class="im"> java.util.HashMap;</span></span>
+<span id="cb197-4"><a href="encapsulation-revisited.html#cb197-4"></a></span>
+<span id="cb197-5"><a href="encapsulation-revisited.html#cb197-5"></a><span class="kw">public</span> <span class="kw">class</span> SequenceCollection {</span>
+<span id="cb197-6"><a href="encapsulation-revisited.html#cb197-6"></a>    <span class="kw">private</span> <span class="bu">HashMap</span>&lt;<span class="bu">String</span>, <span class="bu">Sequence</span>&gt; sequences;</span>
+<span id="cb197-7"><a href="encapsulation-revisited.html#cb197-7"></a>    </span>
+<span id="cb197-8"><a href="encapsulation-revisited.html#cb197-8"></a>    <span class="co">/**</span></span>
+<span id="cb197-9"><a href="encapsulation-revisited.html#cb197-9"></a>     <span class="co">*</span> constructor instantuiates the collection</span>
+<span id="cb197-10"><a href="encapsulation-revisited.html#cb197-10"></a>     <span class="co">*/</span></span>
+<span id="cb197-11"><a href="encapsulation-revisited.html#cb197-11"></a>    <span class="kw">public</span> <span class="fu">SequenceCollection</span>() {</span>
+<span id="cb197-12"><a href="encapsulation-revisited.html#cb197-12"></a>        <span class="kw">this</span>.<span class="fu">sequences</span> = <span class="kw">new</span> <span class="bu">HashMap</span>&lt;&gt;();</span>
+<span id="cb197-13"><a href="encapsulation-revisited.html#cb197-13"></a>    }</span>
+<span id="cb197-14"><a href="encapsulation-revisited.html#cb197-14"></a>    </span>
+<span id="cb197-15"><a href="encapsulation-revisited.html#cb197-15"></a>    <span class="co">/**</span></span>
+<span id="cb197-16"><a href="encapsulation-revisited.html#cb197-16"></a>     <span class="co">*</span> adds a sequence to the collection</span>
+<span id="cb197-17"><a href="encapsulation-revisited.html#cb197-17"></a>     <span class="co">* </span><span class="an">@param seq </span></span>
+<span id="cb197-18"><a href="encapsulation-revisited.html#cb197-18"></a>     <span class="co">*/</span></span>
+<span id="cb197-19"><a href="encapsulation-revisited.html#cb197-19"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">addSequence</span>(<span class="bu">Sequence</span> seq) {</span>
+<span id="cb197-20"><a href="encapsulation-revisited.html#cb197-20"></a>        <span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">put</span>(seq.<span class="fu">getId</span>(), seq);</span>
+<span id="cb197-21"><a href="encapsulation-revisited.html#cb197-21"></a>    }</span>
+<span id="cb197-22"><a href="encapsulation-revisited.html#cb197-22"></a>    </span>
+<span id="cb197-23"><a href="encapsulation-revisited.html#cb197-23"></a>    <span class="co">/**</span></span>
+<span id="cb197-24"><a href="encapsulation-revisited.html#cb197-24"></a>     <span class="co">*</span> getter for the sequence hash</span>
+<span id="cb197-25"><a href="encapsulation-revisited.html#cb197-25"></a>     <span class="co">* </span><span class="an">@return </span>sequences</span>
+<span id="cb197-26"><a href="encapsulation-revisited.html#cb197-26"></a>     <span class="co">*/</span></span>
+<span id="cb197-27"><a href="encapsulation-revisited.html#cb197-27"></a>    <span class="kw">public</span> <span class="bu">HashMap</span>&lt;<span class="bu">String</span>, <span class="bu">Sequence</span>&gt; <span class="fu">getSequences</span>() {</span>
+<span id="cb197-28"><a href="encapsulation-revisited.html#cb197-28"></a>        <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">sequences</span>;</span>
+<span id="cb197-29"><a href="encapsulation-revisited.html#cb197-29"></a>    }</span>
+<span id="cb197-30"><a href="encapsulation-revisited.html#cb197-30"></a>}</span></code></pre></div>
+<p>This class contains the origin of a world of pain. The class seems to be simple
+enough, providing a method to add a sequence and a getter offering a ways to
+iterate over the collection. Can you see why this is the origin of a world of
+pain? No? Let’s have a look at the GUI JPanel displaying some aspect of this
+collection (yes I know swing is becoming a bit outdated for GUIs).</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb198-1"><a href="encapsulation-revisited.html#cb198-1"></a><span class="kw">package</span><span class="im"> encapsulation;</span></span>
+<span id="cb198-2"><a href="encapsulation-revisited.html#cb198-2"></a><span class="kw">import</span><span class="im"> javax.swing.JPanel;</span></span>
+<span id="cb198-3"><a href="encapsulation-revisited.html#cb198-3"></a></span>
+<span id="cb198-4"><a href="encapsulation-revisited.html#cb198-4"></a><span class="kw">public</span> <span class="kw">class</span> MyCoolGUIPanel <span class="kw">extends</span> <span class="bu">JPanel</span>{</span>
+<span id="cb198-5"><a href="encapsulation-revisited.html#cb198-5"></a>    </span>
+<span id="cb198-6"><a href="encapsulation-revisited.html#cb198-6"></a>    <span class="kw">private</span> SequenceCollection seqColl;</span>
+<span id="cb198-7"><a href="encapsulation-revisited.html#cb198-7"></a></span>
+<span id="cb198-8"><a href="encapsulation-revisited.html#cb198-8"></a>    <span class="kw">public</span> <span class="fu">MyCoolGUIPanel</span>(SequenceCollection sc) {</span>
+<span id="cb198-9"><a href="encapsulation-revisited.html#cb198-9"></a>        <span class="kw">this</span>.<span class="fu">seqColl</span> = sc;</span>
+<span id="cb198-10"><a href="encapsulation-revisited.html#cb198-10"></a>    }</span>
+<span id="cb198-11"><a href="encapsulation-revisited.html#cb198-11"></a>    </span>
+<span id="cb198-12"><a href="encapsulation-revisited.html#cb198-12"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">showSequenceCollection</span>() {</span>
+<span id="cb198-13"><a href="encapsulation-revisited.html#cb198-13"></a>        <span class="co">/*</span></span>
+<span id="cb198-14"><a href="encapsulation-revisited.html#cb198-14"></a><span class="co">        * panel logic here</span></span>
+<span id="cb198-15"><a href="encapsulation-revisited.html#cb198-15"></a><span class="co">        */</span></span>
+<span id="cb198-16"><a href="encapsulation-revisited.html#cb198-16"></a>    }</span>
+<span id="cb198-17"><a href="encapsulation-revisited.html#cb198-17"></a>    </span>
+<span id="cb198-18"><a href="encapsulation-revisited.html#cb198-18"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">removeButtonClicked</span>(<span class="bu">String</span> seqID) {</span>
+<span id="cb198-19"><a href="encapsulation-revisited.html#cb198-19"></a>        <span class="co">//the remove sequence button was clicked so a sequence is removed</span></span>
+<span id="cb198-20"><a href="encapsulation-revisited.html#cb198-20"></a>        seqColl.<span class="fu">getSequences</span>().<span class="fu">remove</span>(seqID);</span>
+<span id="cb198-21"><a href="encapsulation-revisited.html#cb198-21"></a>    }</span>
+<span id="cb198-22"><a href="encapsulation-revisited.html#cb198-22"></a>}</span></code></pre></div>
+<p>So what happens when somebody decides to remove a sequence from the collection?
+The getter on the SequenceCollection object is called to access the underlying
+Collection class, and the wretched object is removed.</p>
+<p>WITHOUT ANYONE ELSE BEING AWARE OF THIS!</p>
+<p>Other JPanels, the SequenceCollection object itself – nobody knows a Sequence
+object has met its maker! Having a getter offering access to a Collection like
+what we have seen in the SequenceCollection class and the HashMap is like dropping
+your bank card onto the floor of a bar with the pin code written on the back.
+You can bet somebody is going to take the invitation to trash your account.</p>
+<p>So what is the solution? Exactly, encapsulate your inner workings. There are
+several simple ways to do this. Here is the simplest one:</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb199-1"><a href="encapsulation-revisited.html#cb199-1"></a><span class="kw">public</span> <span class="bu">Map</span>&lt;<span class="bu">String</span>, <span class="bu">Sequence</span>&gt; <span class="fu">getSequences</span>() {</span>
+<span id="cb199-2"><a href="encapsulation-revisited.html#cb199-2"></a>    <span class="kw">return</span> <span class="bu">Collections</span>.<span class="fu">unmodifiableMap</span>(sequences);</span>
+<span id="cb199-3"><a href="encapsulation-revisited.html#cb199-3"></a>}</span></code></pre></div>
+<p>The Javadocs have this to say about the <code>Collections.unmodifiableMap</code> method:
+“Returns an unmodifiable view of the specified collection. This method allows
+modules to provide users with “read-only” access to internal collections.
+Query operations on the returned collection “read through” to the specified
+collection, and attempts to modify the returned collection, whether direct or
+via its iterator, result in an UnsupportedOperationException.” So this line</p>
+<p><code>seqColl.getSequences().remove(seqID);</code></p>
+<p>will throw such an Exception. What I like slightly better through is an iterator:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb200-1"><a href="encapsulation-revisited.html#cb200-1"></a><span class="kw">public</span> <span class="bu">Iterator</span>&lt;<span class="bu">Sequence</span>&gt; <span class="fu">getSequenceIterator</span>() {</span>
+<span id="cb200-2"><a href="encapsulation-revisited.html#cb200-2"></a>    <span class="kw">return</span> <span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">values</span>().<span class="fu">iterator</span>();</span>
+<span id="cb200-3"><a href="encapsulation-revisited.html#cb200-3"></a>}</span></code></pre></div>
+<p>Or, when you really want to have the joy of the Java for(each) loop:</p>
+<div class="sourceCode" id="cb201"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb201-1"><a href="encapsulation-revisited.html#cb201-1"></a><span class="kw">public</span> <span class="bu">List</span>&lt;<span class="bu">Sequence</span>&gt; <span class="fu">getSequenceList</span>() {</span>
+<span id="cb201-2"><a href="encapsulation-revisited.html#cb201-2"></a>    <span class="kw">return</span> <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;<span class="bu">Sequence</span>&gt;(<span class="kw">this</span>.<span class="fu">sequences</span>.<span class="fu">values</span>());</span>
+<span id="cb201-3"><a href="encapsulation-revisited.html#cb201-3"></a>}</span></code></pre></div>
+<p>All these strategies will keep your data safe, but the last two also hide
+the inner workings of your SequenceCollection class so these should be
+preferred.</p>
+
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="enums-constants-on-steroids.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="design-rules-summary.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

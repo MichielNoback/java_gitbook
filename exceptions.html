@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 19 Exceptions | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 19 Exceptions | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 19 Exceptions | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="sorting.html"/>
+<link rel="next" href="file-io.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,177 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="exceptions" class="section level1">
+<h1><span class="header-section-number">Chapter 19</span> Exceptions</h1>
+<p>Before dealing with file IO, exceptions need to be discussed. You need to deal with exceptions whenever you deal with the outside world. Why? The outside world is dangerous and unpredictable: files do not exist, or are not accessible to you, internet connections can be down, a database has a new password or URL…</p>
+<p>All these scenarios will <strong><em>throw</em></strong> an <code>Exception</code> your way. It is up to you, the application programmer, to <strong><em>catch</em></strong> them and deal with them. Either by following an alternative program path, or to quit the application elegantly.</p>
+<p>Exceptions are method return values that do not follow regular program flow; they are instantiated when something goes wrong and usually cause the program to behave differently.</p>
+<div id="what-are-exceptions" class="section level2">
+<h2><span class="header-section-number">19.1</span> What are exceptions</h2>
+<p>Consider this code.</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb146-1"><a href="exceptions.html#cb146-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb146-2"><a href="exceptions.html#cb146-2"></a></span>
+<span id="cb146-3"><a href="exceptions.html#cb146-3"></a><span class="kw">public</span> <span class="kw">class</span> ExceptionsDemo {</span>
+<span id="cb146-4"><a href="exceptions.html#cb146-4"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb146-5"><a href="exceptions.html#cb146-5"></a>        <span class="fu">doFirst</span>();</span>
+<span id="cb146-6"><a href="exceptions.html#cb146-6"></a>    }</span>
+<span id="cb146-7"><a href="exceptions.html#cb146-7"></a></span>
+<span id="cb146-8"><a href="exceptions.html#cb146-8"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">doFirst</span>() {</span>
+<span id="cb146-9"><a href="exceptions.html#cb146-9"></a>        <span class="fu">doSecond</span>();</span>
+<span id="cb146-10"><a href="exceptions.html#cb146-10"></a>    }</span>
+<span id="cb146-11"><a href="exceptions.html#cb146-11"></a></span>
+<span id="cb146-12"><a href="exceptions.html#cb146-12"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">doSecond</span>() {</span>
+<span id="cb146-13"><a href="exceptions.html#cb146-13"></a>        <span class="dt">int</span> x = <span class="dv">42</span> / <span class="dv">0</span>;</span>
+<span id="cb146-14"><a href="exceptions.html#cb146-14"></a>    }</span>
+<span id="cb146-15"><a href="exceptions.html#cb146-15"></a>}</span></code></pre></div>
+<p>Running <code>main()</code> will generate an error resulting in a <strong><em>stacktrace</em></strong>:</p>
+<pre class="console_out">
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+    at snippets.apis.ExceptionsDemo.doSecond(ExceptionsDemo.java:13)
+    at snippets.apis.ExceptionsDemo.doFirst(ExceptionsDemo.java:9)
+    at snippets.apis.ExceptionsDemo.main(ExceptionsDemo.java:5)
+</pre>
+<p>The error - the fact that a number cannot be divided by zero - occurs in method <code>doSecond()</code> and this will cause the JVM to generate an Exception. In this case, an <code>ArithmeticException</code>. The stack trace starts with the method where the error originated, and works its way down to <code>main()</code> from where the application “crashes” because the exception was not caught/resolved by program logic.</p>
+<p>The Exception object is <strong><em>thrown</em></strong> from this point down the call stack unless it is caught.</p>
+<p>The name “stacktrace” refers to the <strong><em>call stack</em></strong> or stack of execution. A call stack is a data structure that stores information about the active subroutines of a computer program.
+The current executing function is always on top.
+When an exception or error occurs, you will see a <strong><em>traceback</em></strong> through this stack, from the top (where the error occurred) back to the main() function.
+This gives you information about the origin and nature of the error.</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="checked-and-unchecked-exceptions" class="section level2">
+<h2><span class="header-section-number">19.2</span> Checked and unchecked exceptions</h2>
+<p>Although the name <code>Exception</code> was used in this example, there are actually quite a few in the Java API. They are all related to each other through inheritance. The base type of all is class <code>Throwable</code>. It has two children: <code>Error</code> and <code>Exception</code>. See figure below.</p>
+<div class="figure">
+<img src="03_apis/figures/exceptionhierarchy.jpg" alt="" />
+<p class="caption">Exception hierarchy</p>
+</div>
+<p>There are exceptions for standard IO operations. These are called <strong><em>checked exceptions</em></strong> because their fate is checked by the compiler: whenever you call a method throwing one of these, you <strong><em>must</em></strong> catch it, or add a throws clause to your method. There is a subbranch extending from <code>RuntimeException</code> that represent the <strong><em>unchecked</em></strong> exceptions. These are not checked by the compiler: you can throw or catch these explicitly, but that is not required.</p>
+<div id="checked-exceptions" class="section level3 unnumbered">
+<h3>Checked exceptions</h3>
+<p>Whenever a method publishes a throws clause of a checked exception in its method signature, you must take one of these two courses of action:</p>
+<ul>
+<li><p>Catch it yourself: place this code in a <strong><em><code>try/catch</code></em></strong> structure</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb147-1"><a href="exceptions.html#cb147-1"></a><span class="kw">try</span> { </span>
+<span id="cb147-2"><a href="exceptions.html#cb147-2"></a>    <span class="co">/*do the risky thing*/</span> </span>
+<span id="cb147-3"><a href="exceptions.html#cb147-3"></a>} <span class="kw">catch</span> (<span class="bu">Exception</span> e) {</span>
+<span id="cb147-4"><a href="exceptions.html#cb147-4"></a>    <span class="co">/*solve the problem*/</span> </span>
+<span id="cb147-5"><a href="exceptions.html#cb147-5"></a>}</span></code></pre></div></li>
+<li><p>Make other code solve the problem: place a <strong><em><code>throws</code></em></strong> clause in the method signature:</p></li>
+</ul>
+<div class="sourceCode" id="cb148"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb148-1"><a href="exceptions.html#cb148-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doRisky</span>() <span class="kw">throws</span> <span class="bu">Exception</span> { </span>
+<span id="cb148-2"><a href="exceptions.html#cb148-2"></a>        <span class="co">/*risky method body*</span></span>
+<span id="cb148-3"><a href="exceptions.html#cb148-3"></a><span class="co">    }</span></span></code></pre></div>
+<p>You should use the Exception hierarchy to make a robust error-handling backbone in your application. Have a look at this basic example and read the code comments carefully.</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb149-1"><a href="exceptions.html#cb149-1"></a><span class="kw">package</span><span class="im"> snippets.apis;</span></span>
+<span id="cb149-2"><a href="exceptions.html#cb149-2"></a></span>
+<span id="cb149-3"><a href="exceptions.html#cb149-3"></a><span class="kw">import</span><span class="im"> java.io.FileNotFoundException;</span></span>
+<span id="cb149-4"><a href="exceptions.html#cb149-4"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb149-5"><a href="exceptions.html#cb149-5"></a><span class="kw">import</span><span class="im"> java.nio.file.FileAlreadyExistsException;</span></span>
+<span id="cb149-6"><a href="exceptions.html#cb149-6"></a><span class="kw">import</span><span class="im"> java.sql.SQLException;</span></span>
+<span id="cb149-7"><a href="exceptions.html#cb149-7"></a><span class="kw">import</span><span class="im"> java.util.logging.Level;</span></span>
+<span id="cb149-8"><a href="exceptions.html#cb149-8"></a><span class="kw">import</span><span class="im"> java.util.logging.Logger;</span></span>
+<span id="cb149-9"><a href="exceptions.html#cb149-9"></a></span>
+<span id="cb149-10"><a href="exceptions.html#cb149-10"></a><span class="kw">public</span> <span class="kw">class</span> MyAppWithExceptions {</span>
+<span id="cb149-11"><a href="exceptions.html#cb149-11"></a></span>
+<span id="cb149-12"><a href="exceptions.html#cb149-12"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb149-13"><a href="exceptions.html#cb149-13"></a>        MyAppWithExceptions app = <span class="kw">new</span> <span class="fu">MyAppWithExceptions</span>();</span>
+<span id="cb149-14"><a href="exceptions.html#cb149-14"></a>        app.<span class="fu">start</span>();</span>
+<span id="cb149-15"><a href="exceptions.html#cb149-15"></a>    }</span>
+<span id="cb149-16"><a href="exceptions.html#cb149-16"></a></span>
+<span id="cb149-17"><a href="exceptions.html#cb149-17"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">start</span>() {</span>
+<span id="cb149-18"><a href="exceptions.html#cb149-18"></a>        <span class="kw">try</span> {</span>
+<span id="cb149-19"><a href="exceptions.html#cb149-19"></a>            <span class="fu">loadDatabase</span>();</span>
+<span id="cb149-20"><a href="exceptions.html#cb149-20"></a>            <span class="fu">readFile</span>(<span class="st">&quot;some_file&quot;</span>);</span>
+<span id="cb149-21"><a href="exceptions.html#cb149-21"></a>            <span class="fu">processData</span>();</span>
+<span id="cb149-22"><a href="exceptions.html#cb149-22"></a>            <span class="fu">writeResults</span>(<span class="st">&quot;results_file&quot;</span>);</span>
+<span id="cb149-23"><a href="exceptions.html#cb149-23"></a>        } <span class="kw">catch</span> (<span class="bu">IOException</span> | <span class="bu">SQLException</span> e) {</span>
+<span id="cb149-24"><a href="exceptions.html#cb149-24"></a>            <span class="bu">Logger</span>.<span class="fu">getLogger</span>(<span class="st">&quot;MyApp&quot;</span>).<span class="fu">log</span>(<span class="bu">Level</span>.<span class="fu">SEVERE</span>, <span class="st">&quot;IO error!&quot;</span>, e);</span>
+<span id="cb149-25"><a href="exceptions.html#cb149-25"></a>            <span class="bu">System</span>.<span class="fu">err</span>.<span class="fu">println</span>(<span class="st">&quot;An error occurred. See the log for details.&quot;</span>);</span>
+<span id="cb149-26"><a href="exceptions.html#cb149-26"></a>            <span class="co">//don&#39;t use stacktrace in production!</span></span>
+<span id="cb149-27"><a href="exceptions.html#cb149-27"></a>            <span class="co">//e.printStackTrace();</span></span>
+<span id="cb149-28"><a href="exceptions.html#cb149-28"></a>        }</span>
+<span id="cb149-29"><a href="exceptions.html#cb149-29"></a>    }</span>
+<span id="cb149-30"><a href="exceptions.html#cb149-30"></a></span>
+<span id="cb149-31"><a href="exceptions.html#cb149-31"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">processData</span>() {</span>
+<span id="cb149-32"><a href="exceptions.html#cb149-32"></a>        <span class="kw">try</span> {</span>
+<span id="cb149-33"><a href="exceptions.html#cb149-33"></a>            <span class="co">//processing file data</span></span>
+<span id="cb149-34"><a href="exceptions.html#cb149-34"></a>        } <span class="kw">catch</span> (<span class="bu">NumberFormatException</span> e) {</span>
+<span id="cb149-35"><a href="exceptions.html#cb149-35"></a>            <span class="co">//note this is an unchecked exception; </span></span>
+<span id="cb149-36"><a href="exceptions.html#cb149-36"></a>            <span class="co">//the try/catch is optional</span></span>
+<span id="cb149-37"><a href="exceptions.html#cb149-37"></a>            <span class="bu">Logger</span>.<span class="fu">getLogger</span>(<span class="st">&quot;MyApp&quot;</span>).<span class="fu">log</span>(<span class="bu">Level</span>.<span class="fu">INFO</span>, <span class="st">&quot;Number format problem&quot;</span>, e);</span>
+<span id="cb149-38"><a href="exceptions.html#cb149-38"></a>        }</span>
+<span id="cb149-39"><a href="exceptions.html#cb149-39"></a>    }</span>
+<span id="cb149-40"><a href="exceptions.html#cb149-40"></a></span>
+<span id="cb149-41"><a href="exceptions.html#cb149-41"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">writeResults</span>(<span class="bu">String</span> resultsFile) <span class="kw">throws</span> FileAlreadyExistsException {</span>
+<span id="cb149-42"><a href="exceptions.html#cb149-42"></a>        <span class="co">//write to results file</span></span>
+<span id="cb149-43"><a href="exceptions.html#cb149-43"></a>    }</span>
+<span id="cb149-44"><a href="exceptions.html#cb149-44"></a></span>
+<span id="cb149-45"><a href="exceptions.html#cb149-45"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">loadDatabase</span>() <span class="kw">throws</span> <span class="bu">SQLException</span> {</span>
+<span id="cb149-46"><a href="exceptions.html#cb149-46"></a>        <span class="co">//loading MySQL DB</span></span>
+<span id="cb149-47"><a href="exceptions.html#cb149-47"></a>    }</span>
+<span id="cb149-48"><a href="exceptions.html#cb149-48"></a></span>
+<span id="cb149-49"><a href="exceptions.html#cb149-49"></a>    <span class="kw">private</span> <span class="dt">void</span> <span class="fu">readFile</span>(<span class="bu">String</span> someFile) <span class="kw">throws</span> <span class="bu">FileNotFoundException</span> {</span>
+<span id="cb149-50"><a href="exceptions.html#cb149-50"></a>        <span class="co">//reading input data</span></span>
+<span id="cb149-51"><a href="exceptions.html#cb149-51"></a>    }</span>
+<span id="cb149-52"><a href="exceptions.html#cb149-52"></a>}</span></code></pre></div>
+</div>
+<div id="unchecked-exceptions" class="section level3 unnumbered">
+<h3>Unchecked exceptions</h3>
+<p>Unchecked exceptions are quite similar to checked exceptions, but with the difference that you do not
+- need to declare them
+- need to try/catch or throw them explicitly.</p>
+<p>Unchecked exceptions include <code>NumberFormatException</code>, <code>NullPointerException</code>, <code>IllegalArgumentException</code> and <code>UnsupportedOperationException</code>. In modern Java, unchecked exceptions are preferred above checked exceptions. Try to work with these as much as possible.</p>
+</div>
+<div id="errors" class="section level3 unnumbered">
+<h3>Errors</h3>
+<p>You should never ever try to catch errors. There is no possible use case for that:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb150-1"><a href="exceptions.html#cb150-1"></a><span class="kw">try</span> {</span>
+<span id="cb150-2"><a href="exceptions.html#cb150-2"></a>    <span class="fu">thirdMethod</span>();</span>
+<span id="cb150-3"><a href="exceptions.html#cb150-3"></a>} <span class="kw">catch</span> (<span class="bu">OutOfMemoryError</span> error) {</span>
+<span id="cb150-4"><a href="exceptions.html#cb150-4"></a>    <span class="co">//recover from an out-of-memory error?</span></span>
+<span id="cb150-5"><a href="exceptions.html#cb150-5"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="all-trycatch-elements" class="section level2">
+<h2><span class="header-section-number">19.3</span> All try/catch elements</h2>
+<p>Here are all the try/catch flow control elements. Note that the supertype of more specific exceptions need to be caught last, after the specific types.</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb151-1"><a href="exceptions.html#cb151-1"></a><span class="kw">try</span>{</span>
+<span id="cb151-2"><a href="exceptions.html#cb151-2"></a>    <span class="co">/*The risky thing. </span></span>
+<span id="cb151-3"><a href="exceptions.html#cb151-3"></a><span class="co">    This block will run until an exception occurs </span></span>
+<span id="cb151-4"><a href="exceptions.html#cb151-4"></a><span class="co">    - also exceptions that are not explicitly caught*/</span></span>
+<span id="cb151-5"><a href="exceptions.html#cb151-5"></a>} <span class="kw">catch</span> (<span class="bu">FileNotFoundException</span> |</span>
+<span id="cb151-6"><a href="exceptions.html#cb151-6"></a>    EndOfFileException ex) {</span>
+<span id="cb151-7"><a href="exceptions.html#cb151-7"></a>    <span class="co">/*Deal with some specific file problems*/</span></span>
+<span id="cb151-8"><a href="exceptions.html#cb151-8"></a>} <span class="kw">catch</span>(<span class="bu">IOException</span> ex) {</span>
+<span id="cb151-9"><a href="exceptions.html#cb151-9"></a>    <span class="co">/*IOException is supertype to FileNotFoundException and EndOfFileException.</span></span>
+<span id="cb151-10"><a href="exceptions.html#cb151-10"></a><span class="co">    Deal with all other IO problems in this catchall*/</span></span>
+<span id="cb151-11"><a href="exceptions.html#cb151-11"></a>} <span class="kw">catch</span>(<span class="bu">SQLException</span> ex) {</span>
+<span id="cb151-12"><a href="exceptions.html#cb151-12"></a>    <span class="co">/*Deal with database problems. </span></span>
+<span id="cb151-13"><a href="exceptions.html#cb151-13"></a><span class="co">    SQLException is a sibling to IOException*/</span></span>
+<span id="cb151-14"><a href="exceptions.html#cb151-14"></a>}</span>
+<span id="cb151-15"><a href="exceptions.html#cb151-15"></a><span class="kw">finally</span> {</span>
+<span id="cb151-16"><a href="exceptions.html#cb151-16"></a>    <span class="co">/*Always runs, exception or not!  </span></span>
+<span id="cb151-17"><a href="exceptions.html#cb151-17"></a><span class="co">    Do things that need to be done, no </span></span>
+<span id="cb151-18"><a href="exceptions.html#cb151-18"></a><span class="co">    matter what, like closing a file or </span></span>
+<span id="cb151-19"><a href="exceptions.html#cb151-19"></a><span class="co">    database connection*/</span></span>
+<span id="cb151-20"><a href="exceptions.html#cb151-20"></a>}</span></code></pre></div>
+</div>
+<div id="try-with-resources" class="section level2">
+<h2><span class="header-section-number">19.4</span> Try-with resources</h2>
+<p>Java 7 introduced the try-with resources structure, which automatically closes the resource once the try block has finished:</p>
+<div class="sourceCode" id="cb152"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb152-1"><a href="exceptions.html#cb152-1"></a><span class="kw">try</span> (&lt;OPEN RESOURCE&gt;) { }</span>
+<span id="cb152-2"><a href="exceptions.html#cb152-2"></a><span class="kw">catch</span> (&lt;RESOURCE EXCEPTION&gt;) { }</span></code></pre></div>
+<p>This form assures that a resource will be closed() after the try{} block exits, with or without error. See the post on IO for its usage.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sorting.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="file-io.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

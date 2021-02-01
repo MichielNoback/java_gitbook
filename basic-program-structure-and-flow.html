@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 6 Basic program structure and flow | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 6 Basic program structure and flow | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 6 Basic program structure and flow | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="first-look-at-objects.html"/>
+<link rel="next" href="naming-and-commenting-stuff.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,144 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="basic-program-structure-and-flow" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Basic program structure and flow</h1>
+<p>Basic program structure and some flow control.
+Advanced flow control (switch etc) will be described later.</p>
+<div id="basic-program-structure" class="section level2">
+<h2><span class="header-section-number">6.1</span> Basic program structure</h2>
+<p>As stated before, a Java program must have a <code>main()</code> method as starting point.
+This <code>main()</code> method needs to reside in a class, because <em>all</em> Java code needs to live inside a class.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb26-1"><a href="basic-program-structure-and-flow.html#cb26-1"></a><span class="co">/**</span></span>
+<span id="cb26-2"><a href="basic-program-structure-and-flow.html#cb26-2"></a> <span class="co">*</span> The package declaration<span class="co">;</span> it defines the namespace of this class</span>
+<span id="cb26-3"><a href="basic-program-structure-and-flow.html#cb26-3"></a> <span class="co">*</span> <span class="co">*/</span></span>
+<span id="cb26-4"><a href="basic-program-structure-and-flow.html#cb26-4"></a><span class="kw">package</span><span class="im"> snippets;</span></span>
+<span id="cb26-5"><a href="basic-program-structure-and-flow.html#cb26-5"></a></span>
+<span id="cb26-6"><a href="basic-program-structure-and-flow.html#cb26-6"></a><span class="kw">public</span> <span class="kw">class</span> MostBasicApp {</span>
+<span id="cb26-7"><a href="basic-program-structure-and-flow.html#cb26-7"></a>    <span class="co">/**</span></span>
+<span id="cb26-8"><a href="basic-program-structure-and-flow.html#cb26-8"></a>     <span class="co">*</span> This is a STATIC method<span class="co">,</span> which means it is a class<span class="co">-</span>level method and needs no object<span class="co">/</span>instance to</span>
+<span id="cb26-9"><a href="basic-program-structure-and-flow.html#cb26-9"></a>     <span class="co">*</span> be called<span class="co">.</span></span>
+<span id="cb26-10"><a href="basic-program-structure-and-flow.html#cb26-10"></a>     <span class="co">*</span> The return type is <span class="co">&quot;</span>void<span class="co">&quot;:</span> it does not return anything<span class="co">.</span></span>
+<span id="cb26-11"><a href="basic-program-structure-and-flow.html#cb26-11"></a>     <span class="co">*</span> <span class="an">@param args </span>the command<span class="co">-</span>line arguments are passed here as string array</span>
+<span id="cb26-12"><a href="basic-program-structure-and-flow.html#cb26-12"></a>     <span class="co">*/</span></span>
+<span id="cb26-13"><a href="basic-program-structure-and-flow.html#cb26-13"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb26-14"><a href="basic-program-structure-and-flow.html#cb26-14"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Basic App has started&quot;</span>);</span>
+<span id="cb26-15"><a href="basic-program-structure-and-flow.html#cb26-15"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;...and ended&quot;</span>);</span>
+<span id="cb26-16"><a href="basic-program-structure-and-flow.html#cb26-16"></a>    }</span>
+<span id="cb26-17"><a href="basic-program-structure-and-flow.html#cb26-17"></a>}</span></code></pre></div>
+<p>This is a very uninteresting app of course, since it doesn’t do anything. Let’s extend it with a bit
+of functionality. We’ll pass the program 2 arguments: one for age and one for user name. If no
+arguments are provided, we’ll print some usage information.</p>
+<p>To pass command-line arguments within IntelliJ, you need to create or edit a <strong><em>run configuration</em></strong>.
+If you have run the main before (by clicking on the green triangle - see post <a href="/getting_started/intellij.md">intelliJ</a>), you
+click on the toolbar run configurations box and select “Edit configurations”- see screenshot.</p>
+<div class="figure">
+<img src="01_getting_started/figures/edit_run_configuration_1.png" alt="" />
+<p class="caption">Run configuration</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>The only thing yu need to do now is enter two “Program arguments”. Here, I filled out “Henk” and “49”, with a space between them.</p>
+<div class="figure">
+<img src="01_getting_started/figures/edit_run_configuration_2.png" alt="" />
+<p class="caption">Run configuration</p>
+</div>
+<p>An array (which is kind of a list) of String elements called <code>args</code> will be passed to <code>main()</code> as <code>String[] args</code>. This array will hold the command line arguments when next running the program, as demonstrated below.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb27-1"><a href="basic-program-structure-and-flow.html#cb27-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb27-2"><a href="basic-program-structure-and-flow.html#cb27-2"></a>    <span class="kw">for</span> (<span class="bu">String</span> arg : args) {</span>
+<span id="cb27-3"><a href="basic-program-structure-and-flow.html#cb27-3"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;arg = &quot;</span> + arg);</span>
+<span id="cb27-4"><a href="basic-program-structure-and-flow.html#cb27-4"></a>    }</span>
+<span id="cb27-5"><a href="basic-program-structure-and-flow.html#cb27-5"></a>}</span></code></pre></div>
+<p>This will output</p>
+<pre class="console_out">
+arg = Henk
+arg = 49
+</pre>
+<p>Here you hae seen the first program flow construct in action: the <strong><em>foreach loop</em></strong>. It is equivalent to for-loops in any programming language: it iterates a collection of some sort. Here the collection is an array. Note it does not have a counter; there is a different variant of the for loop for that.</p>
+<p>Let’s introduce one other flow construct: <strong><em>decisions with if/else</em></strong>.</p>
+<p>Suppose you want to give your user some uplifting message, depending on their age. First the age argument needs to be converted from String to int:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb28-1"><a href="basic-program-structure-and-flow.html#cb28-1"></a><span class="co">/**</span></span>
+<span id="cb28-2"><a href="basic-program-structure-and-flow.html#cb28-2"></a>  <span class="co">*</span> Use indexing to access array elements</span>
+<span id="cb28-3"><a href="basic-program-structure-and-flow.html#cb28-3"></a>  <span class="co">*/</span></span>
+<span id="cb28-4"><a href="basic-program-structure-and-flow.html#cb28-4"></a><span class="bu">String</span> name = args[<span class="dv">0</span>];</span>
+<span id="cb28-5"><a href="basic-program-structure-and-flow.html#cb28-5"></a><span class="co">/**</span></span>
+<span id="cb28-6"><a href="basic-program-structure-and-flow.html#cb28-6"></a>  <span class="co">*</span> Parse String into int</span>
+<span id="cb28-7"><a href="basic-program-structure-and-flow.html#cb28-7"></a>  <span class="co">*/</span></span>
+<span id="cb28-8"><a href="basic-program-structure-and-flow.html#cb28-8"></a><span class="dt">int</span> age = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(args[<span class="dv">1</span>]);</span>
+<span id="cb28-9"><a href="basic-program-structure-and-flow.html#cb28-9"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hi &quot;</span> + name + <span class="st">&quot;, your age is &quot;</span> + age);</span></code></pre></div>
+<p>Next, the choice of message needs to be made.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb29-1"><a href="basic-program-structure-and-flow.html#cb29-1"></a><span class="kw">if</span>(age &lt; <span class="dv">18</span>) {</span>
+<span id="cb29-2"><a href="basic-program-structure-and-flow.html#cb29-2"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;ahh the energy of youth&quot;</span>);</span>
+<span id="cb29-3"><a href="basic-program-structure-and-flow.html#cb29-3"></a>} <span class="kw">else</span> <span class="kw">if</span> (age &lt; <span class="dv">50</span>) {</span>
+<span id="cb29-4"><a href="basic-program-structure-and-flow.html#cb29-4"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nice to meet somebody in the prime of their life!&quot;</span>);</span>
+<span id="cb29-5"><a href="basic-program-structure-and-flow.html#cb29-5"></a>} <span class="kw">else</span> {</span>
+<span id="cb29-6"><a href="basic-program-structure-and-flow.html#cb29-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;hey, don&#39;t worry - every day brings you closer to retirement&quot;</span>);</span>
+<span id="cb29-7"><a href="basic-program-structure-and-flow.html#cb29-7"></a>}</span></code></pre></div>
+<p>The classic elements of the if/else decision block.</p>
+<p>Finally, let’s bring a dedicated object into play: the message maker. The class looks like this:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb30-1"><a href="basic-program-structure-and-flow.html#cb30-1"></a><span class="kw">package</span><span class="im"> snippets;</span></span>
+<span id="cb30-2"><a href="basic-program-structure-and-flow.html#cb30-2"></a></span>
+<span id="cb30-3"><a href="basic-program-structure-and-flow.html#cb30-3"></a><span class="kw">public</span> <span class="kw">class</span> MessageMaker {</span>
+<span id="cb30-4"><a href="basic-program-structure-and-flow.html#cb30-4"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="bu">String</span> name;</span>
+<span id="cb30-5"><a href="basic-program-structure-and-flow.html#cb30-5"></a>    <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> age;</span>
+<span id="cb30-6"><a href="basic-program-structure-and-flow.html#cb30-6"></a></span>
+<span id="cb30-7"><a href="basic-program-structure-and-flow.html#cb30-7"></a>    <span class="co">/**</span></span>
+<span id="cb30-8"><a href="basic-program-structure-and-flow.html#cb30-8"></a>     <span class="co">*</span> Constructor makes it mandatory to instantiate with name and age arguments<span class="co">.</span></span>
+<span id="cb30-9"><a href="basic-program-structure-and-flow.html#cb30-9"></a>     <span class="co">*</span> <span class="an">@param name</span></span>
+<span id="cb30-10"><a href="basic-program-structure-and-flow.html#cb30-10"></a>     <span class="co">*</span> <span class="an">@param age</span></span>
+<span id="cb30-11"><a href="basic-program-structure-and-flow.html#cb30-11"></a>     <span class="co">*/</span></span>
+<span id="cb30-12"><a href="basic-program-structure-and-flow.html#cb30-12"></a>    <span class="kw">public</span> <span class="fu">MessageMaker</span>(<span class="bu">String</span> name, <span class="dt">int</span> age) {</span>
+<span id="cb30-13"><a href="basic-program-structure-and-flow.html#cb30-13"></a>        <span class="kw">this</span>.<span class="fu">name</span> = name;</span>
+<span id="cb30-14"><a href="basic-program-structure-and-flow.html#cb30-14"></a>        <span class="kw">this</span>.<span class="fu">age</span> = age;</span>
+<span id="cb30-15"><a href="basic-program-structure-and-flow.html#cb30-15"></a>    }</span>
+<span id="cb30-16"><a href="basic-program-structure-and-flow.html#cb30-16"></a></span>
+<span id="cb30-17"><a href="basic-program-structure-and-flow.html#cb30-17"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">printMessage</span>() {</span>
+<span id="cb30-18"><a href="basic-program-structure-and-flow.html#cb30-18"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Hi &quot;</span> + name + <span class="st">&quot;, your age is &quot;</span> + age);</span>
+<span id="cb30-19"><a href="basic-program-structure-and-flow.html#cb30-19"></a></span>
+<span id="cb30-20"><a href="basic-program-structure-and-flow.html#cb30-20"></a>        <span class="kw">if</span>(age &lt; <span class="dv">18</span>) {</span>
+<span id="cb30-21"><a href="basic-program-structure-and-flow.html#cb30-21"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;ahh the energy of youth&quot;</span>);</span>
+<span id="cb30-22"><a href="basic-program-structure-and-flow.html#cb30-22"></a>        } <span class="kw">else</span> <span class="kw">if</span> (age &lt; <span class="dv">50</span>) {</span>
+<span id="cb30-23"><a href="basic-program-structure-and-flow.html#cb30-23"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nice to meet somebody in the prime of their life!&quot;</span>);</span>
+<span id="cb30-24"><a href="basic-program-structure-and-flow.html#cb30-24"></a>        } <span class="kw">else</span> {</span>
+<span id="cb30-25"><a href="basic-program-structure-and-flow.html#cb30-25"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;hey, don&#39;t worry - every day brings you closer to retirement&quot;</span>);</span>
+<span id="cb30-26"><a href="basic-program-structure-and-flow.html#cb30-26"></a>        }</span>
+<span id="cb30-27"><a href="basic-program-structure-and-flow.html#cb30-27"></a>    }</span>
+<span id="cb30-28"><a href="basic-program-structure-and-flow.html#cb30-28"></a>}</span></code></pre></div>
+<p>And this is how you instantiate and use an object of such a class.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb31-1"><a href="basic-program-structure-and-flow.html#cb31-1"></a><span class="kw">public</span> <span class="kw">class</span> MostBasicApp {</span>
+<span id="cb31-2"><a href="basic-program-structure-and-flow.html#cb31-2"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb31-3"><a href="basic-program-structure-and-flow.html#cb31-3"></a>        <span class="bu">String</span> name = args[<span class="dv">0</span>];</span>
+<span id="cb31-4"><a href="basic-program-structure-and-flow.html#cb31-4"></a>        <span class="dt">int</span> age = <span class="bu">Integer</span>.<span class="fu">parseInt</span>(args[<span class="dv">1</span>]);</span>
+<span id="cb31-5"><a href="basic-program-structure-and-flow.html#cb31-5"></a></span>
+<span id="cb31-6"><a href="basic-program-structure-and-flow.html#cb31-6"></a>        <span class="co">/*A first object is instantiated and a method is called on it.*/</span></span>
+<span id="cb31-7"><a href="basic-program-structure-and-flow.html#cb31-7"></a>        MessageMaker messageMaker = <span class="kw">new</span> <span class="fu">MessageMaker</span>(name, age);</span>
+<span id="cb31-8"><a href="basic-program-structure-and-flow.html#cb31-8"></a>        messageMaker.<span class="fu">printMessage</span>();</span>
+<span id="cb31-9"><a href="basic-program-structure-and-flow.html#cb31-9"></a>    }</span>
+<span id="cb31-10"><a href="basic-program-structure-and-flow.html#cb31-10"></a>}</span></code></pre></div>
+<p>So, here we have a two-class application. Both source files are in the same package (namespace). The first is the so-called “main class” which is the entry point of the application: <code>MostBasicApp</code> in source file <code>MostBasicApp.java</code>. The main method receives the command-line arguments and parses one of them into an integer. Next, it instantiates a <code>MessageMaker</code> object and calls its <code>printMessage()</code> method.</p>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">6.2</span> Summary</h2>
+<p>You have seen the basic structure of a Java program. It needs at least one source file with one class. There needs to be a <code>main()</code> method of this signature to be executable as program:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb32-1"><a href="basic-program-structure-and-flow.html#cb32-1"></a><span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="bu">String</span>[] args) {</span>
+<span id="cb32-2"><a href="basic-program-structure-and-flow.html#cb32-2"></a>  <span class="co">//startup code</span></span>
+<span id="cb32-3"><a href="basic-program-structure-and-flow.html#cb32-3"></a>}</span></code></pre></div>
+<p>Two flow control structures were shown: the for-each loop and if/else decisions:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb33-1"><a href="basic-program-structure-and-flow.html#cb33-1"></a><span class="co">//foreach</span></span>
+<span id="cb33-2"><a href="basic-program-structure-and-flow.html#cb33-2"></a><span class="kw">for</span>(item : collection) {}</span>
+<span id="cb33-3"><a href="basic-program-structure-and-flow.html#cb33-3"></a><span class="co">//if/else</span></span>
+<span id="cb33-4"><a href="basic-program-structure-and-flow.html#cb33-4"></a><span class="kw">if</span>(conditionIsTrue) {}</span>
+<span id="cb33-5"><a href="basic-program-structure-and-flow.html#cb33-5"></a><span class="kw">else</span> <span class="kw">if</span>(alternativeConditionIsTrue){}</span>
+<span id="cb33-6"><a href="basic-program-structure-and-flow.html#cb33-6"></a><span class="kw">else</span> {<span class="co">/*default logic*/</span>}</span></code></pre></div>
+<p>That’s it. Next up: Data Types.</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="first-look-at-objects.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="naming-and-commenting-stuff.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

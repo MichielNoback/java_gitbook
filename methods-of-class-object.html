@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 17 Methods of class Object | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 17 Methods of class Object | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 17 Methods of class Object | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="the-java-collections-api.html"/>
+<link rel="next" href="sorting.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,190 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="methods-of-class-object" class="section level1">
+<h1><span class="header-section-number">Chapter 17</span> Methods of class Object</h1>
+<div id="tostring-equals-hashcode-getclass" class="section level2">
+<h2><span class="header-section-number">17.1</span> toString(), equals(), hashCode(), getClass()</h2>
+<p>Previously you have seen some collection types: List, Map, Set.
+One of the methods that is universal to all collection types is <code>contains()</code>.
+How does the JVM determine that two objects are equal?
+This is through the <code>equals()</code> method.</p>
+<p><strong><em>When you use the statement <code>myCollection.contains(myObject)</code>, you get <code>true</code> returned if one of the elements in myCollection returns <code>true</code> for <code>element.equals(myObject)</code>.</em></strong></p>
+<p>The method <code>equals()</code> is there, even though you did not implement it. This is because they are declared and implemented in class <code>Object</code>, and <strong><em>every class in Java extends from Object implicitly</em></strong>. Whenever you create a class, such as this:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb116-1"><a href="methods-of-class-object.html#cb116-1"></a><span class="kw">class</span> User {</span>
+<span id="cb116-2"><a href="methods-of-class-object.html#cb116-2"></a></span>
+<span id="cb116-3"><a href="methods-of-class-object.html#cb116-3"></a>}</span></code></pre></div>
+<p>you get this implicitly:</p>
+<div class="sourceCode" id="cb117"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb117-1"><a href="methods-of-class-object.html#cb117-1"></a><span class="kw">class</span> User <span class="kw">extends</span> <span class="bu">Object</span> {</span>
+<span id="cb117-2"><a href="methods-of-class-object.html#cb117-2"></a></span>
+<span id="cb117-3"><a href="methods-of-class-object.html#cb117-3"></a>}</span></code></pre></div>
+<p>Since User extends Object, it inherits all Object properties and methods. If you create an object (of any type), type the variable name followed by a dot, IntelliJ will show you the methods of class Object:</p>
+<div class="figure">
+<img src="03_apis/figures/methods_of_Object.png" alt="" />
+<p class="caption">Methods of class object</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<p>The <code>notify..()</code> and <code>wait..()</code> methods have to do with multithreading and are not dealt with here.
+The ones of interest are</p>
+<ul>
+<li><code>toString()</code> returns a String representation of the current object. Implemented in class Object as the objects’ memory hash.</li>
+<li><code>equals()</code> returns a boolean indicating whether the argument
+is logically the same as the current object. Implemented in class Object as: <code>true</code> if both refer to the same object.</li>
+<li><code>hashCode()</code> returns the hashCode (an int) of the current object. Implemented in class Object to return an integer representing the objects memory address.</li>
+<li><code>getClass()</code> returns the class of the current object</li>
+</ul>
+<div id="tostring-a-string-representation-of-the-object" class="section level3 unnumbered">
+<h3><code>toString()</code>: a string representation of the object</h3>
+<p>If you want to see a nice textual representation of an object during software development, you use toString().
+In IntelliJ, type <code>ctrl + O</code> if you want to override a super class method.</p>
+<div class="figure">
+<img src="03_apis/figures/override_methods.png" alt="" />
+<p class="caption">Override methods</p>
+</div>
+<p>If you choose toString(), you will get something like this:</p>
+<div class="sourceCode" id="cb118"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb118-1"><a href="methods-of-class-object.html#cb118-1"></a><span class="at">@Override</span></span>
+<span id="cb118-2"><a href="methods-of-class-object.html#cb118-2"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb118-3"><a href="methods-of-class-object.html#cb118-3"></a>    <span class="kw">return</span> <span class="kw">super</span>.<span class="fu">toString</span>();</span>
+<span id="cb118-4"><a href="methods-of-class-object.html#cb118-4"></a>}</span></code></pre></div>
+<p>Note the <code>@Override</code> <strong><em>annotation</em></strong>.
+Annotations are syntactic sugar in Java, and this one says to the compiler:
+please check whether this override is correct, else fail compilation.
+Correct with respect to toString() means: take no arguments and return a String.
+The statement <code>return super.toString();</code> simply states: call the super class toString (of Object in this case) and return its result. Which means you get the uninformative:</p>
+<p><code>snippets.apis.User@78b1cc93</code></p>
+<p>To make toString useful, you’ll need te redefine its logic, for instance:</p>
+<div class="sourceCode" id="cb119"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb119-1"><a href="methods-of-class-object.html#cb119-1"></a><span class="at">@Override</span></span>
+<span id="cb119-2"><a href="methods-of-class-object.html#cb119-2"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb119-3"><a href="methods-of-class-object.html#cb119-3"></a>    <span class="kw">return</span> <span class="st">&quot;A user with name &quot;</span> + name;</span>
+<span id="cb119-4"><a href="methods-of-class-object.html#cb119-4"></a>}</span></code></pre></div>
+<p>which outputs <code>A user with name Henk</code></p>
+<p>Although this is logically correct, and will compile just fine, there are some conventions used in Java to be informative. To get a toString() which follows this rule, use another IntelliJ shortcut: <code>ctrl + N</code> (for generate code), and select toString().</p>
+<div class="figure">
+<img src="03_apis/figures/generate_code_toString.png" alt="" />
+<p class="caption">Generate toString()</p>
+</div>
+<p>Then, select the instance variables you want included in the string representation, click OK and you have something like this</p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb120-1"><a href="methods-of-class-object.html#cb120-1"></a><span class="at">@Override</span></span>
+<span id="cb120-2"><a href="methods-of-class-object.html#cb120-2"></a><span class="kw">public</span> <span class="bu">String</span> <span class="fu">toString</span>() {</span>
+<span id="cb120-3"><a href="methods-of-class-object.html#cb120-3"></a>    <span class="kw">return</span> <span class="st">&quot;User{&quot;</span> +</span>
+<span id="cb120-4"><a href="methods-of-class-object.html#cb120-4"></a>            <span class="st">&quot;id=&quot;</span> + id +</span>
+<span id="cb120-5"><a href="methods-of-class-object.html#cb120-5"></a>            <span class="st">&quot;, name=&#39;&quot;</span> + name + <span class="ch">&#39;\&#39;&#39;</span> +</span>
+<span id="cb120-6"><a href="methods-of-class-object.html#cb120-6"></a>            <span class="ch">&#39;}&#39;</span>;</span>
+<span id="cb120-7"><a href="methods-of-class-object.html#cb120-7"></a>}</span></code></pre></div>
+<p>outputting <code>User{id=15, name='Henk'}</code>, which is a good textual representation of the underlying object.</p>
+</div>
+<div id="equals-determining-logical-similarity-between-objects" class="section level3 unnumbered">
+<h3><code>equals()</code> determining logical similarity between objects</h3>
+<p>Consider these three User objects, where the first constructor argument is the user ID and the second the username.</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb121-1"><a href="methods-of-class-object.html#cb121-1"></a>User user1 = <span class="kw">new</span> <span class="fu">User</span>(<span class="dv">15</span>, <span class="st">&quot;Henk&quot;</span>);</span>
+<span id="cb121-2"><a href="methods-of-class-object.html#cb121-2"></a><span class="co">//same, equal?</span></span>
+<span id="cb121-3"><a href="methods-of-class-object.html#cb121-3"></a>User user2 = user1;</span>
+<span id="cb121-4"><a href="methods-of-class-object.html#cb121-4"></a></span>
+<span id="cb121-5"><a href="methods-of-class-object.html#cb121-5"></a>User user3 = <span class="kw">new</span> <span class="fu">User</span>(<span class="dv">21</span>, <span class="st">&quot;Dirk&quot;</span>);</span>
+<span id="cb121-6"><a href="methods-of-class-object.html#cb121-6"></a><span class="co">//same, or equal User as user3?</span></span>
+<span id="cb121-7"><a href="methods-of-class-object.html#cb121-7"></a>User user4 = <span class="kw">new</span> <span class="fu">User</span>(<span class="dv">21</span>, <span class="st">&quot;Dirk&quot;</span>);</span></code></pre></div>
+<p>Is <code>user1</code> equal to <code>user2</code>? Is <code>user1</code> equal to itself, <code>user1</code>? Is <code>user3</code> equal to <code>user4</code>?<br />
+There is an important distinction to be made: <strong><em>equality versus sameness</em></strong>.
+Two references are considered the same if they both <em>point to a single object on the heap</em>.
+On the other hand, equality is a more fuzzy concept. In general, we consider
+two references equal if they point either to one single object,
+or to two distinct objects that are logically similar.</p>
+<p>So, in the above code snippet, <code>user1</code> is definitely the same as <code>user</code> two since they refer to the same object.
+But since they are the same, they must therefore also be equal.<br />
+On the other hand, <code>user3</code> and <code>user4</code> are two distinct objects (the constructor has run twice!),
+but <strong><em>logically similar</em></strong> because they have exactly the same internal data.</p>
+<p>In Java, <code>==</code> tests for sameness and <code>equals()</code> for logical similarity.</p>
+<p>Therefore, we would like our User class to behave like this.</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb122-1"><a href="methods-of-class-object.html#cb122-1"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1 == user1 -- &quot;</span> + (user1 == user1)); <span class="co">//should be true</span></span>
+<span id="cb122-2"><a href="methods-of-class-object.html#cb122-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.equals(user1) -- &quot;</span> + user1.<span class="fu">equals</span>(user1)); <span class="co">//should be true</span></span>
+<span id="cb122-3"><a href="methods-of-class-object.html#cb122-3"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1 == user2 -- &quot;</span> + (user1 == user2)); <span class="co">//should be true</span></span>
+<span id="cb122-4"><a href="methods-of-class-object.html#cb122-4"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.equals(user2) -- &quot;</span> + user1.<span class="fu">equals</span>(user2)); <span class="co">//should be true</span></span>
+<span id="cb122-5"><a href="methods-of-class-object.html#cb122-5"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.equals(user3) -- &quot;</span> + user1.<span class="fu">equals</span>(user3)); <span class="co">//should be false</span></span>
+<span id="cb122-6"><a href="methods-of-class-object.html#cb122-6"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user3.equals(user4) -- &quot;</span> + user3.<span class="fu">equals</span>(user4)); <span class="co">//should be true!</span></span></code></pre></div>
+<p>but in actuality this is what we get</p>
+<pre class="console_out">
+user1 == user1 -- true
+user1.equals(user1) -- true
+user1 == user2 -- true
+user1.equals(user2) -- true
+user1.equals(user3) -- false
+user3.equals(user4) -- false
+</pre>
+<p>Up to the last test, everything works out fine. Why does the last test return false? Because Java doesn’t not know about logical similarity between User objects! We have to tell it. Therefore, by default this is what the <code>Object.equals()</code> method does:</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb123-1"><a href="methods-of-class-object.html#cb123-1"></a><span class="at">@Override</span></span>
+<span id="cb123-2"><a href="methods-of-class-object.html#cb123-2"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="bu">Object</span> other) {</span>
+<span id="cb123-3"><a href="methods-of-class-object.html#cb123-3"></a>    <span class="kw">return</span> (<span class="kw">this</span> == other);</span>
+<span id="cb123-4"><a href="methods-of-class-object.html#cb123-4"></a>}</span></code></pre></div>
+<p>Let’s change the <code>equals()</code> method to reflect (my opinion of) similarity:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb124-1"><a href="methods-of-class-object.html#cb124-1"></a><span class="at">@Override</span></span>
+<span id="cb124-2"><a href="methods-of-class-object.html#cb124-2"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="bu">Object</span> other) {</span>
+<span id="cb124-3"><a href="methods-of-class-object.html#cb124-3"></a>    User otherUser = (User) other;</span>
+<span id="cb124-4"><a href="methods-of-class-object.html#cb124-4"></a>    <span class="kw">return</span> (<span class="kw">this</span>.<span class="fu">id</span> == otherUser.<span class="fu">id</span> &amp;&amp; <span class="kw">this</span>.<span class="fu">name</span> == otherUser.<span class="fu">name</span>);</span>
+<span id="cb124-5"><a href="methods-of-class-object.html#cb124-5"></a>}</span></code></pre></div>
+<p>There is a lot to say about this implementation. Can you spot the flaws?</p>
+<p>There are several, so maybe it is better to let IntelliJ handle this for us, via <code>ctrl + N</code> (generate) -&gt; <code>equals() and hashCode()</code> -&gt; choose template (Java 7+), choose name and ID –&gt; next, next next, Finish:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb125-1"><a href="methods-of-class-object.html#cb125-1"></a><span class="at">@Override</span></span>
+<span id="cb125-2"><a href="methods-of-class-object.html#cb125-2"></a><span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="bu">Object</span> o) {</span>
+<span id="cb125-3"><a href="methods-of-class-object.html#cb125-3"></a>    <span class="kw">if</span> (<span class="kw">this</span> == o) <span class="kw">return</span> <span class="kw">true</span>;</span>
+<span id="cb125-4"><a href="methods-of-class-object.html#cb125-4"></a>    <span class="kw">if</span> (o == <span class="kw">null</span> || <span class="fu">getClass</span>() != o.<span class="fu">getClass</span>()) <span class="kw">return</span> <span class="kw">false</span>;</span>
+<span id="cb125-5"><a href="methods-of-class-object.html#cb125-5"></a>    User user = (User) o;</span>
+<span id="cb125-6"><a href="methods-of-class-object.html#cb125-6"></a>    <span class="kw">return</span> id == user.<span class="fu">id</span> &amp;&amp;</span>
+<span id="cb125-7"><a href="methods-of-class-object.html#cb125-7"></a>            Objects.<span class="fu">equals</span>(name, user.<span class="fu">name</span>);</span>
+<span id="cb125-8"><a href="methods-of-class-object.html#cb125-8"></a>}</span></code></pre></div>
+<p>Study this carefully! Why is each statement inserted?</p>
+<p>The <code>equals()</code> method must exhibit the following properties:<br />
+- <strong><em>Symmetry</em></strong>: For two references, a and b, a.equals(b) if and only if b.equals(a) as well
+- <strong><em>Reflexivity</em></strong>: For all non-null references, a.equals(a)
+- <strong><em>Transitivity</em></strong>: If a.equals(b) and b.equals(c), then a.equals(c)
+- <strong><em>Consistency with hashCode()</em></strong>: Two equal objects must have the same hashCode() value</p>
+</div>
+<div id="hashcode-required-when-equals-is-implemented" class="section level3 unnumbered">
+<h3><code>hashCode()</code>: required when <code>equals()</code> is implemented</h3>
+<p>The <code>hashCode()</code> method is kind of the mysterious sister of <code>equals()</code>. You implement them together, but only equals() is easily understood.</p>
+<p>The <code>hashCode()</code> method is used for <strong><em>bucketing</em></strong> in Hash implementations like HashMap, HashTable, HashSet, etc.
+The value received from <code>hashCode()</code> is used as the bucket number for storing elements of the set/map.
+This bucket number is the address of the element inside the set/map.
+When you do <code>contains()</code> it will take the hash code of the element, then look for the bucket where hash code points to.
+If more than 1 element is found in the same bucket (multiple objects can have the same hash code),
+then it uses the <code>equals()</code> method to evaluate if the objects are equal, and then decide
+if <code>contains()</code> is true or false, or decide if element could be added in the set or not.
+(<em>This paragraph is copied from a post on <a href="https://stackoverflow.com/questions/3563847/what-is-the-use-of-hashcode-in-java">Stackoverflow</a></em>)</p>
+<p>The general contract of hashCode() states:</p>
+<ul>
+<li><p>Whenever it is invoked on the same object more than once, <code>hashCode()</code> must consistently return the same value, provided no information used in equals comparisons on the object is modified. This value needs not remain consistent from one execution of an application to another execution of the same application</p></li>
+<li><p>If two objects are equal according to the <code>equals(Object)</code> method, then calling the <code>hashCode()</code> method on each of the two objects must produce the same value</p></li>
+<li><p>It is not required that if two objects are unequal according to the <code>equals(java.lang.Object)</code> method, then calling the hashCode method on each of the two objects must produce distinct integer results. However, developers should be aware that producing distinct integer results for unequal objects improves the performance of hash tables</p></li>
+</ul>
+<p>Of course, we let IntelliJ do the hard work (<code>ctrl + N</code>):</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb126-1"><a href="methods-of-class-object.html#cb126-1"></a><span class="at">@Override</span></span>
+<span id="cb126-2"><a href="methods-of-class-object.html#cb126-2"></a><span class="kw">public</span> <span class="dt">int</span> <span class="fu">hashCode</span>() {</span>
+<span id="cb126-3"><a href="methods-of-class-object.html#cb126-3"></a>    <span class="co">//uses a utility method from class Objects</span></span>
+<span id="cb126-4"><a href="methods-of-class-object.html#cb126-4"></a>    <span class="kw">return</span> Objects.<span class="fu">hash</span>(id, name);</span>
+<span id="cb126-5"><a href="methods-of-class-object.html#cb126-5"></a>}</span></code></pre></div>
+</div>
+<div id="getclass-gives-meta-information-the-objects-class" class="section level3 unnumbered">
+<h3><code>getClass()</code> gives meta-information the objects class</h3>
+<p>Example code is best here:</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb127-1"><a href="methods-of-class-object.html#cb127-1"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.getClass().getSimpleName() = &quot;</span> + user1.<span class="fu">getClass</span>().<span class="fu">getSimpleName</span>());</span>
+<span id="cb127-2"><a href="methods-of-class-object.html#cb127-2"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.getClass().getName() = &quot;</span> + user1.<span class="fu">getClass</span>().<span class="fu">getName</span>());</span>
+<span id="cb127-3"><a href="methods-of-class-object.html#cb127-3"></a><span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;user1.getClass().getPackageName() = &quot;</span> + user1.<span class="fu">getClass</span>().<span class="fu">getPackageName</span>());</span></code></pre></div>
+<p>outputs</p>
+<pre class="console_out">
+user1.getClass().getSimpleName() = User
+user1.getClass().getName() = snippets.apis.User
+user1.getClass().getPackageName() = snippets.apis
+</pre>
+<p>There are a lot more methods in class <code>java.lang.Class</code>, but they serve difficult stuff, like introspection.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-java-collections-api.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="sorting.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

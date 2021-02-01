@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 47 Core (Spring) annotations | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 47 Core (Spring) annotations | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 47 Core (Spring) annotations | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<link rel="prev" href="dependency-injection-in-spring.html"/>
 
-<link rel="next" href="keyboard-shortcuts.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,106 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="core-spring-annotations" class="section level1">
+<h1><span class="header-section-number">Chapter 47</span> Core (Spring) annotations</h1>
+<p>This page lists the most common annotations of the Spring (MVC) framework.</p>
+<p>The Component scan process is central to all annotations. Annotated classes, methods and fields will only be found and processed if they are included in the component scanning process. Spring Boot automatically includes all source folders in this scan. Many annotations are actually subtypes of each other. In particular, <code>@Component</code> is the supertype for many other class-level annotations such as <code>@Controller</code>, <code>@Service</code>. For instance, if you look up class <code>Controller</code> by pressing <code>Cmd (Ctr) + B</code> when the cursor is on the name where it is used, you can see it is itself annotated with <code>@Component</code>:</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb407-1"><a href="core-spring-annotations.html#cb407-1"></a><span class="co">/**</span></span>
+<span id="cb407-2"><a href="core-spring-annotations.html#cb407-2"></a> <span class="co">*</span> Indicates that an annotated class is a <span class="co">&quot;</span>Controller<span class="co">&quot;</span> <span class="co">(</span>e<span class="co">.</span>g<span class="co">.</span> a web controller<span class="co">).</span></span>
+<span id="cb407-3"><a href="core-spring-annotations.html#cb407-3"></a> <span class="co">*</span></span>
+<span id="cb407-4"><a href="core-spring-annotations.html#cb407-4"></a> <span class="co">*</span> <span class="kw">&lt;p&gt;</span>This annotation serves as a specialization of <span class="an">{@link </span>Component <span class="an">@</span>Component<span class="an">}</span><span class="co">,</span></span>
+<span id="cb407-5"><a href="core-spring-annotations.html#cb407-5"></a> <span class="co">*</span> allowing for implementation classes to be autodetected through classpath scanning<span class="co">.</span></span>
+<span id="cb407-6"><a href="core-spring-annotations.html#cb407-6"></a> <span class="co">*</span> It is typically used in combination with annotated handler methods based on the</span>
+<span id="cb407-7"><a href="core-spring-annotations.html#cb407-7"></a> <span class="co">*</span> <span class="an">{@link </span>org<span class="an">.</span>springframework<span class="an">.</span>web<span class="an">.</span>bind<span class="an">.</span>annotation<span class="an">.</span>RequestMapping<span class="an">}</span> annotation<span class="co">.</span></span>
+<span id="cb407-8"><a href="core-spring-annotations.html#cb407-8"></a> <span class="co">*</span></span>
+<span id="cb407-9"><a href="core-spring-annotations.html#cb407-9"></a> <span class="co">*</span> <span class="an">@author </span>Arjen Poutsma</span>
+<span id="cb407-10"><a href="core-spring-annotations.html#cb407-10"></a> <span class="co">*</span> <span class="an">@author </span>Juergen Hoeller</span>
+<span id="cb407-11"><a href="core-spring-annotations.html#cb407-11"></a> <span class="co">*</span> <span class="an">@since </span><span class="co">2.5</span></span>
+<span id="cb407-12"><a href="core-spring-annotations.html#cb407-12"></a> <span class="co">*</span> <span class="an">@see </span>Component</span>
+<span id="cb407-13"><a href="core-spring-annotations.html#cb407-13"></a> <span class="co">*</span> <span class="an">@see </span>org<span class="an">.</span>springframework<span class="an">.</span>web<span class="an">.</span>bind<span class="an">.</span>annotation<span class="an">.</span>RequestMapping</span>
+<span id="cb407-14"><a href="core-spring-annotations.html#cb407-14"></a> <span class="co">*</span> <span class="an">@see </span>org<span class="an">.</span>springframework<span class="an">.</span>context<span class="an">.</span>annotation<span class="an">.</span>ClassPathBeanDefinitionScanner</span>
+<span id="cb407-15"><a href="core-spring-annotations.html#cb407-15"></a> <span class="co">*/</span></span>
+<span id="cb407-16"><a href="core-spring-annotations.html#cb407-16"></a><span class="at">@Target</span>({<span class="bu">ElementType</span>.<span class="fu">TYPE</span>})</span>
+<span id="cb407-17"><a href="core-spring-annotations.html#cb407-17"></a><span class="at">@Retention</span>(<span class="bu">RetentionPolicy</span>.<span class="fu">RUNTIME</span>)</span>
+<span id="cb407-18"><a href="core-spring-annotations.html#cb407-18"></a><span class="at">@Documented</span></span>
+<span id="cb407-19"><a href="core-spring-annotations.html#cb407-19"></a><span class="at">@Component</span></span>
+<span id="cb407-20"><a href="core-spring-annotations.html#cb407-20"></a><span class="kw">public</span> <span class="kw">@interface</span> Controller {</span>
+<span id="cb407-21"><a href="core-spring-annotations.html#cb407-21"></a></span>
+<span id="cb407-22"><a href="core-spring-annotations.html#cb407-22"></a>    <span class="co">/**</span></span>
+<span id="cb407-23"><a href="core-spring-annotations.html#cb407-23"></a>     <span class="co">*</span> The value may indicate a suggestion for a logical component name<span class="co">,</span></span>
+<span id="cb407-24"><a href="core-spring-annotations.html#cb407-24"></a>     <span class="co">*</span> to be turned into a Spring bean in case of an autodetected component<span class="co">.</span></span>
+<span id="cb407-25"><a href="core-spring-annotations.html#cb407-25"></a>     <span class="co">*</span> <span class="an">@return </span>the suggested component name<span class="co">,</span> if any <span class="co">(</span>or empty String otherwise<span class="co">)</span></span>
+<span id="cb407-26"><a href="core-spring-annotations.html#cb407-26"></a>     <span class="co">*/</span></span>
+<span id="cb407-27"><a href="core-spring-annotations.html#cb407-27"></a>    <span class="at">@AliasFor</span>(annotation = <span class="bu">Component</span>.<span class="fu">class</span>)</span>
+<span id="cb407-28"><a href="core-spring-annotations.html#cb407-28"></a>    <span class="bu">String</span> <span class="fu">value</span>() <span class="kw">default</span> <span class="st">&quot;&quot;</span>;</span>
+<span id="cb407-29"><a href="core-spring-annotations.html#cb407-29"></a>}</span></code></pre></div>
+<p>Note that by looking these up you can also see which properties can be set, and what the default is when they are not required. Also note that the Javadoc section is highly informative!</p>
+<div id="generic-annotations" class="section level2">
+<h2><span class="header-section-number">47.1</span> Generic annotations</h2>
+<ul>
+<li><p><strong><code>@Configuration</code></strong> – tells the Spring container that this class published components, i.e. Beans</p></li>
+<li><p><strong><code>@Bean</code></strong> – annotated on methods, telling the container that the method serves a component. The bean will have the name of the method by default.</p>
+<ul>
+<li>Use <code>@Bean(initMethod = "someMethod")</code> to hook into init.<br />
+</li>
+<li>Use <code>@PostConstruct</code> to hook into init (this alternative adds extra dependencies in your Bean).</li>
+</ul></li>
+<li><p><strong><code>@Scope</code></strong> – annotated on Beans. There are six types of bean scopes in Spring:</p>
+<ul>
+<li><code>singleton</code> - with this scope, the container creates a single instance of a bean. All requests for such a bean will return the same object, which is cached. This is the default scope if no other scope is specified.</li>
+<li><code>prototype</code> - with this scope, the container will create a new instance every time it is requested.</li>
+<li><code>request</code>, <code>session</code>, <code>application</code>, <code>websocket</code> - these scopes are available only in a web-aware application context and are less often used in practice.</li>
+</ul></li>
+<li><p><strong><code>@Component</code></strong> – annotated on classes. Tells the Spring container the class models a component of the system and should be instantiated by it.</p></li>
+<li><p><strong><code>@Repository</code></strong> – subclasses <code>@Component</code> and adds a semantic layer: publishes a data repository.</p></li>
+<li><p><strong><code>@Service</code></strong> – subclasses <code>@Component</code> and adds a semantic layer: publishes a service conponent.</p></li>
+<li><p><strong><code>@Primary</code></strong> – used to indicate this bean is a primary choice when multiple candidates exist (multiple implementers of the same interface). Related to <code>@Qualifier</code>, but used in the service instead of the consumer.</p></li>
+<li><p><strong><code>@Qualifier</code></strong> – Used to indicate which of several implementers (Bean interfaces) should be taken. Can be used on constructor fields, setters (below <code>@Autowired</code>) and fields (same) . Related to <code>@Primary</code>, but this done in the consumer instead of the service.</p></li>
+<li><p><strong><code>@SpringBootApplication</code></strong> – entry / start point of the application. Can be used to configure several aspects of the app config.</p></li>
+<li><p><strong><code>@PostConstruct</code></strong> &amp; <strong><code>@PreDestroy</code></strong> – annotation on Components, to be used as lifecycle hooks.</p></li>
+<li><p><strong><code>@Profile</code></strong> – used to instantiate and serve Beans in a profile-dependent manner.</p></li>
+<li><p><strong><code>@PropertySource</code></strong> and <strong><code>@TestPropertySource</code></strong> – used to configure additional sources of properties. E.g., this
+<img src="08_spring/figures/propertysource.png" alt="@PropertySource" /></p>
+<p>Will look under /src/main/resources for the given properties file.</p></li>
+</ul>
+<div id="web-oriented-annotations" class="section level3">
+<h3><span class="header-section-number">47.1.1</span> Web oriented annotations</h3>
+<ul>
+<li><p><strong><code>@Controller</code></strong> – tells the framework this class deals with http requests.</p></li>
+<li><p><strong><code>@RestController</code></strong> – See <code>@Controller</code>, but for REST endpoints and will return json by default.</p></li>
+<li><p><strong><code>@GetMapping</code></strong> – A method that listens to an http Get request url.</p></li>
+<li><p><strong><code>@PostMapping</code></strong> – idem, for Post requests.</p></li>
+<li><p><strong><code>@RequestMapping</code></strong> – maps a URL to a class or method. In the example below, the url <code>/projects</code> maps to the entire class as base url for the methods contained therein. So, <code>@GetMapping("/1")</code> maps to <code>/projects/1</code>.</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb408-1"><a href="core-spring-annotations.html#cb408-1"></a><span class="at">@RestController</span></span>
+<span id="cb408-2"><a href="core-spring-annotations.html#cb408-2"></a><span class="at">@RequestMapping</span>(value=<span class="st">&quot;projects&quot;</span>)</span>
+<span id="cb408-3"><a href="core-spring-annotations.html#cb408-3"></a><span class="kw">public</span> <span class="kw">class</span> ProjectController {</span>
+<span id="cb408-4"><a href="core-spring-annotations.html#cb408-4"></a>    <span class="at">@GetMapping</span>(<span class="st">&quot;/1&quot;</span>)</span>
+<span id="cb408-5"><a href="core-spring-annotations.html#cb408-5"></a>    <span class="kw">public</span> Project <span class="fu">findOne</span>() {</span>
+<span id="cb408-6"><a href="core-spring-annotations.html#cb408-6"></a>        <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Project</span>(<span class="st">&quot;test&quot;</span>, LocalDate.<span class="fu">now</span>())</span>
+<span id="cb408-7"><a href="core-spring-annotations.html#cb408-7"></a>    }</span>
+<span id="cb408-8"><a href="core-spring-annotations.html#cb408-8"></a>}</span></code></pre></div></li>
+<li><p><strong><code>@PathVariable</code></strong> – Used within the method signature of <code>@xxxMapping</code> methods to indicate the value of this variable should be obtained from the url. Used in combination with the <code>value = ""</code> attribute of the mapping, as in this example:</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb409-1"><a href="core-spring-annotations.html#cb409-1"></a><span class="at">@GetMapping</span>(value = {/<span class="st">&quot;id&quot;</span>})</span>
+<span id="cb409-2"><a href="core-spring-annotations.html#cb409-2"></a><span class="kw">public</span> Project <span class="fu">findOne</span>(<span class="at">@PathVariable</span>() <span class="bu">Long</span> id) {</span>
+<span id="cb409-3"><a href="core-spring-annotations.html#cb409-3"></a>    <span class="kw">return</span> projectsService.<span class="fu">fid</span>=<span class="fu">ndById</span>(id);</span>
+<span id="cb409-4"><a href="core-spring-annotations.html#cb409-4"></a>}</span></code></pre></div></li>
+<li><p><strong><code>@RequestBody</code></strong> – Annotation used when in the body of a Post request a Json literal is sent that can be mapped onto a Java class.</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb410-1"><a href="core-spring-annotations.html#cb410-1"></a><span class="at">@PostMapping</span></span>
+<span id="cb410-2"><a href="core-spring-annotations.html#cb410-2"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">create</span>(<span class="at">@RequestBody</span> Project project) {</span>
+<span id="cb410-3"><a href="core-spring-annotations.html#cb410-3"></a>    projectService.<span class="fu">save</span>(project);</span>
+<span id="cb410-4"><a href="core-spring-annotations.html#cb410-4"></a>}</span></code></pre></div></li>
+</ul>
+
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
+<a href="dependency-injection-in-spring.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 42 JUnit 5 advanced features | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 42 JUnit 5 advanced features | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 42 JUnit 5 advanced features | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="junit-5-basics.html"/>
+<link rel="next" href="uml.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,141 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="junit-5-advanced-features" class="section level1">
+<h1><span class="header-section-number">Chapter 42</span> JUnit 5 advanced features</h1>
+<div id="introduction-8" class="section level2">
+<h2><span class="header-section-number">42.1</span> Introduction</h2>
+<p>This post deals with (slightly) more advanced JUnit features</p>
+<ul>
+<li>usage of annotations other than <code>@Test</code></li>
+<li>the assertJ library for writing assertions</li>
+</ul>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="junit-5-annotations" class="section level2">
+<h2><span class="header-section-number">42.2</span> JUnit 5 annotations</h2>
+<p>You probably have seen annotations in your Java code by now, for example <code>@Override</code>
+or <code>@SuppressWarnings("unused")</code>.
+Annotations are a form of syntactic metadata that can be added to Java source code (classes, methods, variables). They attach “properties” to classes, methods or variables.</p>
+<p>JUnit has a whole suite of annotations that you can use to publish a test case to the test runtime, or to modify when it is run, or its scope, for instance.</p>
+<p>Here are a few of the most common ones. Please refer to the official docs for a complete listing.</p>
+<div id="test-2" class="section level4 unnumbered">
+<h4>@Test</h4>
+<p>This is the most important one. It marks a method as a JUnit test method, so that it can be discovered by the test runtime. Nothing else is required.</p>
+<div class="sourceCode" id="cb356"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb356-1"><a href="junit-5-advanced-features.html#cb356-1"></a><span class="at">@Test</span></span>
+<span id="cb356-2"><a href="junit-5-advanced-features.html#cb356-2"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">testImportant</span>() {</span>
+<span id="cb356-3"><a href="junit-5-advanced-features.html#cb356-3"></a>    <span class="bu">String</span> first = <span class="st">&quot;Michiel&quot;</span>;</span>
+<span id="cb356-4"><a href="junit-5-advanced-features.html#cb356-4"></a>    <span class="bu">String</span> second = <span class="st">&quot;Michiel&quot;</span>;</span>
+<span id="cb356-5"><a href="junit-5-advanced-features.html#cb356-5"></a>    <span class="co">//What do you think - will this pass?</span></span>
+<span id="cb356-6"><a href="junit-5-advanced-features.html#cb356-6"></a>    <span class="fu">assertSame</span>(first, second);</span>
+<span id="cb356-7"><a href="junit-5-advanced-features.html#cb356-7"></a>}</span></code></pre></div>
 </div>
+<div id="disabled" class="section level4 unnumbered">
+<h4>@Disabled</h4>
+<p>The <code>@Disabled</code> annotation is used to (temporary) disable a test. It is not used very often, because forgetting to remove it again is a lurking danger. A better alternative is to use the <code>@Tag</code> annotation which is discussed in the next post.</p>
+</div>
+<div id="displayname" class="section level4 unnumbered">
+<h4>@DisplayName</h4>
+<p>Use the <code>@DisplayName</code> annotation to have the method represented by a more human-readable message. So instead of “testLongestWordWithSingleSpace()” you could have <code>@DisplayName("Single space input to longestWord()")</code>. unfortunately, this feature is not satisfactorily supported in IntelliJ when using Gradle as Test Runner: It does not show the display name in the Run panel. The Gradle test report does show the display names correctly however.</p>
+<p>You can sort of “fix” this by choosing to have IntelliJ IDEA run your tests instead of Gradle. This can be done via<br />
+Preferences → Build, Execution, Deployment → Build Tools → Gradle → choose IntelliJ IDEA from the pulldown at “Run tests using”.<br />
+Unfortunately, this disables the <code>@Tag</code> selection mechanism which is discussed in the next post…</p>
+<p>I recommend always using the <code>@Displayname</code> annotation. Support for it will undoubtedly improve.</p>
+</div>
+<div id="beforeeach-and-aftereach" class="section level4 unnumbered">
+<h4>@BeforeEach and @AfterEach</h4>
+<p><code>@BeforeEach</code> and <code>@AfterEach</code> run respectively before and after each test case. You use them to re-initialize objects that may have been changed during a previous test.</p>
+<p>For instance, a Polygon object under test:</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb357-1"><a href="junit-5-advanced-features.html#cb357-1"></a><span class="kw">private</span> <span class="bu">Polygon</span> polygon;</span>
+<span id="cb357-2"><a href="junit-5-advanced-features.html#cb357-2"></a></span>
+<span id="cb357-3"><a href="junit-5-advanced-features.html#cb357-3"></a><span class="at">@BeforeEach</span></span>
+<span id="cb357-4"><a href="junit-5-advanced-features.html#cb357-4"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">resetPolygon</span>() {</span>
+<span id="cb357-5"><a href="junit-5-advanced-features.html#cb357-5"></a>    polygon = <span class="kw">new</span> <span class="bu">Polygon</span>();</span>
+<span id="cb357-6"><a href="junit-5-advanced-features.html#cb357-6"></a>    polygon.<span class="fu">addCoordinate</span>(<span class="kw">new</span> <span class="fu">Coordinate</span>(<span class="dv">1</span>, <span class="dv">2</span>));</span>
+<span id="cb357-7"><a href="junit-5-advanced-features.html#cb357-7"></a>    polygon.<span class="fu">addCoordinate</span>(<span class="kw">new</span> <span class="fu">Coordinate</span>(<span class="dv">3</span>, <span class="dv">6</span>));</span>
+<span id="cb357-8"><a href="junit-5-advanced-features.html#cb357-8"></a>}</span></code></pre></div>
+</div>
+<div id="beforeall-and-afterall" class="section level4 unnumbered">
+<h4>@BeforeAll and @AfterAll</h4>
+<p>@BeforeAll and @AfterAll annotations are similar to @AfterEach and @BeforeEach with the difference that they are called <strong><em>once per test class execution</em></strong> and not on a per-test basis. These are used to initialize class level resources (i.e. load a properties file).</p>
+<p><strong><em>Methods annotated with <code>@BeforeAll</code> or <code>@AfterAll</code> the should be static.</em></strong></p>
+</div>
+<div id="tag" class="section level4 unnumbered">
+<h4>@Tag</h4>
+<p>The <code>@Tag</code> annotation is a much more sophisticated way of switching (groups of) tests on and off. You use them in combination with a configuration of your test runtime (in this case Gradle).</p>
+<p>Here are two tagged methods.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb358-1"><a href="junit-5-advanced-features.html#cb358-1"></a><span class="at">@Tag</span>(<span class="st">&quot;sometimes&quot;</span>)</span>
+<span id="cb358-2"><a href="junit-5-advanced-features.html#cb358-2"></a><span class="at">@DisplayName</span>(<span class="st">&quot;Tag demo method 1: &#39;sometimes&#39;&quot;</span>)</span>
+<span id="cb358-3"><a href="junit-5-advanced-features.html#cb358-3"></a><span class="at">@Test</span></span>
+<span id="cb358-4"><a href="junit-5-advanced-features.html#cb358-4"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">tagDemo1</span>() {</span>
+<span id="cb358-5"><a href="junit-5-advanced-features.html#cb358-5"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Tag demo 1 running&quot;</span>);</span>
+<span id="cb358-6"><a href="junit-5-advanced-features.html#cb358-6"></a>}</span>
+<span id="cb358-7"><a href="junit-5-advanced-features.html#cb358-7"></a></span>
+<span id="cb358-8"><a href="junit-5-advanced-features.html#cb358-8"></a><span class="at">@Tag</span>(<span class="st">&quot;rarely&quot;</span>)</span>
+<span id="cb358-9"><a href="junit-5-advanced-features.html#cb358-9"></a><span class="at">@DisplayName</span>(<span class="st">&quot;Tag demo method 2: &#39;rarely&#39;&quot;</span>)</span>
+<span id="cb358-10"><a href="junit-5-advanced-features.html#cb358-10"></a><span class="at">@Test</span></span>
+<span id="cb358-11"><a href="junit-5-advanced-features.html#cb358-11"></a><span class="kw">public</span> <span class="dt">void</span> <span class="fu">tagDemo2</span>() {</span>
+<span id="cb358-12"><a href="junit-5-advanced-features.html#cb358-12"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Tag demo 2 running.&quot;</span>);</span>
+<span id="cb358-13"><a href="junit-5-advanced-features.html#cb358-13"></a>}</span></code></pre></div>
+<p>Assuming all other test methods are untagged; this declaration in your <code>build.gradle</code> file</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb359-1"><a href="junit-5-advanced-features.html#cb359-1"></a>test <span class="op">{</span></span>
+<span id="cb359-2"><a href="junit-5-advanced-features.html#cb359-2"></a>    useJUnitPlatform <span class="op">{</span></span>
+<span id="cb359-3"><a href="junit-5-advanced-features.html#cb359-3"></a>        excludeTags <span class="st">&#39;rarely&#39;</span></span>
+<span id="cb359-4"><a href="junit-5-advanced-features.html#cb359-4"></a>    <span class="op">}</span></span>
+<span id="cb359-5"><a href="junit-5-advanced-features.html#cb359-5"></a><span class="op">}</span></span></code></pre></div>
+<p>will result in <code>tagDemo1()</code> being executed as well as all other tests - also the ones without any tag. So this only excludes <code>tagDemo2()</code> and any other class or test having this tag.</p>
+<p>On the other hand, this configuration</p>
+<div class="sourceCode" id="cb360"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb360-1"><a href="junit-5-advanced-features.html#cb360-1"></a>test <span class="op">{</span></span>
+<span id="cb360-2"><a href="junit-5-advanced-features.html#cb360-2"></a>    useJUnitPlatform <span class="op">{</span></span>
+<span id="cb360-3"><a href="junit-5-advanced-features.html#cb360-3"></a>        includeTags <span class="st">&#39;sometimes&#39;</span></span>
+<span id="cb360-4"><a href="junit-5-advanced-features.html#cb360-4"></a>    <span class="op">}</span></span>
+<span id="cb360-5"><a href="junit-5-advanced-features.html#cb360-5"></a><span class="op">}</span></span></code></pre></div>
+<p>will result in <strong><em>only</em></strong> <code>tagDemo1()</code> being executed.</p>
+<p>You can <code>@Tag</code> single methods as well as classes.</p>
+</div>
+<div id="parameterizedtest" class="section level4 unnumbered">
+<h4>@ParameterizedTest</h4>
+<p>You can repeat the same test with different inputs using the <code>@ParameterizedTest</code> annotation.
+It is highly versatile, so you should really read the docs when your professional setting takes you there.</p>
+<p>In order to use this annotation, you should add this line to your dependencies (in this case, <code>build.gradle</code>):</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb361-1"><a href="junit-5-advanced-features.html#cb361-1"></a>testImplementation <span class="st">&#39;org.junit.jupiter:junit-jupiter-params:5.5.2&#39;</span></span></code></pre></div>
+<p>When you have a test that should be executed with a few different input values, you can do something like this:</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb362-1"><a href="junit-5-advanced-features.html#cb362-1"></a>    <span class="co">/**</span></span>
+<span id="cb362-2"><a href="junit-5-advanced-features.html#cb362-2"></a>     <span class="co">*</span> parameterized test with single value</span>
+<span id="cb362-3"><a href="junit-5-advanced-features.html#cb362-3"></a>     <span class="co">*/</span></span>
+<span id="cb362-4"><a href="junit-5-advanced-features.html#cb362-4"></a>    <span class="at">@DisplayName</span>(<span class="st">&quot;Palindrome finding&quot;</span>)</span>
+<span id="cb362-5"><a href="junit-5-advanced-features.html#cb362-5"></a>    <span class="at">@ParameterizedTest</span>(name = <span class="st">&quot;</span><span class="sc">\&quot;</span><span class="st">{0}</span><span class="sc">\&quot;</span><span class="st"> should be a palindrome&quot;</span>)</span>
+<span id="cb362-6"><a href="junit-5-advanced-features.html#cb362-6"></a>    <span class="at">@ValueSource</span>(strings = {<span class="st">&quot;racecar&quot;</span>, <span class="st">&quot;radar&quot;</span>, <span class="st">&quot;able was I ere I saw elba&quot;</span>})</span>
+<span id="cb362-7"><a href="junit-5-advanced-features.html#cb362-7"></a>    <span class="dt">void</span> <span class="fu">palindromes</span>(<span class="bu">String</span> candidate) {</span>
+<span id="cb362-8"><a href="junit-5-advanced-features.html#cb362-8"></a>        <span class="fu">assertTrue</span>(<span class="fu">isPalindrome</span>(candidate), () -&gt; candidate + <span class="st">&quot; should be a palindrome!&quot;</span>);</span>
+<span id="cb362-9"><a href="junit-5-advanced-features.html#cb362-9"></a>    }</span></code></pre></div>
+<p>This will carry out the <code>asertTrue()</code> statement sequentially with the inputs “racecar”, “radar”, “able was I ere I saw elba” that will be injected into the variable <code>candidate</code>. These values are provided by the <code>@ValueSource</code> annotation.</p>
+<p>If one of the inputs causes the test to fail, all subsequent candidates will still be run. This is a big difference with the case where you have multiple assert statements within a single test method. If one fails, all following assert tests will be skipped.</p>
+<p>Use this setup if all your test inputs are expected to give the same result (in this case, being a legal palindrome).</p>
+<p>Note that the annotation (<code>@ParameterizedTest(name = "\"{0}\" should be a palindrome")</code>) supports a dynamically generated error message using a format string where the input will be inserted in tha case of failure.</p>
+<p>If you have multiple values to be inserted, you should consider using the <code>@CsvSource</code> annotation:</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb363-1"><a href="junit-5-advanced-features.html#cb363-1"></a>    <span class="co">/**</span></span>
+<span id="cb363-2"><a href="junit-5-advanced-features.html#cb363-2"></a>     <span class="co">*</span> parameterized test with two values</span>
+<span id="cb363-3"><a href="junit-5-advanced-features.html#cb363-3"></a>     <span class="co">*/</span></span>
+<span id="cb363-4"><a href="junit-5-advanced-features.html#cb363-4"></a>    <span class="at">@DisplayName</span>(<span class="st">&quot;Roman numeral&quot;</span>)</span>
+<span id="cb363-5"><a href="junit-5-advanced-features.html#cb363-5"></a>    <span class="at">@ParameterizedTest</span>(name = <span class="st">&quot;</span><span class="sc">\&quot;</span><span class="st">{0}</span><span class="sc">\&quot;</span><span class="st"> should be {1}&quot;</span>)</span>
+<span id="cb363-6"><a href="junit-5-advanced-features.html#cb363-6"></a>    <span class="at">@CsvSource</span>({<span class="st">&quot;I, 1&quot;</span>, <span class="st">&quot;II, 2&quot;</span>, <span class="st">&quot;V, 5&quot;</span>})</span>
+<span id="cb363-7"><a href="junit-5-advanced-features.html#cb363-7"></a>    <span class="dt">void</span> <span class="fu">withNiceName</span>(<span class="bu">String</span> word, <span class="dt">int</span> number) {</span>
+<span id="cb363-8"><a href="junit-5-advanced-features.html#cb363-8"></a>        <span class="co">//DO </span><span class="al">TESTING</span><span class="co"> WORK</span></span>
+<span id="cb363-9"><a href="junit-5-advanced-features.html#cb363-9"></a>    }</span></code></pre></div>
+
+</div>
+</div>
+</div>
+
+
+
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="junit-5-basics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="uml.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

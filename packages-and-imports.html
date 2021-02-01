@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 13 Packages and Imports | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 13 Packages and Imports | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 13 Packages and Imports | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="methods-1.html"/>
+<link rel="next" href="the-power-of-naming.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="packages-and-imports" class="section level1">
+<h1><span class="header-section-number">Chapter 13</span> Packages and Imports</h1>
+<p>So far, you may have stored all your class files inside a single source directory. For larger projects this will rapidly become a big unordered mess.
+Besides this, you will run into namespace problems: how many Sequence classes do you think are out there? How will the JVM be able to discern between them?</p>
+<div id="class-path" class="section level2">
+<h2><span class="header-section-number">13.1</span> Class path</h2>
+<p>The <strong><em>Classpath</em></strong> is a parameter in the Java Virtual Machine, and the Java compiler, that specifies the location of user-defined classes and packages. When you use a type (e.g., User, Duck, Nucleotide), the compiler and later the JVM look for classes that match the type name. The places where the search is performed are collectively known as the classpath.</p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="namespaces" class="section level2">
+<h2><span class="header-section-number">13.2</span> Namespaces</h2>
+<p>A namespace is a context in which a class name has meaning
+For example, many Java applications have a class called User. How can the JVM know which of these classes to use if there are more to be found on the classpath?
+In Java this is solved using packages.</p>
+</div>
+<div id="packages" class="section level2">
+<h2><span class="header-section-number">13.3</span> Packages</h2>
+<p>All serious Java projects have their code organized into packages.
+Packages are “containers” that keep related classes together and avoid name conflicts with classes with identical names.
+To keep packages (and thus namespaces) unique, they are usually formed by reversing the programmer/company web address:
+<code>nl.bioinf</code> is a package name prefix I often use</p>
+<p>Since there are more programmers working behind nl.bioinf, I also add my teacher abbreviation: <code>nl.bioinf.nomi</code>.</p>
+<p>The next level is the current project you work on, e.g. “biojava light”, resulting in <code>nl.bioinf.nomi.bjl</code>.</p>
+<p>Finally, all sequence-related classes I put in package <code>sequences</code>. This gives a full package name <code>nl.bioinf.nomi.bjl.sequences</code>. This is a long name, but quite essential. Fortunately, you will hardly ever type them.</p>
+<p>Most of the core Java classes that you have worked with so far are in package <code>java.lang</code>.
+The <strong><em>fully qualified name</em></strong> for class <code>String</code> is actually <code>java.lang.String</code>.</p>
+<p>For classes in <code>java.lang</code> and the <em>current package</em>, you do not have to use the long package prefix.
+Have a look at <a href="https://docs.oracle.com/javase/10/docs/api/java.base-summary.html">https://docs.oracle.com/javase/10/docs/api/java.base-summary.html</a>, find package <code>java.lang</code> and you will see all the familiar classes Double, String, Math, Character etc.</p>
+<p>Packages are represented in the directory structure of your source folder (<code>src/main/java</code> in Gradle managed projects).
+When you have a package <code>nl.bioinf.sequences</code> and this package contains a source file <code>Sequence.java</code> containg top-level class <code>Sequence</code>, you will have to place the class file of Sequence at:
+<code>.../nl/bioinf/sequences/Sequence.class</code>.
+The IDE will takes care of these matters for you.</p>
+<p><strong><em>When you use types that are not from <code>java.lang</code> or the same package (=directory) your current class is in, you will have to refer to them using a fully qualified name, or import them.</em></strong></p>
+<p>Let’s look at an example</p>
+<div class="sourceCode" id="cb89"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb89-1"><a href="packages-and-imports.html#cb89-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.nomi.sequences;</span></span>
+<span id="cb89-2"><a href="packages-and-imports.html#cb89-2"></a></span>
+<span id="cb89-3"><a href="packages-and-imports.html#cb89-3"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequence</span>{</span>
+<span id="cb89-4"><a href="packages-and-imports.html#cb89-4"></a>  <span class="co">//class code</span></span>
+<span id="cb89-5"><a href="packages-and-imports.html#cb89-5"></a>}</span></code></pre></div>
+<p>Class Sequence is declared to be included in package <code>nl.bioinf.nomi.sequences</code>. Package declarations are placed on the first line of the source file, outside the class body. The actual folder/file structure inside your source folder will be like this:</p>
+<div class="figure">
+<img src="02_syntax/figures/package_structure_s.png" alt="" />
+<p class="caption">Package structure</p>
+</div>
+<p>If you don’t use import statements, you will have to refer to classes using their fully qualified name, like this:</p>
+<div class="sourceCode" id="cb90"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb90-1"><a href="packages-and-imports.html#cb90-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.nomi.sequences;</span></span>
+<span id="cb90-2"><a href="packages-and-imports.html#cb90-2"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequence</span>{</span>
+<span id="cb90-3"><a href="packages-and-imports.html#cb90-3"></a></span>
+<span id="cb90-4"><a href="packages-and-imports.html#cb90-4"></a>  <span class="dt">void</span> <span class="fu">somemethod</span>(){</span>
+<span id="cb90-5"><a href="packages-and-imports.html#cb90-5"></a>    nl.<span class="fu">bioinf</span>.<span class="fu">nomi</span>.<span class="fu">io</span>.<span class="fu">SequenceReader</span> sr = <span class="kw">new</span> nl.<span class="fu">bioinf</span>.<span class="fu">nomi</span>.<span class="fu">io</span>.<span class="fu">SequenceReader</span>();</span>
+<span id="cb90-6"><a href="packages-and-imports.html#cb90-6"></a>  }</span>
+<span id="cb90-7"><a href="packages-and-imports.html#cb90-7"></a>  <span class="co">//more class code</span></span>
+<span id="cb90-8"><a href="packages-and-imports.html#cb90-8"></a>}</span></code></pre></div>
+<p>With <code>import</code> statements, this becomes much more readable:</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb91-1"><a href="packages-and-imports.html#cb91-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.nomi.sequences;</span></span>
+<span id="cb91-2"><a href="packages-and-imports.html#cb91-2"></a></span>
+<span id="cb91-3"><a href="packages-and-imports.html#cb91-3"></a><span class="kw">import</span><span class="im"> nl.bioinf.nomi.io.SequenceReader;</span></span>
+<span id="cb91-4"><a href="packages-and-imports.html#cb91-4"></a></span>
+<span id="cb91-5"><a href="packages-and-imports.html#cb91-5"></a><span class="kw">public</span> <span class="kw">class</span> <span class="bu">Sequence</span>{</span>
+<span id="cb91-6"><a href="packages-and-imports.html#cb91-6"></a></span>
+<span id="cb91-7"><a href="packages-and-imports.html#cb91-7"></a>  <span class="dt">void</span> <span class="fu">somemethod</span>(){</span>
+<span id="cb91-8"><a href="packages-and-imports.html#cb91-8"></a>    SequenceReader sr = <span class="kw">new</span> <span class="fu">SequenceReader</span>();</span>
+<span id="cb91-9"><a href="packages-and-imports.html#cb91-9"></a>  }</span>
+<span id="cb91-10"><a href="packages-and-imports.html#cb91-10"></a>  <span class="co">//more class code</span></span>
+<span id="cb91-11"><a href="packages-and-imports.html#cb91-11"></a>}</span></code></pre></div>
+<p>Import statements are placed under the package declaration, also outside the class body.</p>
+<p>Because of the import statement, the short class name <code>SequenceReader</code> can now be used inside this class</p>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="methods-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="the-power-of-naming.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

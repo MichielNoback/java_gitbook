@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 35 Servlet details and lifecycle hooks | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 35 Servlet details and lifecycle hooks | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 35 Servlet details and lifecycle hooks | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="sessions-scopes.html"/>
+<link rel="next" href="database-interaction.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,255 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="servlet-details-and-lifecycle-hooks" class="section level1">
+<h1><span class="header-section-number">Chapter 35</span> Servlet details and lifecycle hooks</h1>
+<p>In this post, some details of servlet configuration are discussed, as well as techniques that you can use to hook into life cycle events, the main ones being application startup and -shutdown, and first request on a servlet.</p>
+<div id="servlet-configuration" class="section level2">
+<h2><span class="header-section-number">35.1</span> Servlet configuration</h2>
+<p>The <code>@WebServlet</code> annotation offers several possibilities for configuration. Here are the interesting ones:</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="9%" />
+<col width="6%" />
+<col width="71%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>urlPatterns or value</td>
+<td>String[]</td>
+<td>y</td>
+<td>Specify one or more URL patterns of the servlet. Either of attribute can be used, but not both</td>
+</tr>
+<tr class="even">
+<td>asyncSupported</td>
+<td>String</td>
+<td>n</td>
+<td>Specify whether the servlet supports asynchronous operation mode. Default is false.</td>
+</tr>
+<tr class="odd">
+<td>initParams</td>
+<td>WebInitParam[]</td>
+<td>n</td>
+<td>Specify one or more initialization parameters of the servlet. Each parameter is specified by @WebInitParam annotation type.</td>
+</tr>
+<tr class="even">
+<td>loadOnStartup</td>
+<td>int</td>
+<td>n</td>
+<td>Specify load-on-startup order of the servlet. Default is -1</td>
+</tr>
+</tbody>
+</table>
+<div id="webservlet---urlpatterns" class="section level4 unnumbered">
+<h4>@Webservlet - urlPatterns</h4>
+<p>The <code>urlPatterns</code> parameter specifies which urls will map on your servlet.
+This configuration:</p>
+<div class="sourceCode" id="cb273"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb273-1"><a href="servlet-details-and-lifecycle-hooks.html#cb273-1"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;WelcomeServlet&quot;</span>, </span>
+<span id="cb273-2"><a href="servlet-details-and-lifecycle-hooks.html#cb273-2"></a>            urlPatterns = {<span class="st">&quot;/welcome&quot;</span>, <span class="st">&quot;/index&quot;</span>, <span class="st">&quot;/home&quot;</span>})</span>
+<span id="cb273-3"><a href="servlet-details-and-lifecycle-hooks.html#cb273-3"></a><span class="kw">public</span> <span class="kw">class</span> WelcomeServlet <span class="kw">extends</span> HttpServlet { <span class="kw">... </span>}</span></code></pre></div>
+<p>maps all these requests to <code>WelcomeServlet</code>:
+- <a href="http://localhost:8080/index" class="uri">http://localhost:8080/index</a>
+- <a href="http://localhost:8080/welcome" class="uri">http://localhost:8080/welcome</a>
+- <a href="http://localhost:8080/home" class="uri">http://localhost:8080/home</a></p>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="webservlet---loadonstartup" class="section level4 unnumbered">
+<h4>@Webservlet - loadOnStartup</h4>
+<p>The <code>loadOnStartup</code> parameter is an integer which specifies the servlet load order.
+The container loads servlets with lower values before servlets with higher values.
+If <code>loadOnStartup</code> is negative (it defaults to -1), the servlet will be loaded when the container decides to - typically on first access.</p>
+<div class="sourceCode" id="cb274"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb274-1"><a href="servlet-details-and-lifecycle-hooks.html#cb274-1"></a><span class="at">@WebServlet</span>(urlPatterns = {<span class="st">&quot;/welcome&quot;</span>},</span>
+<span id="cb274-2"><a href="servlet-details-and-lifecycle-hooks.html#cb274-2"></a>     loadOnStartup = <span class="dv">1</span>) </span>
+<span id="cb274-3"><a href="servlet-details-and-lifecycle-hooks.html#cb274-3"></a>     <span class="co">//guarantees first loading at deployment</span></span>
+<span id="cb274-4"><a href="servlet-details-and-lifecycle-hooks.html#cb274-4"></a><span class="kw">public</span> <span class="kw">class</span> WelcomeServlet <span class="kw">extends</span> HttpServlet { <span class="kw">... </span>}</span></code></pre></div>
+</div>
+<div id="webservlet-initparams" class="section level4 unnumbered">
+<h4>@Webservlet – initParams</h4>
+<p>Servlet initialization parameters are defined as instances of <code>@WebInitParam</code>.</p>
+<div class="sourceCode" id="cb275"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb275-1"><a href="servlet-details-and-lifecycle-hooks.html#cb275-1"></a><span class="at">@WebServlet</span>(urlPatterns = {<span class="st">&quot;/welcome&quot;</span>},</span>
+<span id="cb275-2"><a href="servlet-details-and-lifecycle-hooks.html#cb275-2"></a>    initParams = {</span>
+<span id="cb275-3"><a href="servlet-details-and-lifecycle-hooks.html#cb275-3"></a>        <span class="at">@WebInitParam</span>(name = <span class="st">&quot;tempDir&quot;</span>, value = <span class="st">&quot;/tmp&quot;</span>),</span>
+<span id="cb275-4"><a href="servlet-details-and-lifecycle-hooks.html#cb275-4"></a>        <span class="at">@WebInitParam</span>(name = <span class="st">&quot;allowedFileTypes&quot;</span>, value = <span class="st">&quot;jpg,png&quot;</span>)</span>
+<span id="cb275-5"><a href="servlet-details-and-lifecycle-hooks.html#cb275-5"></a>    })</span>
+<span id="cb275-6"><a href="servlet-details-and-lifecycle-hooks.html#cb275-6"></a><span class="kw">public</span> <span class="kw">class</span> WelcomeServlet <span class="kw">extends</span> HttpServlet { </span>
+<span id="cb275-7"><a href="servlet-details-and-lifecycle-hooks.html#cb275-7"></a>    <span class="at">@Override</span></span>
+<span id="cb275-8"><a href="servlet-details-and-lifecycle-hooks.html#cb275-8"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb275-9"><a href="servlet-details-and-lifecycle-hooks.html#cb275-9"></a>        <span class="dt">final</span> <span class="bu">String</span> tempDir = <span class="fu">getInitParameter</span>(<span class="st">&quot;tempDir&quot;</span>);</span>
+<span id="cb275-10"><a href="servlet-details-and-lifecycle-hooks.html#cb275-10"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;tempDir = &quot;</span> + tempDir);</span>
+<span id="cb275-11"><a href="servlet-details-and-lifecycle-hooks.html#cb275-11"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;admin_email = &quot;</span> + <span class="fu">getServletContext</span>().<span class="fu">getInitParameter</span>(<span class="st">&quot;admin_email&quot;</span>));</span>
+<span id="cb275-12"><a href="servlet-details-and-lifecycle-hooks.html#cb275-12"></a>    }</span>
+<span id="cb275-13"><a href="servlet-details-and-lifecycle-hooks.html#cb275-13"></a>    <span class="co">//more code</span></span>
+<span id="cb275-14"><a href="servlet-details-and-lifecycle-hooks.html#cb275-14"></a>}</span></code></pre></div>
+<p>will output to the console</p>
+<pre class="console_out">
+tempDir = /tmp
+admin_email = admin\@example.com
+</pre>
+<p>You can specify the same information in web.xml, which seems a bit more logical:</p>
+<div class="sourceCode" id="cb276"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb276-1"><a href="servlet-details-and-lifecycle-hooks.html#cb276-1"></a>    <span class="kw">&lt;servlet-mapping&gt;</span></span>
+<span id="cb276-2"><a href="servlet-details-and-lifecycle-hooks.html#cb276-2"></a>        <span class="kw">&lt;servlet-name&gt;</span>WelcomeServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb276-3"><a href="servlet-details-and-lifecycle-hooks.html#cb276-3"></a>        <span class="kw">&lt;url-pattern&gt;</span>/welcome<span class="kw">&lt;/url-pattern&gt;</span></span>
+<span id="cb276-4"><a href="servlet-details-and-lifecycle-hooks.html#cb276-4"></a>    <span class="kw">&lt;/servlet-mapping&gt;</span></span>
+<span id="cb276-5"><a href="servlet-details-and-lifecycle-hooks.html#cb276-5"></a>    <span class="kw">&lt;servlet&gt;</span></span>
+<span id="cb276-6"><a href="servlet-details-and-lifecycle-hooks.html#cb276-6"></a>        <span class="kw">&lt;servlet-name&gt;</span>WelcomeServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb276-7"><a href="servlet-details-and-lifecycle-hooks.html#cb276-7"></a>        <span class="kw">&lt;servlet-class&gt;</span>nl.bioinf.wis_on_thymeleaf.servlets.WelcomeServlet<span class="kw">&lt;/servlet-class&gt;</span></span>
+<span id="cb276-8"><a href="servlet-details-and-lifecycle-hooks.html#cb276-8"></a>        <span class="kw">&lt;init-param&gt;</span></span>
+<span id="cb276-9"><a href="servlet-details-and-lifecycle-hooks.html#cb276-9"></a>            <span class="kw">&lt;param-name&gt;</span>tempDir<span class="kw">&lt;/param-name&gt;</span></span>
+<span id="cb276-10"><a href="servlet-details-and-lifecycle-hooks.html#cb276-10"></a>            <span class="kw">&lt;param-value&gt;</span>/some/location<span class="kw">&lt;/param-value&gt;</span></span>
+<span id="cb276-11"><a href="servlet-details-and-lifecycle-hooks.html#cb276-11"></a>        <span class="kw">&lt;/init-param&gt;</span></span>
+<span id="cb276-12"><a href="servlet-details-and-lifecycle-hooks.html#cb276-12"></a>    <span class="kw">&lt;/servlet&gt;</span></span></code></pre></div>
+</div>
+<div id="webservlet-versus-web.xml-configuration" class="section level4 unnumbered">
+<h4>@Webservlet versus web.xml configuration</h4>
+<p>When configuration is done in both <code>web.xml</code> ánd in <code>@WebServlet</code> annotations, the <code>web.xml</code> configuration takes precedence.</p>
+<p>A use case for this behaviour would be: development mode versus production mode.</p>
+<p>With these two “conflicting” configurations, the url will become <code>/extra</code> and tempDir <code>/some/location</code>. The url <code>/welcome</code> will return a 404 not found!</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb277-1"><a href="servlet-details-and-lifecycle-hooks.html#cb277-1"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;WelcomeServlet&quot;</span>,</span>
+<span id="cb277-2"><a href="servlet-details-and-lifecycle-hooks.html#cb277-2"></a>  urlPatterns = {<span class="st">&quot;/welcome&quot;</span>, <span class="st">&quot;/home&quot;</span>},</span>
+<span id="cb277-3"><a href="servlet-details-and-lifecycle-hooks.html#cb277-3"></a>    initParams = {<span class="at">@WebInitParam</span>(name = <span class="st">&quot;tempDir&quot;</span>, value = <span class="st">&quot;/tmp&quot;</span>)}</span>
+<span id="cb277-4"><a href="servlet-details-and-lifecycle-hooks.html#cb277-4"></a><span class="kw">public</span> <span class="kw">class</span> WelcomeServlet <span class="kw">extends</span> HttpServlet { }</span></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb278-1"><a href="servlet-details-and-lifecycle-hooks.html#cb278-1"></a><span class="kw">&lt;servlet-mapping&gt;</span></span>
+<span id="cb278-2"><a href="servlet-details-and-lifecycle-hooks.html#cb278-2"></a>    <span class="kw">&lt;servlet-name&gt;</span>WelcomeServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb278-3"><a href="servlet-details-and-lifecycle-hooks.html#cb278-3"></a>        <span class="kw">&lt;url-pattern&gt;</span>/extra<span class="kw">&lt;/url-pattern&gt;</span></span>
+<span id="cb278-4"><a href="servlet-details-and-lifecycle-hooks.html#cb278-4"></a><span class="kw">&lt;/servlet-mapping&gt;</span></span>
+<span id="cb278-5"><a href="servlet-details-and-lifecycle-hooks.html#cb278-5"></a><span class="kw">&lt;servlet&gt;</span></span>
+<span id="cb278-6"><a href="servlet-details-and-lifecycle-hooks.html#cb278-6"></a>    <span class="kw">&lt;servlet-name&gt;</span>WelcomeServlet<span class="kw">&lt;/servlet-name&gt;</span></span>
+<span id="cb278-7"><a href="servlet-details-and-lifecycle-hooks.html#cb278-7"></a>    <span class="kw">&lt;servlet-class&gt;</span>nl.bioinf.wis_on_thymeleaf.servlets.WelcomeServlet<span class="kw">&lt;/servlet-class&gt;</span></span>
+<span id="cb278-8"><a href="servlet-details-and-lifecycle-hooks.html#cb278-8"></a>    <span class="kw">&lt;init-param&gt;</span></span>
+<span id="cb278-9"><a href="servlet-details-and-lifecycle-hooks.html#cb278-9"></a>        <span class="kw">&lt;param-name&gt;</span>tempDir<span class="kw">&lt;/param-name&gt;</span></span>
+<span id="cb278-10"><a href="servlet-details-and-lifecycle-hooks.html#cb278-10"></a>        <span class="kw">&lt;param-value&gt;</span>/some/location<span class="kw">&lt;/param-value&gt;</span></span>
+<span id="cb278-11"><a href="servlet-details-and-lifecycle-hooks.html#cb278-11"></a>    <span class="kw">&lt;/init-param&gt;</span></span>
+<span id="cb278-12"><a href="servlet-details-and-lifecycle-hooks.html#cb278-12"></a><span class="kw">&lt;/servlet&gt;</span></span></code></pre></div>
+</div>
+<div id="webservlet-asyncsupported" class="section level4 unnumbered">
+<h4>@Webservlet – asyncSupported</h4>
+<p>This allows the servlet to store incoming requests for later response.
+For practical purposes, with this configuration you can set up a servlet that will (in effect) push data to the client (after the client sends the initial request to the server).
+This is very interesting, but outside the scope of this course.</p>
+</div>
+</div>
+<div id="hooks" class="section level2">
+<h2><span class="header-section-number">35.2</span> Hooks</h2>
+<p>Hooks are pieces of code that let you write code that will run at application life cycle events.
+The ones we will look at here are:
+- Application startup/shutdown hook
+- Servlet initialization/cleanup hooks</p>
+<div id="application-startup-shutdown" class="section level3">
+<h3><span class="header-section-number">35.2.1</span> Application startup &amp; shutdown</h3>
+<p>If you want to do something at
+- startup – e.g. create a single template engine to service all servlets
+- shutdown – e.g. free DB resources
+you annotate a class with <code>@WebListener</code> and have it
+implement the <code>ServletContextListener</code> interface.</p>
+<p>Here is an implementation. It uses the startup hook to create a single <code>TemplateEngine</code> instance that can be served to all servlets, guaranteeing that this code will have run first and only once.</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb279-1"><a href="servlet-details-and-lifecycle-hooks.html#cb279-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.config;</span></span>
+<span id="cb279-2"><a href="servlet-details-and-lifecycle-hooks.html#cb279-2"></a></span>
+<span id="cb279-3"><a href="servlet-details-and-lifecycle-hooks.html#cb279-3"></a><span class="co">//imports removed</span></span>
+<span id="cb279-4"><a href="servlet-details-and-lifecycle-hooks.html#cb279-4"></a></span>
+<span id="cb279-5"><a href="servlet-details-and-lifecycle-hooks.html#cb279-5"></a><span class="at">@WebListener</span></span>
+<span id="cb279-6"><a href="servlet-details-and-lifecycle-hooks.html#cb279-6"></a><span class="kw">public</span> <span class="kw">class</span> WebConfig <span class="kw">implements</span> ServletContextListener {</span>
+<span id="cb279-7"><a href="servlet-details-and-lifecycle-hooks.html#cb279-7"></a>    <span class="kw">private</span> <span class="dt">static</span> TemplateEngine templateEngine;</span>
+<span id="cb279-8"><a href="servlet-details-and-lifecycle-hooks.html#cb279-8"></a></span>
+<span id="cb279-9"><a href="servlet-details-and-lifecycle-hooks.html#cb279-9"></a>    <span class="at">@Override</span></span>
+<span id="cb279-10"><a href="servlet-details-and-lifecycle-hooks.html#cb279-10"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">contextInitialized</span>(ServletContextEvent servletContextEvent) {</span>
+<span id="cb279-11"><a href="servlet-details-and-lifecycle-hooks.html#cb279-11"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[WebConfig] Initializing template engine&quot;</span>);</span>
+<span id="cb279-12"><a href="servlet-details-and-lifecycle-hooks.html#cb279-12"></a>        <span class="fu">createTemplateEngine</span>(servletContextEvent.<span class="fu">getServletContext</span>());</span>
+<span id="cb279-13"><a href="servlet-details-and-lifecycle-hooks.html#cb279-13"></a>    }</span>
+<span id="cb279-14"><a href="servlet-details-and-lifecycle-hooks.html#cb279-14"></a></span>
+<span id="cb279-15"><a href="servlet-details-and-lifecycle-hooks.html#cb279-15"></a>    <span class="at">@Override</span></span>
+<span id="cb279-16"><a href="servlet-details-and-lifecycle-hooks.html#cb279-16"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">contextDestroyed</span>(ServletContextEvent servletContextEvent) {</span>
+<span id="cb279-17"><a href="servlet-details-and-lifecycle-hooks.html#cb279-17"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Shutting down!&quot;</span>);</span>
+<span id="cb279-18"><a href="servlet-details-and-lifecycle-hooks.html#cb279-18"></a>    }</span>
+<span id="cb279-19"><a href="servlet-details-and-lifecycle-hooks.html#cb279-19"></a></span>
+<span id="cb279-20"><a href="servlet-details-and-lifecycle-hooks.html#cb279-20"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">createTemplateEngine</span>(ServletContext servletContext) {</span>
+<span id="cb279-21"><a href="servlet-details-and-lifecycle-hooks.html#cb279-21"></a>        ServletContextTemplateResolver templateResolver =</span>
+<span id="cb279-22"><a href="servlet-details-and-lifecycle-hooks.html#cb279-22"></a>                <span class="kw">new</span> <span class="fu">ServletContextTemplateResolver</span>(servletContext);</span>
+<span id="cb279-23"><a href="servlet-details-and-lifecycle-hooks.html#cb279-23"></a>        templateResolver.<span class="fu">setTemplateMode</span>(<span class="st">&quot;XHTML&quot;</span>);</span>
+<span id="cb279-24"><a href="servlet-details-and-lifecycle-hooks.html#cb279-24"></a>        templateResolver.<span class="fu">setPrefix</span>(<span class="st">&quot;/WEB-INF/templates/&quot;</span>);</span>
+<span id="cb279-25"><a href="servlet-details-and-lifecycle-hooks.html#cb279-25"></a>        templateResolver.<span class="fu">setSuffix</span>(<span class="st">&quot;.html&quot;</span>);</span>
+<span id="cb279-26"><a href="servlet-details-and-lifecycle-hooks.html#cb279-26"></a>        templateResolver.<span class="fu">setCacheTTLMs</span>(<span class="dv">3600000L</span>);</span>
+<span id="cb279-27"><a href="servlet-details-and-lifecycle-hooks.html#cb279-27"></a>        <span class="co">// Cache is set to true by default.</span></span>
+<span id="cb279-28"><a href="servlet-details-and-lifecycle-hooks.html#cb279-28"></a>        <span class="co">// Set to false if you want templates to be automatically</span></span>
+<span id="cb279-29"><a href="servlet-details-and-lifecycle-hooks.html#cb279-29"></a>        <span class="co">// updated when modified.</span></span>
+<span id="cb279-30"><a href="servlet-details-and-lifecycle-hooks.html#cb279-30"></a>        templateResolver.<span class="fu">setCacheable</span>(<span class="kw">true</span>);</span>
+<span id="cb279-31"><a href="servlet-details-and-lifecycle-hooks.html#cb279-31"></a></span>
+<span id="cb279-32"><a href="servlet-details-and-lifecycle-hooks.html#cb279-32"></a>        TemplateEngine templateEngine = <span class="kw">new</span> <span class="fu">TemplateEngine</span>();</span>
+<span id="cb279-33"><a href="servlet-details-and-lifecycle-hooks.html#cb279-33"></a>        templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</span>
+<span id="cb279-34"><a href="servlet-details-and-lifecycle-hooks.html#cb279-34"></a>        WebConfig.<span class="fu">templateEngine</span> = templateEngine;</span>
+<span id="cb279-35"><a href="servlet-details-and-lifecycle-hooks.html#cb279-35"></a>    }</span>
+<span id="cb279-36"><a href="servlet-details-and-lifecycle-hooks.html#cb279-36"></a></span>
+<span id="cb279-37"><a href="servlet-details-and-lifecycle-hooks.html#cb279-37"></a>    <span class="co">/**</span></span>
+<span id="cb279-38"><a href="servlet-details-and-lifecycle-hooks.html#cb279-38"></a>     <span class="co">*</span> serves the template engine that was created at application startup<span class="co">.</span></span>
+<span id="cb279-39"><a href="servlet-details-and-lifecycle-hooks.html#cb279-39"></a>     <span class="co">*</span> <span class="co">@</span>return</span>
+<span id="cb279-40"><a href="servlet-details-and-lifecycle-hooks.html#cb279-40"></a>     <span class="co">*/</span></span>
+<span id="cb279-41"><a href="servlet-details-and-lifecycle-hooks.html#cb279-41"></a>    <span class="kw">public</span> <span class="dt">static</span> TemplateEngine <span class="fu">getTemplateEngine</span>() {</span>
+<span id="cb279-42"><a href="servlet-details-and-lifecycle-hooks.html#cb279-42"></a>        <span class="kw">return</span> templateEngine;</span>
+<span id="cb279-43"><a href="servlet-details-and-lifecycle-hooks.html#cb279-43"></a>    }</span>
+<span id="cb279-44"><a href="servlet-details-and-lifecycle-hooks.html#cb279-44"></a></span>
+<span id="cb279-45"><a href="servlet-details-and-lifecycle-hooks.html#cb279-45"></a>    <span class="co">//method omitted</span></span>
+<span id="cb279-46"><a href="servlet-details-and-lifecycle-hooks.html#cb279-46"></a>}</span></code></pre></div>
+</div>
+<div id="servlet-initialization-and-destroy" class="section level3">
+<h3><span class="header-section-number">35.2.2</span> Servlet initialization and destroy</h3>
+<p>When a first request is received for a servlet after application startup, the servlet container (Tomcat) will call
+the <code>init()</code> methods, if present. Method <code>init()</code> is guaranteed to be called before the first call to <code>service()</code>.</p>
+<div class="figure">
+<img src="05_web/figures/servlet_lifecycle_s.png" alt="" />
+<p class="caption">Servlet lifecycle</p>
+</div>
+<ul>
+<li><code>init(ServletConfig config)</code> is called by the servlet container to indicate to a servlet that the servlet is being placed into service.</li>
+<li><code>init()</code> is a convenience method which can be overridden so that there’s no need to call super.init(config).</li>
+<li><code>destroy()</code> is called by the servlet container to indicate to a servlet that the servlet is being taken out of service</li>
+</ul>
+<p>There are two overloaded variants defined in class <code>GenericServlet</code> that you can hook into to handle your startup actions:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb280-1"><a href="servlet-details-and-lifecycle-hooks.html#cb280-1"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(ServletConfig config) <span class="kw">throws</span> ServletException {</span>
+<span id="cb280-2"><a href="servlet-details-and-lifecycle-hooks.html#cb280-2"></a>        <span class="kw">this</span>.<span class="fu">config</span> = config;</span>
+<span id="cb280-3"><a href="servlet-details-and-lifecycle-hooks.html#cb280-3"></a>        <span class="kw">this</span>.<span class="fu">init</span>();</span>
+<span id="cb280-4"><a href="servlet-details-and-lifecycle-hooks.html#cb280-4"></a>    }</span>
+<span id="cb280-5"><a href="servlet-details-and-lifecycle-hooks.html#cb280-5"></a></span>
+<span id="cb280-6"><a href="servlet-details-and-lifecycle-hooks.html#cb280-6"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb280-7"><a href="servlet-details-and-lifecycle-hooks.html#cb280-7"></a>    }</span></code></pre></div>
+<p>As you can see the first one calls the second one. Depending on your need for the <code>ServletConfig</code> object -which gives access to application-scoped variables-, you can choose either one of them to override. Here are all three (in class <code>PhraseServlet</code>, for demo purposes):</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb281-1"><a href="servlet-details-and-lifecycle-hooks.html#cb281-1"></a>    <span class="at">@Override</span></span>
+<span id="cb281-2"><a href="servlet-details-and-lifecycle-hooks.html#cb281-2"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb281-3"><a href="servlet-details-and-lifecycle-hooks.html#cb281-3"></a>        <span class="co">//no super.init() required</span></span>
+<span id="cb281-4"><a href="servlet-details-and-lifecycle-hooks.html#cb281-4"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[PhraseServlet] Running no-arg init()&quot;</span>);</span>
+<span id="cb281-5"><a href="servlet-details-and-lifecycle-hooks.html#cb281-5"></a>        <span class="kw">this</span>.<span class="fu">templateEngine</span> = WebConfig.<span class="fu">getTemplateEngine</span>();</span>
+<span id="cb281-6"><a href="servlet-details-and-lifecycle-hooks.html#cb281-6"></a>    }</span>
+<span id="cb281-7"><a href="servlet-details-and-lifecycle-hooks.html#cb281-7"></a></span>
+<span id="cb281-8"><a href="servlet-details-and-lifecycle-hooks.html#cb281-8"></a>    <span class="at">@Override</span></span>
+<span id="cb281-9"><a href="servlet-details-and-lifecycle-hooks.html#cb281-9"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>(ServletConfig config) <span class="kw">throws</span> ServletException {</span>
+<span id="cb281-10"><a href="servlet-details-and-lifecycle-hooks.html#cb281-10"></a>        <span class="kw">super</span>.<span class="fu">init</span>(config); <span class="co">//required in this implementation</span></span>
+<span id="cb281-11"><a href="servlet-details-and-lifecycle-hooks.html#cb281-11"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[PhraseServlet] Running init(ServletConfig config)&quot;</span>);</span>
+<span id="cb281-12"><a href="servlet-details-and-lifecycle-hooks.html#cb281-12"></a>        config.<span class="fu">getServletContext</span>().<span class="fu">getInitParameter</span>(<span class="st">&quot;admin_email&quot;</span>);</span>
+<span id="cb281-13"><a href="servlet-details-and-lifecycle-hooks.html#cb281-13"></a>    }</span>
+<span id="cb281-14"><a href="servlet-details-and-lifecycle-hooks.html#cb281-14"></a></span>
+<span id="cb281-15"><a href="servlet-details-and-lifecycle-hooks.html#cb281-15"></a>    <span class="at">@Override</span></span>
+<span id="cb281-16"><a href="servlet-details-and-lifecycle-hooks.html#cb281-16"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">destroy</span>() {</span>
+<span id="cb281-17"><a href="servlet-details-and-lifecycle-hooks.html#cb281-17"></a>        <span class="kw">super</span>.<span class="fu">destroy</span>();</span>
+<span id="cb281-18"><a href="servlet-details-and-lifecycle-hooks.html#cb281-18"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;[PhraseServlet] Shutting down servlet service&quot;</span>);</span>
+<span id="cb281-19"><a href="servlet-details-and-lifecycle-hooks.html#cb281-19"></a>    }</span></code></pre></div>
+<p>In general, you use these init() methods to initialize “expensive” resources that you only want to create once. Good examples are importing config files, creating database connections (although there may be better solutions for that) or getting template engines, as in this example. Likewise, the <code>destroy</code> method can be used to elegantly shut down resources.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="sessions-scopes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="database-interaction.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

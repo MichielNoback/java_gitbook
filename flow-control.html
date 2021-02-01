@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 11 Flow control | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 11 Flow control | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 11 Flow control | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="operators.html"/>
+<link rel="next" href="methods-1.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,194 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="flow-control" class="section level1">
+<h1><span class="header-section-number">Chapter 11</span> Flow control</h1>
+<p>This is a straightforward listing of the Java flow control structures.</p>
+<div id="if-else-if-else" class="section level2">
+<h2><span class="header-section-number">11.1</span> if [else if] [else]</h2>
+<p>If/else is the basic decision-making mechanism in every programming language.
+In Java, both “else if” and “else” are optional.</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+if (<span style="color:darkred;font-style:italic;">condition</span>) {} 
+<span style="color:darkgreen;">[</span>else if (<span style="color:darkred;font-style:italic;">condition</span>) {}<span style="color:darkgreen;">]*</span>
+<span style="color:darkgreen;">[</span>else {}<span style="color:darkgreen;">]?</span>
+</pre>
+<p>So, the “if” block is the required basis, “else if” can be used zero to many times - but only directly following the “if”, and the entire statement is closed by an optional “else”.</p>
+<p>So this is not legal:</p>
+<div class="sourceCode" id="cb68"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb68-1"><a href="flow-control.html#cb68-1"></a><span class="kw">if</span> (foo) { }</span>
+<span id="cb68-2"><a href="flow-control.html#cb68-2"></a><span class="kw">else</span> { }</span>
+<span id="cb68-3"><a href="flow-control.html#cb68-3"></a><span class="kw">else</span> <span class="kw">if</span> (bar) { }</span></code></pre></div>
+<p>and neither is this, because the <code>int number = 2;</code> interrupts the if/else block:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb69-1"><a href="flow-control.html#cb69-1"></a><span class="kw">if</span> (foo) { }</span>
+<span id="cb69-2"><a href="flow-control.html#cb69-2"></a><span class="dt">int</span> number = <span class="dv">2</span>;</span>
+<span id="cb69-3"><a href="flow-control.html#cb69-3"></a><span class="kw">else</span> { }</span></code></pre></div>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+<div id="while" class="section level2">
+<h2><span class="header-section-number">11.2</span> while</h2>
+<p>While has two variants:</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+while (<span style="color:darkred;font-style:italic;">condition</span>) { } 
+do { } while (<span style="color:darkred;font-style:italic;">condition</span>);
+</pre>
+<p>The difference is that <code>do{}while()</code> is guaranteed to be executed at least once, whereas <code>while(condition) {}</code> can be skipped entirely if “condition” is false at the first evaluation.</p>
+</div>
+<div id="for" class="section level2">
+<h2><span class="header-section-number">11.3</span> for</h2>
+<p>Iterates over a collection or a defined series of steps:</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+for (<span style="color:darkred;font-style:italic;">init</span>; <span style="color:darkred;font-style:italic;">condition</span>; <span style="color:darkred;font-style:italic;">change</span>) { } 
+</pre>
+<ul>
+<li>“init” is the loop initialization; declaring a counter usually.</li>
+<li>“condition” is the test that determines whether the loop should run once more</li>
+<li>“change” is the iteration change; usually an increment of the init.</li>
+</ul>
+<p>This is a typical for-loop:</p>
+<div class="sourceCode" id="cb70"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb70-1"><a href="flow-control.html#cb70-1"></a><span class="bu">String</span>[] nucleotides = {<span class="st">&quot;Adenine&quot;</span>, <span class="st">&quot;Cytosine&quot;</span>, <span class="st">&quot;Guanine&quot;</span>, <span class="st">&quot;Thymine&quot;</span>};</span>
+<span id="cb70-2"><a href="flow-control.html#cb70-2"></a><span class="kw">for</span>( <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; nucleotides.<span class="fu">length</span>; i++) {</span>
+<span id="cb70-3"><a href="flow-control.html#cb70-3"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nucleotide &quot;</span> + i + <span class="st">&quot; is &quot;</span> + nucleotides[i]);</span>
+<span id="cb70-4"><a href="flow-control.html#cb70-4"></a>}</span></code></pre></div>
+<p>All three elements are optional. This, for instance, is a legal for-loop:</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb71-1"><a href="flow-control.html#cb71-1"></a><span class="bu">String</span>[] nucleotides = {<span class="st">&quot;Adenine&quot;</span>, <span class="st">&quot;Cytosine&quot;</span>, <span class="st">&quot;Guanine&quot;</span>, <span class="st">&quot;Thymine&quot;</span>};</span>
+<span id="cb71-2"><a href="flow-control.html#cb71-2"></a><span class="dt">int</span> i = nucleotides.<span class="fu">length</span> - <span class="dv">1</span>;</span>
+<span id="cb71-3"><a href="flow-control.html#cb71-3"></a><span class="kw">for</span>( ; i &gt;= <span class="dv">0</span>; --i) {</span>
+<span id="cb71-4"><a href="flow-control.html#cb71-4"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nucleotide &quot;</span> + i + <span class="st">&quot; is &quot;</span> + nucleotides[i]);</span>
+<span id="cb71-5"><a href="flow-control.html#cb71-5"></a>}</span></code></pre></div>
+<p>Note that the change does not need to be an increment.<br />
+Even this one is legal:</p>
+<pre><code>for(;;) {
+    System.out.println(&quot;Hello &quot;);
+}
+
+//same as 
+while(true) {
+    System.out.println(&quot;Hello&quot;);
+}</code></pre>
+<p>But it will run into eternity (or until <code>ctrl + c</code> has been typed). Actually, variations of the second form
+are quite often used to wait for user input in a terminal setting:</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb73-1"><a href="flow-control.html#cb73-1"></a> <span class="kw">while</span>(<span class="kw">true</span>) {</span>
+<span id="cb73-2"><a href="flow-control.html#cb73-2"></a>    <span class="dt">int</span> answer = <span class="fu">getUserInput</span>();</span>
+<span id="cb73-3"><a href="flow-control.html#cb73-3"></a>    <span class="kw">if</span> (answer == <span class="dv">42</span>) <span class="kw">break</span>;</span>
+<span id="cb73-4"><a href="flow-control.html#cb73-4"></a>}</span></code></pre></div>
+<div id="foreach" class="section level3 unnumbered">
+<h3>foreach</h3>
+<p>The for-loop also has a variant. It is called the <strong><em>foreach</em></strong> loop. The difference is that there is no increment or condition; it is simply used to iterate a collection (Arrays or Collection types dealt with later).</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+for (<span style="color:darkred;font-style:italic;">element</span> : <span style="color:darkred;font-style:italic;">collection</span>) { } 
+</pre>
+<p>And this is a working example:</p>
+<div class="sourceCode" id="cb74"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb74-1"><a href="flow-control.html#cb74-1"></a><span class="bu">String</span>[] nucleotides = {<span class="st">&quot;Guanine&quot;</span>, <span class="st">&quot;Adenine&quot;</span>, <span class="st">&quot;Cytosine&quot;</span>, <span class="st">&quot;Thymine&quot;</span>};</span>
+<span id="cb74-2"><a href="flow-control.html#cb74-2"></a><span class="kw">for</span>( <span class="bu">String</span> nucleotide : nucleotides) {</span>
+<span id="cb74-3"><a href="flow-control.html#cb74-3"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;nucleotide = &quot;</span> + nucleotide);</span>
+<span id="cb74-4"><a href="flow-control.html#cb74-4"></a>}</span></code></pre></div>
+</div>
+</div>
+<div id="break-and-continue" class="section level2">
+<h2><span class="header-section-number">11.4</span> break and continue</h2>
+<p>All iteration structures (the while <code>while</code> variants and both <code>for</code> variants) have the possibility to leave the current iteration early, or the loop entirely.</p>
+<ul>
+<li><strong><code>break</code></strong> - leave the loop (or the <code>switch</code> block)</li>
+<li><strong><code>continue</code></strong> - abort current iteration and go to next iteration</li>
+</ul>
+</div>
+<div id="switchcase" class="section level2">
+<h2><span class="header-section-number">11.5</span> switch/case</h2>
+<p>The <code>switch/case</code> structure is a decision flow control structure that is always replaceable by if/else. However,
+<code>switch/case</code> is often more efficient, and better suited to deal with choosing between different discrete options.
+Where <code>if/else</code> works with boolean conditions, <code>switch/case</code> works with discrete cases.</p>
+<p>The formal description is</p>
+<pre style="color:darkblue;font-weight:bold;font-family:courier;font-size:1.2em;">
+switch (<span style="color:darkred;font-style:italic;">actual case</span>) {
+    <span style="color:darkgreen;">[</span>case <span style="color:darkred;font-style:italic;"> case n</span>: {<span style="color:darkred;font-style:italic;">case specific statement(s)</span>}<span style="color:darkgreen;">]*</span>
+    <span style="color:darkgreen;">[</span>default: {<span style="color:darkred;font-style:italic;">default statement(s)</span>}<span style="color:darkgreen;">]?</span>
+}
+</pre>
+<p>So there are one to many possible case-specific actions and zero or one default actions.</p>
+<p>Here is an example method using a switch/case:</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb75-1"><a href="flow-control.html#cb75-1"></a><span class="dt">void</span> <span class="fu">switchCase</span>(<span class="bu">String</span> country) {</span>
+<span id="cb75-2"><a href="flow-control.html#cb75-2"></a>    <span class="kw">switch</span> (country) {</span>
+<span id="cb75-3"><a href="flow-control.html#cb75-3"></a>        <span class="kw">case</span> <span class="st">&quot;Netherlands&quot;</span>:</span>
+<span id="cb75-4"><a href="flow-control.html#cb75-4"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Some weather, huh?&quot;</span>);</span>
+<span id="cb75-5"><a href="flow-control.html#cb75-5"></a>            <span class="kw">break</span>;</span>
+<span id="cb75-6"><a href="flow-control.html#cb75-6"></a>        <span class="kw">case</span> <span class="st">&quot;Belgium&quot;</span>:</span>
+<span id="cb75-7"><a href="flow-control.html#cb75-7"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is Belgian fries!&quot;</span>);</span>
+<span id="cb75-8"><a href="flow-control.html#cb75-8"></a>            <span class="kw">break</span>;</span>
+<span id="cb75-9"><a href="flow-control.html#cb75-9"></a>        <span class="kw">default</span>:</span>
+<span id="cb75-10"><a href="flow-control.html#cb75-10"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Have a beer?&quot;</span>);</span>
+<span id="cb75-11"><a href="flow-control.html#cb75-11"></a>    }</span>
+<span id="cb75-12"><a href="flow-control.html#cb75-12"></a>}</span></code></pre></div>
+<p>and when this is run like this</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb76-1"><a href="flow-control.html#cb76-1"></a>FlowControlDemo demo = <span class="kw">new</span> <span class="fu">FlowControlDemo</span>();</span>
+<span id="cb76-2"><a href="flow-control.html#cb76-2"></a>demo.<span class="fu">switchCase</span>(<span class="st">&quot;Netherlands&quot;</span>);</span></code></pre></div>
+<p>we get this output</p>
+<pre class="console_out">
+Some weather, huh?
+</pre>
+<p>and when called with an unknown country the <code>default</code> will be printed.</p>
+<p>Note the <code>break</code> keyword in each case. The <code>break</code> is a very important aspect of the switch block.
+A switch block is <strong><em>fall-through</em></strong> unless a break is encountered.</p>
+<p>So if the breaks are removed from the switch</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb77-1"><a href="flow-control.html#cb77-1"></a><span class="dt">void</span> <span class="fu">switchCase</span>(<span class="bu">String</span> country) {</span>
+<span id="cb77-2"><a href="flow-control.html#cb77-2"></a>    <span class="kw">switch</span> (country) {</span>
+<span id="cb77-3"><a href="flow-control.html#cb77-3"></a>        <span class="kw">case</span> <span class="st">&quot;Netherlands&quot;</span>:</span>
+<span id="cb77-4"><a href="flow-control.html#cb77-4"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Some weather, huh?&quot;</span>);</span>
+<span id="cb77-5"><a href="flow-control.html#cb77-5"></a>            <span class="co">//break;</span></span>
+<span id="cb77-6"><a href="flow-control.html#cb77-6"></a>        <span class="kw">case</span> <span class="st">&quot;Belgium&quot;</span>:</span>
+<span id="cb77-7"><a href="flow-control.html#cb77-7"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;It is Belgian fries!&quot;</span>);</span>
+<span id="cb77-8"><a href="flow-control.html#cb77-8"></a>            <span class="co">//break;</span></span>
+<span id="cb77-9"><a href="flow-control.html#cb77-9"></a>        <span class="kw">default</span>:</span>
+<span id="cb77-10"><a href="flow-control.html#cb77-10"></a>            <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Have a beer?&quot;</span>);</span>
+<span id="cb77-11"><a href="flow-control.html#cb77-11"></a>    }</span>
+<span id="cb77-12"><a href="flow-control.html#cb77-12"></a>}</span></code></pre></div>
+<p>we get this output</p>
+<pre class="console_out">
+Some weather, huh?
+It is Belgian fries!
+Have a beer?
+</pre>
+<p>Although this seems rather illogical, there are uses for this behavior. For example, consider this error
+handler for a web application:</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb78-1"><a href="flow-control.html#cb78-1"></a><span class="bu">String</span> <span class="fu">errorMessage</span>(<span class="dt">int</span> errorCode) {</span>
+<span id="cb78-2"><a href="flow-control.html#cb78-2"></a>    <span class="bu">String</span> message;</span>
+<span id="cb78-3"><a href="flow-control.html#cb78-3"></a>    <span class="kw">switch</span> (errorCode) {</span>
+<span id="cb78-4"><a href="flow-control.html#cb78-4"></a>        <span class="kw">case</span> <span class="dv">401</span>:</span>
+<span id="cb78-5"><a href="flow-control.html#cb78-5"></a>        <span class="kw">case</span> <span class="dv">402</span>:</span>
+<span id="cb78-6"><a href="flow-control.html#cb78-6"></a>        <span class="kw">case</span> <span class="dv">403</span>:</span>
+<span id="cb78-7"><a href="flow-control.html#cb78-7"></a>        <span class="kw">case</span> <span class="dv">405</span>:</span>
+<span id="cb78-8"><a href="flow-control.html#cb78-8"></a>            message = <span class="st">&quot;You are trying to do something that is not allowed&quot;</span>;</span>
+<span id="cb78-9"><a href="flow-control.html#cb78-9"></a>            <span class="kw">break</span>;</span>
+<span id="cb78-10"><a href="flow-control.html#cb78-10"></a>        <span class="kw">case</span> <span class="dv">404</span>:</span>
+<span id="cb78-11"><a href="flow-control.html#cb78-11"></a>        <span class="kw">case</span> <span class="dv">503</span>:</span>
+<span id="cb78-12"><a href="flow-control.html#cb78-12"></a>            message = <span class="st">&quot;Resource not found&quot;</span>;</span>
+<span id="cb78-13"><a href="flow-control.html#cb78-13"></a>            <span class="kw">break</span>;</span>
+<span id="cb78-14"><a href="flow-control.html#cb78-14"></a>        <span class="kw">default</span>:</span>
+<span id="cb78-15"><a href="flow-control.html#cb78-15"></a>            message = <span class="st">&quot;Some exotic error occurred. Try again later&quot;</span>;</span>
+<span id="cb78-16"><a href="flow-control.html#cb78-16"></a>    }</span>
+<span id="cb78-17"><a href="flow-control.html#cb78-17"></a>    <span class="kw">return</span> message;</span>
+<span id="cb78-18"><a href="flow-control.html#cb78-18"></a>}</span></code></pre></div>
+<p>When called like this</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb79-1"><a href="flow-control.html#cb79-1"></a><span class="dt">void</span> <span class="fu">errorMessageTest</span>() {</span>
+<span id="cb79-2"><a href="flow-control.html#cb79-2"></a>    FlowControlDemo demo = <span class="kw">new</span> <span class="fu">FlowControlDemo</span>();</span>
+<span id="cb79-3"><a href="flow-control.html#cb79-3"></a>    <span class="bu">String</span> errorMessage = demo.<span class="fu">errorMessage</span>(<span class="dv">402</span>);</span>
+<span id="cb79-4"><a href="flow-control.html#cb79-4"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(errorMessage);</span>
+<span id="cb79-5"><a href="flow-control.html#cb79-5"></a>    errorMessage = demo.<span class="fu">errorMessage</span>(<span class="dv">502</span>);</span>
+<span id="cb79-6"><a href="flow-control.html#cb79-6"></a>    <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(errorMessage);</span>
+<span id="cb79-7"><a href="flow-control.html#cb79-7"></a>}</span></code></pre></div>
+<p>We get these messages:</p>
+<pre class="console_out">
+You are trying to do something that is not allowed
+Some exotic error occurred. Try again later
+</pre>
+
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="operators.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="methods-1.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>The Java Track</title>
+  <title>Chapter 30 A first project | The Java Track</title>
   <meta name="description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="The Java Track" />
+  <meta property="og:title" content="Chapter 30 A first project | The Java Track" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="The Java Track" />
+  <meta name="twitter:title" content="Chapter 30 A first project | The Java Track" />
   
   <meta name="twitter:description" content="This ebook accompanies the Java course track of bioinformatics at the Hanze University of Applied Science, Groningen (The Netherlands)." />
   
@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-<link rel="next" href="keyboard-shortcuts.html"/>
+<link rel="prev" href="the-toolbox.html"/>
+<link rel="next" href="implementing-mvc.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -364,23 +364,255 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">The Java Track</h1>
-<p class="author"><em>Michiel Noback</em></p>
+<div id="a-first-project-1" class="section level1">
+<h1><span class="header-section-number">Chapter 30</span> A first project</h1>
+<div id="introduction-1" class="section level2">
+<h2><span class="header-section-number">30.1</span> Introduction</h2>
+<p>The topic of this presentation is getting started with a Java web application using a Thymeleaf View that serves an internationalized welcome message.</p>
+<p>Since JSP and not Thymeleaf is the default for basic Java web applications, this involves quite a few steps:</p>
+<ol style="list-style-type: decimal">
+<li>configuring IntelliJ with the application server Tomcat</li>
+<li>creating a Gradle-managed web project</li>
+<li>creating a Thymeleaf template</li>
+<li>configuring the use of Thymeleaf</li>
+<li>creating a servlet</li>
+<li>running the web application</li>
+</ol>
+<p>In this post, I’ll show you how to get started with a basic project that supports internationalization.</p>
+<div id="prerequisites" class="section level5 unnumbered">
+<h5>Prerequisites</h5>
+<ul>
+<li><strong>Tomcat</strong>. I assume you have a working version of Tomcat server (see <a href="http://tomcat.apache.org/" class="uri">http://tomcat.apache.org/</a>). This blog
+uses Tomcat 9.0.13. Simply extract the downloaded zip at a convenient location. Don’t forget to make the *.sh
+scripts in the bin folder executable!</li>
+<li><strong>IntelliJ Idea</strong>. This blog uses the 2018.3 Ultimate version. Please refer to Jetbrains for educational licences.</li>
+</ul>
 </div>
-<div id="general-introduction" class="section level1">
-<h1><span class="header-section-number">Chapter 1</span> General introduction</h1>
-<p>This gitbook accompanies several Java-based courses of the bioinformatics curriculum of the Hanze University of Applied Science. These courses include “Introduction Java”, “Web-based information systems”, “Application Design” and the minor “Application Design”.</p>
-<p>It covers the basics of Java (Part I - III), some OO fundamentals (Part IV), Java for the web (Part V), JUnit testing (Part VI), Advanced design principles including Design Patterns (Part VII), and some tutorials on the Spring framework (Part VIII).<br />
-Copyright © Michiel Noback (2019-2021)</p>
+</div>
+<div id="the-steps" class="section level2">
+<h2><span class="header-section-number">30.2</span> The steps</h2>
+<div id="configure-tomcat-as-webserver" class="section level4 unnumbered">
+<h4>Configure Tomcat as webserver</h4>
+<p>After installation (extraction) of Tomcat, you’ll have to let IntelliJ know where it is.
+You do this via Preferences → Build, Execution, Deployment → Application Servers → click ‘+’ (Add)</p>
+<div class="figure">
+<img src="05_web/figures/Configure-Tomcat.png" title="Configure with Tomcat" alt="" />
+<p class="caption">Configure Tomcat</p>
+</div>
+</div>
+<div id="create-a-gradle-managed-web-project" class="section level4 unnumbered">
+<h4>Create a Gradle-managed web project</h4>
+<p>Creating a Gradle-managed web project in IntelliJ:</p>
+<ul>
+<li>Choose File → New → Project</li>
+<li>Choose Gradle → + Java + Web → Next</li>
+</ul>
+<p>You see something like this:</p>
+<div class="figure">
+<img src="05_web/figures/Create-Gradle-project-1.png" title="Configure with Tomcat" alt="" />
+<p class="caption">Create Gradle project 1</p>
+</div>
+<p>Enter GroupId, ArtifactId and Version and Click Next</p>
+<div class="figure">
+<img src="05_web/figures/Create-Gradle-project-2.png" title="Configure with Tomcat" alt="" />
+<p class="caption">Create Gradle project 2</p>
+</div>
+<p>Check “Use auto-import” and “Use Gradle wrapper” and Click Next and Click Finish</p>
+<p>You will have something like this:</p>
+<div class="figure">
+<img src="05_web/figures/Create-Gradle-project-3.png" title="Configure with Tomcat" alt="" />
+<p class="caption">Create Gradle project 3</p>
+</div>
+</div>
+<div id="configure-gradle" class="section level4 unnumbered">
+<h4>Configure Gradle</h4>
+<p>In this project, we’ll be using Thymeleaf and JUnit5 (and the Servlet API). Since they are not readily available in Java, you’ll need to configure your projects’ dependencies.
+Fortunately, Gradle is an excellent tool for dependency management.
+Here is the contents of a basic <code>build.gradle</code> configuration file:</p>
+<pre class="gradle"><code>plugins {
+    id &#39;java&#39;
+    id &#39;war&#39;
+    id &#39;idea&#39;
+}
+group &#39;nl.bioinf.wis_thymeleaf&#39;
+version &#39;0.0.1&#39;
+sourceCompatibility = 1.8
+repositories {
+    mavenCentral()
+}
+dependencies {
+    //Servlets
+    compile &#39;javax.servlet:javax.servlet-api:3.1.0&#39;
+    //Thymeleaf
+    compile &#39;org.thymeleaf:thymeleaf:3.0.11.RELEASE&#39;
+    //JUnit5
+    testImplementation &#39;org.junit.jupiter:junit-jupiter-api:5.1.0&#39;
+    testRuntimeOnly &#39;org.junit.jupiter:junit-jupiter-engine:5.1.0&#39;  
+}</code></pre>
+</div>
+<div id="the-web-inf-folder" class="section level4 unnumbered">
+<h4>The WEB-INF folder</h4>
+<p>Under web-app, create a folder called <code>WEB-INF</code> and within that one a folder called <code>templates</code>. Within <code>templates</code>, create the html file called <code>welcome.html</code>.</p>
+<div class="figure">
+<img src="05_web/figures/create-WEB-INF.png" title="Create WEB-INF" alt="" />
+<p class="caption">Create WEB-INF</p>
+</div>
+<p>Your file <code>welcome.html</code> should have this contents:</p>
+<div class="sourceCode" id="cb210"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb210-1"><a href="a-first-project-1.html#cb210-1"></a><span class="dt">&lt;!DOCTYPE </span>html SYSTEM &quot;http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd&quot;<span class="dt">&gt;</span></span>
+<span id="cb210-2"><a href="a-first-project-1.html#cb210-2"></a><span class="kw">&lt;html</span><span class="ot"> xmlns=</span><span class="st">&quot;http://www.w3.org/1999/xhtml&quot;</span><span class="ot"> xmlns:th=</span><span class="st">&quot;http://www.thymeleaf.org&quot;</span><span class="kw">&gt;</span></span>
+<span id="cb210-3"><a href="a-first-project-1.html#cb210-3"></a><span class="kw">&lt;head&gt;</span></span>
+<span id="cb210-4"><a href="a-first-project-1.html#cb210-4"></a>    <span class="kw">&lt;title&gt;</span>Thymeleaf Starter<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb210-5"><a href="a-first-project-1.html#cb210-5"></a>    <span class="kw">&lt;meta</span><span class="ot"> http-equiv=</span><span class="st">&quot;Content-Type&quot;</span><span class="ot"> content=</span><span class="st">&quot;text/html; charset=UTF-8&quot;</span> <span class="kw">/&gt;</span></span>
+<span id="cb210-6"><a href="a-first-project-1.html#cb210-6"></a><span class="kw">&lt;/head&gt;</span></span>
+<span id="cb210-7"><a href="a-first-project-1.html#cb210-7"></a><span class="kw">&lt;body&gt;</span></span>
+<span id="cb210-8"><a href="a-first-project-1.html#cb210-8"></a>    <span class="co">&lt;!-- welcome message read from resource bundle welcome.html--&gt;</span></span>
+<span id="cb210-9"><a href="a-first-project-1.html#cb210-9"></a>    <span class="kw">&lt;p</span><span class="ot"> th:text=</span><span class="st">&quot;#{welcome.msg}&quot;</span><span class="kw">&gt;</span>Welcome Offline<span class="kw">&lt;/p&gt;</span></span>
+<span id="cb210-10"><a href="a-first-project-1.html#cb210-10"></a>    <span class="co">&lt;!-- date forwarded from the servlet--&gt;</span></span>
+<span id="cb210-11"><a href="a-first-project-1.html#cb210-11"></a>    <span class="kw">&lt;p&gt;</span>Date: <span class="kw">&lt;span</span><span class="ot"> th:text=</span><span class="st">&quot;${currentDate}&quot;</span><span class="kw">&gt;</span>Sat Oct 24 2015<span class="kw">&lt;/span&gt;&lt;/p&gt;</span></span>
+<span id="cb210-12"><a href="a-first-project-1.html#cb210-12"></a><span class="kw">&lt;/body&gt;</span></span>
+<span id="cb210-13"><a href="a-first-project-1.html#cb210-13"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<p>There are several non-html syntax elements that make this page special:
+<strong><code>#{...}</code></strong> and
+<strong><code>${...}</code></strong> and the Thymeleaf tag attributes <code>th:text</code>.
+<strong><code>#{...}</code></strong> fetches the value from the resource bundle (files named <code>xxxxx.properties</code>). The expression <strong><code>#{welcome.msg}</code></strong> gets the value of key welcome.msg from the file <code>welcome_xx.properties</code>. The expression <code>${...}</code> fetches the value set in the <code>WebContext</code> instance. The expression <code>${currentDate}</code> gets the value for the attribute <code>currentDate</code> set in <code>WebContext</code>.</p>
+<p>Much more on this later.</p>
+<p>Other than that, this is a plain old html file. You can open it in any browser and it will show you the non-processed view. This is what makes Thymeleaf so nice; you can develop the view of your app without using servers or template engines!</p>
+</div>
+<div id="create-a-resource-bundle" class="section level4 unnumbered">
+<h4>Create a resource bundle</h4>
+<p>A resource bundle is where you store your application texts. Instead of creating web pages for every language you are willing to support, you create text-free web pages and store the texts for the different languages in separate files called <em>resource bundles</em>.</p>
+<p>This is how you add language support to your web app:</p>
+<p>Right-click the templates folder, select New → Resource Bundle → Type welcome as base name → Click ‘+’ under ‘Locales to add’ and add ‘en’ → Click OK</p>
+<div class="figure">
+<img src="05_web/figures/Create-Resource-Bundle-1.png" title="Create Resource bundle 1" alt="" />
+<p class="caption">Create Resource bundle 1</p>
+</div>
+<p>The resource bundle will open in your editor. It has plain text view and “resource bundle” view. Choose the latter. Click ‘+’ to add a new Property key and name it <code>welcome.msg</code>.</p>
+<div class="figure">
+<img src="05_web/figures/Create-Resource-Bundle-2.png" title="Create Resource bundle 2" alt="" />
+<p class="caption">Create Resource bundle 2</p>
+</div>
+<p>Give some Dutch (or other language of course) and English values for <code>welcome.msg</code>.</p>
+<div class="figure">
+<img src="05_web/figures/Create-Resource-Bundle-3.png" title="Create Resource bundle 3" alt="" />
+<p class="caption">Create Resource bundle 3</p>
+</div>
+<p>Now you have internationalized your view.</p>
+</div>
+<div id="prepare-to-use-thymeleaf" class="section level4 unnumbered">
+<h4>Prepare to use Thymeleaf</h4>
+<p>Thymeleaf needs some configuration to get going. Here is some boilerplate code you can simply copy-and-paste.</p>
+<p>Under <code>main/java</code>, create a base package, e.g. <code>&lt;your_._domain&gt;.&lt;your_name&gt;.&lt;your_project&gt;</code>. Within it, create two additional packages: <code>config</code> and <code>servlets</code>. Under <code>config</code>, create a new Java class file <code>WebConfig.java</code>. Put this code in there:</p>
+<div class="sourceCode" id="cb211"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb211-1"><a href="a-first-project-1.html#cb211-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.config;</span></span>
+<span id="cb211-2"><a href="a-first-project-1.html#cb211-2"></a><span class="kw">import</span><span class="im"> org.thymeleaf.TemplateEngine;</span></span>
+<span id="cb211-3"><a href="a-first-project-1.html#cb211-3"></a><span class="kw">import</span><span class="im"> org.thymeleaf.templateresolver.ServletContextTemplateResolver;</span></span>
+<span id="cb211-4"><a href="a-first-project-1.html#cb211-4"></a><span class="kw">import</span><span class="im"> javax.servlet.ServletContext;</span></span>
+<span id="cb211-5"><a href="a-first-project-1.html#cb211-5"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletResponse;</span></span>
+<span id="cb211-6"><a href="a-first-project-1.html#cb211-6"></a><span class="kw">public</span> <span class="kw">class</span> WebConfig {</span>
+<span id="cb211-7"><a href="a-first-project-1.html#cb211-7"></a>    <span class="kw">public</span> <span class="dt">static</span> TemplateEngine <span class="fu">createTemplateEngine</span>(ServletContext servletContext) {</span>
+<span id="cb211-8"><a href="a-first-project-1.html#cb211-8"></a>        ServletContextTemplateResolver templateResolver =</span>
+<span id="cb211-9"><a href="a-first-project-1.html#cb211-9"></a>                <span class="kw">new</span> <span class="fu">ServletContextTemplateResolver</span>(servletContext);</span>
+<span id="cb211-10"><a href="a-first-project-1.html#cb211-10"></a>        templateResolver.<span class="fu">setTemplateMode</span>(<span class="st">&quot;XHTML&quot;</span>);</span>
+<span id="cb211-11"><a href="a-first-project-1.html#cb211-11"></a>        templateResolver.<span class="fu">setPrefix</span>(<span class="st">&quot;/WEB-INF/templates/&quot;</span>);</span>
+<span id="cb211-12"><a href="a-first-project-1.html#cb211-12"></a>        templateResolver.<span class="fu">setSuffix</span>(<span class="st">&quot;.html&quot;</span>);</span>
+<span id="cb211-13"><a href="a-first-project-1.html#cb211-13"></a>        templateResolver.<span class="fu">setCacheTTLMs</span>(<span class="dv">3600000L</span>);</span>
+<span id="cb211-14"><a href="a-first-project-1.html#cb211-14"></a>        <span class="co">// Cache is set to true by default.</span></span>
+<span id="cb211-15"><a href="a-first-project-1.html#cb211-15"></a>        <span class="co">// Set to false if you want templates to be automatically</span></span>
+<span id="cb211-16"><a href="a-first-project-1.html#cb211-16"></a>        <span class="co">// updated when modified.</span></span>
+<span id="cb211-17"><a href="a-first-project-1.html#cb211-17"></a>        templateResolver.<span class="fu">setCacheable</span>(<span class="kw">true</span>);</span>
+<span id="cb211-18"><a href="a-first-project-1.html#cb211-18"></a>        TemplateEngine templateEngine = <span class="kw">new</span> <span class="fu">TemplateEngine</span>();</span>
+<span id="cb211-19"><a href="a-first-project-1.html#cb211-19"></a>        templateEngine.<span class="fu">setTemplateResolver</span>(templateResolver);</span>
+<span id="cb211-20"><a href="a-first-project-1.html#cb211-20"></a>        <span class="kw">return</span> templateEngine;</span>
+<span id="cb211-21"><a href="a-first-project-1.html#cb211-21"></a>    }</span>
+<span id="cb211-22"><a href="a-first-project-1.html#cb211-22"></a>    <span class="co">/**</span></span>
+<span id="cb211-23"><a href="a-first-project-1.html#cb211-23"></a>        <span class="co">*</span> Configures the response in a standard way<span class="co">.</span></span>
+<span id="cb211-24"><a href="a-first-project-1.html#cb211-24"></a>        <span class="co">*</span> <span class="an">@param response</span></span>
+<span id="cb211-25"><a href="a-first-project-1.html#cb211-25"></a>        <span class="co">*/</span></span>
+<span id="cb211-26"><a href="a-first-project-1.html#cb211-26"></a>    <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">configureResponse</span>(HttpServletResponse response) {</span>
+<span id="cb211-27"><a href="a-first-project-1.html#cb211-27"></a>        response.<span class="fu">setContentType</span>(<span class="st">&quot;text/html;charset=UTF-8&quot;</span>);</span>
+<span id="cb211-28"><a href="a-first-project-1.html#cb211-28"></a>        response.<span class="fu">setHeader</span>(<span class="st">&quot;Pragma&quot;</span>, <span class="st">&quot;no-cache&quot;</span>);</span>
+<span id="cb211-29"><a href="a-first-project-1.html#cb211-29"></a>        response.<span class="fu">setHeader</span>(<span class="st">&quot;Cache-Control&quot;</span>, <span class="st">&quot;no-cache&quot;</span>);</span>
+<span id="cb211-30"><a href="a-first-project-1.html#cb211-30"></a>        response.<span class="fu">setDateHeader</span>(<span class="st">&quot;Expires&quot;</span>, <span class="dv">0</span>);</span>
+<span id="cb211-31"><a href="a-first-project-1.html#cb211-31"></a>    }</span>
+<span id="cb211-32"><a href="a-first-project-1.html#cb211-32"></a>}</span></code></pre></div>
+<p>The main role of this class is to provide a template engine. This is the piece of the application responsible for processing the Thymeleaf templates into html views. To do this, the template engine needs to know -amongst other things- where these templates are. That is the responsibility of the <code>TemplateResolver</code>.</p>
+</div>
+<div id="create-a-servlet" class="section level4 unnumbered">
+<h4>Create a Servlet</h4>
+<p>Finally, everything is going to fall into place. Under package <code>....servlets</code>, create a new Servlet class with this contents:</p>
+<div class="sourceCode" id="cb212"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb212-1"><a href="a-first-project-1.html#cb212-1"></a><span class="kw">package</span><span class="im"> nl.bioinf.wis_on_thymeleaf.servlets;</span></span>
+<span id="cb212-2"><a href="a-first-project-1.html#cb212-2"></a><span class="kw">import</span><span class="im"> nl.bioinf.wis_on_thymeleaf.config.WebConfig;</span></span>
+<span id="cb212-3"><a href="a-first-project-1.html#cb212-3"></a><span class="kw">import</span><span class="im"> org.thymeleaf.context.WebContext;</span></span>
+<span id="cb212-4"><a href="a-first-project-1.html#cb212-4"></a><span class="kw">import</span><span class="im"> javax.servlet.ServletContext;</span></span>
+<span id="cb212-5"><a href="a-first-project-1.html#cb212-5"></a><span class="kw">import</span><span class="im"> javax.servlet.ServletException;</span></span>
+<span id="cb212-6"><a href="a-first-project-1.html#cb212-6"></a><span class="kw">import</span><span class="im"> javax.servlet.annotation.WebServlet;</span></span>
+<span id="cb212-7"><a href="a-first-project-1.html#cb212-7"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServlet;</span></span>
+<span id="cb212-8"><a href="a-first-project-1.html#cb212-8"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletRequest;</span></span>
+<span id="cb212-9"><a href="a-first-project-1.html#cb212-9"></a><span class="kw">import</span><span class="im"> javax.servlet.http.HttpServletResponse;</span></span>
+<span id="cb212-10"><a href="a-first-project-1.html#cb212-10"></a><span class="kw">import</span><span class="im"> java.io.IOException;</span></span>
+<span id="cb212-11"><a href="a-first-project-1.html#cb212-11"></a><span class="kw">import</span><span class="im"> java.util.Date;</span></span>
+<span id="cb212-12"><a href="a-first-project-1.html#cb212-12"></a><span class="at">@WebServlet</span>(name = <span class="st">&quot;WelcomeServlet&quot;</span>, urlPatterns = <span class="st">&quot;/welcome&quot;</span>, loadOnStartup = <span class="dv">1</span>)</span>
+<span id="cb212-13"><a href="a-first-project-1.html#cb212-13"></a><span class="kw">public</span> <span class="kw">class</span> WelcomeServlet <span class="kw">extends</span> HttpServlet {</span>
+<span id="cb212-14"><a href="a-first-project-1.html#cb212-14"></a>    <span class="at">@Override</span></span>
+<span id="cb212-15"><a href="a-first-project-1.html#cb212-15"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">init</span>() <span class="kw">throws</span> ServletException {</span>
+<span id="cb212-16"><a href="a-first-project-1.html#cb212-16"></a>        <span class="bu">System</span>.<span class="fu">out</span>.<span class="fu">println</span>(<span class="st">&quot;Initializing Thymeleaf template engine&quot;</span>);</span>
+<span id="cb212-17"><a href="a-first-project-1.html#cb212-17"></a>        <span class="dt">final</span> ServletContext servletContext = <span class="kw">this</span>.<span class="fu">getServletContext</span>();</span>
+<span id="cb212-18"><a href="a-first-project-1.html#cb212-18"></a>        WebConfig.<span class="fu">createTemplateEngine</span>(servletContext);</span>
+<span id="cb212-19"><a href="a-first-project-1.html#cb212-19"></a>    }</span>
+<span id="cb212-20"><a href="a-first-project-1.html#cb212-20"></a>    <span class="kw">private</span> <span class="dt">static</span> <span class="dt">final</span> <span class="dt">long</span> serialVersionUID = <span class="dv">1L</span>;</span>
+<span id="cb212-21"><a href="a-first-project-1.html#cb212-21"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doPost</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> <span class="bu">IOException</span>{</span>
+<span id="cb212-22"><a href="a-first-project-1.html#cb212-22"></a>        <span class="fu">process</span>(request, response);</span>
+<span id="cb212-23"><a href="a-first-project-1.html#cb212-23"></a>    }</span>
+<span id="cb212-24"><a href="a-first-project-1.html#cb212-24"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">doGet</span>(HttpServletRequest request, HttpServletResponse response) <span class="kw">throws</span> <span class="bu">IOException</span>{</span>
+<span id="cb212-25"><a href="a-first-project-1.html#cb212-25"></a>        <span class="fu">process</span>(request, response);</span>
+<span id="cb212-26"><a href="a-first-project-1.html#cb212-26"></a>    }</span>
+<span id="cb212-27"><a href="a-first-project-1.html#cb212-27"></a>    <span class="kw">public</span> <span class="dt">void</span> <span class="fu">process</span>(HttpServletRequest request, HttpServletResponse response)</span>
+<span id="cb212-28"><a href="a-first-project-1.html#cb212-28"></a>            <span class="kw">throws</span> <span class="bu">IOException</span> {</span>
+<span id="cb212-29"><a href="a-first-project-1.html#cb212-29"></a>        <span class="co">//this step is optional; standard settings also suffice</span></span>
+<span id="cb212-30"><a href="a-first-project-1.html#cb212-30"></a>        WebConfig.<span class="fu">configureResponse</span>(response);</span>
+<span id="cb212-31"><a href="a-first-project-1.html#cb212-31"></a>        WebContext ctx = <span class="kw">new</span> <span class="fu">WebContext</span>(</span>
+<span id="cb212-32"><a href="a-first-project-1.html#cb212-32"></a>                request,</span>
+<span id="cb212-33"><a href="a-first-project-1.html#cb212-33"></a>                response,</span>
+<span id="cb212-34"><a href="a-first-project-1.html#cb212-34"></a>                request.<span class="fu">getServletContext</span>(),</span>
+<span id="cb212-35"><a href="a-first-project-1.html#cb212-35"></a>                request.<span class="fu">getLocale</span>());</span>
+<span id="cb212-36"><a href="a-first-project-1.html#cb212-36"></a>        ctx.<span class="fu">setVariable</span>(<span class="st">&quot;currentDate&quot;</span>, <span class="kw">new</span> <span class="bu">Date</span>());</span>
+<span id="cb212-37"><a href="a-first-project-1.html#cb212-37"></a>        WebConfig.<span class="fu">createTemplateEngine</span>(<span class="fu">getServletContext</span>()).</span>
+<span id="cb212-38"><a href="a-first-project-1.html#cb212-38"></a>            <span class="fu">process</span>(<span class="st">&quot;welcome&quot;</span>, ctx, response.<span class="fu">getWriter</span>());</span>
+<span id="cb212-39"><a href="a-first-project-1.html#cb212-39"></a>    }</span>
+<span id="cb212-40"><a href="a-first-project-1.html#cb212-40"></a>}</span></code></pre></div>
+<p>Of course, the package declarations will be different, as well as the first <code>import</code> statement.
+The alert reader may notice that this will create a <code>TemplateEngine</code> for each single servlet. This is probably not the very best strategy, but for simplicity, we’ll stick to it for now.
+Have a look at the <a href="https://bitbucket.org/minoba/java_web_thymeleaf_demo" title="Demonstration repository">Demo repo</a> for a final solution with the template resolver.</p>
+</div>
+<div id="finally-run-it" class="section level4 unnumbered">
+<h4>Finally: run it</h4>
+<p>Create a new run configuration (it’s in the top bar) and point it to <code>http://localhost:8080/welcome</code>.</p>
+<div class="figure">
+<img src="05_web/figures/Run-the-Application-1.png" title="Run-the-Application-1.png" alt="" />
+<p class="caption">Run the Application 1</p>
+</div>
+<p>Next, crank up your browser, and I hope you’ll see something like this:</p>
+<div class="figure">
+<img src="05_web/figures/Run-the-Application-nl.png" title="Run-the-Application-nl.png" alt="" />
+<p class="caption">Run the Application NL</p>
+</div>
+<p>Go to <code>chrome://settings/languages</code> and change your language to English, refresh the view of your welcome page and you’ll see this:</p>
+<div class="figure">
+<img src="05_web/figures/Run-the-Application-en.png" title="Run-the-Application-en.png" alt="" />
+<p class="caption">Run the Application EN</p>
+</div>
+<p>That’s it. It was quite some work, but this is the foundation for a nice basic Java + Thymeleaf driven web application.</p>
+
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="keyboard-shortcuts.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="the-toolbox.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="implementing-mvc.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
